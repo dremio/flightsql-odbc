@@ -54,4 +54,6 @@ public:
   // and the wiring layer should be responsible for filling output ODBC buffers.
   // Let's not use short, int, etc and use int16_t, int32_t instead.
   virtual void GetInfo(uint16_t info_type, void* out, short out_capacity, short* out_length) = 0;
+
+  // Test
 };
