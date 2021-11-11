@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2c9f1e1_b3962281",
+        "filename": "connection.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2021-11-11T17:42:08Z",
+      "side": 1,
+      "message": "This should be a const reference",
+      "revId": "1634d6729d4a514b76bc236ef0f8ad49f415f5f8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "316633d7_d0efcd61",
+        "filename": "connection.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2021-11-11T17:42:08Z",
+      "side": 1,
+      "message": "This should be a const reference",
+      "revId": "1634d6729d4a514b76bc236ef0f8ad49f415f5f8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
