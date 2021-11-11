@@ -1,0 +1,26 @@
+thirdparty/*.tar*
+CMakeFiles/
+CMakeCache.txt
+CTestTestfile.cmake
+Makefile
+cmake_install.cmake
+build/
+*-build/
+Testing/
+build-support/boost_*
+
+# Build directories created by Clion
+cmake-build-*/
+
+#########################################
+# Editor temporary/working/backup files #
+.#*
+*\#*\#
+[#]*#
+*~
+*$
+*.bak
+*flymake*
+*.kdev4
+*.log
+*.swp
