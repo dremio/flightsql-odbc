@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58343cd4_14977876",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2021-11-11T17:09:25Z",
+      "side": 1,
+      "message": "Test",
+      "revId": "ce577df8b03d5129b80ceb81a3adf12c3aabc686",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
