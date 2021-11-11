@@ -34,6 +34,24 @@
       "revId": "00cc991c9722da2b4217ae57743affd401d7152c",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0203b5ea_4580b4e7",
+        "filename": "connection.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2021-11-11T17:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7568e151_98b219f9",
+      "revId": "00cc991c9722da2b4217ae57743affd401d7152c",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
