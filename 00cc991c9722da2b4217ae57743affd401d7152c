@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79199d09_3095eb2f",
+        "filename": "connection.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2021-11-11T17:31:09Z",
+      "side": 1,
+      "message": "This should be an AttributeId",
+      "revId": "00cc991c9722da2b4217ae57743affd401d7152c",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
