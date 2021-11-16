@@ -1,4 +1,3 @@
-#include <sql.h>
 #include <memory>
 
 #include "connection.h"

@@ -8,12 +8,39 @@
 class Connection {
 public:
   enum AttributeId {
-    // TODO: Add attributes ids
+    ACCESS_MODE,
+    ASYNC_DBC_EVENT,
+    ASYNC_DBC_FUNCTIONS_ENABLE,
+    ASYNC_DBC_PCALLBACK,
+    ASYNC_DBC_PCONTEXT,
+    ASYNC_ENABLE,
+    AUTO_IPD,
+    AUTOCOMMIT,
+    CONNECTION_DEAD,
+    CONNECTION_TIMEOUT,
+    CURRENT_CATALOG,
+    DBC_INFO_TOKEN,
+    ENLIST_IN_DTC,
+    LOGIN_TIMEOUT,
+    METADATA_ID,
+    ODBC_CURSORS,
+    PACKET_SIZE,
+    QUIET_MODE,
+    TRACE,
+    TRACEFILE,
+    TRANSLATE_LIB,
+    TRANSLATE_OPTION,
+    TXN_ISOLATION,
   };
-  typedef boost::variant<std::string> Attribute;
-  typedef boost::variant<std::string> Property;
+  typedef boost::variant<std::string, int, bool> Attribute;
+  typedef boost::variant<std::string, int, bool> Property;
+  typedef boost::variant<std::string, int, bool> Info;
 
-  // TODO: Constants for known properties (username, auth)
+  static const std::string CONNECTION_STRING;
+  static const std::string HOST;
+  static const std::string PORT;
+  static const std::string USERNAME;
+  static const std::string PASSWORD;
 
   /**
    * Unified connect method
@@ -22,7 +49,7 @@ public:
    * @param missing_attr[out]
    */
   virtual void Connect(
-    const std::map<std::string, PropertiesType>& properties,
+    const std::map<std::string, Property>& properties,
     std::vector<std::string>& missing_attr) = 0;
 
   /**
@@ -40,7 +67,7 @@ public:
    * @param attribute
    * @param value
    */
-  virtual void SetAttribute(Attribute attribute, const AttributesType& value) = 0;
+  virtual void SetAttribute(AttributeId attribute, const Attribute& value) = 0;
 
   /**
    * Retrieve a connection attribute
@@ -48,12 +75,7 @@ public:
    * @param attribute
    * @return
    */
-  virtual AttributesType GetAttribute(Attribute attribute) = 0;
+  virtual Attribute GetAttribute(AttributeId attribute) = 0;
 
-  // I feel this method should just return a variant (that can be a string, int32, etc)
-  // and the wiring layer should be responsible for filling output ODBC buffers.
-  // Let's not use short, int, etc and use int16_t, int32_t instead.
-  virtual void GetInfo(uint16_t info_type, void* out, short out_capacity, short* out_length) = 0;
-
-  // Test
+  virtual Info GetInfo(uint16_t info_type) = 0;
 };

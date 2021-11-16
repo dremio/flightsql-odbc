@@ -1,9 +1,16 @@
 cmake_minimum_required(VERSION 3.11)
-project(flight_odbc_driver)
-include(FindODBC)
-find_package(Boost)
-
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(flight_odbc_driver main.cpp connection.h driver.h statement.h)
-target_link_libraries(flight_odbc_driver ${ODBC_LIBRARIES})
+project(flight_odbc_driver)
+include(FindODBC)
+
+SET(Arrow_STATIC ON)
+find_package(Arrow REQUIRED)
+find_package(ArrowFlight REQUIRED PATHS /usr/local/lib/cmake/arrow/)
+find_package(ArrowFlightSql REQUIRED PATHS /usr/local/lib/cmake/arrow/)
+
+message(STATUS "Arrow version: ${ARROW_VERSION}")
+message(STATUS "Arrow SO version: ${ARROW_FULL_SO_VERSION}")
+
+add_executable(flight_odbc_driver main.cpp flight_sql/FlightSqlDriver.cpp flight_sql/FlightSqlDriver.h flight_sql/FlightSqlConnection.cpp flight_sql/FlightSqlConnection.h)
+target_link_libraries(flight_odbc_driver ${ODBC_LIBRARIES} arrow_static arrow_flight arrow_flight_sql)

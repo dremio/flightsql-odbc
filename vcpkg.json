@@ -1,0 +1,13 @@
+{
+  "name": "flightsql-odbc",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "openssl",
+    "protobuf",
+    "zlib",
+    "re2",
+    "grpc",
+    "utf8proc"
+  ],
+  "builtin-baseline": "b5865bfeba430cd44063fc54a45a8861195a715f"
+}
