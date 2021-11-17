@@ -57,11 +57,11 @@ std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
 }
 
 void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute, const Connection::Attribute &value) {
-  throw std::runtime_error("SetAttribute not implemented");
+  attribute_.insert({attribute, value});
 }
 
 Connection::Attribute FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
-  throw std::runtime_error("GetAttribute not implemented");
+  return attribute_.find(attribute) -> second;
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
