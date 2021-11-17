@@ -12,5 +12,5 @@ find_package(ArrowFlightSql REQUIRED PATHS /usr/local/lib/cmake/arrow/)
 message(STATUS "Arrow version: ${ARROW_VERSION}")
 message(STATUS "Arrow SO version: ${ARROW_FULL_SO_VERSION}")
 
-add_executable(flight_odbc_driver main.cpp flight_sql/FlightSqlDriver.cpp flight_sql/FlightSqlDriver.h flight_sql/FlightSqlConnection.cpp flight_sql/FlightSqlConnection.h)
+add_executable(flight_odbc_driver main.cpp connection.cpp flight_sql/FlightSqlDriver.cpp flight_sql/FlightSqlDriver.h flight_sql/FlightSqlConnection.cpp flight_sql/FlightSqlConnection.h)
 target_link_libraries(flight_odbc_driver ${ODBC_LIBRARIES} arrow_static arrow_flight arrow_flight_sql)

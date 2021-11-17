@@ -6,7 +6,7 @@ using arrow::flight::Location;
 using arrow::flight::FlightClient;
 using arrow::flight::sql::FlightSqlClient;
 
-void ThrowIfNotOK(const Status& status) {
+inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {
     throw std::runtime_error(status.ToString());
   }
@@ -14,11 +14,11 @@ void ThrowIfNotOK(const Status& status) {
 
 void FlightSqlConnection::Connect(const std::map<std::string, Property> &properties,
                                   std::vector<std::string> &missing_attr) {
-  const std::string &host = boost::get<std::string>(properties.at("HOST"));
-  const int &port = boost::get<int>(properties.at("PORT"));
+  const std::string &host = boost::get<std::string>(properties.at(Connection::HOST));
+  const int &port = boost::get<int>(properties.at(Connection::PORT));
 
   Location location;
-  if (properties.count("USE_SSL") && boost::get<bool>(properties.at("USE_SSL"))) {
+  if (properties.count("USE_SSL") && boost::get<bool>(properties.at(Connection::USE_SSL))) {
     ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
@@ -27,8 +27,10 @@ void FlightSqlConnection::Connect(const std::map<std::string, Property> &propert
   std::unique_ptr<FlightClient> client;
   ThrowIfNotOK(FlightClient::Connect(location, &client));
 
-  const std::string &username = boost::get<std::string>(properties.at("USERNAME"));
-  const std::string &password = boost::get<std::string>(properties.at("PASSWORD"));
+  const std::string &username = properties.count(Connection::USERNAME) ? boost::get<std::string>(
+          properties.at(Connection::USERNAME)) : "";
+  const std::string &password = properties.count(Connection::PASSWORD) ? boost::get<std::string>(
+          properties.at(Connection::PASSWORD)) : "";
 
   if (!username.empty() || !password.empty()) {
     Result<std::pair<std::string, std::string>> bearer_result =
@@ -42,7 +44,12 @@ void FlightSqlConnection::Connect(const std::map<std::string, Property> &propert
 }
 
 void FlightSqlConnection::Close() {
-  throw std::runtime_error("Close not implemented");
+  if (closed_) {
+    throw std::runtime_error("Connection already closed.");
+  }
+
+  client_.reset();
+  closed_ = true;
 }
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {

@@ -36,11 +36,11 @@ public:
   typedef boost::variant<std::string, int, bool> Property;
   typedef boost::variant<std::string, int, bool> Info;
 
-  static const std::string CONNECTION_STRING;
   static const std::string HOST;
   static const std::string PORT;
   static const std::string USERNAME;
   static const std::string PASSWORD;
+  static const std::string USE_SSL;
 
   /**
    * Unified connect method

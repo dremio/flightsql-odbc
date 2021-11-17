@@ -13,11 +13,11 @@ int main() {
 
   const std::shared_ptr<Connection> &connection = driver.CreateConnection();
 
-  std::vector<std::string> missing_attr;
   std::map<std::string, Connection::Property> properties = {
-          {"HOST", std::string("0.0.0.0")},
-          {"PORT", 31337}
+          {Connection::HOST, std::string("0.0.0.0")},
+          {Connection::PORT, 31337},
   };
+  std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
 
   return 0;

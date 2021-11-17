@@ -11,6 +11,7 @@ class FlightSqlConnection: public Connection {
 private:
   std::unique_ptr<FlightSqlClient> client_;
   FlightCallOptions call_options_;
+  bool closed_;
 
 public:
   void Connect(const std::map<std::string, Property> &properties, std::vector<std::string> &missing_attr) override;
