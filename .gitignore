@@ -24,3 +24,6 @@ cmake-build-*/
 *.kdev4
 *.log
 *.swp
+
+.idea
+vcpkg_installed
