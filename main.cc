@@ -1,11 +1,11 @@
-#include <iostream>
+#include "flight_sql/FlightSqlDriver.h"
 #include <arrow/flight/api.h>
 #include <arrow/flight/flight_sql/api.h>
-#include "flight_sql/FlightSqlDriver.h"
+#include <iostream>
 
 using arrow::Status;
-using arrow::flight::Location;
 using arrow::flight::FlightClient;
+using arrow::flight::Location;
 using arrow::flight::sql::FlightSqlClient;
 
 int main() {
@@ -14,8 +14,8 @@ int main() {
   const std::shared_ptr<Connection> &connection = driver.CreateConnection();
 
   std::map<std::string, Connection::Property> properties = {
-          {Connection::HOST, std::string("0.0.0.0")},
-          {Connection::PORT, 31337},
+      {Connection::HOST, std::string("0.0.0.0")},
+      {Connection::PORT, 31337},
   };
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);

@@ -15,13 +15,13 @@ find_package(GTest REQUIRED)
 message(STATUS "Arrow version: ${ARROW_VERSION}")
 message(STATUS "Arrow SO version: ${ARROW_FULL_SO_VERSION}")
 
-add_executable(flight_odbc_driver main.cpp
-       connection.cpp flight_sql/FlightSqlDriver.cpp flight_sql/FlightSqlDriver.h
-        flight_sql/FlightSqlConnection.cpp flight_sql/FlightSqlConnection.h)
+add_executable(flight_odbc_driver main.cc
+        connection.cc flight_sql/FlightSqlDriver.cc flight_sql/FlightSqlDriver.h
+        flight_sql/FlightSqlConnection.cc flight_sql/FlightSqlConnection.h)
 target_link_libraries(flight_odbc_driver ${ODBC_LIBRARIES} arrow_static arrow_flight arrow_flight_sql )
 
-add_executable(odbc_test connection.cpp flight_sql/FlightConnectionTest.cpp flight_sql/FlightSqlDriver.cpp flight_sql/FlightSqlDriver.h
-        flight_sql/FlightSqlConnection.cpp)
+add_executable(odbc_test connection.cc flight_sql/FlightConnectionTest.cc flight_sql/FlightSqlDriver.cc flight_sql/FlightSqlDriver.h
+        flight_sql/FlightSqlConnection.cc)
 
 target_link_libraries(odbc_test GTest::gtest GTest::gtest_main arrow_static arrow_flight arrow_flight_sql)
 

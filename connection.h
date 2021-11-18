@@ -1,38 +1,43 @@
+#include "statement.h"
+#include <boost/optional.hpp>
+#include <boost/variant.hpp>
 #include <map>
 #include <vector>
-#include <boost/variant.hpp>
-#include <boost/optional.hpp>
-#include "statement.h"
 
 #pragma once
 
 class Connection {
 public:
   enum AttributeId {
-    ACCESS_MODE,
-    ASYNC_DBC_EVENT,
-    ASYNC_DBC_FUNCTIONS_ENABLE,
-    ASYNC_DBC_PCALLBACK,
-    ASYNC_DBC_PCONTEXT,
-    ASYNC_ENABLE,
-    AUTO_IPD,
-    AUTOCOMMIT,
-    CONNECTION_DEAD,
-    CONNECTION_TIMEOUT,
-    CURRENT_CATALOG,
-    DBC_INFO_TOKEN,
-    ENLIST_IN_DTC,
-    LOGIN_TIMEOUT,
-    METADATA_ID,
-    ODBC_CURSORS,
-    PACKET_SIZE,
-    QUIET_MODE,
-    TRACE,
-    TRACEFILE,
-    TRANSLATE_LIB,
-    TRANSLATE_OPTION,
-    TXN_ISOLATION,
+    ACCESS_MODE,     // Writable attribute, tells if it should support write
+                     // operations
+    ASYNC_DBC_EVENT, // Do not support async yet
+    ASYNC_DBC_FUNCTIONS_ENABLE, // Do not support async yet
+    ASYNC_DBC_PCALLBACK,        // Do not support async yet
+    ASYNC_DBC_PCONTEXT,         // Do not support async yet
+    ASYNC_ENABLE,               // Do not support async yet
+    AUTO_IPD,                   // Relevant to parameter binding on statements
+    AUTOCOMMIT,                 // Do not support transactions yet
+    CONNECTION_DEAD,            // Tells if connection is still alive
+    CONNECTION_TIMEOUT,         // Matters to Connect()
+    CURRENT_CATALOG, // DO not support at first - Instead of passing catalog as
+                     // argument, rely on this attribute
+    DBC_INFO_TOKEN,  // lookup
+    ENLIST_IN_DTC,   // Do not support
+    LOGIN_TIMEOUT,   // Matters to Connect()
+    METADATA_ID,     // Pass to statement
+                     //    ODBC_CURSORS,  // Internal
+    PACKET_SIZE,     // Lookup if there is a packet size on Flight
+    QUIET_MODE,      // lookup
+                     //    TRACE,
+                     //    TRACEFILE,
+                     //    TRANSLATE_LIB,
+                     //    TRANSLATE_OPTION,
+    TXN_ISOLATION,   // Do not support transactions yet
   };
+
+  enum OdbcVersion { V_2, V_3, V_4 };
+
   typedef boost::variant<std::string, int, bool> Attribute;
   typedef boost::variant<std::string, int, bool> Property;
   typedef boost::variant<std::string, int, bool> Info;
@@ -42,6 +47,10 @@ public:
   static const std::string USERNAME;
   static const std::string PASSWORD;
   static const std::string USE_SSL;
+  // Add properties for getting the certificates
+  // Check if gRPC can use the system truststore, if not copy from Drill
+
+  Connection(OdbcVersion odbc_version) {}
 
   /**
    * Unified connect method
@@ -49,9 +58,8 @@ public:
    * @param properties[in]
    * @param missing_attr[out]
    */
-  virtual void Connect(
-    const std::map<std::string, Property>& properties,
-    std::vector<std::string>& missing_attr) = 0;
+  virtual void Connect(const std::map<std::string, Property> &properties,
+                       std::vector<std::string> &missing_attr) = 0;
 
   /**
    * Close this connection
@@ -68,7 +76,7 @@ public:
    * @param attribute
    * @param value
    */
-  virtual void SetAttribute(AttributeId attribute, const Attribute& value) = 0;
+  virtual void SetAttribute(AttributeId attribute, const Attribute &value) = 0;
 
   /**
    * Retrieve a connection attribute
@@ -76,7 +84,8 @@ public:
    * @param attribute
    * @return
    */
-  virtual boost::optional<Connection::Attribute> GetAttribute(Connection::AttributeId attribute) = 0;
+  virtual boost::optional<Connection::Attribute>
+  GetAttribute(Connection::AttributeId attribute) = 0;
 
   virtual Info GetInfo(uint16_t info_type) = 0;
 };

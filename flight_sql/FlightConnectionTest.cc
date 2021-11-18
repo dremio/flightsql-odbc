@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "FlightSqlDriver.h"
+#include "gtest/gtest.h"
 
 TEST(AttributeTests, SetAndGetAttribute) {
   FlightSqlDriver driver;
@@ -7,8 +7,8 @@ TEST(AttributeTests, SetAndGetAttribute) {
   const std::shared_ptr<Connection> &connection = driver.CreateConnection();
 
   connection->SetAttribute(Connection::CONNECTION_TIMEOUT, 200);
-  const boost::optional<Connection::Attribute> firstValue = connection->GetAttribute(
-    Connection::CONNECTION_TIMEOUT);
+  const boost::optional<Connection::Attribute> firstValue =
+      connection->GetAttribute(Connection::CONNECTION_TIMEOUT);
 
   EXPECT_TRUE(firstValue.has_value());
 
@@ -16,8 +16,8 @@ TEST(AttributeTests, SetAndGetAttribute) {
 
   connection->SetAttribute(Connection::CONNECTION_TIMEOUT, 300);
 
-  const boost::optional<Connection::Attribute> changeValue = connection->GetAttribute(
-    Connection::CONNECTION_TIMEOUT);
+  const boost::optional<Connection::Attribute> changeValue =
+      connection->GetAttribute(Connection::CONNECTION_TIMEOUT);
 
   EXPECT_TRUE(changeValue.has_value());
   EXPECT_EQ(boost::get<int>(changeValue.value()), 300);
@@ -28,8 +28,8 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 
   const std::shared_ptr<Connection> &connection = driver.CreateConnection();
 
-  const boost::optional<Connection::Attribute> anOptional = connection->GetAttribute(
-    Connection::CONNECTION_TIMEOUT);
+  const boost::optional<Connection::Attribute> anOptional =
+      connection->GetAttribute(Connection::CONNECTION_TIMEOUT);
 
   bool b = anOptional.has_value();
 

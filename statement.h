@@ -3,6 +3,4 @@
 
 #pragma once
 
-class Statement {
-
-};
+class Statement {};

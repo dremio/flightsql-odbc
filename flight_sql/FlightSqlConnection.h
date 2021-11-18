@@ -7,7 +7,7 @@
 using arrow::flight::FlightCallOptions;
 using arrow::flight::sql::FlightSqlClient;
 
-class FlightSqlConnection: public Connection {
+class FlightSqlConnection : public Connection {
 private:
   std::unique_ptr<FlightSqlClient> client_;
   FlightCallOptions call_options_;
@@ -15,7 +15,8 @@ private:
   std::map<AttributeId, Attribute> attribute_;
 
 public:
-  void Connect(const std::map<std::string, Property> &properties, std::vector<std::string> &missing_attr) override;
+  void Connect(const std::map<std::string, Property> &properties,
+               std::vector<std::string> &missing_attr) override;
 
   void Close() override;
 
@@ -23,7 +24,8 @@ public:
 
   void SetAttribute(AttributeId attribute, const Attribute &value) override;
 
-  boost::optional<Connection::Attribute> GetAttribute(Connection::AttributeId attribute) override;
+  boost::optional<Connection::Attribute>
+  GetAttribute(Connection::AttributeId attribute) override;
 
   Info GetInfo(uint16_t info_type) override;
 };
