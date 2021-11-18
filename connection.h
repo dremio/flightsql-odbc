@@ -1,6 +1,7 @@
 #include <map>
 #include <vector>
 #include <boost/variant.hpp>
+#include <boost/optional.hpp>
 #include "statement.h"
 
 #pragma once
@@ -75,7 +76,7 @@ public:
    * @param attribute
    * @return
    */
-  virtual Attribute GetAttribute(AttributeId attribute) = 0;
+  virtual boost::optional<Connection::Attribute> GetAttribute(Connection::AttributeId attribute) = 0;
 
   virtual Info GetInfo(uint16_t info_type) = 0;
 };

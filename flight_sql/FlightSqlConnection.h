@@ -23,7 +23,7 @@ public:
 
   void SetAttribute(AttributeId attribute, const Attribute &value) override;
 
-  Attribute GetAttribute(AttributeId attribute) override;
+  boost::optional<Connection::Attribute> GetAttribute(Connection::AttributeId attribute) override;
 
   Info GetInfo(uint16_t info_type) override;
 };

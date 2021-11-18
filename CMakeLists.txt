@@ -20,8 +20,9 @@ add_executable(flight_odbc_driver main.cpp
         flight_sql/FlightSqlConnection.cpp flight_sql/FlightSqlConnection.h)
 target_link_libraries(flight_odbc_driver ${ODBC_LIBRARIES} arrow_static arrow_flight arrow_flight_sql )
 
-add_executable(odbc_test  flight_sql/FlightConnectionTest.cpp)
+add_executable(odbc_test connection.cpp flight_sql/FlightConnectionTest.cpp flight_sql/FlightSqlDriver.cpp flight_sql/FlightSqlDriver.h
+        flight_sql/FlightSqlConnection.cpp)
 
-target_link_libraries(odbc_test GTest::gtest GTest::gtest_main)
+target_link_libraries(odbc_test GTest::gtest GTest::gtest_main arrow_static arrow_flight arrow_flight_sql)
 
 add_test(connection_test odbc_test)
