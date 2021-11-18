@@ -1,4 +1,5 @@
 #include "FlightSqlConnection.h"
+#include <boost/optional.hpp>
 
 using arrow::Status;
 using arrow::Result;
@@ -57,11 +58,12 @@ std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
 }
 
 void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute, const Connection::Attribute &value) {
-  attribute_.insert({attribute, value});
+  attribute_[attribute] = value;
 }
 
-Connection::Attribute FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
-  return attribute_.find(attribute) -> second;
+boost::optional<Connection::Attribute>
+FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
+  return boost::make_optional(attribute_.count(attribute), attribute_.find(attribute) -> second);
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
