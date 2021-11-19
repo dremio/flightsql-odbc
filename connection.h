@@ -50,8 +50,6 @@ public:
   // Add properties for getting the certificates
   // Check if gRPC can use the system truststore, if not copy from Drill
 
-  Connection(OdbcVersion odbc_version) {}
-
   /**
    * Unified connect method
    *
