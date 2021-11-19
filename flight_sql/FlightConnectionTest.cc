@@ -4,7 +4,7 @@
 TEST(AttributeTests, SetAndGetAttribute) {
   FlightSqlDriver driver;
 
-  const std::shared_ptr<Connection> &connection = driver.CreateConnection();
+  const std::shared_ptr<Connection> &connection = driver.CreateConnection(V_3);
 
   connection->SetAttribute(Connection::CONNECTION_TIMEOUT, 200);
   const boost::optional<Connection::Attribute> firstValue =
@@ -26,7 +26,7 @@ TEST(AttributeTests, SetAndGetAttribute) {
 TEST(AttributeTests, GetAttributeWithoutSetting) {
   FlightSqlDriver driver;
 
-  const std::shared_ptr<Connection> &connection = driver.CreateConnection();
+  const std::shared_ptr<Connection> &connection = driver.CreateConnection(V_3);
 
   const boost::optional<Connection::Attribute> anOptional =
       connection->GetAttribute(Connection::CONNECTION_TIMEOUT);

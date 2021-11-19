@@ -1,4 +1,4 @@
-#include "flight_sql/FlightSqlDriver.h"
+#include "FlightSqlDriver.h"
 #include <arrow/flight/api.h>
 #include <arrow/flight/flight_sql/api.h>
 #include <iostream>
