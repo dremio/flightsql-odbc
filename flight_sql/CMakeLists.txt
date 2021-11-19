@@ -8,18 +8,16 @@ find_package(ArrowFlightSql REQUIRED PATHS /usr/local/lib/cmake/arrow/)
 find_package(GTest REQUIRED)
 
 enable_testing()
-add_executable(sql_moduler main.cc FlightSqlDriver.cc
-        FlightSqlConnection.cc
-        flight_sql_auth_method.cc)
 
-target_link_libraries(sql_moduler flight_odbc_driver arrow_static arrow_flight arrow_flight_sql)
+add_library(flight_odbc_driver flight_sql_driver.cc flight_sql_connection.cc flight_sql_auth_method.cc)
+target_link_libraries(flight_odbc_driver abstraction_layer arrow_static arrow_flight arrow_flight_sql)
+target_include_directories(flight_odbc_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_include_directories(sql_moduler PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+# CLI
+add_executable(flight_odbc_driver_cli main.cc)
+target_link_libraries(flight_odbc_driver_cli flight_odbc_driver)
 
-add_executable(odbc_test FlightConnectionTest.cc FlightSqlDriver.cc
-        FlightSqlConnection.cc
-        flight_sql_auth_method.cc)
-
-target_link_libraries(odbc_test flight_odbc_driver GTest::gtest GTest::gtest_main arrow_static arrow_flight arrow_flight_sql)
-
-add_test(connection_test odbc_test)
+# Unit tests
+add_executable(flight_odbc_driver_test flight_sql_connection_test.cc)
+target_link_libraries(flight_odbc_driver_test flight_odbc_driver GTest::gtest GTest::gtest_main)
+add_test(connection_test flight_odbc_driver_test)

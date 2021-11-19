@@ -1,4 +1,4 @@
-#include "FlightSqlConnection.h"
+#include "flight_sql_connection.h"
 #include "flight_sql_auth_method.h"
 #include <boost/optional.hpp>
 

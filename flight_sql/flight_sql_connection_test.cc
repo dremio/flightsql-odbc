@@ -1,4 +1,4 @@
-#include "FlightSqlDriver.h"
+#include "flight_sql_driver.h"
 #include "gtest/gtest.h"
 
 TEST(AttributeTests, SetAndGetAttribute) {
@@ -31,7 +31,5 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
   const boost::optional<Connection::Attribute> anOptional =
       connection->GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  bool b = anOptional.has_value();
-
-  EXPECT_FALSE(b);
+  EXPECT_FALSE(anOptional.has_value());
 }
