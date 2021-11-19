@@ -15,7 +15,7 @@ private:
   std::map<AttributeId, Attribute> attribute_;
 
 public:
-  FlightSqlConnection(OdbcVersion odbc_version);
+  explicit FlightSqlConnection(OdbcVersion odbc_version);
 
   void Connect(const std::map<std::string, Property> &properties,
                std::vector<std::string> &missing_attr) override;

@@ -11,31 +11,16 @@
 class Connection {
 public:
   enum AttributeId {
-    ACCESS_MODE,     // Writable attribute, tells if it should support write
-                     // operations
-    ASYNC_DBC_EVENT, // Do not support async yet
-    ASYNC_DBC_FUNCTIONS_ENABLE, // Do not support async yet
-    ASYNC_DBC_PCALLBACK,        // Do not support async yet
-    ASYNC_DBC_PCONTEXT,         // Do not support async yet
-    ASYNC_ENABLE,               // Do not support async yet
+    ACCESS_MODE,     // Tells if it should support write operations
     AUTO_IPD,                   // Relevant to parameter binding on statements
     AUTOCOMMIT,                 // Do not support transactions yet
     CONNECTION_DEAD,            // Tells if connection is still alive
     CONNECTION_TIMEOUT,         // Matters to Connect()
-    CURRENT_CATALOG, // DO not support at first - Instead of passing catalog as
-                     // argument, rely on this attribute
-    DBC_INFO_TOKEN,  // lookup
-    ENLIST_IN_DTC,   // Do not support
+    DBC_INFO_TOKEN,  // Lookup
     LOGIN_TIMEOUT,   // Matters to Connect()
     METADATA_ID,     // Pass to statement
-                     //    ODBC_CURSORS,  // Internal
     PACKET_SIZE,     // Lookup if there is a packet size on Flight
-    QUIET_MODE,      // lookup
-                     //    TRACE,
-                     //    TRACEFILE,
-                     //    TRANSLATE_LIB,
-                     //    TRANSLATE_OPTION,
-    TXN_ISOLATION,   // Do not support transactions yet
+    QUIET_MODE,      // Lookup
   };
 
   typedef boost::variant<std::string, int, double, bool> Attribute;
@@ -50,7 +35,7 @@ public:
   // Add properties for getting the certificates
   // Check if gRPC can use the system truststore, if not copy from Drill
 
-  Connection(OdbcVersion odbc_version);
+  explicit Connection(OdbcVersion odbc_version);
 
   /**
    * Unified connect method

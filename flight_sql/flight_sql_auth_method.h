@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../connection.h"
+#include "flight_sql_connection.h"
 #include <arrow/flight/client.h>
 #include <map>
 #include <memory>
@@ -10,7 +11,8 @@ using arrow::flight::FlightClient;
 
 class FlightSqlAuthMethod {
 public:
-  virtual void Authenticate(FlightCallOptions &call_options) = 0;
+  virtual void Authenticate(FlightSqlConnection &connection,
+                            FlightCallOptions &call_options) = 0;
 
   static std::unique_ptr<FlightSqlAuthMethod>
   FromProperties(const std::unique_ptr<FlightClient> &client,

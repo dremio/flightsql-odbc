@@ -1,15 +1,19 @@
 #include "flight_sql_auth_method.h"
+#include "flight_sql_connection.h"
 
+#include <arrow/flight/client.h>
 #include <arrow/result.h>
 
 #include <utility>
 
 using arrow::Result;
 using arrow::flight::FlightClient;
+using arrow::flight::TimeoutDuration;
 
 class NoOpAuthMethod : public FlightSqlAuthMethod {
 public:
-  void Authenticate(FlightCallOptions &call_options) override {
+  void Authenticate(FlightSqlConnection &connection,
+                    FlightCallOptions &call_options) override {
     // Do nothing
   }
 };
@@ -21,12 +25,21 @@ public:
       : client_(client), user_(std::move(user)),
         password_(std::move(password)) {}
 
-  void Authenticate(FlightCallOptions &call_options) override {
+  void Authenticate(FlightSqlConnection &connection,
+                    FlightCallOptions &call_options) override {
+    FlightCallOptions auth_call_options;
+    const boost::optional<Connection::Attribute> &login_timeout =
+        connection.GetAttribute(Connection::LOGIN_TIMEOUT);
+    if (login_timeout.has_value()) {
+      auth_call_options.timeout =
+          TimeoutDuration{boost::get<double>(login_timeout.value())};
+    }
+
     Result<std::pair<std::string, std::string>> bearer_result =
-        client_.AuthenticateBasicToken(call_options, user_, password_);
+        client_.AuthenticateBasicToken(auth_call_options, user_, password_);
     if (!bearer_result.ok()) {
       throw std::runtime_error(
-          "Failed to autenticate with user and password: " +
+          "Failed to authenticate with user and password: " +
           bearer_result.status().ToString());
     }
 

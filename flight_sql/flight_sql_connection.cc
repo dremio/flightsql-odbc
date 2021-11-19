@@ -7,7 +7,6 @@ using arrow::Status;
 using arrow::flight::FlightClient;
 using arrow::flight::FlightClientOptions;
 using arrow::flight::Location;
-using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
 
 inline void ThrowIfNotOK(const Status &status) {
@@ -25,22 +24,15 @@ void FlightSqlConnection::Connect(
   std::unique_ptr<FlightClient> client;
   ThrowIfNotOK(FlightClient::Connect(location, client_options, &client));
 
-  const boost::optional<Connection::Attribute> &connection_timeout =
-      GetAttribute(CONNECTION_TIMEOUT);
-  if (connection_timeout.has_value()) {
-    call_options_.timeout =
-        TimeoutDuration{boost::get<double>(connection_timeout.value())};
-  }
   std::unique_ptr<FlightSqlAuthMethod> auth_method =
       FlightSqlAuthMethod::FromProperties(client, properties);
-  auth_method->Authenticate(call_options_);
+  auth_method->Authenticate(*this, call_options_);
 
   client_.reset(new FlightSqlClient(std::move(client)));
 }
 
 FlightClientOptions FlightSqlConnection::GetFlightClientOptions(
     const std::map<std::string, Property> &properties) {
-  // TODO: Use timeout from attributes
   FlightClientOptions options;
   return options;
 }
