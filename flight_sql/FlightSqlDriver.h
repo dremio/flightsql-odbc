@@ -4,5 +4,6 @@
 
 class FlightSqlDriver : public Driver {
 public:
-  std::shared_ptr<Connection> CreateConnection() override;
+  std::shared_ptr<Connection>
+  CreateConnection(OdbcVersion odbc_version) override;
 };

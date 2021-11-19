@@ -1,16 +1,16 @@
 #include <memory>
 
 #include "connection.h"
+#include "types.h"
 
 #pragma once
 
-// Let's make all interfaces have public no-op virtual destructors.
 class Driver {
 public:
   virtual ~Driver() = default;
 
-  // This should take an ODBC version which can be 2, 3, or 4.
-  virtual std::shared_ptr<Connection> CreateConnection() = 0;
+  virtual std::shared_ptr<Connection>
+  CreateConnection(OdbcVersion odbc_version) = 0;
 
 protected:
   Driver() = default;

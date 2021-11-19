@@ -4,6 +4,8 @@
 #include <map>
 #include <vector>
 
+#include "types.h"
+
 #pragma once
 
 class Connection {
@@ -36,21 +38,19 @@ public:
     TXN_ISOLATION,   // Do not support transactions yet
   };
 
-  enum OdbcVersion { V_2, V_3, V_4 };
-
-  typedef boost::variant<std::string, int, bool> Attribute;
+  typedef boost::variant<std::string, int, double, bool> Attribute;
   typedef boost::variant<std::string, int, bool> Property;
   typedef boost::variant<std::string, int, bool> Info;
 
   static const std::string HOST;
   static const std::string PORT;
-  static const std::string USERNAME;
+  static const std::string USER;
   static const std::string PASSWORD;
   static const std::string USE_SSL;
   // Add properties for getting the certificates
   // Check if gRPC can use the system truststore, if not copy from Drill
 
-  Connection(OdbcVersion odbc_version) {}
+  Connection(OdbcVersion odbc_version);
 
   /**
    * Unified connect method
@@ -88,4 +88,7 @@ public:
   GetAttribute(Connection::AttributeId attribute) = 0;
 
   virtual Info GetInfo(uint16_t info_type) = 0;
+
+private:
+  OdbcVersion odbc_version_;
 };

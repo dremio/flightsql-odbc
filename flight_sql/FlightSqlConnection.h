@@ -15,6 +15,8 @@ private:
   std::map<AttributeId, Attribute> attribute_;
 
 public:
+  FlightSqlConnection(OdbcVersion odbc_version);
+
   void Connect(const std::map<std::string, Property> &properties,
                std::vector<std::string> &missing_attr) override;
 
@@ -28,4 +30,10 @@ public:
   GetAttribute(Connection::AttributeId attribute) override;
 
   Info GetInfo(uint16_t info_type) override;
+
+  static arrow::flight::Location
+  GetLocation(const std::map<std::string, Property> &properties);
+
+  static arrow::flight::FlightClientOptions
+  GetFlightClientOptions(const std::map<std::string, Property> &properties);
 };
