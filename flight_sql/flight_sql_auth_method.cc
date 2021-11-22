@@ -1,4 +1,5 @@
 #include "flight_sql_auth_method.h"
+#include "exceptions.h"
 #include "flight_sql_connection.h"
 
 #include <arrow/flight/client.h>
@@ -8,6 +9,7 @@
 
 namespace flight_sql_odbc {
 
+using abstraction_layer::AuthenticationException;
 using arrow::Result;
 using arrow::flight::FlightClient;
 using arrow::flight::TimeoutDuration;
@@ -33,6 +35,8 @@ public:
     const boost::optional<Connection::Attribute> &login_timeout =
         connection.GetAttribute(Connection::LOGIN_TIMEOUT);
     if (login_timeout.has_value()) {
+      // ODBC's LOGIN_TIMEOUT attribute and FlightCallOptions.timeout use
+      // seconds as time unit.
       double timeout_seconds = boost::get<double>(login_timeout.value());
       if (timeout_seconds > 0) {
         auth_call_options.timeout = TimeoutDuration{timeout_seconds};
@@ -42,7 +46,7 @@ public:
     Result<std::pair<std::string, std::string>> bearer_result =
         client_.AuthenticateBasicToken(auth_call_options, user_, password_);
     if (!bearer_result.ok()) {
-      throw std::runtime_error(
+      throw AuthenticationException(
           "Failed to authenticate with user and password: " +
           bearer_result.status().ToString());
     }

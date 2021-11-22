@@ -1,10 +1,12 @@
 #include "flight_sql_connection.h"
+#include "exceptions.h"
 #include "flight_sql_auth_method.h"
 #include <boost/optional.hpp>
 #include <iostream>
 
 namespace flight_sql_odbc {
 
+using abstraction_layer::OdbcException;
 using arrow::Result;
 using arrow::Status;
 using arrow::flight::FlightClient;
@@ -15,7 +17,7 @@ using arrow::flight::sql::FlightSqlClient;
 
 inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {
-    throw std::runtime_error(status.ToString());
+    throw OdbcException(status.ToString());
   }
 }
 
@@ -84,7 +86,7 @@ Location FlightSqlConnection::GetLocation(
 
 void FlightSqlConnection::Close() {
   if (closed_) {
-    throw std::runtime_error("Connection already closed.");
+    throw OdbcException("Connection already closed.");
   }
 
   sql_client_.reset();
@@ -92,7 +94,7 @@ void FlightSqlConnection::Close() {
 }
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
-  throw std::runtime_error("CreateStatement not implemented");
+  throw OdbcException("CreateStatement not implemented");
 }
 
 void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
@@ -107,7 +109,7 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
-  throw std::runtime_error("GetInfo not implemented");
+  throw OdbcException("GetInfo not implemented");
 }
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
