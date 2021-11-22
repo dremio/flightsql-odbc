@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../connection.h"
+#include "connection.h"
 #include <arrow/flight/api.h>
 #include <arrow/flight/flight_sql/api.h>
 
@@ -9,6 +9,7 @@ using arrow::flight::sql::FlightSqlClient;
 
 class FlightSqlConnection : public Connection {
 private:
+  OdbcVersion odbc_version_;
   std::unique_ptr<FlightSqlClient> client_;
   FlightCallOptions call_options_;
   bool closed_;

@@ -16,8 +16,8 @@ int main() {
   std::map<std::string, Connection::Property> properties = {
       {Connection::HOST, std::string("0.0.0.0")},
       {Connection::PORT, 32010},
-      {Connection::USER, std::string("dremio")},
-      {Connection::PASSWORD, std::string("dremio123")},
+      {Connection::USER, std::string("user")},
+      {Connection::PASSWORD, std::string("password")},
   };
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);

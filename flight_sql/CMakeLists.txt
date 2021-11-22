@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
 
+include_directories(${CMAKE_SOURCE_DIR}/abstraction_layer)
+
 SET(Arrow_STATIC ON)
 find_package(Arrow REQUIRED)
 find_package(ArrowFlight REQUIRED PATHS /usr/local/lib/cmake/arrow/)

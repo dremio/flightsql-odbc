@@ -107,4 +107,4 @@ Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
 }
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
-    : Connection(odbc_version) {}
+    : odbc_version_(odbc_version) {}

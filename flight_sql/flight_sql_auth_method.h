@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../connection.h"
+#include "connection.h"
 #include "flight_sql_connection.h"
 #include <arrow/flight/client.h>
 #include <map>
@@ -11,6 +11,8 @@ using arrow::flight::FlightClient;
 
 class FlightSqlAuthMethod {
 public:
+  virtual ~FlightSqlAuthMethod() = default;
+
   virtual void Authenticate(FlightSqlConnection &connection,
                             FlightCallOptions &call_options) = 0;
 

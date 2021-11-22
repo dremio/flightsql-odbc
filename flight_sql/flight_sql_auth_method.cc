@@ -31,8 +31,10 @@ public:
     const boost::optional<Connection::Attribute> &login_timeout =
         connection.GetAttribute(Connection::LOGIN_TIMEOUT);
     if (login_timeout.has_value()) {
-      auth_call_options.timeout =
-          TimeoutDuration{boost::get<double>(login_timeout.value())};
+      double timeout_seconds = boost::get<double>(login_timeout.value());
+      if (timeout_seconds > 0) {
+        auth_call_options.timeout = TimeoutDuration{timeout_seconds};
+      }
     }
 
     Result<std::pair<std::string, std::string>> bearer_result =

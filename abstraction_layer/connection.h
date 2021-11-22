@@ -1,4 +1,3 @@
-#include "statement.h"
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 #include <map>
@@ -8,8 +7,14 @@
 
 #pragma once
 
+class Statement;
+
+/// \brief High-level representation of an ODBC connection.
 class Connection {
 public:
+  virtual ~Connection() = default;
+
+  /// \brief Connection attributes
   enum AttributeId {
     ACCESS_MODE,        // Tells if it should support write operations
     AUTO_IPD,           // Relevant to parameter binding on statements
@@ -32,48 +37,36 @@ public:
   static const std::string USER;
   static const std::string PASSWORD;
   static const std::string USE_SSL;
-  // Add properties for getting the certificates
-  // Check if gRPC can use the system truststore, if not copy from Drill
+  // TODO: Add properties for getting the certificates
+  // TODO: Check if gRPC can use the system truststore, if not copy from Drill
 
   explicit Connection(OdbcVersion odbc_version);
 
-  /**
-   * Unified connect method
-   *
-   * @param properties[in]
-   * @param missing_attr[out]
-   */
+  /// \brief Establish the connection.
+  /// \param properties[in] properties used to establish the connection.
+  /// \param missing_properties[out] vector of missing properties (if any).
   virtual void Connect(const std::map<std::string, Property> &properties,
-                       std::vector<std::string> &missing_attr) = 0;
+                       std::vector<std::string> &missing_properties) = 0;
 
-  /**
-   * Close this connection
-   */
+  /// \brief Close the connection.
   virtual void Close() = 0;
 
-  /**
-   * Allocates a statement
-   */
+  /// \brief Create a statement.
   virtual std::shared_ptr<Statement> CreateStatement() = 0;
 
-  /**
-   * Set a connection attribute (may be called at any time)
-   * @param attribute
-   * @param value
-   */
+  /// \brief Set a connection attribute (may be called at any time).
+  /// \param attribute[in] Which attribute to set.
+  /// \param value The value to be set.
   virtual void SetAttribute(AttributeId attribute, const Attribute &value) = 0;
 
-  /**
-   * Retrieve a connection attribute
-   *
-   * @param attribute
-   * @return
-   */
+  /// \brief Retrieve a connection attribute
+  /// \param attribute[in] Attribute to be retrieved.
   virtual boost::optional<Connection::Attribute>
   GetAttribute(Connection::AttributeId attribute) = 0;
 
+  /// \brief Retrieves info from the database (see ODBC's SQLGetInfo).
   virtual Info GetInfo(uint16_t info_type) = 0;
 
-private:
-  OdbcVersion odbc_version_;
+protected:
+  Connection() = default;
 };

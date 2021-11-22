@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../driver.h"
+#include "driver.h"
 
 class FlightSqlDriver : public Driver {
 public:
