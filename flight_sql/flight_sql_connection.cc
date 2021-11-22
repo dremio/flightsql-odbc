@@ -27,7 +27,8 @@ void FlightSqlConnection::Connect(
     FlightClientOptions client_options = GetFlightClientOptions(properties);
 
     std::unique_ptr<FlightClient> flight_client;
-    ThrowIfNotOK(FlightClient::Connect(location, client_options, &flight_client));
+    ThrowIfNotOK(
+        FlightClient::Connect(location, client_options, &flight_client));
 
     std::unique_ptr<FlightSqlAuthMethod> auth_method =
         FlightSqlAuthMethod::FromProperties(flight_client, properties);
@@ -72,7 +73,8 @@ Location FlightSqlConnection::GetLocation(
   const int &port = boost::get<int>(properties.at(PORT));
 
   Location location;
-  if (properties.count(USE_SSL) && boost::get<bool>(properties.at(USE_SSL))) {
+  const auto &it_use_ssl = properties.find(USE_SSL);
+  if (it_use_ssl != properties.end() && boost::get<bool>(it_use_ssl->second)) {
     ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
@@ -100,8 +102,8 @@ void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
 
 boost::optional<Connection::Attribute>
 FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
-  return boost::make_optional(attribute_.count(attribute),
-                              attribute_.find(attribute)->second);
+  const auto &it = attribute_.find(attribute);
+  return boost::make_optional(it != attribute_.end(), it->second);
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {

@@ -61,15 +61,15 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
     const std::map<std::string, Connection::Property> &properties) {
 
   // Check if should use user-password authentication
-  if (properties.count(Connection::USER) ||
-      properties.count(Connection::PASSWORD)) {
-    const std::string &user =
-        properties.count(Connection::USER)
-            ? boost::get<std::string>(properties.at(Connection::USER))
-            : "";
+  const auto &it_user = properties.find(Connection::USER);
+  const auto &it_password = properties.find(Connection::PASSWORD);
+  if (it_user != properties.end() || it_password != properties.end()) {
+    const std::string &user = it_user != properties.end()
+                                  ? boost::get<std::string>(it_user->second)
+                                  : "";
     const std::string &password =
-        properties.count(Connection::PASSWORD)
-            ? boost::get<std::string>(properties.at(Connection::PASSWORD))
+        it_password != properties.end()
+            ? boost::get<std::string>(it_password->second)
             : "";
 
     return std::unique_ptr<FlightSqlAuthMethod>(
