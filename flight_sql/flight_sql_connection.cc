@@ -1,12 +1,14 @@
 #include "flight_sql_connection.h"
 #include "flight_sql_auth_method.h"
 #include <boost/optional.hpp>
+#include <iostream>
 
 using arrow::Result;
 using arrow::Status;
 using arrow::flight::FlightClient;
 using arrow::flight::FlightClientOptions;
 using arrow::flight::Location;
+using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
 
 inline void ThrowIfNotOK(const Status &status) {
@@ -18,17 +20,42 @@ inline void ThrowIfNotOK(const Status &status) {
 void FlightSqlConnection::Connect(
     const std::map<std::string, Property> &properties,
     std::vector<std::string> &missing_attr) {
-  Location location = GetLocation(properties);
-  FlightClientOptions client_options = GetFlightClientOptions(properties);
+  try {
+    Location location = GetLocation(properties);
+    FlightClientOptions client_options = GetFlightClientOptions(properties);
 
-  std::unique_ptr<FlightClient> client;
-  ThrowIfNotOK(FlightClient::Connect(location, client_options, &client));
+    std::unique_ptr<FlightClient> client;
+    ThrowIfNotOK(FlightClient::Connect(location, client_options, &client));
 
-  std::unique_ptr<FlightSqlAuthMethod> auth_method =
-      FlightSqlAuthMethod::FromProperties(client, properties);
-  auth_method->Authenticate(*this, call_options_);
+    std::unique_ptr<FlightSqlAuthMethod> auth_method =
+        FlightSqlAuthMethod::FromProperties(client, properties);
+    auth_method->Authenticate(*this, call_options_);
 
-  client_.reset(new FlightSqlClient(std::move(client)));
+    client_.reset(new FlightSqlClient(std::move(client)));
+    SetAttribute(CONNECTION_DEAD, false);
+
+    call_options_ = BuildCallOptions(properties);
+  } catch (std::exception &e) {
+    SetAttribute(CONNECTION_DEAD, true);
+    client_.reset();
+
+    throw e;
+  }
+}
+
+FlightCallOptions FlightSqlConnection::BuildCallOptions(
+    const std::map<std::string, Property> &properties) {
+
+  // Set CONNECTION_TIMEOUT attribute
+  FlightCallOptions call_options;
+  const boost::optional<Connection::Attribute> &connection_timeout =
+      GetAttribute(CONNECTION_TIMEOUT);
+  if (connection_timeout.has_value()) {
+    call_options.timeout =
+        TimeoutDuration{boost::get<double>(connection_timeout.value())};
+  }
+
+  return call_options;
 }
 
 FlightClientOptions FlightSqlConnection::GetFlightClientOptions(

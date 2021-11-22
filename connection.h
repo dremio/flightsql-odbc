@@ -11,16 +11,16 @@
 class Connection {
 public:
   enum AttributeId {
-    ACCESS_MODE,     // Tells if it should support write operations
-    AUTO_IPD,                   // Relevant to parameter binding on statements
-    AUTOCOMMIT,                 // Do not support transactions yet
-    CONNECTION_DEAD,            // Tells if connection is still alive
-    CONNECTION_TIMEOUT,         // Matters to Connect()
-    DBC_INFO_TOKEN,  // Lookup
-    LOGIN_TIMEOUT,   // Matters to Connect()
-    METADATA_ID,     // Pass to statement
-    PACKET_SIZE,     // Lookup if there is a packet size on Flight
-    QUIET_MODE,      // Lookup
+    ACCESS_MODE,        // Tells if it should support write operations
+    AUTO_IPD,           // Relevant to parameter binding on statements
+    AUTOCOMMIT,         // Do not support transactions yet
+    CONNECTION_DEAD,    // Tells if connection is still alive
+    CONNECTION_TIMEOUT, // Matters to Connect()
+    DBC_INFO_TOKEN,     // Lookup
+    LOGIN_TIMEOUT,      // Matters to Connect()
+    METADATA_ID,        // Pass to statement
+    PACKET_SIZE,        // Lookup if there is a packet size on Flight
+    QUIET_MODE,         // Lookup
   };
 
   typedef boost::variant<std::string, int, double, bool> Attribute;
