@@ -15,7 +15,7 @@ using arrow::flight::sql::FlightSqlClient;
 class FlightSqlConnection : public Connection {
 private:
   OdbcVersion odbc_version_;
-  std::unique_ptr<FlightSqlClient> client_;
+  std::unique_ptr<FlightSqlClient> sql_client_;
   FlightCallOptions call_options_;
   bool closed_;
   std::map<AttributeId, Attribute> attribute_;

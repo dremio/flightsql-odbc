@@ -26,20 +26,20 @@ void FlightSqlConnection::Connect(
     Location location = GetLocation(properties);
     FlightClientOptions client_options = GetFlightClientOptions(properties);
 
-    std::unique_ptr<FlightClient> client;
-    ThrowIfNotOK(FlightClient::Connect(location, client_options, &client));
+    std::unique_ptr<FlightClient> flight_client;
+    ThrowIfNotOK(FlightClient::Connect(location, client_options, &flight_client));
 
     std::unique_ptr<FlightSqlAuthMethod> auth_method =
-        FlightSqlAuthMethod::FromProperties(client, properties);
+        FlightSqlAuthMethod::FromProperties(flight_client, properties);
     auth_method->Authenticate(*this, call_options_);
 
-    client_.reset(new FlightSqlClient(std::move(client)));
+    sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
     SetAttribute(CONNECTION_DEAD, false);
 
     call_options_ = BuildCallOptions(properties);
   } catch (std::exception &e) {
     SetAttribute(CONNECTION_DEAD, true);
-    client_.reset();
+    sql_client_.reset();
 
     throw e;
   }
@@ -85,7 +85,7 @@ void FlightSqlConnection::Close() {
     throw std::runtime_error("Connection already closed.");
   }
 
-  client_.reset();
+  sql_client_.reset();
   closed_ = true;
 }
 
