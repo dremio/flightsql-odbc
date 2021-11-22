@@ -1,6 +1,8 @@
 #include "flight_sql_driver.h"
 #include "gtest/gtest.h"
 
+namespace flight_sql_odbc {
+
 TEST(AttributeTests, SetAndGetAttribute) {
   FlightSqlDriver driver;
 
@@ -33,3 +35,5 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 
   EXPECT_FALSE(anOptional.has_value());
 }
+
+} // namespace flight_sql_odbc

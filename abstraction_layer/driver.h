@@ -5,6 +5,7 @@
 
 #pragma once
 
+namespace abstraction_layer {
 /// \brief High-level representation of an ODBC driver.
 class Driver {
 public:
@@ -18,3 +19,5 @@ public:
 protected:
   Driver() = default;
 };
+
+} // namespace abstraction_layer

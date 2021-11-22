@@ -3,6 +3,8 @@
 #include <boost/optional.hpp>
 #include <iostream>
 
+namespace flight_sql_odbc {
+
 using arrow::Result;
 using arrow::Status;
 using arrow::flight::FlightClient;
@@ -108,3 +110,5 @@ Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
     : odbc_version_(odbc_version) {}
+
+} // namespace flight_sql_odbc

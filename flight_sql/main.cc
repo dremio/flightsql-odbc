@@ -8,10 +8,14 @@ using arrow::flight::FlightClient;
 using arrow::flight::Location;
 using arrow::flight::sql::FlightSqlClient;
 
+using abstraction_layer::Connection;
+using flight_sql_odbc::FlightSqlDriver;
+
 int main() {
   FlightSqlDriver driver;
 
-  const std::shared_ptr<Connection> &connection = driver.CreateConnection(V_3);
+  const std::shared_ptr<Connection> &connection =
+      driver.CreateConnection(abstraction_layer::V_3);
 
   std::map<std::string, Connection::Property> properties = {
       {Connection::HOST, std::string("0.0.0.0")},

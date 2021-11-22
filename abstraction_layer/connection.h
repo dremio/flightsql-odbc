@@ -7,6 +7,8 @@
 
 #pragma once
 
+namespace abstraction_layer {
+
 class Statement;
 
 /// \brief High-level representation of an ODBC connection.
@@ -70,3 +72,5 @@ public:
 protected:
   Connection() = default;
 };
+
+} // namespace abstraction_layer

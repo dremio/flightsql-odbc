@@ -6,6 +6,8 @@
 #include <map>
 #include <memory>
 
+namespace flight_sql_odbc {
+
 using arrow::flight::FlightCallOptions;
 using arrow::flight::FlightClient;
 
@@ -23,3 +25,5 @@ public:
 protected:
   FlightSqlAuthMethod() = default;
 };
+
+} // namespace flight_sql_odbc

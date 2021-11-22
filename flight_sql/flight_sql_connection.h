@@ -4,6 +4,11 @@
 #include <arrow/flight/api.h>
 #include <arrow/flight/flight_sql/api.h>
 
+namespace flight_sql_odbc {
+
+using abstraction_layer::Connection;
+using abstraction_layer::OdbcVersion;
+using abstraction_layer::Statement;
 using arrow::flight::FlightCallOptions;
 using arrow::flight::sql::FlightSqlClient;
 
@@ -41,3 +46,5 @@ public:
   FlightCallOptions
   BuildCallOptions(const std::map<std::string, Property> &properties);
 };
+
+} // namespace flight_sql_odbc

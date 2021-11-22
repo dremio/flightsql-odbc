@@ -6,6 +6,8 @@
 
 #include <utility>
 
+namespace flight_sql_odbc {
+
 using arrow::Result;
 using arrow::flight::FlightClient;
 using arrow::flight::TimeoutDuration;
@@ -76,3 +78,5 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
 
   return std::unique_ptr<FlightSqlAuthMethod>(new NoOpAuthMethod);
 }
+
+} // namespace flight_sql_odbc
