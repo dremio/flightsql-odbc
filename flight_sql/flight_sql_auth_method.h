@@ -9,19 +9,16 @@
 namespace driver {
 namespace flight_sql {
 
-using arrow::flight::FlightCallOptions;
-using arrow::flight::FlightClient;
-
 class FlightSqlAuthMethod {
 public:
   virtual ~FlightSqlAuthMethod() = default;
 
   virtual void Authenticate(FlightSqlConnection &connection,
-                            FlightCallOptions &call_options) = 0;
+                            arrow::flight::FlightCallOptions &call_options) = 0;
 
-  static std::unique_ptr<FlightSqlAuthMethod>
-  FromProperties(const std::unique_ptr<FlightClient> &client,
-                 const std::map<std::string, Connection::Property> &properties);
+  static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
+      const std::unique_ptr<arrow::flight::FlightClient> &client,
+      const std::map<std::string, spi::Connection::Property> &properties);
 
 protected:
   FlightSqlAuthMethod() = default;

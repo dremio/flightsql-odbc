@@ -3,6 +3,10 @@
 
 namespace driver {
 namespace flight_sql {
+
+using spi::Connection;
+using spi::OdbcVersion;
+
 std::shared_ptr<Connection>
 FlightSqlDriver::CreateConnection(OdbcVersion odbc_version) {
   return std::make_shared<FlightSqlConnection>(odbc_version);

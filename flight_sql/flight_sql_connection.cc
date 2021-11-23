@@ -9,12 +9,16 @@ namespace flight_sql {
 
 using arrow::Result;
 using arrow::Status;
+using arrow::flight::FlightCallOptions;
 using arrow::flight::FlightClient;
 using arrow::flight::FlightClientOptions;
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
+using spi::Connection;
 using spi::OdbcException;
+using spi::OdbcVersion;
+using spi::Statement;
 
 inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {

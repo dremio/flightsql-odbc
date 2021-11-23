@@ -5,14 +5,10 @@
 namespace driver {
 namespace flight_sql {
 
-using spi::Connection;
-using spi::Driver;
-using spi::OdbcVersion;
-
-class FlightSqlDriver : public Driver {
+class FlightSqlDriver : public spi::Driver {
 public:
-  std::shared_ptr<Connection>
-  CreateConnection(OdbcVersion odbc_version) override;
+  std::shared_ptr<spi::Connection>
+  CreateConnection(spi::OdbcVersion odbc_version) override;
 };
 
 }; // namespace flight_sql
