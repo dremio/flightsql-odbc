@@ -6,9 +6,10 @@
 namespace driver {
 namespace spi {
 
-class OdbcException : public std::exception {
+/// \brief Base for all driver specific exceptions
+class DriverException : public std::exception {
 public:
-  explicit OdbcException(std::string message);
+  explicit DriverException(std::string message);
 
   const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override;
 
@@ -16,7 +17,8 @@ private:
   const std::string message_;
 };
 
-class AuthenticationException : public OdbcException {
+/// \brief Authentication specific exception
+class AuthenticationException : public DriverException {
 public:
   explicit AuthenticationException(std::string message);
 };

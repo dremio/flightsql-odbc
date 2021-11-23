@@ -16,13 +16,13 @@ using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
 using spi::Connection;
-using spi::OdbcException;
+using spi::DriverException;
 using spi::OdbcVersion;
 using spi::Statement;
 
 inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {
-    throw OdbcException(status.ToString());
+    throw DriverException(status.ToString());
   }
 }
 
@@ -90,7 +90,7 @@ Location FlightSqlConnection::GetLocation(
 
 void FlightSqlConnection::Close() {
   if (closed_) {
-    throw OdbcException("Connection already closed.");
+    throw DriverException("Connection already closed.");
   }
 
   sql_client_.reset();
@@ -98,7 +98,7 @@ void FlightSqlConnection::Close() {
 }
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
-  throw OdbcException("CreateStatement not implemented");
+  throw DriverException("CreateStatement not implemented");
 }
 
 void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
@@ -113,7 +113,7 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
-  throw OdbcException("GetInfo not implemented");
+  throw DriverException("GetInfo not implemented");
 }
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)

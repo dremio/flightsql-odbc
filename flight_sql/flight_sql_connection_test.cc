@@ -36,6 +36,8 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
   EXPECT_FALSE(anOptional.has_value());
+
+  connection.Close();
 }
 
 TEST(ConnectTests, GetLocationTcp) {
