@@ -9,10 +9,10 @@ namespace flight_sql {
 
 class FlightSqlConnection : public spi::Connection {
 private:
+  bool closed_;
   spi::OdbcVersion odbc_version_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
   arrow::flight::FlightCallOptions call_options_;
-  bool closed_;
   std::map<AttributeId, Attribute> attribute_;
 
 public:
