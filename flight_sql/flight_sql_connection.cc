@@ -39,7 +39,7 @@ void FlightSqlConnection::Connect(
     sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
     SetAttribute(CONNECTION_DEAD, false);
 
-    call_options_ = BuildCallOptions(properties);
+    call_options_ = BuildCallOptions();
   } catch (std::exception &e) {
     SetAttribute(CONNECTION_DEAD, true);
     sql_client_.reset();
@@ -48,9 +48,7 @@ void FlightSqlConnection::Connect(
   }
 }
 
-FlightCallOptions FlightSqlConnection::BuildCallOptions(
-    const std::map<std::string, Property> &properties) {
-
+FlightCallOptions FlightSqlConnection::BuildCallOptions() {
   // Set CONNECTION_TIMEOUT attribute
   FlightCallOptions call_options;
   const boost::optional<Connection::Attribute> &connection_timeout =
@@ -66,6 +64,7 @@ FlightCallOptions FlightSqlConnection::BuildCallOptions(
 FlightClientOptions FlightSqlConnection::GetFlightClientOptions(
     const std::map<std::string, Property> &properties) {
   FlightClientOptions options;
+  // TODO: Set up SSL properties
   return options;
 }
 

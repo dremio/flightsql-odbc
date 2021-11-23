@@ -43,8 +43,7 @@ public:
   static arrow::flight::FlightClientOptions
   GetFlightClientOptions(const std::map<std::string, Property> &properties);
 
-  FlightCallOptions
-  BuildCallOptions(const std::map<std::string, Property> &properties);
+  FlightCallOptions BuildCallOptions();
 };
 
 } // namespace flight_sql_odbc
