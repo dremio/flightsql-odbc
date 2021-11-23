@@ -2,14 +2,15 @@
 #include "gtest/gtest.h"
 #include <arrow/flight/types.h>
 
-namespace flight_sql_odbc {
+namespace driver {
+namespace flight_sql {
 
-using abstraction_layer::Connection;
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
+using spi::Connection;
 
 TEST(AttributeTests, SetAndGetAttribute) {
-  FlightSqlConnection connection(abstraction_layer::V_3);
+  FlightSqlConnection connection(spi::V_3);
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 200);
   const boost::optional<Connection::Attribute> firstValue =
@@ -29,7 +30,7 @@ TEST(AttributeTests, SetAndGetAttribute) {
 }
 
 TEST(AttributeTests, GetAttributeWithoutSetting) {
-  FlightSqlConnection connection(abstraction_layer::V_3);
+  FlightSqlConnection connection(spi::V_3);
 
   const boost::optional<Connection::Attribute> anOptional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
@@ -38,16 +39,14 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 }
 
 TEST(ConnectTests, GetLocationTcp) {
-  const Location &actual_location1 =
-      flight_sql_odbc::FlightSqlConnection::GetLocation({
-          {Connection::HOST, std::string("localhost")},
-          {Connection::PORT, 32010},
-      });
-  const Location &actual_location2 =
-      flight_sql_odbc::FlightSqlConnection::GetLocation({
-          {Connection::HOST, std::string("localhost")},
-          {Connection::PORT, 32011},
-      });
+  const Location &actual_location1 = FlightSqlConnection::GetLocation({
+      {Connection::HOST, std::string("localhost")},
+      {Connection::PORT, 32010},
+  });
+  const Location &actual_location2 = FlightSqlConnection::GetLocation({
+      {Connection::HOST, std::string("localhost")},
+      {Connection::PORT, 32011},
+  });
 
   Location expected_location;
   ASSERT_TRUE(
@@ -59,7 +58,7 @@ TEST(ConnectTests, GetLocationTcp) {
 }
 
 TEST(ConnectTests, BuildCallOptions) {
-  FlightSqlConnection connection(abstraction_layer::V_3);
+  FlightSqlConnection connection(spi::V_3);
 
   ASSERT_EQ(arrow::flight::TimeoutDuration{-1.0},
             connection.BuildCallOptions().timeout);
@@ -68,4 +67,5 @@ TEST(ConnectTests, BuildCallOptions) {
   ASSERT_EQ(TimeoutDuration{10.0}, connection.BuildCallOptions().timeout);
 }
 
-} // namespace flight_sql_odbc
+} // namespace flight_sql
+} // namespace driver

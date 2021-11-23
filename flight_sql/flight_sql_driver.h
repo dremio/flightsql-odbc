@@ -2,11 +2,12 @@
 
 #include "driver.h"
 
-namespace flight_sql_odbc {
+namespace driver {
+namespace flight_sql {
 
-using abstraction_layer::Connection;
-using abstraction_layer::Driver;
-using abstraction_layer::OdbcVersion;
+using spi::Connection;
+using spi::Driver;
+using spi::OdbcVersion;
 
 class FlightSqlDriver : public Driver {
 public:
@@ -14,4 +15,5 @@ public:
   CreateConnection(OdbcVersion odbc_version) override;
 };
 
-}; // namespace flight_sql_odbc
+}; // namespace flight_sql
+} // namespace driver

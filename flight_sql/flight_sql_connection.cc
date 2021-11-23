@@ -4,9 +4,9 @@
 #include <boost/optional.hpp>
 #include <iostream>
 
-namespace flight_sql_odbc {
+namespace driver {
+namespace flight_sql {
 
-using abstraction_layer::OdbcException;
 using arrow::Result;
 using arrow::Status;
 using arrow::flight::FlightClient;
@@ -14,6 +14,7 @@ using arrow::flight::FlightClientOptions;
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
+using spi::OdbcException;
 
 inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {
@@ -114,4 +115,5 @@ Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
     : odbc_version_(odbc_version) {}
 
-} // namespace flight_sql_odbc
+} // namespace flight_sql
+} // namespace driver

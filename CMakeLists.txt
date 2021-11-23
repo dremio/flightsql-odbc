@@ -4,4 +4,4 @@ set(CMAKE_CXX_STANDARD 11)
 project(flightsql_odbc)
 
 add_subdirectory(flight_sql)
-add_subdirectory(abstraction_layer)
+add_subdirectory(spi)

@@ -7,7 +7,8 @@
 
 #pragma once
 
-namespace abstraction_layer {
+namespace driver {
+namespace spi {
 
 class Statement;
 
@@ -73,4 +74,5 @@ protected:
   Connection() = default;
 };
 
-} // namespace abstraction_layer
+} // namespace spi
+} // namespace driver

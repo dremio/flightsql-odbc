@@ -4,13 +4,14 @@
 #include <arrow/flight/api.h>
 #include <arrow/flight/flight_sql/api.h>
 
-namespace flight_sql_odbc {
+namespace driver {
+namespace flight_sql {
 
-using abstraction_layer::Connection;
-using abstraction_layer::OdbcVersion;
-using abstraction_layer::Statement;
 using arrow::flight::FlightCallOptions;
 using arrow::flight::sql::FlightSqlClient;
+using spi::Connection;
+using spi::OdbcVersion;
+using spi::Statement;
 
 class FlightSqlConnection : public Connection {
 private:
@@ -45,5 +46,5 @@ public:
 
   FlightCallOptions BuildCallOptions();
 };
-
-} // namespace flight_sql_odbc
+} // namespace flight_sql
+} // namespace driver

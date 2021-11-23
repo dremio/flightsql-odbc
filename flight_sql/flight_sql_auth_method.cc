@@ -7,12 +7,13 @@
 
 #include <utility>
 
-namespace flight_sql_odbc {
+namespace driver {
+namespace flight_sql {
 
-using abstraction_layer::AuthenticationException;
 using arrow::Result;
 using arrow::flight::FlightClient;
 using arrow::flight::TimeoutDuration;
+using spi::AuthenticationException;
 
 class NoOpAuthMethod : public FlightSqlAuthMethod {
 public:
@@ -83,4 +84,5 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
   return std::unique_ptr<FlightSqlAuthMethod>(new NoOpAuthMethod);
 }
 
-} // namespace flight_sql_odbc
+} // namespace flight_sql
+} // namespace driver

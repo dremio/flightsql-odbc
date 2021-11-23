@@ -5,7 +5,9 @@
 
 #pragma once
 
-namespace abstraction_layer {
+namespace driver {
+namespace spi {
+
 /// \brief High-level representation of an ODBC driver.
 class Driver {
 public:
@@ -20,4 +22,5 @@ protected:
   Driver() = default;
 };
 
-} // namespace abstraction_layer
+} // namespace spi
+} // namespace driver

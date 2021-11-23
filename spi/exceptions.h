@@ -3,21 +3,23 @@
 
 #pragma once
 
-namespace abstraction_layer {
+namespace driver {
+namespace spi {
 
 class OdbcException : public std::exception {
 public:
-  explicit OdbcException(const std::string &message);
+  explicit OdbcException(std::string message);
 
   const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override;
 
 private:
-  const std::string &message_;
+  const std::string message_;
 };
 
 class AuthenticationException : public OdbcException {
 public:
-  explicit AuthenticationException(const std::string &message);
+  explicit AuthenticationException(std::string message);
 };
 
-} // namespace abstraction_layer
+} // namespace spi
+} // namespace driver
