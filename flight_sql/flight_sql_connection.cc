@@ -69,7 +69,7 @@ FlightCallOptions FlightSqlConnection::BuildCallOptions() {
 FlightClientOptions FlightSqlConnection::GetFlightClientOptions(
     const std::map<std::string, Property> &properties) {
   FlightClientOptions options;
-  // TODO: Set up SSL properties
+  // TODO: Set up TLS properties
   return options;
 }
 
@@ -79,8 +79,8 @@ Location FlightSqlConnection::GetLocation(
   const int &port = boost::get<int>(properties.at(PORT));
 
   Location location;
-  const auto &it_use_ssl = properties.find(USE_SSL);
-  if (it_use_ssl != properties.end() && boost::get<bool>(it_use_ssl->second)) {
+  const auto &it_use_tls = properties.find(USE_TLS);
+  if (it_use_tls != properties.end() && boost::get<bool>(it_use_tls->second)) {
     ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));

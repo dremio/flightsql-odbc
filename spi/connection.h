@@ -39,7 +39,7 @@ public:
   static const std::string PORT;
   static const std::string USER;
   static const std::string PASSWORD;
-  static const std::string USE_SSL;
+  static const std::string USE_TLS;
   // TODO: Add properties for getting the certificates
   // TODO: Check if gRPC can use the system truststore, if not copy from Drill
 
