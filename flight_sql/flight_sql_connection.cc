@@ -30,8 +30,8 @@ void FlightSqlConnection::Connect(
     const std::map<std::string, Property> &properties,
     std::vector<std::string> &missing_attr) {
   try {
-    Location location = GetLocation(properties);
-    FlightClientOptions client_options = GetFlightClientOptions(properties);
+    Location location = BuildLocation(properties);
+    FlightClientOptions client_options = BuildFlightClientOptions(properties);
 
     std::unique_ptr<FlightClient> flight_client;
     ThrowIfNotOK(
@@ -66,14 +66,14 @@ FlightCallOptions FlightSqlConnection::BuildCallOptions() {
   return call_options;
 }
 
-FlightClientOptions FlightSqlConnection::GetFlightClientOptions(
+FlightClientOptions FlightSqlConnection::BuildFlightClientOptions(
     const std::map<std::string, Property> &properties) {
   FlightClientOptions options;
-  // TODO: Set up TLS properties
+  // TODO: Set up TLS  properties
   return options;
 }
 
-Location FlightSqlConnection::GetLocation(
+Location FlightSqlConnection::BuildLocation(
     const std::map<std::string, Property> &properties) {
   const std::string &host = boost::get<std::string>(properties.at(HOST));
   const int &port = boost::get<int>(properties.at(PORT));

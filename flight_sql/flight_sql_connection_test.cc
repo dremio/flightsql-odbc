@@ -27,6 +27,8 @@ TEST(AttributeTests, SetAndGetAttribute) {
 
   EXPECT_TRUE(changeValue.has_value());
   EXPECT_EQ(boost::get<int>(changeValue.value()), 300);
+
+  connection.Close();
 }
 
 TEST(AttributeTests, GetAttributeWithoutSetting) {
@@ -40,12 +42,12 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
   connection.Close();
 }
 
-TEST(ConnectTests, GetLocationTcp) {
-  const Location &actual_location1 = FlightSqlConnection::GetLocation({
+TEST(BuildLocationTests, ForTcp) {
+  const Location &actual_location1 = FlightSqlConnection::BuildLocation({
       {Connection::HOST, std::string("localhost")},
       {Connection::PORT, 32010},
   });
-  const Location &actual_location2 = FlightSqlConnection::GetLocation({
+  const Location &actual_location2 = FlightSqlConnection::BuildLocation({
       {Connection::HOST, std::string("localhost")},
       {Connection::PORT, 32011},
   });
@@ -55,15 +57,32 @@ TEST(ConnectTests, GetLocationTcp) {
       Location::ForGrpcTcp("localhost", 32010, &expected_location).ok());
   ASSERT_EQ(expected_location, actual_location1);
   ASSERT_NE(expected_location, actual_location2);
-
-  // TODO: Add tests for SSL
 }
 
-TEST(ConnectTests, BuildCallOptions) {
+TEST(BuildLocationTests, ForTls) {
+  const Location &actual_location1 = FlightSqlConnection::BuildLocation({
+      {Connection::HOST, std::string("localhost")},
+      {Connection::PORT, 32010},
+      {Connection::USE_TLS, true},
+  });
+  const Location &actual_location2 = FlightSqlConnection::BuildLocation({
+      {Connection::HOST, std::string("localhost")},
+      {Connection::PORT, 32011},
+      {Connection::USE_TLS, true},
+  });
+
+  Location expected_location;
+  ASSERT_TRUE(
+      Location::ForGrpcTls("localhost", 32010, &expected_location).ok());
+  ASSERT_EQ(expected_location, actual_location1);
+  ASSERT_NE(expected_location, actual_location2);
+}
+
+TEST(BuildCallOptionsTest, ConnectionTimeout) {
   FlightSqlConnection connection(spi::V_3);
 
-  ASSERT_EQ(arrow::flight::TimeoutDuration{-1.0},
-            connection.BuildCallOptions().timeout);
+  // Expect default timeout to be -1
+  ASSERT_EQ(TimeoutDuration{-1.0}, connection.BuildCallOptions().timeout);
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 10.0);
   ASSERT_EQ(TimeoutDuration{10.0}, connection.BuildCallOptions().timeout);

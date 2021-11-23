@@ -32,12 +32,18 @@ public:
 
   Info GetInfo(uint16_t info_type) override;
 
+  /// \brief Builds a Location used for FlightClient connection.
+  /// \note Visible for testing
   static arrow::flight::Location
-  GetLocation(const std::map<std::string, Property> &properties);
+  BuildLocation(const std::map<std::string, Property> &properties);
 
+  /// \brief Builds a FlightClientOptions used for FlightClient connection.
+  /// \note Visible for testing
   static arrow::flight::FlightClientOptions
-  GetFlightClientOptions(const std::map<std::string, Property> &properties);
+  BuildFlightClientOptions(const std::map<std::string, Property> &properties);
 
+  /// \brief Builds a FlightCallOptions used on gRPC calls.
+  /// \note Visible for testing
   arrow::flight::FlightCallOptions BuildCallOptions();
 };
 } // namespace flight_sql
