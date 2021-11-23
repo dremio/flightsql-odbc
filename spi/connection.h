@@ -43,8 +43,6 @@ public:
   // TODO: Add properties for getting the certificates
   // TODO: Check if gRPC can use the system truststore, if not copy from Drill
 
-  explicit Connection(OdbcVersion odbc_version);
-
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.
   /// \param missing_properties[out] vector of missing properties (if any).
