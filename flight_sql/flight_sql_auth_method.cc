@@ -17,6 +17,8 @@ using arrow::flight::TimeoutDuration;
 using spi::AuthenticationException;
 using spi::Connection;
 
+namespace {
+
 class NoOpAuthMethod : public FlightSqlAuthMethod {
 public:
   void Authenticate(FlightSqlConnection &connection,
@@ -62,6 +64,8 @@ private:
   std::string user_;
   std::string password_;
 };
+
+} // namespace
 
 std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
     const std::unique_ptr<FlightClient> &client,
