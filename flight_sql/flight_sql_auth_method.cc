@@ -26,6 +26,9 @@
 
 using namespace driver::flight_sql;
 
+namespace driver {
+namespace flight_sql {
+
 using arrow::Result;
 using arrow::flight::FlightCallOptions;
 using arrow::flight::FlightClient;
@@ -33,6 +36,7 @@ using arrow::flight::TimeoutDuration;
 using driver::spi::AuthenticationException;
 using driver::spi::Connection;
 
+namespace {
 class NoOpAuthMethod : public FlightSqlAuthMethod {
 public:
   void Authenticate(FlightSqlConnection &connection,
@@ -78,9 +82,7 @@ private:
   std::string user_;
   std::string password_;
 };
-
-namespace driver {
-namespace flight_sql {
+} // namespace
 
 std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
     const std::unique_ptr<FlightClient> &client,

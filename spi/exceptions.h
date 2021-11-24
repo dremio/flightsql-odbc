@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#pragma once
+
 #include <exception>
 #include <string>
-
-#pragma once
 
 namespace driver {
 namespace spi {

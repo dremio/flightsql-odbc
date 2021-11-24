@@ -37,11 +37,15 @@ using spi::DriverException;
 using spi::OdbcVersion;
 using spi::Statement;
 
+namespace {
+
 inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {
     throw DriverException(status.ToString());
   }
 }
+
+} // namespace
 
 void FlightSqlConnection::Connect(
     const std::map<std::string, Property> &properties,

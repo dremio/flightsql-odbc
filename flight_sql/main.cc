@@ -43,5 +43,6 @@ int main() {
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
 
+  connection->Close();
   return 0;
 }
