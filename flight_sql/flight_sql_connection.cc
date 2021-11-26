@@ -66,11 +66,11 @@ void FlightSqlConnection::Connect(
     SetAttribute(CONNECTION_DEAD, false);
 
     call_options_ = BuildCallOptions();
-  } catch (std::exception &e) {
+  } catch (...) {
     SetAttribute(CONNECTION_DEAD, true);
     sql_client_.reset();
 
-    throw e;
+    throw;
   }
 }
 
