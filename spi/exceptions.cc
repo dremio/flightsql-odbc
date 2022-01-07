@@ -25,7 +25,7 @@ DriverException::DriverException(std::string message)
     : message_(std::move(message)) {}
 
 const char *
-DriverException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
+DriverException::what() const throw() {
   return message_.c_str();
 }
 

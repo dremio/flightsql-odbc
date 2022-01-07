@@ -27,3 +27,12 @@ cmake-build-*/
 
 .idea
 vcpkg_installed
+*-prefix
+_deps
+lib
+
+build.*
+.ninja_*
+*lib*.a
+*arrow_odbc_spi_impl_cli
+*arrow_odbc_spi_impl_test

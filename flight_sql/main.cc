@@ -17,7 +17,7 @@
 
 #include "flight_sql_driver.h"
 #include <arrow/flight/api.h>
-#include <arrow/flight/flight_sql/api.h>
+#include <arrow/flight/sql/api.h>
 #include <iostream>
 
 using arrow::Status;

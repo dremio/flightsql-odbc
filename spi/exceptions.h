@@ -28,7 +28,7 @@ class DriverException : public std::exception {
 public:
   explicit DriverException(std::string message);
 
-  const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override;
+  const char *what() const throw() override;
 
 private:
   const std::string message_;

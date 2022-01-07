@@ -21,22 +21,104 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(${CMAKE_SOURCE_DIR}/spi)
 
 SET(Arrow_STATIC ON)
-find_package(Arrow REQUIRED)
-find_package(ArrowFlight REQUIRED PATHS /usr/local/lib/cmake/arrow/)
-find_package(ArrowFlightSql REQUIRED PATHS /usr/local/lib/cmake/arrow/)
-find_package(GTest REQUIRED)
+
+# Get Arrow using git.
+include(ExternalProject)
+
+set(ARROW_CMAKE_ARGS
+#    -DCMAKE_TOOLCHAIN_FILE=${DEPENDENCY_PATH}
+    -DARROW_FLIGHT=ON
+    -DARROW_FLIGHT_SQL=ON
+    -DARROW_IPC=ON
+    -DARROW_COMPUTE=OFF
+    -DARROW_BUILD_SHARED=OFF
+    -DARROW_BUILD_STATIC=ON
+    -DARROW_COMPUTE=ON
+    -DARROW_BUILD_TESTS=OFF
+#    -DARROW_DEPENDENCY_SOURCE=VCPKG
+    -DARROW_DEPENDENCY_USE_SHARED=OFF
+    -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+    -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+    ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
+)
+
+ExternalProject_Add(ApacheArrow
+    GIT_REPOSITORY https://github.com/apache/arrow.git
+    CMAKE_ARGS ${ARROW_CMAKE_ARGS})
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
+link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/lib)
+
+# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
+find_package(ZLIB REQUIRED)
+
+# Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
+set(Protobuf_USE_STATIC_LIBS ON)
+find_package(Protobuf REQUIRED)
+
+# Add OpenSSL dependencies needed by Arrow Flight. Should be pre-installed.
+# May need to set OPENSSL_ROOT_DIR first. On Mac if using brew:
+# brew install openssl@1.1
+# add to the cmake line -DOPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m
+if (NOT DEFINED OPENSSL_ROOT_DIR AND DEFINED APPLE)
+  set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1m)
+endif()
+set(OpenSSL_USE_STATIC_LIBS ON)
+set(OPENSSL_USE_STATIC_LIBS ON)
+find_package(OpenSSL REQUIRED)
+
+# Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
+find_package(gRPC 1.36 CONFIG REQUIRED)
 
 enable_testing()
 
-add_library(flight_odbc_driver flight_sql_driver.cc flight_sql_connection.cc flight_sql_auth_method.cc)
-target_link_libraries(flight_odbc_driver spi arrow_static arrow_flight arrow_flight_sql)
-target_include_directories(flight_odbc_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set(ARROW_ODBC_SPI_SOURCES
+  flight_sql_driver.cc
+  flight_sql_connection.cc
+  flight_sql_auth_method.cc
+)
+
+set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
+  arrow
+  arrow_flight
+  arrow_flight_sql
+  arrow_bundled_dependencies
+  ${ZLIB_LIBRARIES}
+  ${Protobuf_LIBRARIES}
+  gRPC::grpc++
+)
+
+add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
+add_dependencies(arrow_odbc_spi_impl ApacheArrow)
+
+set_target_properties(arrow_odbc_spi_impl
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
+    )
+
+target_link_libraries(arrow_odbc_spi_impl spi ${ARROW_ODBC_SPI_THIRDPARTY_LIBS})
+target_include_directories(arrow_odbc_spi_impl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # CLI
-add_executable(flight_odbc_driver_cli main.cc)
-target_link_libraries(flight_odbc_driver_cli flight_odbc_driver)
+add_executable(arrow_odbc_spi_impl_cli main.cc)
+set_target_properties(arrow_odbc_spi_impl_cli
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/bin
+    )
+target_link_libraries(arrow_odbc_spi_impl_cli arrow_odbc_spi_impl)
 
 # Unit tests
-add_executable(flight_odbc_driver_test flight_sql_connection_test.cc)
-target_link_libraries(flight_odbc_driver_test flight_odbc_driver GTest::gtest GTest::gtest_main)
-add_test(connection_test flight_odbc_driver_test)
+set(ARROW_ODBC_SPI_TEST_SOURCES
+  flight_sql_connection_test.cc
+)
+
+add_executable(arrow_odbc_spi_impl_test ${ARROW_ODBC_SPI_TEST_SOURCES})
+add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
+set_target_properties(arrow_odbc_spi_impl_test
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin
+    )
+target_link_libraries(arrow_odbc_spi_impl_test arrow_odbc_spi_impl gtest gtest_main)
+add_test(connection_test arrow_odbc_spi_impl_test)
