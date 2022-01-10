@@ -42,8 +42,17 @@ set(ARROW_CMAKE_ARGS
     ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
 )
 
+if(NOT ARROW_GIT_REPOSITORY)
+  set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
+endif()
+if(NOT ARROW_GIT_TAG)
+  set(ARROW_GIT_TAG master)
+endif()
+
+message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow
-    GIT_REPOSITORY https://github.com/apache/arrow.git
+    GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
+    GIT_TAG ${ARROW_GIT_TAG}
     CMAKE_ARGS ${ARROW_CMAKE_ARGS})
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
