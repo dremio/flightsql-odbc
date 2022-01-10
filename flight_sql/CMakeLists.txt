@@ -26,7 +26,6 @@ SET(Arrow_STATIC ON)
 include(ExternalProject)
 
 set(ARROW_CMAKE_ARGS
-#    -DCMAKE_TOOLCHAIN_FILE=${DEPENDENCY_PATH}
     -DARROW_FLIGHT=ON
     -DARROW_FLIGHT_SQL=ON
     -DARROW_IPC=ON
@@ -35,7 +34,6 @@ set(ARROW_CMAKE_ARGS
     -DARROW_BUILD_STATIC=ON
     -DARROW_COMPUTE=ON
     -DARROW_BUILD_TESTS=OFF
-#    -DARROW_DEPENDENCY_SOURCE=VCPKG
     -DARROW_DEPENDENCY_USE_SHARED=OFF
     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
@@ -72,6 +70,8 @@ find_package(Protobuf REQUIRED)
 if (NOT DEFINED OPENSSL_ROOT_DIR AND DEFINED APPLE)
   set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1m)
 endif()
+# This is based on Arrow's FindOpenSSL module. It's not clear if both variables
+# need to be set.
 set(OpenSSL_USE_STATIC_LIBS ON)
 set(OPENSSL_USE_STATIC_LIBS ON)
 find_package(OpenSSL REQUIRED)
