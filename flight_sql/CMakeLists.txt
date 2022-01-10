@@ -79,9 +79,9 @@ set(ARROW_ODBC_SPI_SOURCES
 )
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
-  arrow
-  arrow_flight
   arrow_flight_sql
+  arrow_flight
+  arrow
   arrow_bundled_dependencies
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
