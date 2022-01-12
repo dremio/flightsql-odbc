@@ -19,7 +19,7 @@
 
 #include "connection.h"
 #include <arrow/flight/api.h>
-#include <arrow/flight/flight_sql/api.h>
+#include <arrow/flight/sql/api.h>
 
 namespace driver {
 namespace flight_sql {
