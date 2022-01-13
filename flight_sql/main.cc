@@ -19,6 +19,7 @@
 
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
+#include "flight_sql_connection.h"
 #include <iostream>
 
 using arrow::Status;
@@ -27,6 +28,7 @@ using arrow::flight::Location;
 using arrow::flight::sql::FlightSqlClient;
 
 using driver::flight_sql::FlightSqlDriver;
+using driver::flight_sql::FlightSqlConnection;
 using driver::odbcabstraction::Connection;
 
 int main() {
@@ -36,10 +38,10 @@ int main() {
       driver.CreateConnection(driver::odbcabstraction::V_3);
 
   std::map<std::string, Connection::Property> properties = {
-      {Connection::HOST, std::string("0.0.0.0")},
-      {Connection::PORT, 32010},
-      {Connection::USER, std::string("user")},
-      {Connection::PASSWORD, std::string("password")},
+      {FlightSqlConnection::HOST, std::string("0.0.0.0")},
+      {FlightSqlConnection::PORT, 32010},
+      {FlightSqlConnection::USER, std::string("user")},
+      {FlightSqlConnection::PASSWORD, std::string("password")},
   };
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);

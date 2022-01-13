@@ -26,6 +26,7 @@ namespace driver {
 namespace flight_sql {
 
 class FlightSqlConnection : public odbcabstraction::Connection {
+
 private:
   std::map<AttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
@@ -34,6 +35,12 @@ private:
   bool closed_;
 
 public:
+  static const std::string HOST;
+  static const std::string PORT;
+  static const std::string USER;
+  static const std::string PASSWORD;
+  static const std::string USE_TLS;
+   
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
   void Connect(const std::map<std::string, Property> &properties,

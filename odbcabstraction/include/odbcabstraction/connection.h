@@ -52,13 +52,6 @@ public:
   typedef boost::variant<std::string, int, bool> Property;
   typedef boost::variant<std::string, int, bool> Info;
 
-  static const std::string HOST;
-  static const std::string PORT;
-  static const std::string USER;
-  static const std::string PASSWORD;
-  static const std::string USE_TLS;
-  // TODO: Add properties for getting the certificates
-  // TODO: Check if gRPC can use the system truststore, if not copy from Drill
 
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.

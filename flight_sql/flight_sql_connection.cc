@@ -38,7 +38,15 @@ using driver::odbcabstraction::DriverException;
 using driver::odbcabstraction::OdbcVersion;
 using driver::odbcabstraction::Statement;
 
+const std::string FlightSqlConnection::HOST = "host";
+const std::string FlightSqlConnection::PORT = "port";
+const std::string FlightSqlConnection::USER = "user";
+const std::string FlightSqlConnection::PASSWORD = "password";
+const std::string FlightSqlConnection::USE_TLS = "useTls";
+
 namespace {
+  // TODO: Add properties for getting the certificates
+  // TODO: Check if gRPC can use the system truststore, if not copy from Drill
 
 inline void ThrowIfNotOK(const Status &status) {
   if (!status.ok()) {

@@ -18,7 +18,10 @@
 include(FindODBC)
 
 include_directories(include)
-add_library(odbcabstraction connection.cc exceptions.cc)
+
+add_library(odbcabstraction 
+  exceptions.cc)
+
 set_target_properties(odbcabstraction
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib

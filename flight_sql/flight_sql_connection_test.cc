@@ -61,12 +61,12 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 
 TEST(BuildLocationTests, ForTcp) {
   const Location &actual_location1 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32010},
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, 32010},
   });
   const Location &actual_location2 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32011},
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, 32011},
   });
 
   Location expected_location;
@@ -78,14 +78,14 @@ TEST(BuildLocationTests, ForTcp) {
 
 TEST(BuildLocationTests, ForTls) {
   const Location &actual_location1 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32010},
-      {Connection::USE_TLS, true},
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, 32010},
+      {FlightSqlConnection::USE_TLS, true},
   });
   const Location &actual_location2 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32011},
-      {Connection::USE_TLS, true},
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, 32011},
+      {FlightSqlConnection::USE_TLS, true},
   });
 
   Location expected_location;
