@@ -17,11 +17,12 @@
 
 include(FindODBC)
 
-add_library(spi connection.cc exceptions.cc)
-set_target_properties(spi
+include_directories(include)
+add_library(odbcabstraction connection.cc exceptions.cc)
+set_target_properties(odbcabstraction
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     )
-target_link_libraries(spi ${ODBC_LIBRARIES})
+target_link_libraries(odbcabstraction ${ODBC_LIBRARIES})

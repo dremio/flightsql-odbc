@@ -16,7 +16,8 @@
 // under the License.
 
 #include "flight_sql_auth_method.h"
-#include "exceptions.h"
+
+#include <odbcabstraction/exceptions.h>
 #include "flight_sql_connection.h"
 
 #include <arrow/flight/client.h>
@@ -33,8 +34,8 @@ using arrow::Result;
 using arrow::flight::FlightCallOptions;
 using arrow::flight::FlightClient;
 using arrow::flight::TimeoutDuration;
-using driver::spi::AuthenticationException;
-using driver::spi::Connection;
+using driver::odbcabstraction::AuthenticationException;
+using driver::odbcabstraction::Connection;
 
 namespace {
 class NoOpAuthMethod : public FlightSqlAuthMethod {

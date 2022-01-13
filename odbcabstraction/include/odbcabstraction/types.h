@@ -15,16 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "connection.h"
+#pragma once
 
 namespace driver {
-namespace spi {
+namespace odbcabstraction {
 
-const std::string Connection::HOST = "host";
-const std::string Connection::PORT = "port";
-const std::string Connection::USER = "user";
-const std::string Connection::PASSWORD = "password";
-const std::string Connection::USE_TLS = "useTls";
+/// \brief Supported ODBC versions.
+enum OdbcVersion { V_2, V_3, V_4 };
 
-} // namespace spi
+} // namespace odbcabstraction
 } // namespace driver

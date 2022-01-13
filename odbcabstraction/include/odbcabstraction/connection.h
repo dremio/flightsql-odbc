@@ -25,7 +25,7 @@
 #pragma once
 
 namespace driver {
-namespace spi {
+namespace odbcabstraction {
 
 class Statement;
 
@@ -89,5 +89,5 @@ protected:
   Connection() = default;
 };
 
-} // namespace spi
+} // namespace odbcabstraction
 } // namespace driver

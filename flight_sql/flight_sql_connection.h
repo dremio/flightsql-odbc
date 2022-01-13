@@ -17,30 +17,31 @@
 
 #pragma once
 
-#include "connection.h"
+#include <odbcabstraction/connection.h>
+
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
 
 namespace driver {
 namespace flight_sql {
 
-class FlightSqlConnection : public spi::Connection {
+class FlightSqlConnection : public odbcabstraction::Connection {
 private:
   std::map<AttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
-  spi::OdbcVersion odbc_version_;
+  odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
 
 public:
-  explicit FlightSqlConnection(spi::OdbcVersion odbc_version);
+  explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
   void Connect(const std::map<std::string, Property> &properties,
                std::vector<std::string> &missing_attr) override;
 
   void Close() override;
 
-  std::shared_ptr<spi::Statement> CreateStatement() override;
+  std::shared_ptr<odbcabstraction::Statement> CreateStatement() override;
 
   void SetAttribute(AttributeId attribute, const Attribute &value) override;
 

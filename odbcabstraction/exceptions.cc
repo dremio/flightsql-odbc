@@ -15,18 +15,22 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include "driver.h"
+#include <odbcabstraction/exceptions.h>
+#include <utility>
 
 namespace driver {
-namespace flight_sql {
+namespace odbcabstraction {
 
-class FlightSqlDriver : public spi::Driver {
-public:
-  std::shared_ptr<spi::Connection>
-  CreateConnection(spi::OdbcVersion odbc_version) override;
-};
+DriverException::DriverException(std::string message)
+    : message_(std::move(message)) {}
 
-}; // namespace flight_sql
+const char *
+DriverException::what() const throw() {
+  return message_.c_str();
+}
+
+AuthenticationException::AuthenticationException(std::string message)
+    : DriverException(std::move(message)) {}
+
+} // namespace odbcabstraction
 } // namespace driver

@@ -24,10 +24,10 @@ namespace flight_sql {
 
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
-using spi::Connection;
+using odbcabstraction::Connection;
 
 TEST(AttributeTests, SetAndGetAttribute) {
-  FlightSqlConnection connection(spi::V_3);
+  FlightSqlConnection connection(odbcabstraction::V_3);
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 200);
   const boost::optional<Connection::Attribute> firstValue =
@@ -49,7 +49,7 @@ TEST(AttributeTests, SetAndGetAttribute) {
 }
 
 TEST(AttributeTests, GetAttributeWithoutSetting) {
-  FlightSqlConnection connection(spi::V_3);
+  FlightSqlConnection connection(odbcabstraction::V_3);
 
   const boost::optional<Connection::Attribute> anOptional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
@@ -96,7 +96,7 @@ TEST(BuildLocationTests, ForTls) {
 }
 
 TEST(BuildCallOptionsTest, ConnectionTimeout) {
-  FlightSqlConnection connection(spi::V_3);
+  FlightSqlConnection connection(odbcabstraction::V_3);
 
   // Expect default timeout to be -1
   ASSERT_EQ(TimeoutDuration{-1.0}, connection.BuildCallOptions().timeout);

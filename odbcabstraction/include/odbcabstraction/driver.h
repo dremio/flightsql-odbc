@@ -17,13 +17,13 @@
 
 #include <memory>
 
-#include "connection.h"
+#include <odbcabstraction/connection.h>
 #include "types.h"
 
 #pragma once
 
 namespace driver {
-namespace spi {
+namespace odbcabstraction {
 
 /// \brief High-level representation of an ODBC driver.
 class Driver {
@@ -39,5 +39,5 @@ protected:
   Driver() = default;
 };
 
-} // namespace spi
+} // namespace odbcabstraction
 } // namespace driver

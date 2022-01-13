@@ -15,30 +15,16 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include <exception>
-#include <string>
+#include <odbcabstraction/connection.h>
 
 namespace driver {
-namespace spi {
+namespace odbcabstraction {
 
-/// \brief Base for all driver specific exceptions
-class DriverException : public std::exception {
-public:
-  explicit DriverException(std::string message);
+const std::string Connection::HOST = "host";
+const std::string Connection::PORT = "port";
+const std::string Connection::USER = "user";
+const std::string Connection::PASSWORD = "password";
+const std::string Connection::USE_TLS = "useTls";
 
-  const char *what() const throw() override;
-
-private:
-  const std::string message_;
-};
-
-/// \brief Authentication specific exception
-class AuthenticationException : public DriverException {
-public:
-  explicit AuthenticationException(std::string message);
-};
-
-} // namespace spi
+} // namespace odbcabstraction
 } // namespace driver

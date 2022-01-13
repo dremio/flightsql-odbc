@@ -16,7 +16,8 @@
 // under the License.
 
 #include "flight_sql_connection.h"
-#include "exceptions.h"
+
+#include <odbcabstraction/exceptions.h>
 #include "flight_sql_auth_method.h"
 #include <boost/optional.hpp>
 #include <iostream>
@@ -32,10 +33,10 @@ using arrow::flight::FlightClientOptions;
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
-using spi::Connection;
-using spi::DriverException;
-using spi::OdbcVersion;
-using spi::Statement;
+using driver::odbcabstraction::Connection;
+using driver::odbcabstraction::DriverException;
+using driver::odbcabstraction::OdbcVersion;
+using driver::odbcabstraction::Statement;
 
 namespace {
 

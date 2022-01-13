@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "connection.h"
+#include <odbcabstraction/connection.h>
 #include "flight_sql_connection.h"
 #include <arrow/flight/client.h>
 #include <map>
@@ -35,7 +35,7 @@ public:
 
   static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
       const std::unique_ptr<arrow::flight::FlightClient> &client,
-      const std::map<std::string, spi::Connection::Property> &properties);
+      const std::map<std::string, odbcabstraction::Connection::Property> &properties);
 
 protected:
   FlightSqlAuthMethod() = default;

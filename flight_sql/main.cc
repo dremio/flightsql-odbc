@@ -15,7 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "flight_sql_driver.h"
+#include <flight_sql/flight_sql_driver.h>
+
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
 #include <iostream>
@@ -26,13 +27,13 @@ using arrow::flight::Location;
 using arrow::flight::sql::FlightSqlClient;
 
 using driver::flight_sql::FlightSqlDriver;
-using driver::spi::Connection;
+using driver::odbcabstraction::Connection;
 
 int main() {
   FlightSqlDriver driver;
 
   const std::shared_ptr<Connection> &connection =
-      driver.CreateConnection(driver::spi::V_3);
+      driver.CreateConnection(driver::odbcabstraction::V_3);
 
   std::map<std::string, Connection::Property> properties = {
       {Connection::HOST, std::string("0.0.0.0")},
