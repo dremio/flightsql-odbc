@@ -17,6 +17,7 @@
 
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
+#include <boost/algorithm/string.hpp>
 #include <map>
 #include <vector>
 
@@ -48,15 +49,24 @@ public:
     QUIET_MODE,         // Lookup
   };
 
+  /// \brief Case insensitive comparator
+  struct CaseInsensitiveComparator : std::binary_function<std::string, std::string, bool>
+  {
+    bool operator() (const std::string & s1, const std::string & s2) const {
+      return boost::lexicographical_compare(s1, s2, boost::is_iless());
+    }
+  };
+
   typedef boost::variant<std::string, int, double, bool> Attribute;
   typedef boost::variant<std::string, int, bool> Property;
   typedef boost::variant<std::string, int, bool> Info;
+  typedef std::map<std::string, Property, CaseInsensitiveComparator> ConnPropertyMap;
 
 
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.
   /// \param missing_properties[out] vector of missing properties (if any).
-  virtual void Connect(const std::map<std::string, Property> &properties,
+  virtual void Connect(const ConnPropertyMap &properties,
                        std::vector<std::string> &missing_properties) = 0;
 
   /// \brief Close the connection.

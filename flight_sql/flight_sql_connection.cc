@@ -57,7 +57,7 @@ inline void ThrowIfNotOK(const Status &status) {
 } // namespace
 
 void FlightSqlConnection::Connect(
-    const std::map<std::string, Property> &properties,
+    const ConnPropertyMap &properties,
     std::vector<std::string> &missing_attr) {
   try {
     Location location = BuildLocation(properties);
@@ -97,14 +97,14 @@ FlightCallOptions FlightSqlConnection::BuildCallOptions() {
 }
 
 FlightClientOptions FlightSqlConnection::BuildFlightClientOptions(
-    const std::map<std::string, Property> &properties) {
+    const ConnPropertyMap &properties) {
   FlightClientOptions options;
   // TODO: Set up TLS  properties
   return options;
 }
 
 Location FlightSqlConnection::BuildLocation(
-    const std::map<std::string, Property> &properties) {
+    const ConnPropertyMap &properties) {
   const std::string &host = boost::get<std::string>(properties.at(HOST));
   const int &port = boost::get<int>(properties.at(PORT));
 
