@@ -87,7 +87,7 @@ private:
 
 std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
     const std::unique_ptr<FlightClient> &client,
-    const std::map<std::string, Connection::Property> &properties) {
+    const Connection::ConnPropertyMap &properties) {
 
   // Check if should use user-password authentication
   const auto &it_user = properties.find(FlightSqlConnection::USER);

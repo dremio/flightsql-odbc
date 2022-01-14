@@ -35,7 +35,7 @@ public:
 
   static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
       const std::unique_ptr<arrow::flight::FlightClient> &client,
-      const std::map<std::string, odbcabstraction::Connection::Property> &properties);
+      const odbcabstraction::Connection::ConnPropertyMap &properties);
 
 protected:
   FlightSqlAuthMethod() = default;
