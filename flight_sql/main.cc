@@ -37,7 +37,7 @@ int main() {
   const std::shared_ptr<Connection> &connection =
       driver.CreateConnection(driver::odbcabstraction::V_3);
 
-  std::map<std::string, Connection::Property> properties = {
+  ConnPropertyMap properties = {
       {FlightSqlConnection::HOST, std::string("0.0.0.0")},
       {FlightSqlConnection::PORT, 32010},
       {FlightSqlConnection::USER, std::string("user")},
