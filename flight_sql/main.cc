@@ -39,7 +39,7 @@ int main() {
 
   Connection::ConnPropertyMap properties = {
       {FlightSqlConnection::HOST, std::string("0.0.0.0")},
-      {FlightSqlConnection::PORT, 32010},
+      {FlightSqlConnection::PORT, std::string("32010")},
       {FlightSqlConnection::USER, std::string("user")},
       {FlightSqlConnection::PASSWORD, std::string("password")},
   };

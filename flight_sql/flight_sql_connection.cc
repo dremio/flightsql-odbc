@@ -19,6 +19,7 @@
 
 #include <odbcabstraction/exceptions.h>
 #include "flight_sql_auth_method.h"
+#include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <iostream>
@@ -127,12 +128,12 @@ Location FlightSqlConnection::BuildLocation(
     throw DriverException(missing_attr_str);
   }
 
-  const std::string &host = boost::get<std::string>(host_iter->second);
-  const int &port = boost::get<int>(port_iter->second);
+  const std::string &host = host_iter->second;
+  const int &port = boost::lexical_cast<int>(port_iter->second);
 
   Location location;
   const auto &it_use_tls = properties.find(USE_TLS);
-  if (it_use_tls != properties.end() && boost::get<bool>(it_use_tls->second)) {
+  if (it_use_tls != properties.end() && boost::lexical_cast<bool>(it_use_tls->second)) {
     ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));

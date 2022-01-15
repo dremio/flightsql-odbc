@@ -58,10 +58,11 @@ public:
   };
 
   typedef boost::variant<std::string, int, double, bool> Attribute;
-  typedef boost::variant<std::string, int, bool> Property;
+  typedef std::string Property;
   typedef boost::variant<std::string, int, bool> Info;
   typedef std::map<std::string, Property, CaseInsensitiveComparator> ConnPropertyMap;
 
+  
 
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.
