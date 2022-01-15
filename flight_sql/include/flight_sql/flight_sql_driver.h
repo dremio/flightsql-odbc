@@ -24,7 +24,7 @@ namespace flight_sql {
 
 class FlightSqlDriver : public odbcabstraction::Driver {
 public:
-  odbcabstraction::Connection*
+  std::shared_ptr<odbcabstraction::Connection>
   CreateConnection(odbcabstraction::OdbcVersion odbc_version) override;
 };
 

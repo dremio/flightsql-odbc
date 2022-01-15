@@ -24,9 +24,9 @@ namespace flight_sql {
 using odbcabstraction::Connection;
 using odbcabstraction::OdbcVersion;
 
-Connection*
+std::shared_ptr<Connection>
 FlightSqlDriver::CreateConnection(OdbcVersion odbc_version) {
-  return new FlightSqlConnection(odbc_version);
+  return std::make_shared<FlightSqlConnection>(odbc_version);
 }
 } // namespace flight_sql
 } // namespace driver

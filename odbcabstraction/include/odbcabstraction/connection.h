@@ -73,7 +73,7 @@ public:
   virtual void Close() = 0;
 
   /// \brief Create a statement.
-  virtual Statement* CreateStatement() = 0;
+  virtual std::shared_ptr<Statement> CreateStatement() = 0;
 
   /// \brief Set a connection attribute (may be called at any time).
   /// \param attribute[in] Which attribute to set.

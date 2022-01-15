@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include <memory>
+
 #include "types.h"
 
 #pragma once
@@ -31,7 +33,7 @@ public:
 
   /// \brief Create a connection using given ODBC version.
   /// \param odbc_version ODBC version to be used.
-  virtual Connection*
+  virtual std::shared_ptr<Connection>
   CreateConnection(OdbcVersion odbc_version) = 0;
 
 protected:
