@@ -34,8 +34,8 @@ using driver::odbcabstraction::Connection;
 int main() {
   FlightSqlDriver driver;
 
-  const std::shared_ptr<Connection> &connection =
-      driver.CreateConnection(driver::odbcabstraction::V_3);
+  std::shared_ptr<Connection> connection(
+      driver.CreateConnection(driver::odbcabstraction::V_3));
 
   Connection::ConnPropertyMap properties = {
       {FlightSqlConnection::HOST, std::string("0.0.0.0")},

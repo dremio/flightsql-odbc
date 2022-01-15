@@ -127,7 +127,7 @@ void FlightSqlConnection::Close() {
   closed_ = true;
 }
 
-std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
+Statement* FlightSqlConnection::CreateStatement() {
   throw DriverException("CreateStatement not implemented");
 }
 

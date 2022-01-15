@@ -48,7 +48,7 @@ public:
 
   void Close() override;
 
-  std::shared_ptr<odbcabstraction::Statement> CreateStatement() override;
+  odbcabstraction::Statement* CreateStatement() override;
 
   void SetAttribute(AttributeId attribute, const Attribute &value) override;
 
