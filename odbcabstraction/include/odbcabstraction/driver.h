@@ -17,13 +17,14 @@
 
 #include <memory>
 
-#include <odbcabstraction/connection.h>
 #include "types.h"
 
 #pragma once
 
 namespace driver {
 namespace odbcabstraction {
+
+class Connection;
 
 /// \brief High-level representation of an ODBC driver.
 class Driver {
