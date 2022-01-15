@@ -60,12 +60,12 @@ public:
   /// \brief Builds a Location used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::Location
-  BuildLocation(const ConnPropertyMap &properties);
+  BuildLocation(const ConnPropertyMap &properties, std::vector<std::string> &missing_attr);
 
   /// \brief Builds a FlightClientOptions used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::FlightClientOptions
-  BuildFlightClientOptions(const ConnPropertyMap &properties);
+  BuildFlightClientOptions(const ConnPropertyMap &properties, std::vector<std::string> &missing_attr);
 
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing

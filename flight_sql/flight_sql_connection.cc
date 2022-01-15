@@ -20,6 +20,7 @@
 #include <odbcabstraction/exceptions.h>
 #include "flight_sql_auth_method.h"
 #include <boost/optional.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <iostream>
 
 namespace driver {
@@ -54,14 +55,23 @@ inline void ThrowIfNotOK(const Status &status) {
   }
 }
 
+Connection::ConnPropertyMap::const_iterator TrackMissingRequiredProperty(const std::string& property, 
+  const Connection::ConnPropertyMap &properties, std::vector<std::string> &missing_attr) {
+  Connection::ConnPropertyMap::const_iterator prop_iter = properties.find(property);
+  if (properties.end() == prop_iter) {
+    missing_attr.push_back(property);
+  }
+  return prop_iter;
+}
+
 } // namespace
 
 void FlightSqlConnection::Connect(
     const ConnPropertyMap &properties,
     std::vector<std::string> &missing_attr) {
   try {
-    Location location = BuildLocation(properties);
-    FlightClientOptions client_options = BuildFlightClientOptions(properties);
+    Location location = BuildLocation(properties, missing_attr);
+    FlightClientOptions client_options = BuildFlightClientOptions(properties, missing_attr);
 
     std::unique_ptr<FlightClient> flight_client;
     ThrowIfNotOK(
@@ -97,16 +107,28 @@ FlightCallOptions FlightSqlConnection::BuildCallOptions() {
 }
 
 FlightClientOptions FlightSqlConnection::BuildFlightClientOptions(
-    const ConnPropertyMap &properties) {
+    const ConnPropertyMap &properties, std::vector<std::string> &missing_attr) {
   FlightClientOptions options;
   // TODO: Set up TLS  properties
   return options;
 }
 
 Location FlightSqlConnection::BuildLocation(
-    const ConnPropertyMap &properties) {
-  const std::string &host = boost::get<std::string>(properties.at(HOST));
-  const int &port = boost::get<int>(properties.at(PORT));
+    const ConnPropertyMap &properties, std::vector<std::string> &missing_attr) {
+  const auto& host_iter = TrackMissingRequiredProperty(
+    HOST, properties, missing_attr);
+
+  const auto& port_iter = TrackMissingRequiredProperty(
+    PORT, properties, missing_attr);
+
+  if (!missing_attr.empty()) {
+    std::string missing_attr_str = std::string("Missing required properties: ") 
+      + boost::algorithm::join(missing_attr, ", ");
+    throw DriverException(missing_attr_str);
+  }
+
+  const std::string &host = boost::get<std::string>(host_iter->second);
+  const int &port = boost::get<int>(port_iter->second);
 
   Location location;
   const auto &it_use_tls = properties.find(USE_TLS);
