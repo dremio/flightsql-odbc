@@ -36,4 +36,4 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(flight_sql)
-add_subdirectory(spi)
+add_subdirectory(odbcabstraction)

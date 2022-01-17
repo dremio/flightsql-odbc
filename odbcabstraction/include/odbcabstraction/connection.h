@@ -17,6 +17,7 @@
 
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
+#include <boost/algorithm/string.hpp>
 #include <map>
 #include <vector>
 
@@ -25,7 +26,7 @@
 #pragma once
 
 namespace driver {
-namespace spi {
+namespace odbcabstraction {
 
 class Statement;
 
@@ -48,22 +49,26 @@ public:
     QUIET_MODE,         // Lookup
   };
 
-  typedef boost::variant<std::string, int, double, bool> Attribute;
-  typedef boost::variant<std::string, int, bool> Property;
-  typedef boost::variant<std::string, int, bool> Info;
+  /// \brief Case insensitive comparator
+  struct CaseInsensitiveComparator : std::binary_function<std::string, std::string, bool>
+  {
+    bool operator() (const std::string & s1, const std::string & s2) const {
+      return boost::lexicographical_compare(s1, s2, boost::is_iless());
+    }
+  };
 
-  static const std::string HOST;
-  static const std::string PORT;
-  static const std::string USER;
-  static const std::string PASSWORD;
-  static const std::string USE_TLS;
-  // TODO: Add properties for getting the certificates
-  // TODO: Check if gRPC can use the system truststore, if not copy from Drill
+  typedef boost::variant<std::string, int, double, bool> Attribute;
+  typedef std::string Property;
+  typedef boost::variant<std::string, int, bool> Info;
+  // ConnPropertyMap is case-insensitive for keys.
+  typedef std::map<std::string, Property, CaseInsensitiveComparator> ConnPropertyMap;
+
+  
 
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.
   /// \param missing_properties[out] vector of missing properties (if any).
-  virtual void Connect(const std::map<std::string, Property> &properties,
+  virtual void Connect(const ConnPropertyMap &properties,
                        std::vector<std::string> &missing_properties) = 0;
 
   /// \brief Close the connection.
@@ -89,5 +94,5 @@ protected:
   Connection() = default;
 };
 
-} // namespace spi
+} // namespace odbcabstraction
 } // namespace driver

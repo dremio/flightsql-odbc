@@ -24,10 +24,10 @@ namespace flight_sql {
 
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
-using spi::Connection;
+using odbcabstraction::Connection;
 
 TEST(AttributeTests, SetAndGetAttribute) {
-  FlightSqlConnection connection(spi::V_3);
+  FlightSqlConnection connection(odbcabstraction::V_3);
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 200);
   const boost::optional<Connection::Attribute> firstValue =
@@ -49,7 +49,7 @@ TEST(AttributeTests, SetAndGetAttribute) {
 }
 
 TEST(AttributeTests, GetAttributeWithoutSetting) {
-  FlightSqlConnection connection(spi::V_3);
+  FlightSqlConnection connection(odbcabstraction::V_3);
 
   const boost::optional<Connection::Attribute> anOptional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
@@ -60,14 +60,15 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 }
 
 TEST(BuildLocationTests, ForTcp) {
+  std::vector<std::string> missing_attr;
   const Location &actual_location1 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32010},
-  });
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32010")},
+  }, missing_attr);
   const Location &actual_location2 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32011},
-  });
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32011")},
+  }, missing_attr);
 
   Location expected_location;
   ASSERT_TRUE(
@@ -77,16 +78,17 @@ TEST(BuildLocationTests, ForTcp) {
 }
 
 TEST(BuildLocationTests, ForTls) {
+  std::vector<std::string> missing_attr;
   const Location &actual_location1 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32010},
-      {Connection::USE_TLS, true},
-  });
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32010")},
+      {FlightSqlConnection::USE_TLS, std::string("1")},
+  }, missing_attr);
   const Location &actual_location2 = FlightSqlConnection::BuildLocation({
-      {Connection::HOST, std::string("localhost")},
-      {Connection::PORT, 32011},
-      {Connection::USE_TLS, true},
-  });
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32011")},
+      {FlightSqlConnection::USE_TLS, std::string("1")},
+  }, missing_attr);
 
   Location expected_location;
   ASSERT_TRUE(
@@ -96,7 +98,7 @@ TEST(BuildLocationTests, ForTls) {
 }
 
 TEST(BuildCallOptionsTest, ConnectionTimeout) {
-  FlightSqlConnection connection(spi::V_3);
+  FlightSqlConnection connection(odbcabstraction::V_3);
 
   // Expect default timeout to be -1
   ASSERT_EQ(TimeoutDuration{-1.0}, connection.BuildCallOptions().timeout);

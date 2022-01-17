@@ -16,7 +16,8 @@
 // under the License.
 
 #include "flight_sql_auth_method.h"
-#include "exceptions.h"
+
+#include <odbcabstraction/exceptions.h>
 #include "flight_sql_connection.h"
 
 #include <arrow/flight/client.h>
@@ -33,8 +34,8 @@ using arrow::Result;
 using arrow::flight::FlightCallOptions;
 using arrow::flight::FlightClient;
 using arrow::flight::TimeoutDuration;
-using driver::spi::AuthenticationException;
-using driver::spi::Connection;
+using driver::odbcabstraction::AuthenticationException;
+using driver::odbcabstraction::Connection;
 
 namespace {
 class NoOpAuthMethod : public FlightSqlAuthMethod {
@@ -86,11 +87,11 @@ private:
 
 std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
     const std::unique_ptr<FlightClient> &client,
-    const std::map<std::string, Connection::Property> &properties) {
+    const Connection::ConnPropertyMap &properties) {
 
   // Check if should use user-password authentication
-  const auto &it_user = properties.find(Connection::USER);
-  const auto &it_password = properties.find(Connection::PASSWORD);
+  const auto &it_user = properties.find(FlightSqlConnection::USER);
+  const auto &it_password = properties.find(FlightSqlConnection::PASSWORD);
   if (it_user != properties.end() || it_password != properties.end()) {
     const std::string &user = it_user != properties.end()
                                   ? boost::get<std::string>(it_user->second)

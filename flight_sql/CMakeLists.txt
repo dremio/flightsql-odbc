@@ -18,7 +18,9 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(${CMAKE_SOURCE_DIR}/spi)
+include_directories(
+    include
+    ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
 
 SET(Arrow_STATIC ON)
 
@@ -107,7 +109,10 @@ set_target_properties(arrow_odbc_spi_impl
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
 )
 
-target_link_libraries(arrow_odbc_spi_impl spi ${ARROW_ODBC_SPI_THIRDPARTY_LIBS})
+target_link_libraries(
+    arrow_odbc_spi_impl 
+    odbcabstraction 
+    ${ARROW_ODBC_SPI_THIRDPARTY_LIBS})
 target_include_directories(arrow_odbc_spi_impl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # CLI

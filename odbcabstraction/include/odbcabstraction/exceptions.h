@@ -17,11 +17,28 @@
 
 #pragma once
 
+#include <exception>
+#include <string>
+
 namespace driver {
-namespace spi {
+namespace odbcabstraction {
 
-/// \brief Supported ODBC versions.
-enum OdbcVersion { V_2, V_3, V_4 };
+/// \brief Base for all driver specific exceptions
+class DriverException : public std::exception {
+public:
+  explicit DriverException(std::string message);
 
-} // namespace spi
+  const char *what() const throw() override;
+
+private:
+  const std::string message_;
+};
+
+/// \brief Authentication specific exception
+class AuthenticationException : public DriverException {
+public:
+  explicit AuthenticationException(std::string message);
+};
+
+} // namespace odbcabstraction
 } // namespace driver
