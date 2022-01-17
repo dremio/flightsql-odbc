@@ -60,6 +60,7 @@ public:
   typedef boost::variant<std::string, int, double, bool> Attribute;
   typedef std::string Property;
   typedef boost::variant<std::string, int, bool> Info;
+  // ConnPropertyMap is case-insensitive for keys.
   typedef std::map<std::string, Property, CaseInsensitiveComparator> ConnPropertyMap;
 
   
