@@ -24,10 +24,7 @@ namespace odbcabstraction {
 DriverException::DriverException(std::string message)
     : message_(std::move(message)) {}
 
-const char *
-DriverException::what() const throw() {
-  return message_.c_str();
-}
+const char *DriverException::what() const throw() { return message_.c_str(); }
 
 AuthenticationException::AuthenticationException(std::string message)
     : DriverException(std::move(message)) {}

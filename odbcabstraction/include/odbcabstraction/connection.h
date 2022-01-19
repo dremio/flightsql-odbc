@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include <boost/algorithm/string.hpp>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
-#include <boost/algorithm/string.hpp>
 #include <map>
 #include <vector>
 
@@ -50,9 +50,9 @@ public:
   };
 
   /// \brief Case insensitive comparator
-  struct CaseInsensitiveComparator : std::binary_function<std::string, std::string, bool>
-  {
-    bool operator() (const std::string & s1, const std::string & s2) const {
+  struct CaseInsensitiveComparator
+      : std::binary_function<std::string, std::string, bool> {
+    bool operator()(const std::string &s1, const std::string &s2) const {
       return boost::lexicographical_compare(s1, s2, boost::is_iless());
     }
   };
@@ -61,9 +61,8 @@ public:
   typedef std::string Property;
   typedef boost::variant<std::string, int, bool> Info;
   // ConnPropertyMap is case-insensitive for keys.
-  typedef std::map<std::string, Property, CaseInsensitiveComparator> ConnPropertyMap;
-
-  
+  typedef std::map<std::string, Property, CaseInsensitiveComparator>
+      ConnPropertyMap;
 
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.
