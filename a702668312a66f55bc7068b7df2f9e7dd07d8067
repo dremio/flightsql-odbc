@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68152547_e3a6d530",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-19T22:33:33Z",
+      "side": 1,
+      "message": "Can we define these to match ODBC SQL_C type codes (same with attributes) out of convenience?",
+      "revId": "a702668312a66f55bc7068b7df2f9e7dd07d8067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43d9114_7cb62e5b",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-19T22:33:33Z",
+      "side": 1,
+      "message": "We should describe he relationship between rows and the strlen_buffer and buffer fields in BindColumn.",
+      "revId": "a702668312a66f55bc7068b7df2f9e7dd07d8067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a77fe69_4ad7ba60",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-19T22:33:33Z",
+      "side": 1,
+      "message": "Let\u0027s return a boolean from this to indicate if there\u0027s more data. It\u0027s more performant to return a bool than to post a warning.\n\nWe should indicate that this method is stateful wrt the position in the current cell. A subsequent call to GetData will resume from the position in the cell that the last call finished from.",
+      "revId": "a702668312a66f55bc7068b7df2f9e7dd07d8067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
