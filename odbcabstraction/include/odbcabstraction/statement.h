@@ -35,7 +35,7 @@ public:
   /**
    * Statement attributes that can be called at anytime.
    */
-   // TODO: Document attributes
+  // TODO: Document attributes
   enum StatementAttributeId {
     MAX_LENGTH,
     MAX_ROWS,
