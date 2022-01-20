@@ -18,14 +18,13 @@
 #include <map>
 #include <memory>
 
+#include <odbcabstraction/result_set_metadata.h>
 #include <odbcabstraction/types.h>
 
 #pragma once
 
 namespace driver {
 namespace odbcabstraction {
-
-class ResultSetMetadata;
 
 class ResultSet {
 protected:
