@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f07d5ff_21d5d1cf",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-20T20:59:56Z",
+      "side": 1,
+      "message": "ODBC has SQLColAttribute for getting this field. It\u0027s not exposed via SQLDescribeCol.",
+      "revId": "f475c4c4e555e8ab3501e101b063eb75a5f3eb70",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec93eb18_f42ec6bf",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-20T20:59:56Z",
+      "side": 1,
+      "message": "Isn\u0027t there a GetTableName as well?",
+      "revId": "f475c4c4e555e8ab3501e101b063eb75a5f3eb70",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
