@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "9483f205_48da7563",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-20T00:24:13Z",
+      "side": 1,
+      "message": "This should take in a precision and scale for types that support these fields.",
+      "revId": "a702668312a66f55bc7068b7df2f9e7dd07d8067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d43d9114_7cb62e5b",
         "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
         "patchSetId": 4
