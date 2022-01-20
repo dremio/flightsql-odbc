@@ -33,6 +33,9 @@ class ResultSetMetadata;
 
 /// \brief High-level representation of an ODBC statement.
 class Statement {
+protected:
+  Statement() = default;
+
 public:
   virtual ~Statement() = default;
 

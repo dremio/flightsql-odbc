@@ -32,6 +32,9 @@ class Statement;
 
 /// \brief High-level representation of an ODBC connection.
 class Connection {
+protected:
+  Connection() = default;
+
 public:
   virtual ~Connection() = default;
 
