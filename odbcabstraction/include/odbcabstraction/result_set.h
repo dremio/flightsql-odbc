@@ -19,26 +19,14 @@
 #include <memory>
 #include <sql.h>
 
+#include <odbcabstraction/types.h>
+
 #pragma once
 
 namespace driver {
 namespace odbcabstraction {
 
 class ResultSetMetadata;
-
-enum DataType {
-  UNKNOWN_TYPE = SQL_UNKNOWN_TYPE,
-  CHAR = SQL_CHAR,
-  NUMERIC = SQL_NUMERIC,
-  DECIMAL = SQL_DECIMAL,
-  INTEGER = SQL_INTEGER,
-  SMALLINT = SQL_SMALLINT,
-  FLOAT = SQL_FLOAT,
-  REAL = SQL_REAL,
-  DOUBLE = SQL_DOUBLE,
-  DATETIME = SQL_DATETIME,
-  VARCHAR = SQL_VARCHAR,
-};
 
 class ResultSet {
 public:

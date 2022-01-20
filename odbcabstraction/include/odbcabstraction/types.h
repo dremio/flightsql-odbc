@@ -17,11 +17,47 @@
 
 #pragma once
 
+#include <sql.h>
+#include <sqlext.h>
+
 namespace driver {
 namespace odbcabstraction {
 
 /// \brief Supported ODBC versions.
 enum OdbcVersion { V_2, V_3, V_4 };
+
+enum DataType {
+  UNKNOWN_TYPE = SQL_UNKNOWN_TYPE,
+  CHAR = SQL_CHAR,
+  NUMERIC = SQL_NUMERIC,
+  DECIMAL = SQL_DECIMAL,
+  INTEGER = SQL_INTEGER,
+  SMALLINT = SQL_SMALLINT,
+  FLOAT = SQL_FLOAT,
+  REAL = SQL_REAL,
+  DOUBLE = SQL_DOUBLE,
+  DATETIME = SQL_DATETIME,
+  VARCHAR = SQL_VARCHAR,
+};
+
+enum Nullability {
+  NULLABILITY_NO_NULLS = SQL_NO_NULLS,
+  NULLABILITY_NULLABLE = SQL_NULLABLE,
+  NULLABILITY_UNKNOWN = SQL_NULLABLE_UNKNOWN,
+};
+
+enum Searchability {
+  SEARCHABILITY_NONE = SQL_PRED_NONE,
+  SEARCHABILITY_LIKE_ONLY = SQL_LIKE_ONLY,
+  SEARCHABILITY_ALL_EXPECT_LIKE = SQL_ALL_EXCEPT_LIKE,
+  SEARCHABILITY_ALL = SQL_SEARCHABLE,
+};
+
+enum Updatability {
+  UPDATABILITY_READONLY = SQL_ATTR_READONLY,
+  UPDATABILITY_WRITE = SQL_ATTR_WRITE,
+  UPDATABILITY_READWRITE_UNKNOWN = SQL_ATTR_READWRITE_UNKNOWN,
+};
 
 } // namespace odbcabstraction
 } // namespace driver
