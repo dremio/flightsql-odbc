@@ -93,5 +93,65 @@ public:
                        size_t *strlen_buffer) = 0;
 };
 
+template <class T, DataType TARGET_TYPE> class Accessor {
+public:
+  /// Fetches next cells
+  void Move(size_t cells) {
+    if (TARGET_TYPE == CHAR) {
+      Move_CHAR(cells);
+    } else if (TARGET_TYPE == NUMERIC) {
+      Move_NUMERIC(cells);
+    } else if (TARGET_TYPE == DECIMAL) {
+      Move_DECIMAL(cells);
+    } else if (TARGET_TYPE == INTEGER) {
+      Move_INTEGER(cells);
+    } else if (TARGET_TYPE == SMALLINT) {
+      Move_SMALLINT(cells);
+    } else if (TARGET_TYPE == FLOAT) {
+      Move_FLOAT(cells);
+    } else if (TARGET_TYPE == REAL) {
+      Move_REAL(cells);
+    } else if (TARGET_TYPE == DOUBLE) {
+      Move_DOUBLE(cells);
+    } else if (TARGET_TYPE == DATETIME) {
+      Move_DATETIME(cells);
+    } else if (TARGET_TYPE == VARCHAR) {
+      Move_VARCHAR(cells);
+    }
+  }
+
+  void Move_CHAR(size_t cells) { static_cast<T *>(this)->Move_CHAR(cells); }
+
+  void Move_NUMERIC(size_t cells) {
+    static_cast<T *>(this)->Move_NUMERIC(cells);
+  }
+
+  void Move_DECIMAL(size_t cells) {
+    static_cast<T *>(this)->Move_DECIMAL(cells);
+  }
+
+  void Move_INTEGER(size_t cells) {
+    static_cast<T *>(this)->Move_INTEGER(cells);
+  }
+
+  void Move_SMALLINT(size_t cells) {
+    static_cast<T *>(this)->Move_SMALLINT(cells);
+  }
+
+  void Move_FLOAT(size_t cells) { static_cast<T *>(this)->Move_FLOAT(cells); }
+
+  void Move_REAL(size_t cells) { static_cast<T *>(this)->Move_REAL(cells); }
+
+  void Move_DOUBLE(size_t cells) { static_cast<T *>(this)->Move_DOUBLE(cells); }
+
+  void Move_DATETIME(size_t cells) {
+    static_cast<T *>(this)->Move_DATETIME(cells);
+  }
+
+  void Move_VARCHAR(size_t cells) {
+    static_cast<T *>(this)->Move_VARCHAR(cells);
+  }
+};
+
 } // namespace odbcabstraction
 } // namespace driver
