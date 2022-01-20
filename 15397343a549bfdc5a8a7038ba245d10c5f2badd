@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "760989d7_a38159b7",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-20T20:57:10Z",
+      "side": 1,
+      "message": "Remove boost optional dependency",
+      "revId": "15397343a549bfdc5a8a7038ba245d10c5f2badd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
