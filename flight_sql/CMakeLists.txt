@@ -84,9 +84,10 @@ find_package(gRPC 1.36 CONFIG REQUIRED)
 enable_testing()
 
 set(ARROW_ODBC_SPI_SOURCES
+  flight_sql_auth_method.cc
   flight_sql_driver.cc
   flight_sql_connection.cc
-  flight_sql_auth_method.cc
+  flight_sql_statement.cc
 )
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS

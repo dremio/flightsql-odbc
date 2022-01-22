@@ -34,6 +34,8 @@ class ResultSetMetadata;
 /// \brief High-level representation of an ODBC statement.
 class Statement {
 public:
+  virtual ~Statement() = default;
+
   /// \brief Statement attributes that can be called at anytime.
   ////TODO: Document attributes
   enum StatementAttributeId {

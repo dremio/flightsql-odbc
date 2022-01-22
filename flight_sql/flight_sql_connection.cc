@@ -19,6 +19,8 @@
 
 #include <odbcabstraction/exceptions.h>
 #include "flight_sql_auth_method.h"
+#include "flight_sql_statement.h"
+#include <arrow/flight/client_cookie_middleware.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <boost/algorithm/string/join.hpp>
@@ -85,7 +87,7 @@ void FlightSqlConnection::Connect(
     sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
     SetAttribute(CONNECTION_DEAD, false);
 
-    call_options_ = BuildCallOptions();
+    PopulateCallOptionsFromAttributes();
   } catch (...) {
     SetAttribute(CONNECTION_DEAD, true);
     sql_client_.reset();
@@ -94,24 +96,26 @@ void FlightSqlConnection::Connect(
   }
 }
 
-FlightCallOptions FlightSqlConnection::BuildCallOptions() {
+const FlightCallOptions& FlightSqlConnection::PopulateCallOptionsFromAttributes() {
   // Set CONNECTION_TIMEOUT attribute
-  FlightCallOptions call_options;
   const boost::optional<Connection::Attribute> &connection_timeout =
       GetAttribute(CONNECTION_TIMEOUT);
   if (connection_timeout.has_value()) {
-    call_options.timeout =
+    call_options_.timeout =
         TimeoutDuration{boost::get<double>(connection_timeout.value())};
   }
 
-  return call_options;
+  return call_options_;
 }
 
 FlightClientOptions FlightSqlConnection::BuildFlightClientOptions(
     const ConnPropertyMap &properties, std::vector<std::string> &missing_attr) {
   FlightClientOptions options;
+  // Persist state information using cookies if the FlightProducer supports it.
+  options.middleware.push_back(arrow::flight::GetCookieFactory());
+  
   // TODO: Set up TLS  properties
-  return options;
+  return std::move(options);
 }
 
 Location FlightSqlConnection::BuildLocation(
@@ -151,7 +155,7 @@ void FlightSqlConnection::Close() {
 }
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
-  throw DriverException("CreateStatement not implemented");
+  return std::shared_ptr<Statement>(new FlightSqlStatement(*sql_client_, call_options_));
 }
 
 void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,

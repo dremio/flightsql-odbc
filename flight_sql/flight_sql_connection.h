@@ -69,7 +69,7 @@ public:
 
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing
-  arrow::flight::FlightCallOptions BuildCallOptions();
+  const arrow::flight::FlightCallOptions& PopulateCallOptionsFromAttributes();
 };
 } // namespace flight_sql
 } // namespace driver
