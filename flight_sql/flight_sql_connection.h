@@ -40,7 +40,7 @@ public:
   static const std::string USER;
   static const std::string PASSWORD;
   static const std::string USE_TLS;
-   
+
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
   void Connect(const ConnPropertyMap &properties,
@@ -60,16 +60,18 @@ public:
   /// \brief Builds a Location used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::Location
-  BuildLocation(const ConnPropertyMap &properties, std::vector<std::string> &missing_attr);
+  BuildLocation(const ConnPropertyMap &properties,
+                std::vector<std::string> &missing_attr);
 
   /// \brief Builds a FlightClientOptions used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::FlightClientOptions
-  BuildFlightClientOptions(const ConnPropertyMap &properties, std::vector<std::string> &missing_attr);
+  BuildFlightClientOptions(const ConnPropertyMap &properties,
+                           std::vector<std::string> &missing_attr);
 
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing
-  arrow::flight::FlightCallOptions BuildCallOptions();
+  const arrow::flight::FlightCallOptions &PopulateCallOptionsFromAttributes();
 };
 } // namespace flight_sql
 } // namespace driver
