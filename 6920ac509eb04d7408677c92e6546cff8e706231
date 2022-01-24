@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7122263c_7cfb99b4",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-24T17:23:16Z",
+      "side": 1,
+      "message": "You are right, and this is exactly why I made the statement constructor take a copy and not a reference to call_options_.\n\nIn ODBC you are allowed to set the query timeout on a Statement level which I think should map to the timeout on the call options.",
+      "parentUuid": "3b4f17c6_e9461c42",
+      "revId": "6920ac509eb04d7408677c92e6546cff8e706231",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ea6906b_f5155b8a",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "6920ac509eb04d7408677c92e6546cff8e706231",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bee0231_06f583af",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-24T17:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea6906b_f5155b8a",
+      "revId": "6920ac509eb04d7408677c92e6546cff8e706231",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
