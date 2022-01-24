@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aab29b1_2868c7c5",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-24T22:06:47Z",
+      "side": 1,
+      "message": "This looks to be defined twice?",
+      "revId": "f2695cf791da227f75041821a491c3c5db4be053",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c72c200_40a75e2e",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-24T22:06:47Z",
+      "side": 1,
+      "message": "Some of these Is* functions are actually tri-states. For example this can be nullable, not nullable, and nullability unknown.\n\nPlease check over these. GetUpdatable doesn\u0027t seem like it should be size_t either and probably another tri-state enum.",
+      "revId": "f2695cf791da227f75041821a491c3c5db4be053",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
