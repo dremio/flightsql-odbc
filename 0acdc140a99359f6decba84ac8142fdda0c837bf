@@ -16,6 +16,24 @@
       "revId": "0acdc140a99359f6decba84ac8142fdda0c837bf",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096f9739_53ae3482",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-24T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f14c284b_ed71865b",
+      "revId": "0acdc140a99359f6decba84ac8142fdda0c837bf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
