@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc68c71b_5b4a6154",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T20:56:25Z",
+      "side": 1,
+      "message": "Avoid dependency on sql.h and #include \u003codbcabstraction/types.h\u003e instead.",
+      "revId": "de04ecc8114ce1e0d0089e81d86a10c0da3ed32f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c02e9e17_618600ff",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T20:56:25Z",
+      "side": 1,
+      "message": "There\u0027s no way to set the accessor_factory. Would it be easier to just make CreateAccessor() a method of ColumnarResultSet? Maybe harder to unit test?",
+      "revId": "de04ecc8114ce1e0d0089e81d86a10c0da3ed32f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c330d3de_f60c1070",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T20:56:25Z",
+      "side": 1,
+      "message": "Better to just use a vector\u003cunique_ptr\u003e than a map. Map has a log(n) lookup. Just allow for nulls for unbound columns. We should take in the number of columns in the constructor.\n\n99% of the time the application will just bind every column (and to omit columns, they\u0027d just use a subset in the projection list).",
+      "revId": "de04ecc8114ce1e0d0089e81d86a10c0da3ed32f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d86a641_5cd91ada",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T20:56:25Z",
+      "side": 1,
+      "message": "Can we use a different variable than rows to hold the number rows in the last accessor-\u003eMove() call? It\u0027s confusing and we shouldn\u0027t really rewrite input parameters.",
+      "revId": "de04ecc8114ce1e0d0089e81d86a10c0da3ed32f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49d5bab_94cda858",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T20:56:25Z",
+      "side": 1,
+      "message": "DriverException",
+      "revId": "de04ecc8114ce1e0d0089e81d86a10c0da3ed32f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
