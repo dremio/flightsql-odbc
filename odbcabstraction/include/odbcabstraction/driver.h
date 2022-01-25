@@ -17,7 +17,7 @@
 
 #include <memory>
 
-#include "types.h"
+#include <odbcabstraction/types.h>
 
 #pragma once
 
@@ -38,9 +38,6 @@ public:
   /// \param odbc_version ODBC version to be used.
   virtual std::shared_ptr<Connection>
   CreateConnection(OdbcVersion odbc_version) = 0;
-
-protected:
-  Driver() = default;
 };
 
 } // namespace odbcabstraction

@@ -21,7 +21,7 @@
 #include <map>
 #include <vector>
 
-#include "types.h"
+#include <odbcabstraction/types.h>
 
 #pragma once
 
@@ -91,9 +91,6 @@ public:
 
   /// \brief Retrieves info from the database (see ODBC's SQLGetInfo).
   virtual Info GetInfo(uint16_t info_type) = 0;
-
-protected:
-  Connection() = default;
 };
 
 } // namespace odbcabstraction

@@ -17,7 +17,6 @@
 
 #include <map>
 #include <memory>
-#include <sql.h>
 
 #include <odbcabstraction/types.h>
 
