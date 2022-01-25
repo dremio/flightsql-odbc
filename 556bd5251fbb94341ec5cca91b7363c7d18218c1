@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d621ed61_3cee9558",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T17:28:13Z",
+      "side": 1,
+      "message": "All interfaces should have a protected default constructor and public virtual default destructor.",
+      "revId": "556bd5251fbb94341ec5cca91b7363c7d18218c1",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa2110b_f4e462c6",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-25T17:28:13Z",
+      "side": 1,
+      "message": "We should indicate if column_position is zero-based or one-based. Both ODBC and JDBC are one-based indices so it\u0027s good to be explicit about this.",
+      "revId": "556bd5251fbb94341ec5cca91b7363c7d18218c1",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
