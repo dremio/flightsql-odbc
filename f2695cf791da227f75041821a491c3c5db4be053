@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "141e7ea9_fef9642e",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-25T16:44:57Z",
+      "side": 1,
+      "message": "Sorry about this",
+      "parentUuid": "9aab29b1_2868c7c5",
+      "revId": "f2695cf791da227f75041821a491c3c5db4be053",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c72c200_40a75e2e",
         "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "f2695cf791da227f75041821a491c3c5db4be053",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e874e1ae_40f28026",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set_metadata.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-25T16:44:57Z",
+      "side": 1,
+      "message": "Thanks James, I checked on those looking on SQLColAttribute, added some enums for returning on these methods",
+      "parentUuid": "1c72c200_40a75e2e",
+      "revId": "f2695cf791da227f75041821a491c3c5db4be053",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
