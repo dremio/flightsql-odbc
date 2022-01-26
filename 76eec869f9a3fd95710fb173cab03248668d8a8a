@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70ba1755_a96c803f",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-26T17:01:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1d71903_545de4ba",
+      "revId": "76eec869f9a3fd95710fb173cab03248668d8a8a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c07f998_01d2166d",
         "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "76eec869f9a3fd95710fb173cab03248668d8a8a",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1687fb3c_e714fa89",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-26T17:01:15Z",
+      "side": 1,
+      "message": "I see! Changed to complete the type and use GetColumnCount, but now did as you suggested.\nThanks for the tips",
+      "parentUuid": "2c07f998_01d2166d",
+      "revId": "76eec869f9a3fd95710fb173cab03248668d8a8a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
