@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1d71903_545de4ba",
+        "filename": "odbcabstraction/include/odbcabstraction/columnar_result_set.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-26T16:54:21Z",
+      "side": 1,
+      "message": "Forgot to mention this. BindColumn should support unbinding by taking a nullptr for the buffer variable.",
+      "revId": "76eec869f9a3fd95710fb173cab03248668d8a8a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c07f998_01d2166d",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-26T16:54:21Z",
+      "side": 1,
+      "message": "I don\u0027t see why this was changed to include ResultSetMetadata instead of forward declare it. You could include ResultSetMetadata in columnar_result_set.h instead.\n\nPrefer forward declares to includes when possible. Forward declares are less sensitive to change.\nIf you have a .cc and it includes a header that includes another header, that .cc will need to recompile if the indirectly included header changed. If you instead have the header forward-declare its reference, and the class definition changes, it is not necessary to rebuild the .cc.\n\nAlso, forward declares are more flexible since they allow for circular dependencies.",
+      "revId": "76eec869f9a3fd95710fb173cab03248668d8a8a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
