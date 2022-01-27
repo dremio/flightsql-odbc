@@ -40,79 +40,62 @@ public:
 /// relying on virtual method calls.
 template <typename T, DataType TARGET_TYPE>
 class TypedAccessor : public Accessor {
-  size_t Move(size_t cells) override {
-    if (TARGET_TYPE == CHAR) {
-      return Move_CHAR(cells);
-    } else if (TARGET_TYPE == NUMERIC) {
-      return Move_NUMERIC(cells);
-    } else if (TARGET_TYPE == DECIMAL) {
-      return Move_DECIMAL(cells);
-    } else if (TARGET_TYPE == INTEGER) {
-      return Move_INTEGER(cells);
-    } else if (TARGET_TYPE == SMALLINT) {
-      return Move_SMALLINT(cells);
-    } else if (TARGET_TYPE == FLOAT) {
-      return Move_FLOAT(cells);
-    } else if (TARGET_TYPE == REAL) {
-      return Move_REAL(cells);
-    } else if (TARGET_TYPE == DOUBLE) {
-      return Move_DOUBLE(cells);
-    } else if (TARGET_TYPE == DATETIME) {
-      return Move_DATETIME(cells);
-    } else if (TARGET_TYPE == VARCHAR) {
-      return Move_VARCHAR(cells);
-    }
+  size_t Move(size_t cells) final {
+#define ONE_CASE(TYPE)                                                         \
+  if (TARGET_TYPE == TYPE) {                                                   \
+    return Move_##TYPE(cells);                                                 \
+  } else
+    ONE_CASE(UNKNOWN_TYPE)
+    ONE_CASE(CHAR)
+    ONE_CASE(NUMERIC)
+    ONE_CASE(DECIMAL)
+    ONE_CASE(INTEGER)
+    ONE_CASE(SMALLINT)
+    ONE_CASE(FLOAT)
+    ONE_CASE(REAL)
+    ONE_CASE(DOUBLE)
+    ONE_CASE(DATETIME)
+    ONE_CASE(DATE)
+    ONE_CASE(TIME)
+    ONE_CASE(TIMESTAMP)
+    ONE_CASE(VARCHAR)
+    ONE_CASE(LONGVARCHAR)
+    ONE_CASE(BINARY)
+    ONE_CASE(VARBINARY)
+    ONE_CASE(LONGVARBINARY)
+    ONE_CASE(BIGINT)
+    ONE_CASE(TINYINT)
+    ONE_CASE(BIT)
+    throw DriverException("Unknown type");
+#undef ONE_CASE
   }
 
-  /// \brief Populates bound buffers with next cells as CHAR values.
-  size_t Move_CHAR(size_t cells) {
-    return static_cast<T *>(this)->Move_CHAR(cells);
+#define ONE_CASE(TYPE)                                                         \
+  size_t Move_##TYPE(size_t cells) {                                           \
+    return static_cast<T *>(this)->Move_##TYPE(cells);                         \
   }
-
-  /// \brief Populates bound buffers with next cells as NUMERIC values.
-  size_t Move_NUMERIC(size_t cells) {
-    return static_cast<T *>(this)->Move_NUMERIC(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as DECIMAL values.
-  size_t Move_DECIMAL(size_t cells) {
-    return static_cast<T *>(this)->Move_DECIMAL(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as INTEGER values.
-  size_t Move_INTEGER(size_t cells) {
-    return static_cast<T *>(this)->Move_INTEGER(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as SMALLINT values.
-  size_t Move_SMALLINT(size_t cells) {
-    return static_cast<T *>(this)->Move_SMALLINT(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as FLOAT values.
-  size_t Move_FLOAT(size_t cells) {
-    return static_cast<T *>(this)->Move_FLOAT(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as REAL values.
-  size_t Move_REAL(size_t cells) {
-    return static_cast<T *>(this)->Move_REAL(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as DOUBLE values.
-  size_t Move_DOUBLE(size_t cells) {
-    return static_cast<T *>(this)->Move_DOUBLE(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as DATETIME values.
-  size_t Move_DATETIME(size_t cells) {
-    return static_cast<T *>(this)->Move_DATETIME(cells);
-  }
-
-  /// \brief Populates bound buffers with next cells as VARCHAR values.
-  size_t Move_VARCHAR(size_t cells) {
-    return static_cast<T *>(this)->Move_VARCHAR(cells);
-  }
+  ONE_CASE(UNKNOWN_TYPE)
+  ONE_CASE(CHAR)
+  ONE_CASE(NUMERIC)
+  ONE_CASE(DECIMAL)
+  ONE_CASE(INTEGER)
+  ONE_CASE(SMALLINT)
+  ONE_CASE(FLOAT)
+  ONE_CASE(REAL)
+  ONE_CASE(DOUBLE)
+  ONE_CASE(DATETIME)
+  ONE_CASE(DATE)
+  ONE_CASE(TIME)
+  ONE_CASE(TIMESTAMP)
+  ONE_CASE(VARCHAR)
+  ONE_CASE(LONGVARCHAR)
+  ONE_CASE(BINARY)
+  ONE_CASE(VARBINARY)
+  ONE_CASE(LONGVARBINARY)
+  ONE_CASE(BIGINT)
+  ONE_CASE(TINYINT)
+  ONE_CASE(BIT)
+#undef ONE_CASE
 };
 
 /// \brief ResultSet specialized for retrieving data in columnar format.
@@ -121,19 +104,19 @@ class TypedAccessor : public Accessor {
 class ColumnarResultSet : public ResultSet {
 private:
   std::shared_ptr<ResultSetMetadata> metadata_;
-  std::vector<std::unique_ptr<Accessor>> accessors_;
 
 protected:
   ColumnarResultSet(std::shared_ptr<ResultSetMetadata> metadata)
-      : metadata_(std::move(metadata)), accessors_(metadata->GetColumnCount()) {
-  }
+      : metadata_(std::move(metadata)),
+        accessors_(metadata_->GetColumnCount()) {}
 
   /// \brief Creates a Accessor for given column and target data type bound to
   /// given buffers.
   virtual std::unique_ptr<Accessor>
   CreateAccessor(int column, DataType target_type, int precision, int scale,
-                 void *buffer, size_t buffer_length, size_t *strlen_buffer,
-                 size_t strlen_buffer_len) = 0;
+                 void *buffer, size_t buffer_length, size_t *strlen_buffer) = 0;
+
+  std::vector<std::unique_ptr<Accessor>> accessors_;
 
 public:
   std::shared_ptr<ResultSetMetadata> GetMetadata() override {
@@ -141,15 +124,15 @@ public:
   }
 
   void BindColumn(int column, DataType target_type, int precision, int scale,
-                  void *buffer, size_t buffer_length, size_t *strlen_buffer,
-                  size_t strlen_buffer_len) override {
+                  void *buffer, size_t buffer_length,
+                  size_t *strlen_buffer) override {
     if (buffer == nullptr) {
-      accessors_[column] = nullptr;
+      accessors_[column - 1] = nullptr;
       return;
     }
-    accessors_[column] =
+    accessors_[column - 1] =
         CreateAccessor(column, target_type, precision, scale, buffer,
-                       buffer_length, strlen_buffer, strlen_buffer_len);
+                       buffer_length, strlen_buffer);
   }
 
   size_t Move(size_t rows) override {

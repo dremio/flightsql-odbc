@@ -15,53 +15,66 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include <map>
-#include <memory>
-
-#include <odbcabstraction/result_set.h>
-#include <odbcabstraction/types.h>
-
 #pragma once
 
-namespace driver {
-namespace odbcabstraction {
-class ResultSetMetadata;
-}
-} // namespace driver
+#include <arrow/array.h>
+#include <arrow/flight/sql/client.h>
+#include <arrow/flight/types.h>
+#include <odbcabstraction/columnar_result_set.h>
 
 namespace driver {
 namespace flight_sql {
-class FlightSqlResultSet : public odbcabstraction::ResultSet {
+
+using arrow::Array;
+using arrow::RecordBatch;
+using arrow::Schema;
+using arrow::Status;
+using arrow::flight::FlightEndpoint;
+using arrow::flight::FlightInfo;
+using arrow::flight::FlightStreamChunk;
+using arrow::flight::FlightStreamReader;
+using arrow::flight::sql::FlightSqlClient;
+using odbcabstraction::Accessor;
+using odbcabstraction::ColumnarResultSet;
+using odbcabstraction::DataType;
+using odbcabstraction::DriverException;
+using odbcabstraction::ResultSetMetadata;
+using odbcabstraction::TypedAccessor;
+
+class FlightStreamChunkIterator;
+
+class FlightSqlResultSet : public odbcabstraction::ColumnarResultSet {
+protected:
+  std::unique_ptr<Accessor> CreateAccessor(int column, DataType target_type,
+                                           int precision, int scale,
+                                           void *buffer, size_t buffer_length,
+                                           size_t *strlen_buffer) override;
+
 private:
-  std::shared_ptr<odbcabstraction::ResultSetMetadata> metadata_;
+  int64_t current_row_;
+  std::unique_ptr<FlightStreamChunkIterator> chunk_iterator_;
+  FlightStreamChunk current_chunk_;
+  std::shared_ptr<Schema> schema_;
 
 public:
-  explicit FlightSqlResultSet(
-      std::shared_ptr<odbcabstraction::ResultSetMetadata> metadata)
-      : metadata_(metadata) {}
+  ~FlightSqlResultSet() override;
 
-public:
-  virtual ~FlightSqlResultSet() = default;
+  FlightSqlResultSet(const std::shared_ptr<ResultSetMetadata> &metadata,
+                     FlightSqlClient &flight_sql_client,
+                     const arrow::flight::FlightCallOptions &call_options,
+                     const std::shared_ptr<FlightInfo> &flight_info);
 
-  virtual std::shared_ptr<odbcabstraction::ResultSetMetadata> GetMetadata() {
-    return metadata_;
-  };
+  void Close() override;
 
-  virtual void Close() {}
+  bool GetData(int column, odbcabstraction::DataType target_type, int precision,
+               int scale, void *buffer, size_t buffer_length,
+               size_t *strlen_buffer) override;
 
-  virtual void BindColumn(int column, odbcabstraction::DataType target_type,
-                          int precision, int scale, void *buffer,
-                          size_t buffer_length, size_t *strlen_buffer,
-                          size_t strlen_buffer_len) {}
+  size_t Move(size_t rows) override;
 
-  virtual size_t Move(size_t rows) { return 0; }
+  std::shared_ptr<arrow::Array> GetArrayForColumn(int column);
 
-  virtual bool GetData(int column, odbcabstraction::DataType target_type,
-                       int precision, int scale, void *buffer,
-                       size_t buffer_length, size_t *strlen_buffer) {
-    return false;
-  };
+  int64_t GetCurrentRow();
 };
-
 } // namespace flight_sql
 } // namespace driver
