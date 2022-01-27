@@ -18,6 +18,7 @@
 #include "flight_sql_statement.h"
 #include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
+#include "utils.h"
 
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
@@ -40,12 +41,6 @@ using driver::odbcabstraction::ResultSetMetadata;
 using driver::odbcabstraction::Statement;
 
 namespace {
-inline void ThrowIfNotOK(const Status &status) {
-  if (!status.ok()) {
-    throw DriverException(status.ToString());
-  }
-}
-
 std::shared_ptr<FlightSqlResultSetMetadata>
 CreateResultSetMetaData(const std::shared_ptr<FlightInfo> &flight_info) {
   std::shared_ptr<arrow::Schema> schema;
@@ -99,10 +94,10 @@ bool FlightSqlStatement::ExecutePrepared() {
   ThrowIfNotOK(result.status());
 
   current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      current_result_set_metadata_, sql_client_, call_options_,
+      result.ValueOrDie());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSet.
-  current_result_set_ = std::shared_ptr<ResultSet>(
-      new FlightSqlResultSet(current_result_set_metadata_));
   return true;
 }
 
@@ -117,10 +112,10 @@ bool FlightSqlStatement::Execute(const std::string &query) {
   ThrowIfNotOK(result.status());
 
   current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      current_result_set_metadata_, sql_client_, call_options_,
+      result.ValueOrDie());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSet.
-  current_result_set_ = std::shared_ptr<ResultSet>(
-      new FlightSqlResultSet(current_result_set_metadata_));
   return true;
 }
 
