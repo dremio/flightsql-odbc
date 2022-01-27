@@ -16,10 +16,10 @@
 // under the License.
 
 #include "flight_sql_statement.h"
+#include "flight_sql_result_set.h"
+#include "flight_sql_result_set_metadata.h"
 
-#include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
-#include <iostream>
 #include <odbcabstraction/exceptions.h>
 
 namespace driver {
@@ -45,6 +45,16 @@ inline void ThrowIfNotOK(const Status &status) {
     throw DriverException(status.ToString());
   }
 }
+
+std::shared_ptr<FlightSqlResultSetMetadata>
+CreateResultSetMetaData(const std::shared_ptr<FlightInfo> &flight_info) {
+  std::shared_ptr<arrow::Schema> schema;
+  arrow::ipc::DictionaryMemo dict_memo;
+
+  ThrowIfNotOK(flight_info->GetSchema(&dict_memo, &schema));
+
+  return std::make_shared<FlightSqlResultSetMetadata>(schema);
+}
 } // namespace
 
 FlightSqlStatement::FlightSqlStatement(FlightSqlClient &sql_client,
@@ -65,7 +75,7 @@ FlightSqlStatement::GetAttribute(StatementAttributeId attribute) {
 boost::optional<std::shared_ptr<ResultSetMetadata>>
 FlightSqlStatement::Prepare(const std::string &query) {
   if (prepared_statement_.get() != nullptr) {
-    prepared_statement_->Close();
+    ThrowIfNotOK(prepared_statement_->Close());
     prepared_statement_.reset();
   }
 
@@ -75,8 +85,11 @@ FlightSqlStatement::Prepare(const std::string &query) {
 
   prepared_statement_ = *result;
 
-  // TODO: Use the prepared statement to populate ResultSetMetaData.
-  return boost::optional<std::shared_ptr<ResultSetMetadata>>();
+  const auto &result_set_metadata =
+      std::make_shared<FlightSqlResultSetMetadata>(
+          prepared_statement_->dataset_schema());
+  return boost::optional<std::shared_ptr<ResultSetMetadata>>(
+      result_set_metadata);
 }
 
 bool FlightSqlStatement::ExecutePrepared() {
@@ -85,14 +98,17 @@ bool FlightSqlStatement::ExecutePrepared() {
   Result<std::shared_ptr<FlightInfo>> result = prepared_statement_->Execute();
   ThrowIfNotOK(result.status());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSetMetaData nd
-  // ResultSet.
+  current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+
+  // TODO: make use of the returned FlightInfo to populate ResultSet.
+  current_result_set_ = std::shared_ptr<ResultSet>(
+      new FlightSqlResultSet(current_result_set_metadata_));
   return true;
 }
 
 bool FlightSqlStatement::Execute(const std::string &query) {
-  if (prepared_statement_.get() != nullptr) {
-    prepared_statement_->Close();
+  if (prepared_statement_ != nullptr) {
+    ThrowIfNotOK(prepared_statement_->Close());
     prepared_statement_.reset();
   }
 
@@ -100,13 +116,16 @@ bool FlightSqlStatement::Execute(const std::string &query) {
       sql_client_.Execute(call_options_, query);
   ThrowIfNotOK(result.status());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSetMetaData nd
-  // ResultSet.
+  current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+
+  // TODO: make use of the returned FlightInfo to populate ResultSet.
+  current_result_set_ = std::shared_ptr<ResultSet>(
+      new FlightSqlResultSet(current_result_set_metadata_));
   return true;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetResultSet() {
-  return current_result_;
+  return current_result_set_;
 }
 
 long FlightSqlStatement::GetUpdateCount() { return -1; }
@@ -114,29 +133,29 @@ long FlightSqlStatement::GetUpdateCount() { return -1; }
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
-  return current_result_;
+  return current_result_set_;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
-  return current_result_;
+  return current_result_set_;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
-  return current_result_;
+  return current_result_set_;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
-  return current_result_;
+  return current_result_set_;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo(int dataType) {
-  return current_result_;
+  return current_result_set_;
 }
 
 } // namespace flight_sql

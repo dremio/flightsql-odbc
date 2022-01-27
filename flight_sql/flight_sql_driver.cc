@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include <flight_sql/flight_sql_driver.h>
 #include "flight_sql_connection.h"
+#include <flight_sql/flight_sql_driver.h>
 
 namespace driver {
 namespace flight_sql {
