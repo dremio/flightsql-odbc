@@ -35,7 +35,17 @@ enum DataType {
   REAL = 7,
   DOUBLE = 8,
   DATETIME = 9,
+  DATE = 91,
+  TIME = 92,
+  TIMESTAMP = 93,
   VARCHAR = 12,
+  LONGVARCHAR = -1,
+  BINARY = -2,
+  VARBINARY = -3,
+  LONGVARBINARY = -4,
+  BIGINT = -5,
+  TINYINT = -6,
+  BIT = -7,
 };
 
 enum Nullability {

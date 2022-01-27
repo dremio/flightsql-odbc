@@ -17,19 +17,25 @@
 
 #include <flight_sql/flight_sql_driver.h>
 
+#include "flight_sql_connection.h"
+#include "flight_sql_result_set_metadata.h"
+#include "flight_sql_statement.h"
+
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
-#include "flight_sql_connection.h"
 #include <iostream>
+#include <memory>
 
 using arrow::Status;
 using arrow::flight::FlightClient;
 using arrow::flight::Location;
 using arrow::flight::sql::FlightSqlClient;
 
-using driver::flight_sql::FlightSqlDriver;
 using driver::flight_sql::FlightSqlConnection;
+using driver::flight_sql::FlightSqlDriver;
 using driver::odbcabstraction::Connection;
+using driver::odbcabstraction::ResultSetMetadata;
+using driver::odbcabstraction::Statement;
 
 int main() {
   FlightSqlDriver driver;
