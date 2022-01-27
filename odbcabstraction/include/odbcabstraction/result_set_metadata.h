@@ -53,7 +53,7 @@ public:
   /// \brief It retrieves the SQL_DATA_TYPE of the column.
   /// \param column_position[in] the position of the column, starting from 1.
   /// \return the SQL_DATA_TYPE
-  virtual DataType GetDataType(int column_position) = 0;
+  virtual SqlDataType GetDataType(int column_position) = 0;
 
   /// \brief It returns a boolean value indicating if the column can have
   ///        null values.
