@@ -79,6 +79,10 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     FlightClientOptions client_options =
         BuildFlightClientOptions(properties, missing_attr);
 
+    const std::shared_ptr<arrow::flight::ClientMiddlewareFactory>
+        &cookie_factory = arrow::flight::GetCookieFactory();
+    client_options.middleware.push_back(cookie_factory);
+
     std::unique_ptr<FlightClient> flight_client;
     ThrowIfNotOK(
         FlightClient::Connect(location, client_options, &flight_client));
