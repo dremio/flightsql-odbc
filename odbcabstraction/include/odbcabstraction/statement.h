@@ -94,6 +94,9 @@ public:
   /// \brief Returns the current result as a ResultSet object.
   virtual std::shared_ptr<ResultSet> GetResultSet() = 0;
 
+  /// \brief Returns the current result as a ResultSet object.
+  virtual std::shared_ptr<ResultSetMetadata> GetResultSetMetadata() = 0;
+
   /// \brief Retrieves the current result as an update count;
   /// if the result is a ResultSet object or there are no more results, -1 is
   /// returned.

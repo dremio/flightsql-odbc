@@ -22,6 +22,7 @@
 
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
+#include <arrow/flight/types.h>
 
 namespace driver {
 namespace flight_sql {
@@ -33,6 +34,7 @@ private:
   arrow::flight::FlightCallOptions call_options_;
   arrow::flight::sql::FlightSqlClient &sql_client_;
   std::shared_ptr<odbcabstraction::ResultSet> current_result_;
+  std::shared_ptr<odbcabstraction::ResultSetMetadata> current_result_set_metadata_;
   std::shared_ptr<arrow::flight::sql::PreparedStatement> prepared_statement_;
 
 public:
@@ -51,6 +53,8 @@ public:
   bool Execute(const std::string &query);
 
   std::shared_ptr<odbcabstraction::ResultSet> GetResultSet();
+
+  std::shared_ptr<odbcabstraction::ResultSetMetadata> GetResultSetMetadata();
 
   long GetUpdateCount();
 
@@ -71,6 +75,8 @@ public:
                 const std::string *table_name, const std::string *column_name);
 
   std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo(int dataType);
+
+  void createResultSetMetadata(arrow::Result<std::shared_ptr<arrow::flight::FlightInfo>> &result);
 };
 } // namespace flight_sql
 } // namespace driver

@@ -16,10 +16,9 @@
 // under the License.
 
 #include "flight_sql_statement.h"
+#include "flight_sql_result_set_metadata.h"
 
-#include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
-#include <iostream>
 #include <odbcabstraction/exceptions.h>
 
 namespace driver {
@@ -85,9 +84,24 @@ bool FlightSqlStatement::ExecutePrepared() {
   Result<std::shared_ptr<FlightInfo>> result = prepared_statement_->Execute();
   ThrowIfNotOK(result.status());
 
+  createResultSetMetadata(result);
+
   // TODO: make use of the returned FlightInfo to populate ResultSetMetaData nd
   // ResultSet.
   return true;
+}
+
+void FlightSqlStatement::createResultSetMetadata(Result <std::shared_ptr<FlightInfo>>
+  &result) {
+  auto ptr = result.ValueOrDie();
+
+  std::shared_ptr<arrow::Schema> schema;
+  arrow::ipc::DictionaryMemo dict_memo;
+
+  ThrowIfNotOK(ptr->GetSchema(&dict_memo, &schema));
+
+  current_result_set_metadata_ = std::make_shared<FlightSqlResultSetMetadata>(
+    schema);
 }
 
 bool FlightSqlStatement::Execute(const std::string &query) {
@@ -99,6 +113,8 @@ bool FlightSqlStatement::Execute(const std::string &query) {
   Result<std::shared_ptr<FlightInfo>> result =
       sql_client_.Execute(call_options_, query);
   ThrowIfNotOK(result.status());
+
+  createResultSetMetadata(result);
 
   // TODO: make use of the returned FlightInfo to populate ResultSetMetaData nd
   // ResultSet.
@@ -137,6 +153,11 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo(int dataType) {
   return current_result_;
+}
+
+std::shared_ptr<odbcabstraction::ResultSetMetadata>
+FlightSqlStatement::GetResultSetMetadata() {
+  return current_result_set_metadata_;
 }
 
 } // namespace flight_sql
