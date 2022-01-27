@@ -40,7 +40,7 @@ public:
 /// relying on virtual method calls.
 template <typename T, DataType TARGET_TYPE>
 class TypedAccessor : public Accessor {
-  size_t Move(size_t cells) override {
+  size_t Move(size_t cells) final {
     if (TARGET_TYPE == CHAR) {
       return Move_CHAR(cells);
     } else if (TARGET_TYPE == NUMERIC) {
@@ -121,19 +121,19 @@ class TypedAccessor : public Accessor {
 class ColumnarResultSet : public ResultSet {
 private:
   std::shared_ptr<ResultSetMetadata> metadata_;
-  std::vector<std::unique_ptr<Accessor>> accessors_;
 
 protected:
   ColumnarResultSet(std::shared_ptr<ResultSetMetadata> metadata)
-      : metadata_(std::move(metadata)), accessors_(metadata->GetColumnCount()) {
-  }
+      : metadata_(std::move(metadata)),
+        accessors_(metadata_->GetColumnCount()) {}
 
   /// \brief Creates a Accessor for given column and target data type bound to
   /// given buffers.
   virtual std::unique_ptr<Accessor>
   CreateAccessor(int column, DataType target_type, int precision, int scale,
-                 void *buffer, size_t buffer_length, size_t *strlen_buffer,
-                 size_t strlen_buffer_len) = 0;
+                 void *buffer, size_t buffer_length, size_t *strlen_buffer) = 0;
+
+  std::vector<std::unique_ptr<Accessor>> accessors_;
 
 public:
   std::shared_ptr<ResultSetMetadata> GetMetadata() override {
@@ -141,15 +141,15 @@ public:
   }
 
   void BindColumn(int column, DataType target_type, int precision, int scale,
-                  void *buffer, size_t buffer_length, size_t *strlen_buffer,
-                  size_t strlen_buffer_len) override {
+                  void *buffer, size_t buffer_length,
+                  size_t *strlen_buffer) override {
     if (buffer == nullptr) {
-      accessors_[column] = nullptr;
+      accessors_[column - 1] = nullptr;
       return;
     }
-    accessors_[column] =
+    accessors_[column - 1] =
         CreateAccessor(column, target_type, precision, scale, buffer,
-                       buffer_length, strlen_buffer, strlen_buffer_len);
+                       buffer_length, strlen_buffer);
   }
 
   size_t Move(size_t rows) override {
