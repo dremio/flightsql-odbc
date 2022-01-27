@@ -23,29 +23,62 @@ namespace odbcabstraction {
 /// \brief Supported ODBC versions.
 enum OdbcVersion { V_2, V_3, V_4 };
 
-// Based on ODBC sql.h definitions.
-enum DataType {
-  UNKNOWN_TYPE = 0,
-  CHAR = 1,
-  NUMERIC = 2,
-  DECIMAL = 3,
-  INTEGER = 4,
-  SMALLINT = 5,
-  FLOAT = 6,
-  REAL = 7,
-  DOUBLE = 8,
-  DATETIME = 9,
-  DATE = 91,
-  TIME = 92,
-  TIMESTAMP = 93,
-  VARCHAR = 12,
-  LONGVARCHAR = -1,
-  BINARY = -2,
-  VARBINARY = -3,
-  LONGVARBINARY = -4,
-  BIGINT = -5,
-  TINYINT = -6,
-  BIT = -7,
+// Based on ODBC sql.h and sqlext.h definitions.
+enum SqlDataType {
+  SQL_CHAR = 1,
+  SQL_VARCHAR = 12,
+  SQL_LONGVARCHAR = (-1),
+  SQL_WCHAR = (-8),
+  SQL_WVARCHAR = (-9),
+  SQL_WLONGVARCHAR = (-10),
+  SQL_DECIMAL = 3,
+  SQL_NUMERIC = 2,
+  SQL_SMALLINT = 5,
+  SQL_INTEGER = 4,
+  SQL_REAL = 7,
+  SQL_FLOAT = 6,
+  SQL_DOUBLE = 8,
+  SQL_BIT = (-7),
+  SQL_TINYINT = (-6),
+  SQL_BIGINT = (-5),
+  SQL_BINARY = (-2),
+  SQL_VARBINARY = (-3),
+  SQL_LONGVARBINARY = (-4),
+  SQL_TYPE_DATE = 91,
+  SQL_TYPE_TIME = 92,
+  SQL_TYPE_TIMESTAMP = 93,
+  SQL_INTERVAL_MONTH = (100 + 2),
+  SQL_INTERVAL_YEAR = (100 + 1),
+  SQL_INTERVAL_YEAR_TO_MONTH = (100 + 7),
+  SQL_INTERVAL_DAY = (100 + 3),
+  SQL_INTERVAL_HOUR = (100 + 4),
+  SQL_INTERVAL_MINUTE = (100 + 5),
+  SQL_INTERVAL_SECOND = (100 + 6),
+  SQL_INTERVAL_DAY_TO_HOUR = (100 + 8),
+  SQL_INTERVAL_DAY_TO_MINUTE = (100 + 9),
+  SQL_INTERVAL_DAY_TO_SECOND = (100 + 10),
+  SQL_INTERVAL_HOUR_TO_MINUTE = (100 + 11),
+  SQL_INTERVAL_HOUR_TO_SECOND = (100 + 12),
+  SQL_INTERVAL_MINUTE_TO_SECOND = (100 + 13),
+  SQL_GUID = (-11),
+};
+
+// Based on ODBC sql.h and sqlext.h definitions.
+enum CDataType {
+  C_CHAR = 1,
+  C_WCHAR = -8,
+  C_SSHORT = (5 + (-20)),
+  C_USHORT = (5 + (-22)),
+  C_SLONG = (4 + (-20)),
+  C_ULONG = (4 + (-22)),
+  C_FLOAT = 7,
+  C_DOUBLE = 8,
+  C_BIT = -7,
+  C_STINYINT = ((-6) + (-20)),
+  C_UTINYINT = ((-6) + (-22)),
+  C_SBIGINT = ((-5) + (-20)),
+  C_UBIGINT = ((-5) + (-22)),
+  C_BINARY = (-2),
 };
 
 enum Nullability {
@@ -66,6 +99,8 @@ enum Updatability {
   UPDATABILITY_WRITE = 1,
   UPDATABILITY_READWRITE_UNKNOWN = 2,
 };
+
+constexpr int NULL_DATA = -1;
 
 } // namespace odbcabstraction
 } // namespace driver

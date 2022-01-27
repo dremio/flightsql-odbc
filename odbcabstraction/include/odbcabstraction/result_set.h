@@ -51,10 +51,9 @@ public:
   /// \param buffer_length Target buffer length.
   /// \param strlen_buffer Buffer that holds the length of each value contained
   /// on target buffer.
-  /// \param strlen_buffer_len strlen_buffer's length.
-  virtual void BindColumn(int column, DataType target_type, int precision,
+  virtual void BindColumn(int column, CDataType target_type, int precision,
                           int scale, void *buffer, size_t buffer_length,
-                          size_t *strlen_buffer, size_t strlen_buffer_len) = 0;
+                          ssize_t *strlen_buffer) = 0;
 
   /// \brief Fetches next rows from ResultSet and load values on buffers
   /// previously bound with `BindColumn`.
@@ -80,9 +79,9 @@ public:
   /// \param strlen_buffer Buffer that holds the length of value being fetched.
   /// \returns true if there is more data to fetch from the current cell;
   ///          false if the whole value was already fetched.
-  virtual bool GetData(int column, DataType target_type, int precision,
+  virtual bool GetData(int column, CDataType target_type, int precision,
                        int scale, void *buffer, size_t buffer_length,
-                       size_t *strlen_buffer) = 0;
+                       ssize_t *strlen_buffer) = 0;
 };
 
 } // namespace odbcabstraction
