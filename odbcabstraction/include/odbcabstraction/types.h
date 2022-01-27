@@ -23,29 +23,62 @@ namespace odbcabstraction {
 /// \brief Supported ODBC versions.
 enum OdbcVersion { V_2, V_3, V_4 };
 
-// Based on ODBC sql.h definitions.
-enum DataType {
-  UNKNOWN_TYPE = 0,
-  CHAR = 1,
-  NUMERIC = 2,
-  DECIMAL = 3,
-  INTEGER = 4,
-  SMALLINT = 5,
-  FLOAT = 6,
-  REAL = 7,
-  DOUBLE = 8,
-  DATETIME = 9,
-  DATE = 91,
-  TIME = 92,
-  TIMESTAMP = 93,
-  VARCHAR = 12,
-  LONGVARCHAR = -1,
-  BINARY = -2,
-  VARBINARY = -3,
-  LONGVARBINARY = -4,
-  BIGINT = -5,
-  TINYINT = -6,
-  BIT = -7,
+// Based on ODBC sql.h and sqlext.h definitions.
+enum SqlDataType {
+  SqlDataType_CHAR = 1,
+  SqlDataType_VARCHAR = 12,
+  SqlDataType_LONGVARCHAR = (-1),
+  SqlDataType_WCHAR = (-8),
+  SqlDataType_WVARCHAR = (-9),
+  SqlDataType_WLONGVARCHAR = (-10),
+  SqlDataType_DECIMAL = 3,
+  SqlDataType_NUMERIC = 2,
+  SqlDataType_SMALLINT = 5,
+  SqlDataType_INTEGER = 4,
+  SqlDataType_REAL = 7,
+  SqlDataType_FLOAT = 6,
+  SqlDataType_DOUBLE = 8,
+  SqlDataType_BIT = (-7),
+  SqlDataType_TINYINT = (-6),
+  SqlDataType_BIGINT = (-5),
+  SqlDataType_BINARY = (-2),
+  SqlDataType_VARBINARY = (-3),
+  SqlDataType_LONGVARBINARY = (-4),
+  SqlDataType_TYPE_DATE = 91,
+  SqlDataType_TYPE_TIME = 92,
+  SqlDataType_TYPE_TIMESTAMP = 93,
+  SqlDataType_INTERVAL_MONTH = (100 + 2),
+  SqlDataType_INTERVAL_YEAR = (100 + 1),
+  SqlDataType_INTERVAL_YEAR_TO_MONTH = (100 + 7),
+  SqlDataType_INTERVAL_DAY = (100 + 3),
+  SqlDataType_INTERVAL_HOUR = (100 + 4),
+  SqlDataType_INTERVAL_MINUTE = (100 + 5),
+  SqlDataType_INTERVAL_SECOND = (100 + 6),
+  SqlDataType_INTERVAL_DAY_TO_HOUR = (100 + 8),
+  SqlDataType_INTERVAL_DAY_TO_MINUTE = (100 + 9),
+  SqlDataType_INTERVAL_DAY_TO_SECOND = (100 + 10),
+  SqlDataType_INTERVAL_HOUR_TO_MINUTE = (100 + 11),
+  SqlDataType_INTERVAL_HOUR_TO_SECOND = (100 + 12),
+  SqlDataType_INTERVAL_MINUTE_TO_SECOND = (100 + 13),
+  SqlDataType_GUID = (-11),
+};
+
+// Based on ODBC sql.h and sqlext.h definitions.
+enum CDataType {
+  CDataType_CHAR = 1,
+  CDataType_WCHAR = -8,
+  CDataType_SSHORT = (5 + (-20)),
+  CDataType_USHORT = (5 + (-22)),
+  CDataType_SLONG = (4 + (-20)),
+  CDataType_ULONG = (4 + (-22)),
+  CDataType_FLOAT = 7,
+  CDataType_DOUBLE = 8,
+  CDataType_BIT = -7,
+  CDataType_STINYINT = ((-6) + (-20)),
+  CDataType_UTINYINT = ((-6) + (-22)),
+  CDataType_SBIGINT = ((-5) + (-20)),
+  CDataType_UBIGINT = ((-5) + (-22)),
+  CDataType_BINARY = (-2),
 };
 
 enum Nullability {
@@ -66,6 +99,8 @@ enum Updatability {
   UPDATABILITY_WRITE = 1,
   UPDATABILITY_READWRITE_UNKNOWN = 2,
 };
+
+constexpr int NULL_DATA = -1;
 
 } // namespace odbcabstraction
 } // namespace driver
