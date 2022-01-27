@@ -15,53 +15,92 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include <map>
-#include <memory>
-
-#include <odbcabstraction/result_set.h>
-#include <odbcabstraction/types.h>
-
 #pragma once
 
-namespace driver {
-namespace odbcabstraction {
-class ResultSetMetadata;
-}
-} // namespace driver
+#include <arrow/array.h>
+#include <arrow/flight/sql/client.h>
+#include <arrow/flight/types.h>
+#include <odbcabstraction/exceptions.h>
+#include <odbcabstraction/result_set.h>
 
 namespace driver {
 namespace flight_sql {
-class FlightSqlResultSet : public odbcabstraction::ResultSet {
+
+using arrow::Array;
+using arrow::RecordBatch;
+using arrow::Schema;
+using arrow::Status;
+using arrow::flight::FlightEndpoint;
+using arrow::flight::FlightInfo;
+using arrow::flight::FlightStreamChunk;
+using arrow::flight::FlightStreamReader;
+using arrow::flight::sql::FlightSqlClient;
+using odbcabstraction::CDataType;
+using odbcabstraction::DriverException;
+using odbcabstraction::ResultSet;
+using odbcabstraction::ResultSetMetadata;
+
+class Accessor;
+struct ColumnBinding;
+
+class FlightStreamChunkIterator {
 private:
-  std::shared_ptr<odbcabstraction::ResultSetMetadata> metadata_;
+  std::vector<std::unique_ptr<FlightStreamReader>> stream_readers_;
+  std::vector<std::unique_ptr<FlightStreamReader>>::iterator stream_readers_it_;
+  bool closed_;
 
 public:
-  explicit FlightSqlResultSet(
-      std::shared_ptr<odbcabstraction::ResultSetMetadata> metadata)
-      : metadata_(metadata) {}
+  FlightStreamChunkIterator(
+      FlightSqlClient &flight_sql_client,
+      const arrow::flight::FlightCallOptions &call_options,
+      const std::shared_ptr<FlightInfo> &flight_info);
 
-public:
-  virtual ~FlightSqlResultSet() = default;
+  ~FlightStreamChunkIterator();
 
-  virtual std::shared_ptr<odbcabstraction::ResultSetMetadata> GetMetadata() {
-    return metadata_;
-  };
+  bool GetNext(FlightStreamChunk *chunk);
 
-  virtual void Close() {}
-
-  virtual void BindColumn(int column, odbcabstraction::DataType target_type,
-                          int precision, int scale, void *buffer,
-                          size_t buffer_length, size_t *strlen_buffer,
-                          size_t strlen_buffer_len) {}
-
-  virtual size_t Move(size_t rows) { return 0; }
-
-  virtual bool GetData(int column, odbcabstraction::DataType target_type,
-                       int precision, int scale, void *buffer,
-                       size_t buffer_length, size_t *strlen_buffer) {
-    return false;
-  };
+  void Close();
 };
 
+class FlightSqlResultSet : public ResultSet {
+private:
+  std::vector<std::unique_ptr<Accessor>> accessors_;
+  std::vector<int64_t> get_data_offsets_;
+  std::vector<std::unique_ptr<ColumnBinding>> binding_;
+  int num_binding_;
+  std::shared_ptr<ResultSetMetadata> metadata_;
+
+  int64_t current_row_;
+  FlightStreamChunkIterator chunk_iterator_;
+  FlightStreamChunk current_chunk_;
+  std::shared_ptr<Schema> schema_;
+
+  std::unique_ptr<Accessor> CreateAccessorForColumn(int column,
+                                                    CDataType target_type);
+
+public:
+  ~FlightSqlResultSet() override;
+
+  FlightSqlResultSet(std::shared_ptr<ResultSetMetadata> metadata,
+                     FlightSqlClient &flight_sql_client,
+                     const arrow::flight::FlightCallOptions &call_options,
+                     const std::shared_ptr<FlightInfo> &flight_info);
+
+  void Close() override;
+
+  bool GetData(int column, CDataType target_type, int precision, int scale,
+               void *buffer, size_t buffer_length,
+               ssize_t *strlen_buffer) override;
+
+  size_t Move(size_t rows) override;
+
+  std::shared_ptr<arrow::Array> GetArrayForColumn(int column);
+
+  std::shared_ptr<ResultSetMetadata> GetMetadata() override;
+
+  void BindColumn(int column, CDataType target_type, int precision, int scale,
+                  void *buffer, size_t buffer_length,
+                  ssize_t *strlen_buffer) override;
+};
 } // namespace flight_sql
 } // namespace driver

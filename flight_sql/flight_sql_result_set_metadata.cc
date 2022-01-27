@@ -24,6 +24,7 @@
 namespace driver {
 namespace flight_sql {
 
+using namespace odbcabstraction;
 using arrow::DataType;
 using arrow::Field;
 
@@ -50,48 +51,48 @@ size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
   return 0;
 }
 
-driver::odbcabstraction::DataType
-FlightSqlResultSetMetadata::GetDataType(int column_position) {
+SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
   const std::shared_ptr<Field> &field = schema->field(column_position - 1);
   const std::shared_ptr<DataType> &type = field->type();
 
   switch (type->id()) {
   case arrow::Type::BOOL:
-    return odbcabstraction::BIT;
+    return SqlDataType_BIT;
   case arrow::Type::UINT8:
   case arrow::Type::INT8:
-    return odbcabstraction::TINYINT;
+    return SqlDataType_TINYINT;
   case arrow::Type::UINT16:
   case arrow::Type::INT16:
-    return odbcabstraction::SMALLINT;
+    return SqlDataType_SMALLINT;
   case arrow::Type::UINT32:
   case arrow::Type::INT32:
-    return odbcabstraction::INTEGER;
+    return SqlDataType_INTEGER;
   case arrow::Type::UINT64:
   case arrow::Type::INT64:
-    return odbcabstraction::BIGINT;
+    return SqlDataType_BIGINT;
   case arrow::Type::HALF_FLOAT:
   case arrow::Type::FLOAT:
-    return odbcabstraction::FLOAT;
+    return SqlDataType_FLOAT;
   case arrow::Type::DOUBLE:
-    return odbcabstraction::DOUBLE;
+    return SqlDataType_DOUBLE;
   case arrow::Type::BINARY:
   case arrow::Type::FIXED_SIZE_BINARY:
   case arrow::Type::LARGE_BINARY:
-    return odbcabstraction::BINARY;
+    return SqlDataType_BINARY;
   case arrow::Type::STRING:
   case arrow::Type::LARGE_STRING:
-    return odbcabstraction::VARCHAR;
+    return SqlDataType_VARCHAR;
   case arrow::Type::DATE32:
   case arrow::Type::DATE64:
+    return SqlDataType_TYPE_DATE;
   case arrow::Type::TIMESTAMP:
-    return odbcabstraction::DATETIME;
+    return SqlDataType_TYPE_TIMESTAMP;
   case arrow::Type::DECIMAL128:
   case arrow::Type::DECIMAL256:
-    return odbcabstraction::DECIMAL;
+    return SqlDataType_DECIMAL;
   case arrow::Type::TIME32:
   case arrow::Type::TIME64:
-    return odbcabstraction::TIME;
+    return SqlDataType_TYPE_TIME;
 
   // TODO: Handle remaining types.
   case arrow::Type::INTERVAL_MONTHS:

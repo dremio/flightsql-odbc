@@ -18,6 +18,7 @@
 #include <flight_sql/flight_sql_driver.h>
 
 #include "flight_sql_connection.h"
+#include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
 #include "flight_sql_statement.h"
 
@@ -34,8 +35,118 @@ using arrow::flight::sql::FlightSqlClient;
 using driver::flight_sql::FlightSqlConnection;
 using driver::flight_sql::FlightSqlDriver;
 using driver::odbcabstraction::Connection;
+using driver::odbcabstraction::ResultSet;
 using driver::odbcabstraction::ResultSetMetadata;
 using driver::odbcabstraction::Statement;
+
+void TestBindColumn(const std::shared_ptr<Connection> &connection) {
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  statement->Execute(
+      "SELECT IncidntNum, Category FROM \"@dremio\".Test LIMIT 10");
+
+  const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
+
+  int batch_size = 100;
+  int max_strlen = 1000;
+
+  char IncidntNum[batch_size][max_strlen];
+  ssize_t IncidntNum_length[batch_size];
+
+  char Category[batch_size][max_strlen];
+  ssize_t Category_length[batch_size];
+
+  result_set->BindColumn(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                         IncidntNum, max_strlen, IncidntNum_length);
+  result_set->BindColumn(2, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                         Category, max_strlen, Category_length);
+
+  size_t total = 0;
+  while (true) {
+    size_t fetched_rows = result_set->Move(batch_size);
+    std::cout << "Fetched " << fetched_rows << " rows." << std::endl;
+
+    total += fetched_rows;
+    std::cout << "Total:" << total << std::endl;
+
+    for (int i = 0; i < fetched_rows; ++i) {
+      std::cout << "Row[" << i << "] IncidntNum: '" << IncidntNum[i]
+                << "', Category: '" << Category[i] << "'" << std::endl;
+    }
+
+    if (fetched_rows < batch_size)
+      break;
+  }
+}
+
+void TestGetData(const std::shared_ptr<Connection> &connection) {
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  statement->Execute(
+      "SELECT IncidntNum, Category FROM \"@dremio\".Test LIMIT 10");
+
+  const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
+
+  while (result_set->Move(1) == 1) {
+    int buffer_length = 1024;
+    char result[buffer_length];
+    ssize_t result_length;
+    result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                        result, buffer_length, &result_length);
+    std::cout << result << std::endl;
+  }
+}
+
+void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  statement->Execute(
+      "SELECT IncidntNum, CAST(\"IncidntNum\" AS DOUBLE) / 100 AS "
+      "double_field, Category\n"
+      "FROM (\n"
+      "  SELECT CONVERT_TO_INTEGER(IncidntNum, 1, 1, 0) AS IncidntNum, "
+      "Category\n"
+      "  FROM (\n"
+      "    SELECT IncidntNum, Category FROM \"@dremio\".Test LIMIT 10\n"
+      "  ) nested_0\n"
+      ") nested_0");
+
+  const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
+
+  int batch_size = 100;
+  int max_strlen = 1000;
+
+  char IncidntNum[batch_size][max_strlen];
+  ssize_t IncidntNum_length[batch_size];
+
+  double double_field[batch_size];
+  ssize_t double_field_length[batch_size];
+
+  char Category[batch_size][max_strlen];
+  ssize_t Category_length[batch_size];
+
+  result_set->BindColumn(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                         IncidntNum, max_strlen, IncidntNum_length);
+  result_set->BindColumn(2, driver::odbcabstraction::CDataType_DOUBLE, 0, 0,
+                         double_field, max_strlen, double_field_length);
+  result_set->BindColumn(3, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                         Category, max_strlen, Category_length);
+
+  size_t total = 0;
+  while (true) {
+    size_t fetched_rows = result_set->Move(batch_size);
+    std::cout << "Fetched " << fetched_rows << " rows." << std::endl;
+
+    total += fetched_rows;
+    std::cout << "Total:" << total << std::endl;
+
+    for (int i = 0; i < fetched_rows; ++i) {
+      std::cout << "Row[" << i << "] IncidntNum: '" << IncidntNum[i] << "', "
+                << "double_field: '" << double_field[i] << "', "
+                << "Category: '" << Category[i] << "'" << std::endl;
+    }
+
+    if (fetched_rows < batch_size)
+      break;
+  }
+}
 
 int main() {
   FlightSqlDriver driver;
@@ -46,11 +157,15 @@ int main() {
   Connection::ConnPropertyMap properties = {
       {FlightSqlConnection::HOST, std::string("0.0.0.0")},
       {FlightSqlConnection::PORT, std::string("32010")},
-      {FlightSqlConnection::USER, std::string("user")},
-      {FlightSqlConnection::PASSWORD, std::string("password")},
+      {FlightSqlConnection::USER, std::string("dremio")},
+      {FlightSqlConnection::PASSWORD, std::string("dremio123")},
   };
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
+
+  TestBindColumnBigInt(connection);
+  //  TestBindColumn(connection);
+  //  TestGetData(connection);
 
   connection->Close();
   return 0;

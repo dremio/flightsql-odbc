@@ -37,7 +37,7 @@ public:
 
   size_t GetScale(int column_position) override;
 
-  odbcabstraction::DataType GetDataType(int column_position) override;
+  odbcabstraction::SqlDataType GetDataType(int column_position) override;
 
   odbcabstraction::Nullability IsNullable(int column_position) override;
 
