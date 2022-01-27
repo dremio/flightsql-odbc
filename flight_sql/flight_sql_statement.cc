@@ -99,10 +99,9 @@ bool FlightSqlStatement::ExecutePrepared() {
   ThrowIfNotOK(result.status());
 
   current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      current_result_set_metadata_, sql_client_, result.ValueOrDie());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSet.
-  current_result_set_ = std::shared_ptr<ResultSet>(
-      new FlightSqlResultSet(current_result_set_metadata_));
   return true;
 }
 
@@ -117,10 +116,9 @@ bool FlightSqlStatement::Execute(const std::string &query) {
   ThrowIfNotOK(result.status());
 
   current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      current_result_set_metadata_, sql_client_, result.ValueOrDie());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSet.
-  current_result_set_ = std::shared_ptr<ResultSet>(
-      new FlightSqlResultSet(current_result_set_metadata_));
   return true;
 }
 
