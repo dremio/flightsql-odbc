@@ -18,6 +18,7 @@
 #include <flight_sql/flight_sql_driver.h>
 
 #include "flight_sql_connection.h"
+#include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
 #include "flight_sql_statement.h"
 
@@ -34,6 +35,7 @@ using arrow::flight::sql::FlightSqlClient;
 using driver::flight_sql::FlightSqlConnection;
 using driver::flight_sql::FlightSqlDriver;
 using driver::odbcabstraction::Connection;
+using driver::odbcabstraction::ResultSet;
 using driver::odbcabstraction::ResultSetMetadata;
 using driver::odbcabstraction::Statement;
 
@@ -46,11 +48,82 @@ int main() {
   Connection::ConnPropertyMap properties = {
       {FlightSqlConnection::HOST, std::string("0.0.0.0")},
       {FlightSqlConnection::PORT, std::string("32010")},
-      {FlightSqlConnection::USER, std::string("user")},
-      {FlightSqlConnection::PASSWORD, std::string("password")},
+      {FlightSqlConnection::USER, std::string("dremio")},
+      {FlightSqlConnection::PASSWORD, std::string("dremio123")},
   };
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
+
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  statement->Execute("SELECT IncidntNum, Category FROM \"@dremio\".Test");
+
+  const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
+
+  const std::shared_ptr<ResultSetMetadata> &metadata =
+      result_set->GetMetadata();
+
+  std::cout << metadata->GetColumnCount() << std::endl;
+  std::cout << metadata->GetColumnName(1) << std::endl;
+  std::cout << metadata->GetColumnName(2) << std::endl;
+
+  int batch_size = 100;
+  int max_strlen = 1000;
+
+  char IncidntNum[batch_size][max_strlen];
+  size_t IncidntNum_length[batch_size];
+
+  char Category[batch_size][max_strlen];
+  size_t Category_length[batch_size];
+
+  //  result_set->BindColumn(1, driver::odbcabstraction::BIGINT, 0, 0,
+  //  IncidntNum,
+  //                         sizeof(long), IncidntNum_length);
+  //  result_set->BindColumn(2, driver::odbcabstraction::VARCHAR, 0, 0,
+  //  Category,
+  //                         max_strlen, Category_length);
+  //
+  //  size_t total = 0;
+  //  while (true) {
+  //    size_t fetched_rows = result_set->Move(batch_size);
+  //    std::cout << "Fetched " << fetched_rows << " rows." << std::endl;
+  //
+  //    total += fetched_rows;
+  //    std::cout << "Total:" << total << std::endl;
+  //
+  //    for (int i = 0; i < fetched_rows; ++i) {
+  //      std::cout << "Row[" << i << "] IncidntNum: '" << IncidntNum[i]
+  //                << "', Category: '" << Category[i] << "'" << std::endl;
+  //    }
+  //
+  //    break;
+  //    if (fetched_rows < batch_size)
+  //      break;
+  //  }
+
+  result_set->Move(0);
+
+  for (int i = 0; i < 1; ++i) {
+    char result[1];
+    int offset = 0;
+    while (result_set->GetData(1, driver::odbcabstraction::VARCHAR, 0, 0,
+                               result, 1, IncidntNum_length, offset)) {
+      offset += sizeof(result) / sizeof(char);
+      std::cout << result[0];
+
+      //        break;
+    }
+    std::cout << std::endl;
+    //      std::cout << result << std::endl;
+
+    //      std::cout << result_set->GetData(1,
+    //      driver::odbcabstraction::VARCHAR, 0, 0,
+    //                                       IncidntNum, max_strlen,
+    //                                       IncidntNum_length, 5)
+    //                << std::endl;
+    //      std::cout << IncidntNum[0] << std::endl;
+    //
+    //      result_set->Move(1);
+  }
 
   connection->Close();
   return 0;
