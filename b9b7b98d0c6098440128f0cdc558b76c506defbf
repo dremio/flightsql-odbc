@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b02514a_57122a0d",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "Let\u0027s actually keep this alphabetized. Oops, I see connection is in the wrong spot.",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "160f182c_6aa868b6",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "There should be a separate type for bool. In ODBC this should translate to SQL_BIT.",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac8c6c62_3e39ded8",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "Why collapse all these integers to one type? ODBC supports SQL_SMALLINT, SQL_INTEGER, SQL_BIGINT etc. As well as providing metadata to indicate the column is unsigned.",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0cd278d_dd63c9ca",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "Why make binary varchar?",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd885571_a8257110",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "Let\u0027s put a TODO to support remaining types.",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e701916_5fa793ad",
+        "filename": "flight_sql/flight_sql_result_set_metadata.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "Nit: Do you mind adding const correctness? I think the interface shouldn\u0027t require it, but the impl can mark methods as const anyway.",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3881930d_93094a24",
+        "filename": "odbcabstraction/include/odbcabstraction/statement.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-28T21:00:58Z",
+      "side": 1,
+      "message": "I actually think this isn\u0027t necessary. Prepare gives you a ResultSetMetadata already, and Execute/ExecutePrepared give you a ResultSet which gives you a ResultSetMetadata (that should have more accurate metadata than Prepare). This is more similar to JDBC I think.",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
