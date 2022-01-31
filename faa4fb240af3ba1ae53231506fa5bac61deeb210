@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26c84255_40def54c",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-01-31T22:49:50Z",
+      "side": 1,
+      "message": "These are the ODBC 2.x codes (such as SQL_TIME and SQL_TIMESTAMP) rather than the 3.x codes (such as SQL_TYPE_TIME and SQL_TYPE_TIMESTAMP which are 92 and 93 I believe).\n\nI\u0027m OK with this but we should probably document that ODBC 2.x codes are being used, and the caller should translate to 3.x codes if necessary.",
+      "revId": "faa4fb240af3ba1ae53231506fa5bac61deeb210",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
