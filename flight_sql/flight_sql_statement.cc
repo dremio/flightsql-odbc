@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_statement.h"
+#include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
 
 #include <boost/optional.hpp>
@@ -98,8 +99,9 @@ bool FlightSqlStatement::ExecutePrepared() {
   ThrowIfNotOK(result.status());
 
   current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      current_result_set_metadata_, result.ValueOrDie());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSet.
   return true;
 }
 
@@ -114,8 +116,9 @@ bool FlightSqlStatement::Execute(const std::string &query) {
   ThrowIfNotOK(result.status());
 
   current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      current_result_set_metadata_, result.ValueOrDie());
 
-  // TODO: make use of the returned FlightInfo to populate ResultSet.
   return true;
 }
 
