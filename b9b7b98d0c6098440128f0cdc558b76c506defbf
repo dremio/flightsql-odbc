@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9e1a7bdd_37350eea",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-31T17:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac8c6c62_3e39ded8",
+      "revId": "b9b7b98d0c6098440128f0cdc558b76c506defbf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0cd278d_dd63c9ca",
         "filename": "flight_sql/flight_sql_result_set_metadata.cc",
         "patchSetId": 2
