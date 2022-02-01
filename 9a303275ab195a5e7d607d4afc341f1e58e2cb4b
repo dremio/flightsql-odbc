@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0610b170_24685caf",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-01T22:49:58Z",
+      "side": 1,
+      "message": "Nit: newline at the end of file",
+      "revId": "9a303275ab195a5e7d607d4afc341f1e58e2cb4b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
