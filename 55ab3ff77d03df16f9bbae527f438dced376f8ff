@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "3c61a48b_3a8cd263",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-08T00:56:48Z",
+      "side": 1,
+      "message": "FYI, there was an Arrow bug sending cookies correctly with the Cookie middleware factory. I have fixed this and merged it onto Arrow master:\nhttps://github.com/apache/arrow/commit/d885d8203efa465cc21cfce3ea8a4fb84868755d",
+      "revId": "55ab3ff77d03df16f9bbae527f438dced376f8ff",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a393b502_02f0e94e",
         "filename": "flight_sql/flight_sql_result_set.cc",
         "patchSetId": 6
