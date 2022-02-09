@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b54e5364_e7f6acba",
+        "filename": "flight_sql/accessors/types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-09T21:36:48Z",
+      "side": 1,
+      "message": "Nit: Re-order fields such that they are sorted from largest to smallest to minimize struct padding.",
+      "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa60903_41570bad",
+        "filename": "flight_sql/flight_sql_result_set_accessors.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-09T21:36:48Z",
+      "side": 1,
+      "message": "I feel this is too slow. It evaluates a nested switch statement for every cell.\nMaybe we have a function which evaluates the switch statement and returns a functor, then that functor gets cached on ColumnBinding?\nFor GetData, you can just cache the functor directly on the FlighSqlResultSet to avoid creating/destroying it. Changing types after SQLGetData has been called once isn\u0027t allowed FYI.",
+      "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f0454ec_c9bcc453",
+        "filename": "flight_sql/flight_sql_result_set_accessors.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-09T21:36:48Z",
+      "side": 1,
+      "message": "Nit: newline at the end of file",
+      "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
