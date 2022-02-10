@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc3a6bec_2b224214",
+        "filename": "flight_sql/accessors/types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-10T19:32:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b54e5364_e7f6acba",
+      "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfa60903_41570bad",
         "filename": "flight_sql/flight_sql_result_set_accessors.cc",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1d05b377_9fc67c8e",
+        "filename": "flight_sql/flight_sql_result_set_accessors.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-10T19:32:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfa60903_41570bad",
+      "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f0454ec_c9bcc453",
         "filename": "flight_sql/flight_sql_result_set_accessors.cc",
         "patchSetId": 8
@@ -50,6 +86,24 @@
       "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c77c7d35_d40de6b9",
+        "filename": "flight_sql/flight_sql_result_set_accessors.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-10T19:32:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f0454ec_c9bcc453",
+      "revId": "e7f4a6320ab0887895d2f167bb9158f2926a3b0d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
