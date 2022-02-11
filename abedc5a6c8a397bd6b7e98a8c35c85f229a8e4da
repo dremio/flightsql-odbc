@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb4dea71_6f3dccc8",
+        "filename": "flight_sql/accessors/types.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-11T16:23:56Z",
+      "side": 1,
+      "message": "I don\u0027t see why we need to be able to get the source type?",
+      "revId": "abedc5a6c8a397bd6b7e98a8c35c85f229a8e4da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f607d123_a6736f08",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-11T16:23:56Z",
+      "side": 1,
+      "message": "Let\u0027s remove this comment if this is no longer an issue?",
+      "revId": "abedc5a6c8a397bd6b7e98a8c35c85f229a8e4da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b44d94a_61c5bd55",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-11T16:23:56Z",
+      "side": 1,
+      "message": "We shouldn\u0027t do this because it triggers a virtual call on every column, even if bindings haven\u0027t been changed.\n\nInstead, we should create accessors during BindColumn. For GetData, we should create the accessor the first time GetData is used and do the data type check.\n\nNote that the BindColumn case is what we need to make sure is performant. GetData is expected to be a bit slower since it isn\u0027t bulk-oriented anyway.",
+      "revId": "abedc5a6c8a397bd6b7e98a8c35c85f229a8e4da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adb945e7_4da27209",
+        "filename": "flight_sql/flight_sql_result_set_accessors.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-11T16:23:56Z",
+      "side": 1,
+      "message": "Need newline",
+      "revId": "abedc5a6c8a397bd6b7e98a8c35c85f229a8e4da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
