@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "821a4397_d8dccf1b",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-12T13:06:18Z",
+      "side": 1,
+      "message": "We can optimize this by keeping track of how many columns have been bound/unbound using BindCol using a counter. If every column in the result is bound, there\u0027s no need to fill out get_data_offsets because GetData can\u0027t be used on the same column as a bound column.",
+      "revId": "d2c6b87491f19aa12c7eb8bfe0fe13f1f4fff473",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
