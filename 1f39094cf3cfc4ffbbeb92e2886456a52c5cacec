@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a55c572a_16d8c3d3",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-13T17:00:01Z",
+      "side": 1,
+      "message": "Some of this pointer math seems like it can be simplified if we use StringArray-\u003eValue() which returns the value at the given position + its length.",
+      "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa6dbd3_070494dd",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-13T17:00:01Z",
+      "side": 1,
+      "message": "We can use string_array-\u003eGetView(i) to get an arrow::util::string_view then call data() on it to get a char*. Can then use atol etc instead of stol.\n\nThis avoids creating a temporary std::string (which is a string copy) to help performance a bit.\n\nNote that you should actually be using atoll and stoll for BIGINT to get 64-bit integers back. long is not always 64-bit but long long is.",
+      "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a7d83ca_f5ca2c66",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-13T17:00:01Z",
+      "side": 1,
+      "message": "static_cast\u003cint8_t\u003e",
+      "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
