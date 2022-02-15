@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "623d6efa_73b1229b",
+        "filename": "flight_sql/accessors/main.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-15T17:25:43Z",
+      "side": 1,
+      "message": "strlen_buffer can be null. If the data is null, this should be an error (let\u0027s add the checks but add a TODO for reporting the error).\nLet\u0027s wait until we do the design changes for row-wise bindings to cover this. (My thinking is to make Binding a template type with \u0027optional\u0027 fields like indicator ptr and row offset).",
+      "revId": "02fd0768da3f4546c1d3252ea5923a68ac089769",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5343e27c_4cc39106",
+        "filename": "flight_sql/accessors/primitive_array_accessor.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-15T17:25:43Z",
+      "side": 1,
+      "message": "SQL_FLOAT is 8 bytes in ODBC but SQL_REAL is 4 bytes. SQL_C_FLOAT however is 4 bytes. Please check which type code FLOAT corresponds to and if it is correct here.",
+      "revId": "02fd0768da3f4546c1d3252ea5923a68ac089769",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
