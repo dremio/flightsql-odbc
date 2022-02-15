@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4c056ea9_25d0e52b",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-15T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a55c572a_16d8c3d3",
+      "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7aa6dbd3_070494dd",
         "filename": "flight_sql/accessors/string_array_accessor.h",
         "patchSetId": 19
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0f65d4c6_21bf34a4",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-15T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aa6dbd3_070494dd",
+      "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a7d83ca_f5ca2c66",
         "filename": "flight_sql/accessors/string_array_accessor.h",
         "patchSetId": 19
@@ -50,6 +86,24 @@
       "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2861959e_f3d44fa1",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-15T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a7d83ca_f5ca2c66",
+      "revId": "1f39094cf3cfc4ffbbeb92e2886456a52c5cacec",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }

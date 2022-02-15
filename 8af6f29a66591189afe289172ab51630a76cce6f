@@ -16,6 +16,24 @@
       "revId": "8af6f29a66591189afe289172ab51630a76cce6f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "525f290b_26729f39",
+        "filename": "odbcabstraction/include/odbcabstraction/result_set.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-15T19:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83d5c11_d753256f",
+      "revId": "8af6f29a66591189afe289172ab51630a76cce6f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
