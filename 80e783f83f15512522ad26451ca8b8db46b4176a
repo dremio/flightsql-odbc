@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cace8b5d_a31a366a",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-15T21:33:46Z",
+      "side": 1,
+      "message": "Destructor should call this if it hasn\u0027t already been called.",
+      "revId": "80e783f83f15512522ad26451ca8b8db46b4176a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3651d9c_c097849e",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-15T21:33:46Z",
+      "side": 1,
+      "message": "Why make this a pointer?",
+      "revId": "80e783f83f15512522ad26451ca8b8db46b4176a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
