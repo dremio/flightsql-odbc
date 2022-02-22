@@ -17,15 +17,20 @@
 
 #pragma once
 
+#include <arrow/array.h>
 #include <cstddef>
 #include <cstdint>
+#include <odbcabstraction/exceptions.h>
 #include <odbcabstraction/types.h>
 #include <sstream>
 
 namespace driver {
 namespace flight_sql {
 
+using arrow::Array;
 using odbcabstraction::CDataType;
+
+class FlightSqlResultSet;
 
 struct ColumnBinding {
   void *buffer;
@@ -52,9 +57,28 @@ public:
   virtual CDataType GetTargetType() = 0;
 
   /// \brief Populates next cells
-  virtual size_t GetColumnarData(FlightSqlResultSet *result_set,
-                                 ColumnBinding *binding, int64_t starting_row,
+  virtual size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
                                  size_t cells, int64_t value_offset) = 0;
+};
+
+template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
+class FlightSqlAccessor : public Accessor {
+public:
+  FlightSqlAccessor(ARROW_ARRAY *array);
+
+  CDataType GetTargetType() override;
+
+  size_t GetColumnarData(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
+                         ColumnBinding *binding, int64_t value_offset);
+
+  size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
+                         size_t cells, int64_t value_offset) override;
+
+private:
+  ARROW_ARRAY *array_;
+
+  inline void MoveSingleCell(ColumnBinding *binding, ARROW_ARRAY *array,
+                             int64_t i, int64_t value_offset);
 };
 
 } // namespace flight_sql

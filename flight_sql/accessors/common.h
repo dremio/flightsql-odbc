@@ -29,16 +29,13 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 template <typename ARRAY_TYPE>
-inline size_t CopyFromArrayValuesToBinding(FlightSqlResultSet *result_set,
-                                           ColumnBinding *binding,
-                                           int64_t starting_row, size_t cells) {
-  const std::shared_ptr<Array> &array =
-      result_set->GetArrayForColumn(binding->column)
-          ->Slice(starting_row, static_cast<int64_t>(cells));
+inline size_t CopyFromArrayValuesToBinding(const std::shared_ptr<Array> &array,
+                                           ColumnBinding *binding) {
   auto *typed_array = reinterpret_cast<ARRAY_TYPE *>(array.get());
   ssize_t element_size = sizeof(typename ARRAY_TYPE::value_type);
 
-  for (int64_t i = 0; i < cells; ++i) {
+  int64_t length = array->length();
+  for (int64_t i = 0; i < length; ++i) {
     if (array->IsNull(i)) {
       binding->strlen_buffer[i] = NULL_DATA;
     } else {
@@ -47,11 +44,11 @@ inline size_t CopyFromArrayValuesToBinding(FlightSqlResultSet *result_set,
   }
 
   const auto *values = typed_array->raw_values();
-  size_t value_length = std::min(static_cast<size_t>(typed_array->length()),
-                                 binding->buffer_length);
+  size_t value_length =
+      std::min(static_cast<size_t>(length), binding->buffer_length);
   memcpy(binding->buffer, values, element_size * value_length);
 
-  return cells;
+  return length;
 }
 
 inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,

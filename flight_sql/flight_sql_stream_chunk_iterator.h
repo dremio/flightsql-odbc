@@ -17,14 +17,35 @@
 
 #pragma once
 
-#include "../flight_sql_result_set.h"
-#include "types.h"
-#include <arrow/array.h>
-#include <odbcabstraction/types.h>
+#include <arrow/flight/client.h>
+#include <arrow/flight/sql/client.h>
 
 namespace driver {
-namespace flight_sql {} // namespace flight_sql
-} // namespace driver
+namespace flight_sql {
 
-#include "primitive_array_accessor.h"
-#include "string_array_accessor.h"
+using arrow::flight::FlightInfo;
+using arrow::flight::FlightStreamChunk;
+using arrow::flight::FlightStreamReader;
+using arrow::flight::sql::FlightSqlClient;
+
+class FlightStreamChunkIterator {
+private:
+  std::vector<std::unique_ptr<FlightStreamReader>> stream_readers_;
+  std::vector<std::unique_ptr<FlightStreamReader>>::iterator stream_readers_it_;
+  bool closed_;
+
+public:
+  FlightStreamChunkIterator(
+      FlightSqlClient &flight_sql_client,
+      const arrow::flight::FlightCallOptions &call_options,
+      const std::shared_ptr<FlightInfo> &flight_info);
+
+  ~FlightStreamChunkIterator();
+
+  bool GetNext(FlightStreamChunk *chunk);
+
+  void Close();
+};
+
+} // namespace flight_sql
+} // namespace driver

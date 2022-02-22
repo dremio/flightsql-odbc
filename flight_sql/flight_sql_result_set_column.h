@@ -17,14 +17,42 @@
 
 #pragma once
 
-#include "../flight_sql_result_set.h"
-#include "types.h"
+#include <accessors/types.h>
 #include <arrow/array.h>
-#include <odbcabstraction/types.h>
 
 namespace driver {
-namespace flight_sql {} // namespace flight_sql
-} // namespace driver
+namespace flight_sql {
 
-#include "primitive_array_accessor.h"
-#include "string_array_accessor.h"
+using arrow::Array;
+
+class FlightSqlResultSet;
+
+class FlightSqlResultSetColumn {
+private:
+  FlightSqlResultSet *result_set_;
+  int column_n_;
+
+  std::shared_ptr<Array> original_array_cache_;
+  std::shared_ptr<Array> casted_array_cache_;
+  std::unique_ptr<Accessor> cached_accessor_;
+
+  std::unique_ptr<Accessor> CreateAccessorX(CDataType target_type);
+
+  std::unique_ptr<Accessor> GetAccessorForTargetType(CDataType target_type);
+
+public:
+  FlightSqlResultSetColumn(FlightSqlResultSet *result_set, int column_n);
+
+  int64_t get_data_offset;
+  std::unique_ptr<ColumnBinding> binding;
+
+  Accessor *GetAccessorForBinding();
+
+  Accessor *GetAccessorForGetData(CDataType target_type);
+
+  void SetBinding(ColumnBinding *new_binding);
+
+  void ResetAccessor();
+};
+} // namespace flight_sql
+} // namespace driver

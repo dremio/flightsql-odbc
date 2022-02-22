@@ -17,15 +17,19 @@
 
 #pragma once
 
-#include "accessors/main.h"
+//#include "accessors/main.h"
+#include "arrow/type_fwd.h"
+#include <memory>
+#include <odbcabstraction/types.h>
 
 namespace driver {
 namespace flight_sql {
 
+class Accessor;
 class FlightSqlResultSet;
 
 std::unique_ptr<Accessor>
-CreateAccessor(const arrow::DataType &source_type,
+CreateAccessor(arrow::Array *source_array,
                odbcabstraction::CDataType target_type);
 
 } // namespace flight_sql
