@@ -88,8 +88,11 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_driver.cc
   flight_sql_result_set.cc
   flight_sql_result_set_accessors.cc
+  flight_sql_result_set_column.cc
   flight_sql_result_set_metadata.cc
-  flight_sql_statement.cc)
+  flight_sql_statement.cc
+  flight_sql_stream_chunk_iterator.cc
+)
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   arrow_flight_sql
@@ -127,6 +130,7 @@ target_link_libraries(arrow_odbc_spi_impl_cli arrow_odbc_spi_impl)
 
 # Unit tests
 set(ARROW_ODBC_SPI_TEST_SOURCES
+  accessors/string_array_accessor_test.cc
   flight_sql_connection_test.cc
 )
 
