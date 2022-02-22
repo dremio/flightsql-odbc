@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include "../flight_sql_result_set.h"
 #include "common.h"
 #include "types.h"
 #include <arrow/array.h>
@@ -35,10 +36,9 @@ using namespace odbcabstraction;
 
 template <>
 inline size_t FlightSqlAccessor<Int64Array, CDataType_SBIGINT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<Int64Array>(result_set, binding,
-                                                  starting_row, cells);
+    const std::shared_ptr<Int64Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<Int64Array>(sliced_array, binding);
 }
 
 template <>
@@ -55,10 +55,9 @@ inline void FlightSqlAccessor<Int64Array, CDataType_CHAR>::MoveSingleCell(
 template <>
 inline size_t
 FlightSqlAccessor<UInt64Array, CDataType_UBIGINT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<UInt64Array>(result_set, binding,
-                                                   starting_row, cells);
+    const std::shared_ptr<UInt64Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<UInt64Array>(sliced_array, binding);
 }
 
 template <>
@@ -74,10 +73,9 @@ inline void FlightSqlAccessor<UInt64Array, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<Int32Array, CDataType_SLONG>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<Int32Array>(result_set, binding,
-                                                  starting_row, cells);
+    const std::shared_ptr<Int32Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<Int32Array>(sliced_array, binding);
 }
 
 template <>
@@ -93,10 +91,9 @@ inline void FlightSqlAccessor<Int32Array, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<UInt32Array, CDataType_ULONG>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<UInt32Array>(result_set, binding,
-                                                   starting_row, cells);
+    const std::shared_ptr<UInt32Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<UInt32Array>(sliced_array, binding);
 }
 
 template <>
@@ -112,10 +109,9 @@ inline void FlightSqlAccessor<UInt32Array, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<Int16Array, CDataType_SSHORT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<Int16Array>(result_set, binding,
-                                                  starting_row, cells);
+    const std::shared_ptr<Int16Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<Int16Array>(sliced_array, binding);
 }
 
 template <>
@@ -131,10 +127,9 @@ inline void FlightSqlAccessor<Int16Array, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<UInt16Array, CDataType_USHORT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<UInt16Array>(result_set, binding,
-                                                   starting_row, cells);
+    const std::shared_ptr<UInt16Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<UInt16Array>(sliced_array, binding);
 }
 
 template <>
@@ -150,10 +145,9 @@ inline void FlightSqlAccessor<UInt16Array, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<Int8Array, CDataType_STINYINT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<Int8Array>(result_set, binding,
-                                                 starting_row, cells);
+    const std::shared_ptr<Int8Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<Int8Array>(sliced_array, binding);
 }
 
 template <>
@@ -169,10 +163,9 @@ inline void FlightSqlAccessor<Int8Array, CDataType_CHAR>::MoveSingleCell(
 template <>
 inline size_t
 FlightSqlAccessor<UInt8Array, CDataType_UTINYINT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<UInt8Array>(result_set, binding,
-                                                  starting_row, cells);
+    const std::shared_ptr<UInt8Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<UInt8Array>(sliced_array, binding);
 }
 
 template <>
@@ -188,10 +181,9 @@ inline void FlightSqlAccessor<UInt8Array, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<FloatArray, CDataType_FLOAT>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<FloatArray>(result_set, binding,
-                                                  starting_row, cells);
+    const std::shared_ptr<FloatArray> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<FloatArray>(sliced_array, binding);
 }
 
 template <>
@@ -207,10 +199,9 @@ inline void FlightSqlAccessor<FloatArray, CDataType_CHAR>::MoveSingleCell(
 
 template <>
 inline size_t FlightSqlAccessor<DoubleArray, CDataType_DOUBLE>::GetColumnarData(
-    FlightSqlResultSet *result_set, ColumnBinding *binding,
-    int64_t starting_row, size_t cells, int64_t value_offset) {
-  return CopyFromArrayValuesToBinding<DoubleArray>(result_set, binding,
-                                                   starting_row, cells);
+    const std::shared_ptr<DoubleArray> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<DoubleArray>(sliced_array, binding);
 }
 
 template <>
