@@ -15,20 +15,20 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "flight_sql_result_set_accessors.h"
+#include "accessors/main.h"
 
 namespace driver {
 namespace flight_sql {
 
 template <CDataType TARGET_TYPE>
-inline std::unique_ptr<Accessor>
-CreateAccessor(const arrow::DataType &source_type) {
+inline std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array) {
 #define ONE_CASE(ARROW_TYPE)                                                   \
   case arrow::ARROW_TYPE##Type::type_id:                                       \
     return std::unique_ptr<Accessor>(                                          \
-        new FlightSqlAccessor<arrow::ARROW_TYPE##Array, TARGET_TYPE>());
+        new FlightSqlAccessor<arrow::ARROW_TYPE##Array, TARGET_TYPE>(          \
+            source_array));
 
-  switch (source_type.id()) {
+  switch (source_array->type_id()) {
     ONE_CASE(Boolean)
     ONE_CASE(UInt8)
     ONE_CASE(Int8)
@@ -76,12 +76,12 @@ CreateAccessor(const arrow::DataType &source_type) {
 }
 
 std::unique_ptr<Accessor>
-CreateAccessor(const arrow::DataType &source_type,
+CreateAccessor(arrow::Array *source_array,
                odbcabstraction::CDataType target_type) {
 
 #define CASE_FOR_TYPE(TARGET_TYPE)                                             \
   case TARGET_TYPE:                                                            \
-    return CreateAccessor<TARGET_TYPE>(source_type);
+    return CreateAccessor<TARGET_TYPE>(source_array);
 
   // TODO: Maybe use something like BOOST_PP_SEQ_ENUM? Would like not to have
   // all types mentioned one by one.
