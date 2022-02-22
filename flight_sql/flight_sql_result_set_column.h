@@ -17,39 +17,47 @@
 
 #pragma once
 
-#include "arrow/type_fwd.h"
-#include "types.h"
+#include <accessors/types.h>
 #include <arrow/array.h>
-#include <iostream>
-#include <odbcabstraction/types.h>
 
 namespace driver {
 namespace flight_sql {
 
-using namespace arrow;
-using namespace odbcabstraction;
+using arrow::Array;
 
-template <>
-inline void FlightSqlAccessor<StringArray, CDataType_CHAR>::MoveSingleCell(
-    ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t value_offset) {
-  // TODO: Handle truncation
-  size_t value_length =
-      std::min(static_cast<size_t>(array->value_length(i) - value_offset),
-               binding->buffer_length);
-  const char *value = array->Value(i).data();
+class FlightSqlResultSet;
 
-  char *char_buffer = static_cast<char *>(binding->buffer);
-  memcpy(&char_buffer[i * binding->buffer_length], value + value_offset,
-         value_length);
-  if (value_length + 1 < binding->buffer_length) {
-    char_buffer[i * binding->buffer_length + value_length] = '\0';
-  }
+class FlightSqlResultSetColumn {
+private:
+  FlightSqlResultSet *result_set_;
+  int column_n_;
 
-  if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = array->value_length(i) + 1;
-  }
-}
+  // TODO: Figure out if that's the best way of caching
+  Array *cached_original_array_;
+  std::shared_ptr<Array> cached_casted_array_;
+  std::unique_ptr<Accessor> cached_accessor_;
 
+  std::unique_ptr<Accessor> CreateAccessor(CDataType target_type);
+
+  Accessor *GetAccessorForTargetType(CDataType target_type);
+
+public:
+  FlightSqlResultSetColumn();
+
+  FlightSqlResultSetColumn(FlightSqlResultSet *result_set, int column_n);
+
+  ColumnBinding binding;
+  bool is_bound;
+
+  Accessor *GetAccessorForBinding();
+
+  Accessor *GetAccessorForGetData(CDataType target_type);
+
+  void SetBinding(ColumnBinding new_binding);
+
+  void ResetBinding();
+
+  void ResetAccessor();
+};
 } // namespace flight_sql
 } // namespace driver
