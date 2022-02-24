@@ -15,23 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include "arrow/type_fwd.h"
-#include "types.h"
-#include <codecvt>
-#include <locale>
-#include <odbcabstraction/types.h>
-
-#ifdef WITH_IODBC
-typedef char32_t SqlWChar;
-typedef std::u32string SqlWString;
-#else
-typedef char16_t SqlWChar;
-typedef std::u16string SqlWString;
-#endif
-typedef std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>
-    CharToWStrConverter;
+#include "int8_array_accessor.h"
 
 namespace driver {
 namespace flight_sql {
@@ -40,18 +24,25 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 template <CDataType TARGET_TYPE>
-class StringArrayFlightSqlAccessor
-    : public FlightSqlAccessor<StringArray, TARGET_TYPE,
-                               StringArrayFlightSqlAccessor<TARGET_TYPE>> {
-public:
-  explicit StringArrayFlightSqlAccessor(Array *array);
+Int8ArrayFlightSqlAccessor<TARGET_TYPE>::Int8ArrayFlightSqlAccessor(
+    Array *array)
+    : FlightSqlAccessor<Int8Array, TARGET_TYPE,
+                        Int8ArrayFlightSqlAccessor<TARGET_TYPE>>(array) {}
 
-  void MoveSingleCell_impl(ColumnBinding *binding, StringArray *array,
-                           int64_t i, int64_t value_offset);
+template <>
+size_t Int8ArrayFlightSqlAccessor<CDataType_STINYINT>::GetColumnarData_impl(
+    const std::shared_ptr<Int8Array> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<Int8Array>(sliced_array, binding);
+}
 
-private:
-  CharToWStrConverter converter_;
-};
+template <>
+void Int8ArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
+    ColumnBinding *binding, Int8Array *array, int64_t i, int64_t value_offset) {
+  MoveToCharBuffer(binding, array, i, value_offset);
+}
+
+template class Int8ArrayFlightSqlAccessor<odbcabstraction::CDataType_STINYINT>;
 
 } // namespace flight_sql
 } // namespace driver

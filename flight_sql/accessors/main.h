@@ -17,5 +17,14 @@
 
 #pragma once
 
-#include "primitive_array_accessor.h"
+#include "double_array_accessor.h"
+#include "float_array_accessor.h"
+#include "int16_array_accessor.h"
+#include "int32_array_accessor.h"
+#include "int64_array_accessor.h"
+#include "int8_array_accessor.h"
 #include "string_array_accessor.h"
+#include "uint16_array_accessor.h"
+#include "uint32_array_accessor.h"
+#include "uint64_array_accessor.h"
+#include "uint8_array_accessor.h"

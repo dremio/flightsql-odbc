@@ -86,53 +86,5 @@ public:
                   ssize_t *strlen_buffer) override;
 };
 
-template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
-FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::FlightSqlAccessor(Array *array)
-    : Accessor(TARGET_TYPE),
-      array_(arrow::internal::checked_cast<ARROW_ARRAY *>(array)) {}
-
-template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
-size_t FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::GetColumnarData(
-    const std::shared_ptr<ARROW_ARRAY> &sliced_array, ColumnBinding *binding,
-    int64_t value_offset) {
-  int64_t length = sliced_array->length();
-  for (int64_t i = 0; i < length; ++i) {
-    if (sliced_array->IsNull(i)) {
-      if (binding->strlen_buffer) {
-        binding->strlen_buffer[i] = odbcabstraction::NULL_DATA;
-      } else {
-        // TODO: Report error when data is null bor strlen_buffer is nullptr
-      }
-      continue;
-    }
-
-    MoveSingleCell(binding, sliced_array.get(), i, value_offset);
-  }
-
-  return length;
-}
-
-template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
-size_t FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::GetColumnarData(
-    ColumnBinding *binding, int64_t starting_row, size_t cells,
-    int64_t value_offset) {
-  const std::shared_ptr<Array> &array =
-      array_->Slice(starting_row, static_cast<int64_t>(cells));
-
-  return GetColumnarData(
-      arrow::internal::checked_pointer_cast<ARROW_ARRAY>(array), binding,
-      value_offset);
-}
-
-template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
-void FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::MoveSingleCell(
-    ColumnBinding *binding, ARROW_ARRAY *array, int64_t i,
-    int64_t value_offset) {
-  std::stringstream ss;
-  ss << "Unknown type conversion from " << typeid(ARROW_ARRAY).name()
-     << " to target C type " << TARGET_TYPE;
-  throw odbcabstraction::DriverException(ss.str());
-}
-
 } // namespace flight_sql
 } // namespace driver

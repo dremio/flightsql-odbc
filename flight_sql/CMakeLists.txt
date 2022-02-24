@@ -83,6 +83,17 @@ find_package(gRPC 1.36 CONFIG REQUIRED)
 enable_testing()
 
 set(ARROW_ODBC_SPI_SOURCES
+  accessors/double_array_accessor.cc
+  accessors/float_array_accessor.cc
+  accessors/int16_array_accessor.cc
+  accessors/int32_array_accessor.cc
+  accessors/int64_array_accessor.cc
+  accessors/int8_array_accessor.cc
+  accessors/string_array_accessor.cc
+  accessors/uint16_array_accessor.cc
+  accessors/uint32_array_accessor.cc
+  accessors/uint64_array_accessor.cc
+  accessors/uint8_array_accessor.cc
   flight_sql_auth_method.cc
   flight_sql_connection.cc
   flight_sql_driver.cc
@@ -140,5 +151,7 @@ set_target_properties(arrow_odbc_spi_impl_test
   PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin
 )
-target_link_libraries(arrow_odbc_spi_impl_test arrow_odbc_spi_impl gtest gtest_main)
+target_link_libraries(arrow_odbc_spi_impl_test
+        arrow_odbc_spi_impl
+        gtest gtest_main)
 add_test(connection_test arrow_odbc_spi_impl_test)

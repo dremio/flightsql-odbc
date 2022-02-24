@@ -16,94 +16,94 @@
 // under the License.
 
 #include "accessors/main.h"
+#include "boost/functional/hash.hpp"
 
 namespace driver {
 namespace flight_sql {
 
-template <CDataType TARGET_TYPE>
-inline std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array) {
-#define ONE_CASE(ARROW_TYPE)                                                   \
-  case arrow::ARROW_TYPE##Type::type_id:                                       \
-    return std::unique_ptr<Accessor>(                                          \
-        new FlightSqlAccessor<arrow::ARROW_TYPE##Array, TARGET_TYPE>(          \
-            source_array));
+using odbcabstraction::CDataType;
 
-  switch (source_array->type_id()) {
-    ONE_CASE(Boolean)
-    ONE_CASE(UInt8)
-    ONE_CASE(Int8)
-    ONE_CASE(UInt16)
-    ONE_CASE(Int16)
-    ONE_CASE(UInt32)
-    ONE_CASE(Int32)
-    ONE_CASE(UInt64)
-    ONE_CASE(Int64)
-    ONE_CASE(HalfFloat)
-    ONE_CASE(Float)
-    ONE_CASE(Double)
-    ONE_CASE(String)
-    ONE_CASE(Binary)
-    ONE_CASE(FixedSizeBinary)
-    ONE_CASE(Date32)
-    ONE_CASE(Date64)
-    ONE_CASE(Timestamp)
-    ONE_CASE(Time32)
-    ONE_CASE(Time64)
-    //    ONE_CASE(IntervalMonths)
-    //    ONE_CASE(IntervalDayTime)
-    ONE_CASE(Decimal128)
-    ONE_CASE(Decimal256)
-    ONE_CASE(List)
-    ONE_CASE(Struct)
-    ONE_CASE(SparseUnion)
-    ONE_CASE(DenseUnion)
-    ONE_CASE(Dictionary)
-    ONE_CASE(Map)
-    //    ONE_CASE(Extension)
-    ONE_CASE(FixedSizeList)
-    ONE_CASE(Duration)
-    ONE_CASE(LargeString)
-    ONE_CASE(LargeBinary)
-    ONE_CASE(LargeList)
-    //    ONE_CASE(IntervalMonthDayNano)
-    //    ONE_CASE(MaxId)
-  default:
-    break;
+typedef std::pair<arrow::Type::type, CDataType> SourceAndTargetPair;
+typedef std::function<Accessor *(arrow::Array *)> AccessorConstructor;
+
+std::unordered_map<SourceAndTargetPair, AccessorConstructor,
+                   boost::hash<SourceAndTargetPair>>
+    ACCESSORS_CONSTRUCTORS = {
+        {SourceAndTargetPair(arrow::Type::type::STRING, CDataType_CHAR),
+         [](arrow::Array *source_array) {
+           return new StringArrayFlightSqlAccessor<CDataType_CHAR>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::STRING, CDataType_WCHAR),
+         [](arrow::Array *source_array) {
+           return new StringArrayFlightSqlAccessor<CDataType_CHAR>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::DOUBLE, CDataType_DOUBLE),
+         [](arrow::Array *source_array) {
+           return new DoubleArrayFlightSqlAccessor<CDataType_DOUBLE>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::FLOAT, CDataType_FLOAT),
+         [](arrow::Array *source_array) {
+           return new FloatArrayFlightSqlAccessor<CDataType_FLOAT>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::INT64, CDataType_SBIGINT),
+         [](arrow::Array *source_array) {
+           return new Int64ArrayFlightSqlAccessor<CDataType_SBIGINT>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::UINT64, CDataType_UBIGINT),
+         [](arrow::Array *source_array) {
+           return new UInt64ArrayFlightSqlAccessor<CDataType_UBIGINT>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::INT32, CDataType_SLONG),
+         [](arrow::Array *source_array) {
+           return new Int32ArrayFlightSqlAccessor<CDataType_SLONG>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::UINT32, CDataType_ULONG),
+         [](arrow::Array *source_array) {
+           return new UInt32ArrayFlightSqlAccessor<CDataType_ULONG>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::INT16, CDataType_SSHORT),
+         [](arrow::Array *source_array) {
+           return new Int16ArrayFlightSqlAccessor<CDataType_SSHORT>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::UINT16, CDataType_USHORT),
+         [](arrow::Array *source_array) {
+           return new UInt16ArrayFlightSqlAccessor<CDataType_USHORT>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::INT8, CDataType_STINYINT),
+         [](arrow::Array *source_array) {
+           return new Int8ArrayFlightSqlAccessor<CDataType_STINYINT>(
+               source_array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::UINT8, CDataType_UTINYINT),
+         [](arrow::Array *source_array) {
+           return new UInt8ArrayFlightSqlAccessor<CDataType_UTINYINT>(
+               source_array);
+         }}};
+
+std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,
+                                         CDataType target_type) {
+  auto it = ACCESSORS_CONSTRUCTORS.find(
+      SourceAndTargetPair(source_array->type_id(), target_type));
+  if (it != ACCESSORS_CONSTRUCTORS.end()) {
+    auto accessor = it->second(source_array);
+    return std::unique_ptr<Accessor>(accessor);
   }
-#undef ONE_CASE
 
-  throw odbcabstraction::DriverException("Unreachable");
-}
-
-std::unique_ptr<Accessor>
-CreateAccessor(arrow::Array *source_array,
-               odbcabstraction::CDataType target_type) {
-
-#define CASE_FOR_TYPE(TARGET_TYPE)                                             \
-  case TARGET_TYPE:                                                            \
-    return CreateAccessor<TARGET_TYPE>(source_array);
-
-  // TODO: Maybe use something like BOOST_PP_SEQ_ENUM? Would like not to have
-  // all types mentioned one by one.
-  switch (target_type) {
-    CASE_FOR_TYPE(CDataType_CHAR)
-    CASE_FOR_TYPE(CDataType_WCHAR)
-    CASE_FOR_TYPE(CDataType_SSHORT)
-    CASE_FOR_TYPE(CDataType_USHORT)
-    CASE_FOR_TYPE(CDataType_SLONG)
-    CASE_FOR_TYPE(CDataType_ULONG)
-    CASE_FOR_TYPE(CDataType_FLOAT)
-    CASE_FOR_TYPE(CDataType_DOUBLE)
-    CASE_FOR_TYPE(CDataType_BIT)
-    CASE_FOR_TYPE(CDataType_STINYINT)
-    CASE_FOR_TYPE(CDataType_UTINYINT)
-    CASE_FOR_TYPE(CDataType_SBIGINT)
-    CASE_FOR_TYPE(CDataType_UBIGINT)
-    CASE_FOR_TYPE(CDataType_BINARY)
-  }
-#undef CASE_FOR_TYPE
-
-  throw odbcabstraction::DriverException("Unreachable");
+  std::stringstream ss;
+  ss << "Unsupported type conversion! Tried to convert '"
+     << source_array->type()->ToString() << "' to C type '" << target_type
+     << "'";
+  throw odbcabstraction::DriverException(ss.str());
 }
 
 } // namespace flight_sql

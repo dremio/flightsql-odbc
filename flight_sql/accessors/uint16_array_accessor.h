@@ -17,21 +17,12 @@
 
 #pragma once
 
-#include "arrow/type_fwd.h"
+#include "../flight_sql_result_set.h"
+#include "common.h"
 #include "types.h"
-#include <codecvt>
-#include <locale>
+#include <arrow/array.h>
+#include <arrow/scalar.h>
 #include <odbcabstraction/types.h>
-
-#ifdef WITH_IODBC
-typedef char32_t SqlWChar;
-typedef std::u32string SqlWString;
-#else
-typedef char16_t SqlWChar;
-typedef std::u16string SqlWString;
-#endif
-typedef std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>
-    CharToWStrConverter;
 
 namespace driver {
 namespace flight_sql {
@@ -40,17 +31,16 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 template <CDataType TARGET_TYPE>
-class StringArrayFlightSqlAccessor
-    : public FlightSqlAccessor<StringArray, TARGET_TYPE,
-                               StringArrayFlightSqlAccessor<TARGET_TYPE>> {
+class UInt16ArrayFlightSqlAccessor
+    : public FlightSqlAccessor<UInt16Array, TARGET_TYPE,
+                               UInt16ArrayFlightSqlAccessor<TARGET_TYPE>> {
 public:
-  explicit StringArrayFlightSqlAccessor(Array *array);
+  explicit UInt16ArrayFlightSqlAccessor(Array *array);
 
-  void MoveSingleCell_impl(ColumnBinding *binding, StringArray *array,
+  size_t GetColumnarData_impl(const std::shared_ptr<UInt16Array> &sliced_array,
+                              ColumnBinding *binding, int64_t value_offset);
+  void MoveSingleCell_impl(ColumnBinding *binding, UInt16Array *array,
                            int64_t i, int64_t value_offset);
-
-private:
-  CharToWStrConverter converter_;
 };
 
 } // namespace flight_sql
