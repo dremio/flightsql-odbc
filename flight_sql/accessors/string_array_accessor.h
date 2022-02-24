@@ -20,8 +20,20 @@
 #include "arrow/type_fwd.h"
 #include "types.h"
 #include <arrow/array.h>
+#include <codecvt>
 #include <iostream>
+#include <locale>
 #include <odbcabstraction/types.h>
+
+#ifdef WITH_IODBC
+typedef char32_t SqlWChar;
+typedef std::u32string SqlWString;
+#else
+typedef char16_t SqlWChar;
+typedef std::u16string SqlWString;
+#endif
+typedef std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>
+    CharToWStrConverter;
 
 namespace driver {
 namespace flight_sql {
@@ -29,26 +41,68 @@ namespace flight_sql {
 using namespace arrow;
 using namespace odbcabstraction;
 
+namespace {
+
+template <typename CHAR_TYPE>
+inline void MoveSingleCellToCharBuffer(ColumnBinding *binding,
+                                       StringArray *array, int64_t i,
+                                       int64_t value_offset) {
+
+  const char *raw_value = array->Value(i).data();
+  const void *value;
+  size_t size_in_bytes;
+  SqlWString wstr;
+  if (sizeof(CHAR_TYPE) > sizeof(char)) {
+    wstr = CharToWStrConverter().from_bytes(raw_value,
+                                            raw_value + array->value_length(i));
+    value = wstr.data();
+    size_in_bytes = wstr.size() * sizeof(CHAR_TYPE);
+  } else {
+    value = raw_value;
+    size_in_bytes = array->value_length(i);
+  }
+
+  // TODO: Handle truncation
+  size_t value_length =
+      std::min(static_cast<size_t>(size_in_bytes - value_offset),
+               binding->buffer_length);
+
+  auto *byte_buffer =
+      static_cast<char *>(binding->buffer) + i * binding->buffer_length;
+  auto *char_buffer = (CHAR_TYPE *)byte_buffer;
+  memcpy(char_buffer, ((char *)value) + value_offset, value_length);
+
+  // Write a NUL terminator
+  if (binding->buffer_length > size_in_bytes + sizeof(CHAR_TYPE)) {
+    char_buffer[size_in_bytes / sizeof(CHAR_TYPE)] = '\0';
+  } else {
+    size_t chars_written = binding->buffer_length / sizeof(CHAR_TYPE);
+    // If we failed to even write one char, the buffer is too small to hold a
+    // NUL-terminator.
+    if (chars_written > 0) {
+      char_buffer[(chars_written - 1)] = '\0';
+    }
+  }
+
+  if (binding->strlen_buffer) {
+    binding->strlen_buffer[i] = static_cast<ssize_t>(size_in_bytes);
+  }
+}
+
+} // namespace
+
 template <>
 inline void FlightSqlAccessor<StringArray, CDataType_CHAR>::MoveSingleCell(
     ColumnBinding *binding, StringArray *array, int64_t i,
     int64_t value_offset) {
-  // TODO: Handle truncation
-  size_t value_length =
-      std::min(static_cast<size_t>(array->value_length(i) - value_offset),
-               binding->buffer_length);
-  const char *value = array->Value(i).data();
+  MoveSingleCellToCharBuffer<char>(binding, array, i, value_offset);
+}
 
-  char *char_buffer = static_cast<char *>(binding->buffer);
-  memcpy(&char_buffer[i * binding->buffer_length], value + value_offset,
-         value_length);
-  if (value_length + 1 < binding->buffer_length) {
-    char_buffer[i * binding->buffer_length + value_length] = '\0';
-  }
-
-  if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = array->value_length(i) + 1;
-  }
+template <>
+inline void FlightSqlAccessor<StringArray, CDataType_WCHAR>::MoveSingleCell(
+    ColumnBinding *binding, StringArray *array, int64_t i,
+    int64_t value_offset) {
+  MoveSingleCellToCharBuffer<SqlWChar>(binding, array, i, value_offset);
 }
 
 } // namespace flight_sql
