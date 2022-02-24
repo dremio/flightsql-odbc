@@ -17,8 +17,11 @@
 
 #pragma once
 
-#include "arrow/type_fwd.h"
+#include "../flight_sql_result_set.h"
+#include "common.h"
 #include "types.h"
+#include <arrow/array.h>
+#include <arrow/scalar.h>
 #include <odbcabstraction/types.h>
 
 namespace driver {
@@ -28,18 +31,19 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 template <CDataType TARGET_TYPE>
-class StringArrayFlightSqlAccessor
-    : public FlightSqlAccessor<StringArray, TARGET_TYPE,
-                               StringArrayFlightSqlAccessor<TARGET_TYPE>> {
+class Int32ArrayFlightSqlAccessor
+    : public FlightSqlAccessor<Int32Array, TARGET_TYPE,
+                               Int32ArrayFlightSqlAccessor<TARGET_TYPE>> {
 public:
-  explicit StringArrayFlightSqlAccessor(Array *array);
+  explicit Int32ArrayFlightSqlAccessor(Array *array);
 
-  void MoveSingleCell_impl(ColumnBinding *binding, StringArray *array,
-                           int64_t i, int64_t value_offset);
+  size_t GetColumnarData_impl(const std::shared_ptr<Int32Array> &sliced_array,
+                              ColumnBinding *binding, int64_t value_offset);
+  void MoveSingleCell_impl(ColumnBinding *binding, Int32Array *array, int64_t i,
+                           int64_t value_offset);
 };
 
-template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR>;
-template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_WCHAR>;
+template class Int32ArrayFlightSqlAccessor<odbcabstraction::CDataType_SLONG>;
 
 } // namespace flight_sql
 } // namespace driver

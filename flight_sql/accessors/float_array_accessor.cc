@@ -15,11 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include "arrow/type_fwd.h"
-#include "types.h"
-#include <odbcabstraction/types.h>
+#include "float_array_accessor.h"
 
 namespace driver {
 namespace flight_sql {
@@ -28,18 +24,24 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 template <CDataType TARGET_TYPE>
-class StringArrayFlightSqlAccessor
-    : public FlightSqlAccessor<StringArray, TARGET_TYPE,
-                               StringArrayFlightSqlAccessor<TARGET_TYPE>> {
-public:
-  explicit StringArrayFlightSqlAccessor(Array *array);
+FloatArrayFlightSqlAccessor<TARGET_TYPE>::FloatArrayFlightSqlAccessor(
+    Array *array)
+    : FlightSqlAccessor<FloatArray, TARGET_TYPE,
+                        FloatArrayFlightSqlAccessor<TARGET_TYPE>>(array) {}
 
-  void MoveSingleCell_impl(ColumnBinding *binding, StringArray *array,
-                           int64_t i, int64_t value_offset);
-};
+template <>
+size_t FloatArrayFlightSqlAccessor<CDataType_FLOAT>::GetColumnarData_impl(
+    const std::shared_ptr<FloatArray> &sliced_array, ColumnBinding *binding,
+    int64_t value_offset) {
+  return CopyFromArrayValuesToBinding<FloatArray>(sliced_array, binding);
+}
 
-template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR>;
-template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_WCHAR>;
+template <>
+void FloatArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
+    ColumnBinding *binding, FloatArray *array, int64_t i,
+    int64_t value_offset) {
+  MoveToCharBuffer(binding, array, i, value_offset);
+}
 
 } // namespace flight_sql
 } // namespace driver

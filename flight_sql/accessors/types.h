@@ -64,22 +64,64 @@ public:
                                  size_t cells, int64_t value_offset) = 0;
 };
 
-template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
+template <typename ARROW_ARRAY, CDataType TARGET_TYPE, typename DERIVED>
 class FlightSqlAccessor : public Accessor {
 public:
-  explicit FlightSqlAccessor(Array *array);
+  explicit FlightSqlAccessor(Array *array)
+      : Accessor(TARGET_TYPE),
+        array_(arrow::internal::checked_cast<ARROW_ARRAY *>(array)) {}
 
   size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
-                         size_t cells, int64_t value_offset) override;
+                         size_t cells, int64_t value_offset) override {
+    const std::shared_ptr<Array> &array =
+        array_->Slice(starting_row, static_cast<int64_t>(cells));
+
+    return GetColumnarData(
+        arrow::internal::checked_pointer_cast<ARROW_ARRAY>(array), binding,
+        value_offset);
+  }
 
 private:
   ARROW_ARRAY *array_;
 
   size_t GetColumnarData(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
-                         ColumnBinding *binding, int64_t value_offset);
+                         ColumnBinding *binding, int64_t value_offset) {
+    return static_cast<DERIVED *>(this)->GetColumnarData_impl(
+        sliced_array, binding, value_offset);
+  }
 
-  inline void MoveSingleCell(ColumnBinding *binding, ARROW_ARRAY *array,
-                             int64_t i, int64_t value_offset);
+  size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
+                              ColumnBinding *binding, int64_t value_offset) {
+    int64_t length = sliced_array->length();
+    for (int64_t i = 0; i < length; ++i) {
+      if (sliced_array->IsNull(i)) {
+        if (binding->strlen_buffer) {
+          binding->strlen_buffer[i] = odbcabstraction::NULL_DATA;
+        } else {
+          // TODO: Report error when data is null bor strlen_buffer is nullptr
+        }
+        continue;
+      }
+
+      MoveSingleCell(binding, sliced_array.get(), i, value_offset);
+    }
+
+    return length;
+  }
+
+  void MoveSingleCell(ColumnBinding *binding, ARROW_ARRAY *array, int64_t i,
+                      int64_t value_offset) {
+    return static_cast<DERIVED *>(this)->MoveSingleCell_impl(binding, array, i,
+                                                             value_offset);
+  }
+
+  void MoveSingleCell_impl(ColumnBinding *binding, ARROW_ARRAY *array,
+                           int64_t i, int64_t value_offset) {
+    std::stringstream ss;
+    ss << "Unknown type conversion from StringArray to target C type "
+       << TARGET_TYPE;
+    throw odbcabstraction::DriverException(ss.str());
+  }
 };
 
 } // namespace flight_sql
