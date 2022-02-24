@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63875542_4b17f7ad",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "Looks like this is changed to use code_cvt in the subsequent patch.",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04d3724_0981d133",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "While it makes sense to move the get_data_offset to the column, this is likely to be slower than putting it on the result set.\nIt\u0027s faster to use fill (which would use memset, which could potentially write several values at once), than to iterate one column at a time.",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72989a42_b294bd56",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "This misses handling of unbound columns.",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73d86bc_4d42e569",
+        "filename": "flight_sql/flight_sql_result_set.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "Since we don\u0027t have virtual functions on FlightSqlResultSetColumn, we don\u0027t really need to use std::unique_ptr here. We can skip a level of indirection by using std::vector\u003cFlightSqlResultSetColumn\u003e. We can add a flag on FlightSqlResultSetColumn to say if it is bound or not to replace the null check.",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b9ba70c_c82e7eca",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "cached_original_array_ needs to be initialized here.",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb78f0a0_65bdf8e1",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "Newline at EOF",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b9847af_b9003b33",
+        "filename": "flight_sql/flight_sql_result_set_column.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "Why the X suffix?",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf33ba0_ac7585d8",
+        "filename": "flight_sql/flight_sql_result_set_column.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "Avoid heap allocation and just store a ColumnBinding object. Add a field to indicate if the binding is active.",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6126000d_5a156498",
+        "filename": "flight_sql/flight_sql_result_set_column.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-24T21:29:08Z",
+      "side": 1,
+      "message": "Nit: Newline at EOF",
+      "revId": "321ee67226e90c3ead76f36ff60c0d49efc3814d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
