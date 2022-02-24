@@ -19,9 +19,19 @@
 
 #include "arrow/type_fwd.h"
 #include "types.h"
-#include <arrow/array.h>
-#include <iostream>
+#include <codecvt>
+#include <locale>
 #include <odbcabstraction/types.h>
+
+#ifdef WITH_IODBC
+typedef char32_t SqlWChar;
+typedef std::u32string SqlWString;
+#else
+typedef char16_t SqlWChar;
+typedef std::u16string SqlWString;
+#endif
+typedef std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>
+    CharToWStrConverter;
 
 namespace driver {
 namespace flight_sql {
@@ -29,27 +39,19 @@ namespace flight_sql {
 using namespace arrow;
 using namespace odbcabstraction;
 
-template <>
-inline void FlightSqlAccessor<StringArray, CDataType_CHAR>::MoveSingleCell(
-    ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t value_offset) {
-  // TODO: Handle truncation
-  size_t value_length =
-      std::min(static_cast<size_t>(array->value_length(i) - value_offset),
-               binding->buffer_length);
-  const char *value = array->Value(i).data();
+template <CDataType TARGET_TYPE>
+class StringArrayFlightSqlAccessor
+    : public FlightSqlAccessor<StringArray, TARGET_TYPE,
+                               StringArrayFlightSqlAccessor<TARGET_TYPE>> {
+public:
+  explicit StringArrayFlightSqlAccessor(Array *array);
 
-  char *char_buffer = static_cast<char *>(binding->buffer);
-  memcpy(&char_buffer[i * binding->buffer_length], value + value_offset,
-         value_length);
-  if (value_length + 1 < binding->buffer_length) {
-    char_buffer[i * binding->buffer_length + value_length] = '\0';
-  }
+  void MoveSingleCell_impl(ColumnBinding *binding, StringArray *array,
+                           int64_t i, int64_t value_offset);
 
-  if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = array->value_length(i) + 1;
-  }
-}
+private:
+  CharToWStrConverter converter_;
+};
 
 } // namespace flight_sql
 } // namespace driver
