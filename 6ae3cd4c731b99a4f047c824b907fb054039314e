@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9132d3fd_764e63b2",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-25T17:33:46Z",
+      "side": 1,
+      "message": "This won\u0027t work. new_binding goes out of scope after BindColumn finishes.\nWhat you need is the ColumnBinding to not be a pointer on FlightSqlResultColumn.",
+      "revId": "6ae3cd4c731b99a4f047c824b907fb054039314e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
