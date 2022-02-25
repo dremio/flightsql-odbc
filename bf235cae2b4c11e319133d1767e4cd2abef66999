@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad6d771b_096cc074",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-25T17:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1474abcc_4871568d",
+      "revId": "bf235cae2b4c11e319133d1767e4cd2abef66999",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd278efc_bc55614f",
         "filename": "flight_sql/flight_sql_result_set.cc",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "bf235cae2b4c11e319133d1767e4cd2abef66999",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844339cb_e87ef6d5",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-02-25T17:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd278efc_bc55614f",
+      "revId": "bf235cae2b4c11e319133d1767e4cd2abef66999",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     },
     {
       "key": {
