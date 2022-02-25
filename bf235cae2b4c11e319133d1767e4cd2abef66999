@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1474abcc_4871568d",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-25T17:06:39Z",
+      "side": 1,
+      "message": "Nit: This should be columns_.size() instead of GetColumnCount(). I think GetColumnCount() will not get optimized out since it is virtual.",
+      "revId": "bf235cae2b4c11e319133d1767e4cd2abef66999",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd278efc_bc55614f",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-25T17:06:39Z",
+      "side": 1,
+      "message": "Can this be de-heaped as well? I guess the trade-off is that it causes the case for using SQLGetData to use up more memory.\n\nThe normal case for BI tools is to use SQLBindCol on every column though, and to do bulk columnar fetch.",
+      "revId": "bf235cae2b4c11e319133d1767e4cd2abef66999",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dc1ff91_da12ff58",
+        "filename": "flight_sql/flight_sql_result_set_column.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-02-25T17:06:39Z",
+      "side": 1,
+      "message": "Nit, should be under binding to reduce padding.",
+      "revId": "bf235cae2b4c11e319133d1767e4cd2abef66999",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
