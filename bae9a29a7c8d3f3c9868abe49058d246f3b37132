@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65777239_0ce586d8",
+        "filename": "flight_sql/accessors/float_array_accessor.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-01T23:24:20Z",
+      "side": 1,
+      "message": "I think the explicit instantiations are supposed to go into .cc files. This probably happens to work because we\u0027re only including these headers in one .cc.",
+      "revId": "bae9a29a7c8d3f3c9868abe49058d246f3b37132",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d5d4df_072b39e9",
+        "filename": "flight_sql/accessors/int64_array_accessor.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-01T23:24:20Z",
+      "side": 1,
+      "message": "It seems like for most of these types, GetColumnarData_impl and MoveSingleCell_impl are the same, just using a different *Array type. Can they be collapsed into one template? Like PrimitiveArrayFlightSqlAccessor? You could write one .cc that explicitly instantiates several of these.",
+      "revId": "bae9a29a7c8d3f3c9868abe49058d246f3b37132",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
