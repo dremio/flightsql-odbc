@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dba4a070_3178e8a5",
+        "filename": "flight_sql/accessors/float_array_accessor.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-02T20:25:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65777239_0ce586d8",
+      "revId": "bae9a29a7c8d3f3c9868abe49058d246f3b37132",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d5d4df_072b39e9",
         "filename": "flight_sql/accessors/int64_array_accessor.cc",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "bae9a29a7c8d3f3c9868abe49058d246f3b37132",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4444c54_c83b0e39",
+        "filename": "flight_sql/accessors/int64_array_accessor.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-02T20:25:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43d5d4df_072b39e9",
+      "revId": "bae9a29a7c8d3f3c9868abe49058d246f3b37132",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }

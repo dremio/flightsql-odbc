@@ -16,6 +16,24 @@
       "revId": "25284c200401c42c4122037ba477ecbebca02964",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acf5ef65_7dfdabf7",
+        "filename": "flight_sql/accessors/string_array_accessor.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-02T20:25:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "611b62bf_d49c0e55",
+      "revId": "25284c200401c42c4122037ba477ecbebca02964",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": false
     }
   ]
 }
