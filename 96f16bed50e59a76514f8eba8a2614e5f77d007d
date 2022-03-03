@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f07242a7_4382525b",
+        "filename": "flight_sql/accessors/boolean_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-03T22:14:22Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be the ASCII 1 or 0, it should be the number 1 or 0.",
+      "revId": "96f16bed50e59a76514f8eba8a2614e5f77d007d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
