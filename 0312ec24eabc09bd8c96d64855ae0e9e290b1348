@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "330aaf96_8c0d18b7",
+        "filename": "flight_sql/accessors/binary_array_accessor_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-04T18:28:26Z",
+      "side": 1,
+      "message": "Can we add a comment saying that we know based on the test data that the content is ASCII so it is safe to wrap in a string?\n\nThis code doesn\u0027t work if it\u0027s arbitrary binary data.",
+      "revId": "0312ec24eabc09bd8c96d64855ae0e9e290b1348",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
