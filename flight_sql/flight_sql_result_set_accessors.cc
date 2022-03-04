@@ -88,6 +88,10 @@ std::unordered_map<SourceAndTargetPair, AccessorConstructor,
            return new PrimitiveArrayFlightSqlAccessor<UInt8Array,
                                                       CDataType_UTINYINT>(
                array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::BOOL, CDataType_BIT),
+         [](arrow::Array *array) {
+           return new BooleanArrayFlightSqlAccessor<CDataType_BIT>(array);
          }}};
 
 std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,
