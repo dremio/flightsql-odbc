@@ -17,7 +17,26 @@
 
 #pragma once
 
-#include "binary_array_accessor.h"
-#include "boolean_array_accessor.h"
-#include "primitive_array_accessor.h"
-#include "string_array_accessor.h"
+#include "arrow/type_fwd.h"
+#include "types.h"
+#include <odbcabstraction/types.h>
+
+namespace driver {
+namespace flight_sql {
+
+using namespace arrow;
+using namespace odbcabstraction;
+
+template <CDataType TARGET_TYPE>
+class BinaryArrayFlightSqlAccessor
+    : public FlightSqlAccessor<BinaryArray, TARGET_TYPE,
+                               BinaryArrayFlightSqlAccessor<TARGET_TYPE>> {
+public:
+  explicit BinaryArrayFlightSqlAccessor(Array *array);
+
+  void MoveSingleCell_impl(ColumnBinding *binding, BinaryArray *array,
+                           int64_t i, int64_t value_offset);
+};
+
+} // namespace flight_sql
+} // namespace driver

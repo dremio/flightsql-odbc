@@ -94,6 +94,10 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
         {SourceAndTargetPair(arrow::Type::type::BOOL, CDataType_BIT),
          [](arrow::Array *array) {
            return new BooleanArrayFlightSqlAccessor<CDataType_BIT>(array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::BINARY, CDataType_BINARY),
+         [](arrow::Array *array) {
+           return new BinaryArrayFlightSqlAccessor<CDataType_BINARY>(array);
          }}};
 
 }
