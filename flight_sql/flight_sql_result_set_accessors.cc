@@ -26,8 +26,10 @@ using odbcabstraction::CDataType;
 typedef std::pair<arrow::Type::type, CDataType> SourceAndTargetPair;
 typedef std::function<Accessor *(arrow::Array *)> AccessorConstructor;
 
-std::unordered_map<SourceAndTargetPair, AccessorConstructor,
-                   boost::hash<SourceAndTargetPair>>
+namespace {
+
+const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
+                         boost::hash<SourceAndTargetPair>>
     ACCESSORS_CONSTRUCTORS = {
         {SourceAndTargetPair(arrow::Type::type::STRING, CDataType_CHAR),
          [](arrow::Array *array) {
@@ -88,7 +90,13 @@ std::unordered_map<SourceAndTargetPair, AccessorConstructor,
            return new PrimitiveArrayFlightSqlAccessor<UInt8Array,
                                                       CDataType_UTINYINT>(
                array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::BOOL, CDataType_BIT),
+         [](arrow::Array *array) {
+           return new BooleanArrayFlightSqlAccessor<CDataType_BIT>(array);
          }}};
+
+}
 
 std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,
                                          CDataType target_type) {
