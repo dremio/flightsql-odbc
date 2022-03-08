@@ -16,6 +16,7 @@
 // under the License.
 
 #include "arrow/testing/gtest_util.h"
+#include "arrow/testing/builder.h"
 #include "binary_array_accessor.h"
 #include "gtest/gtest.h"
 
