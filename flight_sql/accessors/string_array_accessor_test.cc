@@ -16,6 +16,9 @@
 // under the License.
 
 #include "arrow/testing/gtest_util.h"
+#ifdef __APPLE__
+#include "arrow/testing/builder.h"
+#endif
 #include "string_array_accessor.h"
 #include "gtest/gtest.h"
 
@@ -126,6 +129,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
 
   // Construct the whole string by concatenating smaller chunks from
   // GetColumnarData
+  std::basic_string<SqlWChar> finalStr;
   do {
     ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset));
     ASSERT_EQ(values[0].length() * sizeof(SqlWChar), strlen_buffer[0]);
@@ -133,12 +137,12 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
     int64_t chunk_length =
         std::min(static_cast<int64_t>(max_strlen * sizeof(SqlWChar)),
                  strlen_buffer[0] - value_offset);
-    ss << buffer;
+    finalStr += std::basic_string<SqlWChar>(buffer, chunk_length);
     value_offset += chunk_length - sizeof(SqlWChar);
   } while (value_offset < strlen_buffer[0] - sizeof(SqlWChar));
 
   auto expected = CharToWStrConverter().from_bytes(values[0].c_str());
-  auto actual = ss.str();
+  auto actual = finalStr;
   ASSERT_EQ(0, expected.compare(actual));
 }
 

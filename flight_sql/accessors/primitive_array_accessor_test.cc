@@ -16,6 +16,9 @@
 // under the License.
 
 #include "arrow/testing/gtest_util.h"
+#ifdef __APPLE__
+#include "arrow/testing/builder.h"
+#endif
 #include "primitive_array_accessor.h"
 #include "gtest/gtest.h"
 

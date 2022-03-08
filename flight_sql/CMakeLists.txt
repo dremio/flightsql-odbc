@@ -34,6 +34,7 @@ set(ARROW_CMAKE_ARGS
   -DARROW_BUILD_SHARED=OFF
   -DARROW_BUILD_STATIC=ON
   -DARROW_COMPUTE=ON
+  -DARROW_WITH_UTF8PROC=OFF
   -DARROW_BUILD_TESTS=OFF
   -DARROW_DEPENDENCY_USE_SHARED=OFF
   -DCMAKE_DEPENDS_USE_COMPILER=FALSE
@@ -79,6 +80,10 @@ find_package(OpenSSL REQUIRED)
 
 # Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(gRPC 1.36 CONFIG REQUIRED)
+
+if (APPLE)
+  add_compile_definitions(WITH_IODBC)
+endif()
 
 enable_testing()
 
