@@ -48,8 +48,8 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Basic) {
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
     // Beware that CDataType_BINARY values are not null terminated.
-    // It's safe to create a std::string from this data because we know it's ASCII,
-    // this doesn't work with arbitrary binary data.
+    // It's safe to create a std::string from this data because we know it's
+    // ASCII, this doesn't work with arbitrary binary data.
     ASSERT_EQ(values[i],
               std::string(buffer + i * max_strlen,
                           buffer + i * max_strlen + strlen_buffer[i]));
@@ -84,8 +84,8 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Truncation) {
                                     strlen_buffer[0] - value_offset);
 
     // Beware that CDataType_BINARY values are not null terminated.
-    // It's safe to create a std::string from this data because we know it's ASCII,
-    // this doesn't work with arbitrary binary data.
+    // It's safe to create a std::string from this data because we know it's
+    // ASCII, this doesn't work with arbitrary binary data.
     ss << std::string(buffer, buffer + chunk_length);
     value_offset += chunk_length;
   } while (value_offset < strlen_buffer[0]);
