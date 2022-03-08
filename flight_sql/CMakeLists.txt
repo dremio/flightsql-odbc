@@ -33,6 +33,7 @@ set(ARROW_CMAKE_ARGS
   -DARROW_IPC=ON
   -DARROW_BUILD_SHARED=OFF
   -DARROW_BUILD_STATIC=ON
+  -DARROW_WITH_UTF8PROC=OFF
   -DARROW_COMPUTE=ON
   -DARROW_WITH_UTF8PROC=OFF
   -DARROW_BUILD_TESTS=OFF
@@ -101,6 +102,7 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_result_set_metadata.cc
   flight_sql_statement.cc
   flight_sql_stream_chunk_iterator.cc
+  record_batch_transformer.cc
 )
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
@@ -144,6 +146,7 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/primitive_array_accessor_test.cc
   accessors/string_array_accessor_test.cc
   flight_sql_connection_test.cc
+  record_batch_transformer_test.cc
 )
 
 add_executable(arrow_odbc_spi_impl_test ${ARROW_ODBC_SPI_TEST_SOURCES})
@@ -156,3 +159,4 @@ target_link_libraries(arrow_odbc_spi_impl_test
         arrow_odbc_spi_impl
         gtest gtest_main)
 add_test(connection_test arrow_odbc_spi_impl_test)
+add_test(transformer_test arrow_odbc_spi_impl_test)
