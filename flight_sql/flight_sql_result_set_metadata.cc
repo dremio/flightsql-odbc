@@ -17,6 +17,7 @@
 
 #include "flight_sql_result_set_metadata.h"
 #include "arrow/util/key_value_metadata.h"
+#include "utils.h"
 
 #include <odbcabstraction/exceptions.h>
 #include <utility>
@@ -29,16 +30,16 @@ using arrow::DataType;
 using arrow::Field;
 
 size_t FlightSqlResultSetMetadata::GetColumnCount() {
-  return schema->num_fields();
+  return schema_->num_fields();
 }
 
 std::string FlightSqlResultSetMetadata::GetColumnName(int column_position) {
-  return schema->field(column_position - 1)->name();
+  return schema_->field(column_position - 1)->name();
 }
 
 std::string FlightSqlResultSetMetadata::GetName(int column_position) {
   // TODO Get column alias from column metadata
-  return schema->field(column_position - 1)->name();
+  return schema_->field(column_position - 1)->name();
 }
 
 size_t FlightSqlResultSetMetadata::GetPrecision(int column_position) {
@@ -52,7 +53,7 @@ size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
 }
 
 SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
-  const std::shared_ptr<Field> &field = schema->field(column_position - 1);
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
   const std::shared_ptr<DataType> &type = field->type();
 
   switch (type->id()) {
@@ -233,7 +234,14 @@ bool FlightSqlResultSetMetadata::IsFixedPrecScale(int column_position) {
 
 FlightSqlResultSetMetadata::FlightSqlResultSetMetadata(
     std::shared_ptr<arrow::Schema> schema)
-    : schema(std::move(schema)) {}
+    : schema_(std::move(schema)) {}
+
+FlightSqlResultSetMetadata::FlightSqlResultSetMetadata(
+    const std::shared_ptr<arrow::flight::FlightInfo> &flight_info) {
+  arrow::ipc::DictionaryMemo dict_memo;
+
+  ThrowIfNotOK(flight_info->GetSchema(&dict_memo, &schema_));
+}
 
 } // namespace flight_sql
 } // namespace driver
