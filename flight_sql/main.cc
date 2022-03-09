@@ -148,6 +148,27 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
   }
 }
 
+void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  const std::shared_ptr<ResultSet> &result_set =
+      statement->GetTables_V2(nullptr, nullptr, nullptr, nullptr);
+
+  const std::shared_ptr<ResultSetMetadata> &metadata =
+      result_set->GetMetadata();
+  size_t column_count = metadata->GetColumnCount();
+
+  while (result_set->Move(1) == 1) {
+    int buffer_length = 1024;
+    char result[buffer_length];
+    ssize_t result_length;
+    result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                        result, buffer_length, &result_length);
+    std::cout << result << std::endl;
+  }
+
+  std::cout << column_count << std::endl;
+}
+
 int main() {
   FlightSqlDriver driver;
 
@@ -163,9 +184,10 @@ int main() {
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
 
-  TestBindColumnBigInt(connection);
+  //  TestBindColumnBigInt(connection);
   //  TestBindColumn(connection);
-  //  TestGetData(connection);
+  //    TestGetData(connection);
+    TestGetTablesV2(connection);
 
   connection->Close();
   return 0;
