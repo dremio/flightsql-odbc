@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b356ba6_3ea916eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "based a name?",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc31621_5691db55",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "This is done twice, again at line 38.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caa79fa5_f67bbb0a",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "License header.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d27fb01c_6b46f3b3",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Spelling.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "547e43b1_962f8b42",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Do we know for sure that this is not a deep copy? Same with RecordBatch::Make at line 99.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb1ae9c2_0c25ba0d",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Let\u0027s add a class comment.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d429ddb_5ec45e22",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Proper use of the builder pattern is to have a private constructor that takes in the builder, and call that from build.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c95022_6d585463",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "I think this is unnecessary with inner classes. Please check.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "369fd44a_73396383",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Remove \"It\" from the description of these methods. Please check over the grammar in these comments.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4adc46d5_615da968",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Should this be non-const so that you can swap() vector fields instead of have to copy them?",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8b706bb_62e82f62",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "The convention is to have member fields have underscore at the end of their names.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e29157_9155db22",
+        "filename": "flight_sql/record_batch_transformer_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "License header.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfe17f73_68d9a7c1",
+        "filename": "flight_sql/record_batch_transformer_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-09T22:13:31Z",
+      "side": 1,
+      "message": "Newline at EOF.",
+      "revId": "d1fb926c12daf587abe88ef42a10a6bd8c843cba",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
