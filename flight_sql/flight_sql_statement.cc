@@ -18,7 +18,10 @@
 #include "flight_sql_statement.h"
 #include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
+#include "flight_sql_statement_get_tables.h"
+#include "record_batch_transformer.h"
 #include "utils.h"
+#include <arrow/flight/sql/server.h>
 
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
@@ -35,21 +38,23 @@ using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
 using arrow::flight::sql::PreparedStatement;
+using arrow::flight::sql::SqlSchema;
 using driver::odbcabstraction::DriverException;
 using driver::odbcabstraction::ResultSet;
 using driver::odbcabstraction::ResultSetMetadata;
 using driver::odbcabstraction::Statement;
 
 namespace {
-std::shared_ptr<FlightSqlResultSetMetadata>
-CreateResultSetMetaData(const std::shared_ptr<FlightInfo> &flight_info) {
-  std::shared_ptr<arrow::Schema> schema;
-  arrow::ipc::DictionaryMemo dict_memo;
 
-  ThrowIfNotOK(flight_info->GetSchema(&dict_memo, &schema));
-
-  return std::make_shared<FlightSqlResultSetMetadata>(schema);
+void ClosePreparedStatementIfAny(
+    std::shared_ptr<arrow::flight::sql::PreparedStatement>
+        &prepared_statement) {
+  if (prepared_statement != nullptr) {
+    ThrowIfNotOK(prepared_statement->Close());
+    prepared_statement.reset();
+  }
 }
+
 } // namespace
 
 FlightSqlStatement::FlightSqlStatement(FlightSqlClient &sql_client,
@@ -69,10 +74,7 @@ FlightSqlStatement::GetAttribute(StatementAttributeId attribute) {
 
 boost::optional<std::shared_ptr<ResultSetMetadata>>
 FlightSqlStatement::Prepare(const std::string &query) {
-  if (prepared_statement_.get() != nullptr) {
-    ThrowIfNotOK(prepared_statement_->Close());
-    prepared_statement_.reset();
-  }
+  ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<PreparedStatement>> result =
       sql_client_.Prepare(call_options_, query);
@@ -93,28 +95,21 @@ bool FlightSqlStatement::ExecutePrepared() {
   Result<std::shared_ptr<FlightInfo>> result = prepared_statement_->Execute();
   ThrowIfNotOK(result.status());
 
-  current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      current_result_set_metadata_, sql_client_, call_options_,
-      result.ValueOrDie());
+      sql_client_, call_options_, result.ValueOrDie(), nullptr);
 
   return true;
 }
 
 bool FlightSqlStatement::Execute(const std::string &query) {
-  if (prepared_statement_ != nullptr) {
-    ThrowIfNotOK(prepared_statement_->Close());
-    prepared_statement_.reset();
-  }
+  ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<FlightInfo>> result =
       sql_client_.Execute(call_options_, query);
   ThrowIfNotOK(result.status());
 
-  current_result_set_metadata_ = CreateResultSetMetaData(result.ValueOrDie());
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      current_result_set_metadata_, sql_client_, call_options_,
-      result.ValueOrDie());
+      sql_client_, call_options_, result.ValueOrDie(), nullptr);
 
   return true;
 }
@@ -128,12 +123,69 @@ long FlightSqlStatement::GetUpdateCount() { return -1; }
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  std::vector<std::string> table_types(table_type ? 1 : 0);
+  if (table_type) {
+    table_types.push_back(*table_type);
+  }
+
+  Result<std::shared_ptr<FlightInfo>> result =
+      sql_client_.GetTables(call_options_, catalog_name, schema_name,
+                            table_name, false, &table_types);
+  ThrowIfNotOK(result.status());
+
+  auto flight_info = result.ValueOrDie();
+
+  std::shared_ptr<Schema> schema;
+  ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
+
+  auto transformer = RecordBatchTransformerWithTasksBuilder(schema)
+                         .RenameField("catalog_name", "TABLE_CAT")
+                         .RenameField("schema_name", "TABLE_SCHEM")
+                         .RenameField("table_name", "TABLE_NAME")
+                         .RenameField("table_type", "TABLE_TYPE")
+                         .AddFieldOfNulls("REMARKS", utf8())
+                         .Build();
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      sql_client_, call_options_, flight_info, transformer);
+
   return current_result_set_;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  std::vector<std::string> table_types;
+
+  if (table_type) {
+    ParseTableTypes(*table_type, table_types);
+  }
+
+  if ((catalog_name && *catalog_name == "%") &&
+      (schema_name && schema_name->empty()) &&
+      (table_type && table_type->empty())) {
+    current_result_set_ =
+        GetTablesV3ForSQLAllCatalogs(call_options_, sql_client_);
+  } else if ((catalog_name && catalog_name->empty()) &&
+             (schema_name && *schema_name == "%") &&
+             (table_type && table_type->empty())) {
+    current_result_set_ =
+        GetTablesV3ForSQLAllDbSchemas(call_options_, sql_client_, schema_name);
+  } else if ((catalog_name && catalog_name->empty()) &&
+             (schema_name && schema_name->empty()) &&
+             (table_type && *table_type == "%")) {
+    current_result_set_ =
+        GetTablesV3ForSQLAllTableTypes(call_options_, sql_client_);
+  } else {
+    current_result_set_ =
+        GetTablesV3ForGenericUse(call_options_, sql_client_, catalog_name,
+                                 schema_name, table_name, table_types);
+  }
+
   return current_result_set_;
 }
 
