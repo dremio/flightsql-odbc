@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <arrow/flight/types.h>
 #include <arrow/type.h>
 #include <odbcabstraction/result_set_metadata.h>
 
@@ -24,9 +25,12 @@ namespace driver {
 namespace flight_sql {
 class FlightSqlResultSetMetadata : public odbcabstraction::ResultSetMetadata {
 private:
-  std::shared_ptr<arrow::Schema> schema;
+  std::shared_ptr<arrow::Schema> schema_;
 
 public:
+  explicit FlightSqlResultSetMetadata(
+      const std::shared_ptr<arrow::flight::FlightInfo> &flight_info);
+
   explicit FlightSqlResultSetMetadata(std::shared_ptr<arrow::Schema> schema);
 
   size_t GetColumnCount() override;
