@@ -64,8 +64,7 @@ private:
 public:
   ~FlightSqlResultSet() override;
 
-  FlightSqlResultSet(std::shared_ptr<ResultSetMetadata> metadata,
-                     FlightSqlClient &flight_sql_client,
+  FlightSqlResultSet(FlightSqlClient &flight_sql_client,
                      const arrow::flight::FlightCallOptions &call_options,
                      const std::shared_ptr<FlightInfo> &flight_info);
 
