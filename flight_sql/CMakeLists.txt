@@ -100,6 +100,7 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_result_set_column.cc
   flight_sql_result_set_metadata.cc
   flight_sql_statement.cc
+  flight_sql_statement_get_tables.cc
   flight_sql_stream_chunk_iterator.cc
   get_info_cache.cc
   record_batch_transformer.cc
@@ -147,6 +148,7 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/primitive_array_accessor_test.cc
   accessors/string_array_accessor_test.cc
   flight_sql_connection_test.cc
+  parse_table_types_test.cc
   record_batch_transformer_test.cc
 )
 
