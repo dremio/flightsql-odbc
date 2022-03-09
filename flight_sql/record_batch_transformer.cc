@@ -44,7 +44,8 @@ Result<std::shared_ptr<Array>> MakeEmptyArray(std::shared_ptr<DataType> type,
 RecordBatchTransformer::Builder &RecordBatchTransformer::Builder::RenameRecord(
     const std::string &original_name, const std::string &transformed_name) {
 
-  auto rename_task = [&original_name, &transformed_name](
+  //TODO Check this
+  auto rename_task = [=](
                          const std::shared_ptr<RecordBatch> &original_record,
                          const std::shared_ptr<Schema> &transformed_schema) {
     auto original_data_type =
@@ -64,8 +65,13 @@ RecordBatchTransformer::Builder &RecordBatchTransformer::Builder::RenameRecord(
 
   auto original_fields = schema_->GetFieldByName(original_name);
 
-  new_fields_.push_back(field(transformed_name, original_fields->type(),
-                              original_fields->metadata()));
+  if(original_fields->HasMetadata()) {
+    new_fields_.push_back(field(transformed_name, original_fields->type(),
+                                original_fields->metadata()));
+  } else {
+    new_fields_.push_back(field(transformed_name, original_fields->type(),
+                                nullptr));
+  }
 
   return *this;
 }
@@ -90,8 +96,8 @@ RecordBatchTransformer::Builder::AddEmptyFields(
   return *this;
 }
 
-RecordBatchTransformer RecordBatchTransformer::Builder::Build() {
-  RecordBatchTransformer transformer(*this);
+std::shared_ptr<RecordBatchTransformer> RecordBatchTransformer::Builder::Build() {
+  std::shared_ptr<RecordBatchTransformer> transformer(new RecordBatchTransformer(*this));
 
   return transformer;
 }

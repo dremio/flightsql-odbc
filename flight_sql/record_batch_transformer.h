@@ -26,11 +26,28 @@ namespace flight_sql {
 
 using namespace arrow;
 
+/// A base class to implement different types of transformer.
+class RecordBatchBaseTransformer {
+
+  /// Execute the transformation based on predeclared tasks created by
+  /// RenameRecord() method and/or AddEmptyFields().
+  /// \param original     The original RecordBatch that will be used as base
+  ///                     for the transformation.
+  /// \return The new transformed RecordBatch.
+  virtual std::shared_ptr<RecordBatch>
+  Transform(const std::shared_ptr<RecordBatch> &original) = 0;
+
+  /// Use the new list of fields constructed during creation of task
+  /// to return the new schema.
+  /// \return     the schema from the transformedRecordBatch.
+  virtual std::shared_ptr<Schema> GetTransformedSchema() = 0;
+};
+
 /// A transformer class which is responsible to convert the name of fields
 /// inside a RecordBatch. These fields are changed based on tasks created by the
 /// methods RenameRecord() and AddEmptyFields(). The execution of the tasks is
 /// handled by the method transformer.
-class RecordBatchTransformer {
+class RecordBatchTransformer : RecordBatchBaseTransformer {
 private:
   std::vector<std::shared_ptr<Field>> fields_;
   std::vector<std::function<std::shared_ptr<Array>(
@@ -66,25 +83,17 @@ public:
 
     /// It creates an object of RecordBatchTransformer
     /// \return a RecordBatchTransformer object.
-    RecordBatchTransformer Build();
+    std::shared_ptr<RecordBatchTransformer> Build();
 
     /// Instantiate a Builder object.
     /// \param schema   The schema from the original RecordBatch.
     explicit Builder(std::shared_ptr<Schema> schema);
   };
 
-  /// Execute the transformation based on predeclared tasks created by
-  /// RenameRecord() method and/or AddEmptyFields().
-  /// \param original     The original RecordBatch that will be used as base
-  ///                     for the transformation.
-  /// \return The new transformed RecordBatch.
   std::shared_ptr<RecordBatch>
-  Transform(const std::shared_ptr<RecordBatch> &original);
+  Transform(const std::shared_ptr<RecordBatch> &original) override;
 
-  /// Use the new list of fields constructed during creation of task
-  /// to return the new schema.
-  /// \return     the schema from the transformedRecordBatch.
-  std::shared_ptr<Schema> GetTransformedSchema();
+  std::shared_ptr<Schema> GetTransformedSchema() override;
 
 private:
   explicit RecordBatchTransformer(Builder &builder);

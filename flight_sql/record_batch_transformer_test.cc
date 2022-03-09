@@ -51,7 +51,7 @@ TEST(Transformer, TransformerRenameTest) {
                          .RenameRecord(original_name, transformed_name)
                          .Build();
 
-  auto transformed_record_batch = transformer.Transform(original_record_batch);
+  auto transformed_record_batch = transformer->Transform(original_record_batch);
 
   auto transformed_array_ptr =
       transformed_record_batch->GetColumnByName(transformed_name);
@@ -85,13 +85,13 @@ TEST(Transformer, TransformerAddEmptyVectorTest) {
                          .AddEmptyFields(emptyField, int32())
                          .Build();
 
-  auto transformed_schema = transformer.GetTransformedSchema();
+  auto transformed_schema = transformer->GetTransformedSchema();
 
   ASSERT_EQ(transformed_schema->num_fields(), 2);
   ASSERT_EQ(transformed_schema->GetFieldIndex(transformed_name), 0);
   ASSERT_EQ(transformed_schema->GetFieldIndex(emptyField), 1);
 
-  auto transformed_record_batch = transformer.Transform(original_record_batch);
+  auto transformed_record_batch = transformer->Transform(original_record_batch);
 
   auto transformed_array_ptr =
       transformed_record_batch->GetColumnByName(transformed_name);
@@ -139,7 +139,7 @@ TEST(Transformer, TransformerChangingOrderOfArrayTest) {
           .Build();
 
   const std::shared_ptr<RecordBatch> &transformed_record_batch =
-      transformer.Transform(original_record_batch);
+      transformer->Transform(original_record_batch);
 
   auto transformed_schema = transformed_record_batch->schema();
 
