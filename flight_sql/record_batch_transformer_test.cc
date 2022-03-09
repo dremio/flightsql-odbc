@@ -47,11 +47,11 @@ TEST(Transformer, TransformerRenameTest) {
   std::string original_name("test");
   std::string transformed_name("test1");
 
-  auto transformer = RecordBatchTransformer::Builder(schema)
+  auto transformer = RecordBatchTransformerWithTaskBuilder(schema)
                          .RenameRecord(original_name, transformed_name)
                          .Build();
 
-  auto transformed_record_batch = transformer.Transform(original_record_batch);
+  auto transformed_record_batch = transformer->Transform(original_record_batch);
 
   auto transformed_array_ptr =
       transformed_record_batch->GetColumnByName(transformed_name);
@@ -80,18 +80,18 @@ TEST(Transformer, TransformerAddEmptyVectorTest) {
   std::string transformed_name("test1");
   auto emptyField = std::string("empty");
 
-  auto transformer = RecordBatchTransformer::Builder(schema)
+  auto transformer = RecordBatchTransformerWithTaskBuilder(schema)
                          .RenameRecord(original_name, transformed_name)
                          .AddEmptyFields(emptyField, int32())
                          .Build();
 
-  auto transformed_schema = transformer.GetTransformedSchema();
+  auto transformed_schema = transformer->GetTransformedSchema();
 
   ASSERT_EQ(transformed_schema->num_fields(), 2);
   ASSERT_EQ(transformed_schema->GetFieldIndex(transformed_name), 0);
   ASSERT_EQ(transformed_schema->GetFieldIndex(emptyField), 1);
 
-  auto transformed_record_batch = transformer.Transform(original_record_batch);
+  auto transformed_record_batch = transformer->Transform(original_record_batch);
 
   auto transformed_array_ptr =
       transformed_record_batch->GetColumnByName(transformed_name);
@@ -131,7 +131,7 @@ TEST(Transformer, TransformerChangingOrderOfArrayTest) {
       RecordBatch::Make(schema, 5, {first_array, second_array, third_array});
 
   auto transformer =
-      RecordBatchTransformer::Builder(schema)
+      RecordBatchTransformerWithTaskBuilder(schema)
           .RenameRecord(std::string("third_array"), std::string("test3"))
           .RenameRecord(std::string("second_array"), std::string("test2"))
           .RenameRecord(std::string("first_array"), std::string("test1"))
@@ -139,7 +139,7 @@ TEST(Transformer, TransformerChangingOrderOfArrayTest) {
           .Build();
 
   const std::shared_ptr<RecordBatch> &transformed_record_batch =
-      transformer.Transform(original_record_batch);
+      transformer->Transform(original_record_batch);
 
   auto transformed_schema = transformed_record_batch->schema();
 
