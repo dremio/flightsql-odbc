@@ -66,7 +66,7 @@ public:
 
     /// It creates an object of RecordBatchTransformer
     /// \return a RecordBatchTransformer object.
-    RecordBatchTransformer Build();
+    std::shared_ptr<RecordBatchTransformer> Build();
 
     /// Instantiate a Builder object.
     /// \param schema   The schema from the original RecordBatch.
