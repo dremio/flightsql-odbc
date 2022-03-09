@@ -40,14 +40,18 @@ using odbcabstraction::CDataType;
 using odbcabstraction::DriverException;
 
 FlightSqlResultSet::FlightSqlResultSet(
-    std::shared_ptr<ResultSetMetadata> metadata,
     FlightSqlClient &flight_sql_client,
     const arrow::flight::FlightCallOptions &call_options,
-    const std::shared_ptr<FlightInfo> &flight_info)
-    : metadata_(std::move(metadata)), columns_(metadata->GetColumnCount()),
-      get_data_offsets_(metadata->GetColumnCount()), current_row_(0),
-      num_binding_(0),
-      chunk_iterator_(flight_sql_client, call_options, flight_info) {
+    const std::shared_ptr<FlightInfo> &flight_info,
+    const std::shared_ptr<RecordBatchTransformer> &transformer)
+    : num_binding_(0), current_row_(0),
+      chunk_iterator_(flight_sql_client, call_options, flight_info),
+      transformer_(transformer),
+      metadata_(transformer ? new FlightSqlResultSetMetadata(
+                                  transformer->GetTransformedSchema())
+                            : new FlightSqlResultSetMetadata(flight_info)),
+      columns_(metadata_->GetColumnCount()),
+      get_data_offsets_(metadata_->GetColumnCount()) {
   current_chunk_.data = nullptr;
 
   for (int i = 0; i < columns_.size(); ++i) {
@@ -64,6 +68,10 @@ size_t FlightSqlResultSet::Move(size_t rows) {
   if (current_chunk_.data == nullptr) {
     if (!chunk_iterator_.GetNext(&current_chunk_)) {
       return 0;
+    }
+
+    if (transformer_) {
+      current_chunk_.data = transformer_->Transform(current_chunk_.data);
     }
   }
 
@@ -83,6 +91,11 @@ size_t FlightSqlResultSet::Move(size_t rows) {
       if (!chunk_iterator_.GetNext(&current_chunk_)) {
         break;
       }
+
+      if (transformer_) {
+        current_chunk_.data = transformer_->Transform(current_chunk_.data);
+      }
+
       for (auto &column : columns_) {
         column.ResetAccessor();
       }

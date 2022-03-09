@@ -19,6 +19,7 @@
 
 #include "flight_sql_result_set_accessors.h"
 #include "flight_sql_stream_chunk_iterator.h"
+#include "record_batch_transformer.h"
 #include "utils.h"
 #include <accessors/types.h>
 #include <arrow/array.h>
@@ -50,24 +51,24 @@ class FlightSqlResultSetColumn;
 
 class FlightSqlResultSet : public ResultSet {
 private:
-  std::vector<FlightSqlResultSetColumn> columns_;
-  std::vector<int64_t> get_data_offsets_;
-
   int num_binding_;
-  std::shared_ptr<ResultSetMetadata> metadata_;
-
   int64_t current_row_;
   FlightStreamChunkIterator chunk_iterator_;
   FlightStreamChunk current_chunk_;
   std::shared_ptr<Schema> schema_;
+  std::shared_ptr<RecordBatchTransformer> transformer_;
+  std::shared_ptr<ResultSetMetadata> metadata_;
+  std::vector<FlightSqlResultSetColumn> columns_;
+  std::vector<int64_t> get_data_offsets_;
 
 public:
   ~FlightSqlResultSet() override;
 
-  FlightSqlResultSet(std::shared_ptr<ResultSetMetadata> metadata,
-                     FlightSqlClient &flight_sql_client,
-                     const arrow::flight::FlightCallOptions &call_options,
-                     const std::shared_ptr<FlightInfo> &flight_info);
+  FlightSqlResultSet(
+      FlightSqlClient &flight_sql_client,
+      const arrow::flight::FlightCallOptions &call_options,
+      const std::shared_ptr<FlightInfo> &flight_info,
+      const std::shared_ptr<RecordBatchTransformer> &transformer);
 
   void Close() override;
 

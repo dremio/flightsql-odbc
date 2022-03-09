@@ -39,13 +39,57 @@ Result<std::shared_ptr<Array>> MakeEmptyArray(std::shared_ptr<DataType> type,
   RETURN_NOT_OK(builder->AppendNulls(array_size));
   return builder->Finish();
 }
+
+/// A transformer class which is responsible to convert the name of fields
+/// inside a RecordBatch. These fields are changed based on tasks created by the
+/// methods RenameField() and AddFieldOfNulls(). The execution of the tasks is
+/// handled by the method transformer.
+class RecordBatchTransformerWithTasks : public RecordBatchTransformer {
+private:
+  std::vector<std::shared_ptr<Field>> fields_;
+  std::vector<std::function<std::shared_ptr<Array>(
+      const std::shared_ptr<RecordBatch> &original_record_batch,
+      const std::shared_ptr<Schema> &transformed_schema)>>
+      tasks_;
+
+public:
+  RecordBatchTransformerWithTasks(
+      std::vector<std::shared_ptr<Field>> fields,
+      std::vector<std::function<std::shared_ptr<Array>(
+          const std::shared_ptr<RecordBatch> &original_record_batch,
+          const std::shared_ptr<Schema> &transformed_schema)>>
+          tasks) {
+    this->fields_.swap(fields);
+    this->tasks_.swap(tasks);
+  }
+
+  std::shared_ptr<RecordBatch>
+  Transform(const std::shared_ptr<RecordBatch> &original) override {
+    auto new_schema = schema(fields_);
+
+    std::vector<std::shared_ptr<Array>> arrays;
+    arrays.reserve(new_schema->num_fields());
+
+    for (const auto &item : tasks_) {
+      arrays.emplace_back(item(original, new_schema));
+    }
+
+    auto transformed_batch =
+        RecordBatch::Make(new_schema, original->num_rows(), arrays);
+    return transformed_batch;
+  }
+
+  std::shared_ptr<Schema> GetTransformedSchema() override {
+    return schema(fields_);
+  }
+};
 } // namespace
 
-RecordBatchTransformer::Builder &RecordBatchTransformer::Builder::RenameRecord(
+RecordBatchTransformerWithTasksBuilder &
+RecordBatchTransformerWithTasksBuilder::RenameField(
     const std::string &original_name, const std::string &transformed_name) {
 
-  auto rename_task = [&original_name, &transformed_name](
-                         const std::shared_ptr<RecordBatch> &original_record,
+  auto rename_task = [=](const std::shared_ptr<RecordBatch> &original_record,
                          const std::shared_ptr<Schema> &transformed_schema) {
     auto original_data_type =
         original_record->schema()->GetFieldByName(original_name);
@@ -64,21 +108,26 @@ RecordBatchTransformer::Builder &RecordBatchTransformer::Builder::RenameRecord(
 
   auto original_fields = schema_->GetFieldByName(original_name);
 
-  new_fields_.push_back(field(transformed_name, original_fields->type(),
-                              original_fields->metadata()));
+  if (original_fields->HasMetadata()) {
+    new_fields_.push_back(field(transformed_name, original_fields->type(),
+                                original_fields->metadata()));
+  } else {
+    new_fields_.push_back(
+        field(transformed_name, original_fields->type(), nullptr));
+  }
 
   return *this;
 }
 
-RecordBatchTransformer::Builder &
-RecordBatchTransformer::Builder::AddEmptyFields(
+RecordBatchTransformerWithTasksBuilder &
+RecordBatchTransformerWithTasksBuilder::AddFieldOfNulls(
     const std::string &field_name, const std::shared_ptr<DataType> &data_type) {
   auto empty_fields_task =
       [=](const std::shared_ptr<RecordBatch> &original_record,
           const std::shared_ptr<Schema> &transformed_schema) {
         auto result =
             MakeEmptyArray(data_type, nullptr, original_record->num_rows());
-        driver::flight_sql::ThrowIfNotOK(result.status());
+        ThrowIfNotOK(result.status());
 
         return result.ValueOrDie();
       };
@@ -90,38 +139,17 @@ RecordBatchTransformer::Builder::AddEmptyFields(
   return *this;
 }
 
-RecordBatchTransformer RecordBatchTransformer::Builder::Build() {
-  RecordBatchTransformer transformer(*this);
+std::shared_ptr<RecordBatchTransformer>
+RecordBatchTransformerWithTasksBuilder::Build() {
+  std::shared_ptr<RecordBatchTransformerWithTasks> transformer(
+      new RecordBatchTransformerWithTasks(this->new_fields_,
+                                          this->task_collection_));
 
   return transformer;
 }
 
-RecordBatchTransformer::Builder::Builder(std::shared_ptr<Schema> schema)
+RecordBatchTransformerWithTasksBuilder::RecordBatchTransformerWithTasksBuilder(
+    std::shared_ptr<Schema> schema)
     : schema_(std::move(schema)) {}
-
-std::shared_ptr<RecordBatch> RecordBatchTransformer::Transform(
-    const std::shared_ptr<RecordBatch> &original) {
-  auto new_schema = schema(fields_);
-
-  std::vector<std::shared_ptr<Array>> arrays;
-
-  for (const auto &item : tasks_) {
-    arrays.push_back(item(original, new_schema));
-  }
-
-  auto transformed_batch =
-      RecordBatch::Make(new_schema, original->num_rows(), arrays);
-  return transformed_batch;
-}
-
-std::shared_ptr<Schema> RecordBatchTransformer::GetTransformedSchema() {
-  return schema(fields_);
-}
-
-RecordBatchTransformer::RecordBatchTransformer(
-    RecordBatchTransformer::Builder &builder) {
-  this->fields_.swap(builder.new_fields_);
-  this->tasks_.swap(builder.task_collection_);
-}
 } // namespace flight_sql
 } // namespace driver
