@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1a4b6d6_05bf965a",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-11T16:39:13Z",
+      "side": 1,
+      "message": "Array should have the same size as the RecordBatch",
+      "revId": "f27b6de3dc512d25e734adb85099374338d3ccc0",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de",
+      "unresolved": true
+    }
+  ]
+}
