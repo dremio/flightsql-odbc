@@ -101,6 +101,7 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_result_set_metadata.cc
   flight_sql_statement.cc
   flight_sql_stream_chunk_iterator.cc
+  flight_sql_statement_get_tables.cc
   record_batch_transformer.cc
 )
 
