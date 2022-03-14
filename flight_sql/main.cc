@@ -81,8 +81,7 @@ void TestBindColumn(const std::shared_ptr<Connection> &connection) {
 void TestGetData(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
   statement->Execute(
-      "SELECT IncidntNum, Category FROM \"@dremio\".Test LIMIT 10");
-
+    "SELECT NAME, LATITUDE FROM \"@dremio\".test LIMIT 10");
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
   while (result_set->Move(1) == 1) {
@@ -156,14 +155,31 @@ void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<ResultSetMetadata> &metadata =
       result_set->GetMetadata();
   size_t column_count = metadata->GetColumnCount();
+  auto string = metadata->GetColumnName(1);
+  auto string2 = metadata->GetColumnName(2);
+  auto string3 = metadata->GetColumnName(3);
+  auto string4 = metadata->GetColumnName(4);
 
   while (result_set->Move(1) == 1) {
     int buffer_length = 1024;
     char result[buffer_length];
+    char result2[buffer_length];
+    char result3[buffer_length];
+    char result4[buffer_length];
     ssize_t result_length;
     result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
                         result, buffer_length, &result_length);
+    result_set->GetData(2, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                        result2, buffer_length, &result_length);
+    result_set->GetData(3, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                        result3, buffer_length, &result_length);
+    result_set->GetData(4, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                        result4, buffer_length, &result_length);
     std::cout << result << std::endl;
+    std::cout << result2 << std::endl;
+    std::cout << result3 << std::endl;
+    std::cout << result4 << std::endl;
+    std::cout << "=========" << std::endl;
   }
 
   std::cout << column_count << std::endl;
@@ -186,8 +202,8 @@ int main() {
 
   //  TestBindColumnBigInt(connection);
   //  TestBindColumn(connection);
-  //  TestGetData(connection);
-  TestGetTablesV2(connection);
+  //    TestGetData(connection);
+  //  TestGetTablesV2(connection);
 
   connection->Close();
   return 0;
