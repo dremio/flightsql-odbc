@@ -18,6 +18,7 @@
 #include "flight_sql_statement.h"
 #include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
+#include "flight_sql_statement_get_tables.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
 #include <arrow/flight/sql/server.h>
@@ -156,6 +157,35 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  std::vector<std::string> table_types;
+
+  if (table_type) {
+    ParseTableTypes(*table_type, table_types);
+  }
+
+  if ((catalog_name && *catalog_name == "%") &&
+      (schema_name && schema_name->empty()) &&
+      (table_type && table_type->empty())) {
+    current_result_set_ =
+        GetTablesV3ForSQLAllCatalogs(call_options_, sql_client_);
+  } else if ((catalog_name && catalog_name->empty()) &&
+             (schema_name && *schema_name == "%") &&
+             (table_type && table_type->empty())) {
+    current_result_set_ =
+        GetTablesV3ForSQLAllDbSchemas(call_options_, sql_client_, schema_name);
+  } else if ((catalog_name && catalog_name->empty()) &&
+             (schema_name && schema_name->empty()) &&
+             (table_type && *table_type == "%")) {
+    current_result_set_ =
+        GetTablesV3ForSQLAllTableTypes(call_options_, sql_client_);
+  } else {
+    current_result_set_ =
+        GetTablesV3ForGenericUse(call_options_, sql_client_, catalog_name,
+                                 schema_name, table_name, table_types);
+  }
+
   return current_result_set_;
 }
 
