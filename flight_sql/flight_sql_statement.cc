@@ -23,6 +23,7 @@
 #include <arrow/flight/sql/server.h>
 
 #include <boost/optional.hpp>
+#include <boost/algorithm/string.hpp>
 #include <odbcabstraction/exceptions.h>
 
 namespace driver {
@@ -157,6 +158,71 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  std::vector<std::string> table_types(table_type ? 1 : 0);
+  if (table_type) {
+    table_types.push_back(*table_type);
+  }
+
+  Result<std::shared_ptr<FlightInfo>> result;
+  std::shared_ptr<Schema> schema;
+  std::shared_ptr<FlightInfo> flight_info;
+
+
+  std::shared_ptr<RecordBatchTransformer> transformer;
+
+  if((*catalog_name == std::string("%"))
+     && (schema_name->empty())
+     && (table_name->empty())) {
+
+    result = sql_client_.GetCatalogs(call_options_);
+    ThrowIfNotOK(result.status());
+
+    flight_info = result.ValueOrDie();
+
+    ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
+
+    transformer = RecordBatchTransformer::Builder(schema)
+      .RenameRecord(std::string("catalog_name"), std::string("TABLE_CAT"))
+      .AddEmptyFields(std::string("TABLE_SCHEM"), utf8())
+      .AddEmptyFields(std::string("TABLE_NAME"), utf8())
+      .AddEmptyFields(std::string("TABLE_TYPE"), utf8())
+      .AddEmptyFields(std::string("REMARKS"), utf8())
+      .Build();
+  } else if((*catalog_name ==  "empty_string")
+            && (*schema_name ==  "%")
+            && (*table_name ==  "empty_string")) {
+    transformer = RecordBatchTransformer::Builder(schema)
+      .AddEmptyFields(std::string("TABLE_CAT"), utf8())
+      .RenameRecord(std::string("schema_name"), std::string("TABLE_SCHEM"))
+      .AddEmptyFields("TABLE_NAME", utf8())
+      .AddEmptyFields("TABLE_TYPE", utf8())
+      .AddEmptyFields("REMARKS", utf8())
+      .Build();
+  } else if((*catalog_name == "empty_string")
+            && (*schema_name == "empty_string")
+            && (*table_name == "%")) {
+    transformer = RecordBatchTransformer::Builder(schema)
+      .AddEmptyFields(std::string("TABLE_CAT"), utf8())
+      .AddEmptyFields(std::string("TABLE_SCHEM"), utf8())
+      .RenameRecord(std::string("table_name"), std::string("TABLE_NAME"))
+      .AddEmptyFields("TABLE_TYPE", utf8())
+      .AddEmptyFields("REMARKS", utf8())
+      .Build();
+  } else {
+    transformer = RecordBatchTransformer::Builder(schema)
+      .RenameRecord(std::string("catalog_name"), std::string("TABLE_CAT"))
+      .RenameRecord(std::string("schema_name"), std::string("TABLE_SCHEM"))
+      .RenameRecord(std::string("table_name"), std::string("TABLE_NAME"))
+      .RenameRecord(std::string("table_type"), std::string("TABLE_TYPE"))
+      .AddEmptyFields("REMARKS", utf8())
+      .Build();
+  }
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+    sql_client_, call_options_, flight_info, transformer);
+
   return current_result_set_;
 }
 

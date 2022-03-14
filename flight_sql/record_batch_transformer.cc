@@ -126,7 +126,7 @@ RecordBatchTransformerWithTaskBuilder::AddEmptyFields(
           const std::shared_ptr<Schema> &transformed_schema) {
         auto result =
             MakeEmptyArray(data_type, nullptr, original_record->num_rows());
-        driver::flight_sql::ThrowIfNotOK(result.status());
+       ThrowIfNotOK(result.status());
 
         return result.ValueOrDie();
       };
