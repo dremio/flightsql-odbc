@@ -156,6 +156,87 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  std::vector<std::string> table_types(table_type ? 1 : 0);
+  if (table_type) {
+    table_types.push_back(*table_type);
+  }
+
+  Result<std::shared_ptr<FlightInfo>> result;
+  std::shared_ptr<Schema> schema;
+  std::shared_ptr<FlightInfo> flight_info;
+  std::shared_ptr<RecordBatchTransformer> transformer;
+
+  if((catalog_name && *catalog_name == "%")
+     && (schema_name && schema_name->empty())
+     && (table_name && table_name->empty())) {
+
+    result = sql_client_.GetCatalogs(call_options_);
+
+    ThrowIfNotOK(result.status());
+    flight_info = result.ValueOrDie();
+    ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
+
+    transformer = RecordBatchTransformerWithTasksBuilder(schema)
+      .RenameField("catalog_name", "TABLE_CAT")
+      .AddFieldOfNulls("TABLE_SCHEM", utf8())
+      .AddFieldOfNulls("TABLE_NAME", utf8())
+      .AddFieldOfNulls("TABLE_TYPE", utf8())
+      .AddFieldOfNulls("REMARKS", utf8())
+      .Build();
+  } else if((catalog_name && catalog_name->empty())
+            && (schema_name && *schema_name ==  "%")
+            && (table_type && table_type->empty())) {
+    result = sql_client_.GetDbSchemas(call_options_, nullptr, schema_name);
+
+    ThrowIfNotOK(result.status());
+    flight_info = result.ValueOrDie();
+    ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
+
+    transformer = RecordBatchTransformerWithTasksBuilder(schema)
+      .AddFieldOfNulls("TABLE_CAT", utf8())
+      .RenameField("schema_name", "TABLE_SCHEM")
+      .AddFieldOfNulls("TABLE_NAME", utf8())
+      .AddFieldOfNulls("TABLE_TYPE", utf8())
+      .AddFieldOfNulls("REMARKS", utf8())
+      .Build();
+  } else if((catalog_name && catalog_name->empty())
+            && (schema_name && schema_name->empty())
+            && (table_type && *table_type == "%")) {
+    result = sql_client_.GetTableTypes(call_options_);
+
+    ThrowIfNotOK(result.status());
+    flight_info = result.ValueOrDie();
+    ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
+
+    transformer = RecordBatchTransformerWithTasksBuilder(schema)
+      .AddFieldOfNulls("TABLE_CAT", utf8())
+      .AddFieldOfNulls("TABLE_SCHEM", utf8())
+      .AddFieldOfNulls("TABLE_NAME", utf8())
+      .RenameField("table_type", "TABLE_TYPE")
+      .AddFieldOfNulls("REMARKS", utf8())
+      .Build();
+  } else {
+    result = sql_client_.GetTables(call_options_, catalog_name, schema_name,
+                                       table_name, false, &table_types);
+
+    ThrowIfNotOK(result.status());
+    flight_info = result.ValueOrDie();
+    ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
+
+    transformer = RecordBatchTransformerWithTasksBuilder(schema)
+      .RenameField("catalog_name", "TABLE_CAT")
+      .RenameField("schema_name", "TABLE_SCHEM")
+      .RenameField("table_name", "TABLE_NAME")
+      .RenameField("table_type", "TABLE_TYPE")
+      .AddFieldOfNulls("REMARKS", utf8())
+      .Build();
+  }
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+    sql_client_, call_options_, flight_info, transformer);
+
   return current_result_set_;
 }
 
