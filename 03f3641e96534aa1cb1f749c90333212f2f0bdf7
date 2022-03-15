@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "539a9830_8b435549",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-15T19:02:57Z",
+      "side": 1,
+      "message": "We need to handle the special cases for this as defined in the spec, such as when catalog_name \u003d SQL_ALL_CATALOGS, schema is empty (not null!), and table is empty (not null!), we are supposed to return the list of catalogs only, and set everything else to null. Similar for SQL_ALL_SCHEMAS, SQL_ALL_TABLE_TYPES.\n\nIs this covered here or does the producer do this?",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "936c8f56_f3ee5099",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-15T19:02:57Z",
+      "side": 1,
+      "message": "Table type can be a comma-separated list with optional brackets. Elements can either be quoted with a single quote or unquoted.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5e6766_dd519970",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-15T19:02:57Z",
+      "side": 1,
+      "message": "Does the DremioFlightProducer return the result of GetTables in the order defined in the ODBC spec? It\u0027s supposed to be sorted alphabetically by TABLE_TYPE, TABLE_CAT, TABLE_SCHEM, and TABLE_NAME.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faee24b7_8ab07f04",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-15T19:02:57Z",
+      "side": 1,
+      "message": "These are the ODBC 3 names. See:\nhttps://docs.microsoft.com/en-us/sql/odbc/reference/syntax/sqltables-function?view\u003dsql-server-ver15#comments",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c13812_1692a2f4",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-15T19:02:57Z",
+      "side": 1,
+      "message": "Why introduce polymorphism here if there\u0027s only one implementation? Use of virtual prevents inlining.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
