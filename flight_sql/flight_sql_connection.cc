@@ -17,13 +17,16 @@
 
 #include "flight_sql_connection.h"
 
-#include "flight_sql_auth_method.h"
-#include "flight_sql_statement.h"
 #include <arrow/flight/client_cookie_middleware.h>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
+#include <sqlext.h>
+
+#include "flight_sql_auth_method.h"
+#include "flight_sql_statement.h"
+#include "utils.h"
 
 namespace driver {
 namespace flight_sql {
@@ -44,18 +47,14 @@ using driver::odbcabstraction::Statement;
 const std::string FlightSqlConnection::HOST = "host";
 const std::string FlightSqlConnection::PORT = "port";
 const std::string FlightSqlConnection::USER = "user";
+const std::string FlightSqlConnection::UID = "uid";
 const std::string FlightSqlConnection::PASSWORD = "password";
+const std::string FlightSqlConnection::PWD = "pwd";
 const std::string FlightSqlConnection::USE_TLS = "useTls";
 
 namespace {
 // TODO: Add properties for getting the certificates
 // TODO: Check if gRPC can use the system truststore, if not copy from Drill
-
-inline void ThrowIfNotOK(const Status &status) {
-  if (!status.ok()) {
-    throw DriverException(status.ToString());
-  }
-}
 
 Connection::ConnPropertyMap::const_iterator
 TrackMissingRequiredProperty(const std::string &property,
@@ -91,6 +90,11 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     auth_method->Authenticate(*this, call_options_);
 
     sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
+
+    // Note: This should likely come from Flight instead of being from the
+    // connection properties to allow reporting a user for other auth mechanisms
+    // and also decouple the database user from user credentials.
+    info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
     SetAttribute(CONNECTION_DEAD, false);
 
     PopulateCallOptionsFromAttributes();
@@ -181,11 +185,12 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
-  throw DriverException("GetInfo not implemented");
+  return info_.GetInfo(info_type);
 }
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
-    : odbc_version_(odbc_version) {}
+    : odbc_version_(odbc_version), info_(call_options_, sql_client_),
+      closed_(false) {}
 
 } // namespace flight_sql
 } // namespace driver
