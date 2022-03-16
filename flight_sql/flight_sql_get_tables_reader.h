@@ -15,33 +15,37 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include "flight_sql_connection.h"
-#include <arrow/flight/client.h>
-#include <map>
-#include <memory>
-#include <odbcabstraction/connection.h>
-#include <string>
+#include "record_batch_transformer.h"
+#include <arrow/array/builder_binary.h>
+#include <arrow/array/builder_primitive.h>
+#include <arrow/status.h>
+#include <arrow/util/optional.h>
 
 namespace driver {
 namespace flight_sql {
 
-class FlightSqlAuthMethod {
+using namespace arrow;
+using arrow::util::optional;
+
+class GetTablesReader {
+private:
+  std::shared_ptr<RecordBatch> record_batch_;
+  int64_t current_row_;
+
 public:
-  virtual ~FlightSqlAuthMethod() = default;
+  explicit GetTablesReader(std::shared_ptr<RecordBatch> record_batch);
 
-  virtual void Authenticate(FlightSqlConnection &connection,
-                            arrow::flight::FlightCallOptions &call_options) = 0;
+  bool Next();
 
-  virtual std::string GetUser() { return std::string(); }
+  optional<std::string> GetCatalogName();
 
-  static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
-      const std::unique_ptr<arrow::flight::FlightClient> &client,
-      const odbcabstraction::Connection::ConnPropertyMap &properties);
+  optional<std::string> GetDbSchemaName();
 
-protected:
-  FlightSqlAuthMethod() = default;
+  std::string GetTableName();
+
+  std::string GetTableType();
+
+  std::shared_ptr<Schema> GetSchema();
 };
 
 } // namespace flight_sql

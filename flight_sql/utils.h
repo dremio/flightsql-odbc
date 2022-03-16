@@ -18,16 +18,53 @@
 #pragma once
 
 #include <arrow/flight/types.h>
+#include <arrow/util/optional.h>
+#include <boost/xpressive/xpressive.hpp>
 #include <odbcabstraction/exceptions.h>
+#include <odbcabstraction/types.h>
 
 namespace driver {
 namespace flight_sql {
+
+using arrow::util::optional;
 
 inline void ThrowIfNotOK(const arrow::Status &status) {
   if (!status.ok()) {
     throw odbcabstraction::DriverException(status.ToString());
   }
 }
+
+template <typename BUILDER, typename T>
+arrow::Status AppendToBuilder(BUILDER &builder, optional<T> opt_value) {
+  if (opt_value.has_value()) {
+    return builder.Append(opt_value.value());
+  } else {
+    return builder.AppendNull();
+  }
+}
+
+template <typename BUILDER, typename T>
+arrow::Status AppendToBuilder(BUILDER &builder, T value) {
+  return builder.Append(value);
+}
+
+odbcabstraction::SqlDataType
+GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field);
+
+int16_t
+GetDataTypeFromArrowField_V2(const std::shared_ptr<arrow::Field> &field);
+
+std::string GetTypeNameFromSqlDataType(int16_t data_type);
+
+optional<int16_t> GetRadixFromSqlDataType(int16_t data_type);
+
+int16_t GetNonConciseDataType(int16_t data_type);
+
+optional<int16_t> GetSqlDateTimeSubCode(int16_t data_type);
+
+std::string ConvertSqlPatternToRegexString(const std::string &pattern);
+
+boost::xpressive::sregex ConvertSqlPatternToRegex(const std::string &pattern);
 
 } // namespace flight_sql
 } // namespace driver

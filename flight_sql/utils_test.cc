@@ -15,34 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include "flight_sql_connection.h"
-#include <arrow/flight/client.h>
-#include <map>
-#include <memory>
-#include <odbcabstraction/connection.h>
-#include <string>
+#include "utils.h"
+#include "gtest/gtest.h"
 
 namespace driver {
 namespace flight_sql {
 
-class FlightSqlAuthMethod {
-public:
-  virtual ~FlightSqlAuthMethod() = default;
-
-  virtual void Authenticate(FlightSqlConnection &connection,
-                            arrow::flight::FlightCallOptions &call_options) = 0;
-
-  virtual std::string GetUser() { return std::string(); }
-
-  static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
-      const std::unique_ptr<arrow::flight::FlightClient> &client,
-      const odbcabstraction::Connection::ConnPropertyMap &properties);
-
-protected:
-  FlightSqlAuthMethod() = default;
-};
+TEST(Utils, ConvertSqlPatternToRegexString) {
+  ASSERT_EQ(std::string("XY"), ConvertSqlPatternToRegexString("XY"));
+  ASSERT_EQ(std::string("X.Y"), ConvertSqlPatternToRegexString("X_Y"));
+  ASSERT_EQ(std::string("X.*Y"), ConvertSqlPatternToRegexString("X%Y"));
+  ASSERT_EQ(std::string("X%Y"), ConvertSqlPatternToRegexString("X\\%Y"));
+  ASSERT_EQ(std::string("X_Y"), ConvertSqlPatternToRegexString("X\\_Y"));
+}
 
 } // namespace flight_sql
 } // namespace driver

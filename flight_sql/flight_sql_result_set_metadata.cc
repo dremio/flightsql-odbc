@@ -54,68 +54,7 @@ size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
 
 SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  const std::shared_ptr<DataType> &type = field->type();
-
-  switch (type->id()) {
-  case arrow::Type::BOOL:
-    return SqlDataType_BIT;
-  case arrow::Type::UINT8:
-  case arrow::Type::INT8:
-    return SqlDataType_TINYINT;
-  case arrow::Type::UINT16:
-  case arrow::Type::INT16:
-    return SqlDataType_SMALLINT;
-  case arrow::Type::UINT32:
-  case arrow::Type::INT32:
-    return SqlDataType_INTEGER;
-  case arrow::Type::UINT64:
-  case arrow::Type::INT64:
-    return SqlDataType_BIGINT;
-  case arrow::Type::HALF_FLOAT:
-  case arrow::Type::FLOAT:
-    return SqlDataType_FLOAT;
-  case arrow::Type::DOUBLE:
-    return SqlDataType_DOUBLE;
-  case arrow::Type::BINARY:
-  case arrow::Type::FIXED_SIZE_BINARY:
-  case arrow::Type::LARGE_BINARY:
-    return SqlDataType_BINARY;
-  case arrow::Type::STRING:
-  case arrow::Type::LARGE_STRING:
-    return SqlDataType_VARCHAR;
-  case arrow::Type::DATE32:
-  case arrow::Type::DATE64:
-    return SqlDataType_TYPE_DATE;
-  case arrow::Type::TIMESTAMP:
-    return SqlDataType_TYPE_TIMESTAMP;
-  case arrow::Type::DECIMAL128:
-  case arrow::Type::DECIMAL256:
-    return SqlDataType_DECIMAL;
-  case arrow::Type::TIME32:
-  case arrow::Type::TIME64:
-    return SqlDataType_TYPE_TIME;
-
-  // TODO: Handle remaining types.
-  case arrow::Type::INTERVAL_MONTHS:
-  case arrow::Type::INTERVAL_DAY_TIME:
-  case arrow::Type::INTERVAL_MONTH_DAY_NANO:
-  case arrow::Type::LIST:
-  case arrow::Type::STRUCT:
-  case arrow::Type::SPARSE_UNION:
-  case arrow::Type::DENSE_UNION:
-  case arrow::Type::DICTIONARY:
-  case arrow::Type::MAP:
-  case arrow::Type::EXTENSION:
-  case arrow::Type::FIXED_SIZE_LIST:
-  case arrow::Type::DURATION:
-  case arrow::Type::LARGE_LIST:
-  case arrow::Type::MAX_ID:
-  case arrow::Type::NA:
-    break;
-  }
-
-  throw driver::odbcabstraction::DriverException("Unsupported data type: " +
-                                                 type->ToString());
+  return GetDataTypeFromArrowField_V3(field);
 }
 
 driver::odbcabstraction::Nullability
