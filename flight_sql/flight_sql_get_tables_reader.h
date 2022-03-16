@@ -15,40 +15,38 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include <arrow/flight/types.h>
+#include "record_batch_transformer.h"
+#include <arrow/array/builder_binary.h>
+#include <arrow/array/builder_primitive.h>
+#include <arrow/status.h>
 #include <arrow/util/optional.h>
-#include <odbcabstraction/exceptions.h>
-#include <odbcabstraction/types.h>
-#include <regex>
 
 namespace driver {
 namespace flight_sql {
 
+using namespace arrow;
 using arrow::util::optional;
 
-inline void ThrowIfNotOK(const arrow::Status &status) {
-  if (!status.ok()) {
-    throw odbcabstraction::DriverException(status.ToString());
-  }
-}
+class GetTablesReader {
+private:
+  std::shared_ptr<RecordBatch> record_batch_;
+  int64_t current_row_;
 
-odbcabstraction::SqlDataType
-GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field);
+public:
+  explicit GetTablesReader(std::shared_ptr<RecordBatch> record_batch);
 
-int16_t
-GetDataTypeFromArrowField_V2(const std::shared_ptr<arrow::Field> &field);
+  bool Next();
 
-std::string GetTypeNameFromSqlDataType(int16_t data_type);
+  optional<std::string> GetCatalogName();
 
-optional<int16_t> GetRadixFromSqlDataType(int16_t data_type);
+  optional<std::string> GetDbSchemaName();
 
-int16_t GetNonConciseDataType(int16_t data_type);
+  std::string GetTableName();
 
-optional<int16_t> GetSqlDateTimeSubCode(int16_t data_type);
+  std::string GetTableType();
 
-std::regex CreateRegexFromSqlPattern(const std::string &pattern);
+  std::shared_ptr<Schema> GetSchema();
+};
 
 } // namespace flight_sql
 } // namespace driver

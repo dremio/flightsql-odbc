@@ -63,6 +63,25 @@ enum SqlDataType {
   SqlDataType_GUID = (-11),
 };
 
+enum SqlDateTimeSubCode {
+  SqlDateTimeSubCode_DATE = 1,
+  SqlDateTimeSubCode_TIME = 2,
+  SqlDateTimeSubCode_TIMESTAMP = 3,
+  SqlDateTimeSubCode_YEAR = 1,
+  SqlDateTimeSubCode_MONTH = 2,
+  SqlDateTimeSubCode_DAY = 3,
+  SqlDateTimeSubCode_HOUR = 4,
+  SqlDateTimeSubCode_MINUTE = 5,
+  SqlDateTimeSubCode_SECOND = 6,
+  SqlDateTimeSubCode_YEAR_TO_MONTH = 7,
+  SqlDateTimeSubCode_DAY_TO_HOUR = 8,
+  SqlDateTimeSubCode_DAY_TO_MINUTE = 9,
+  SqlDateTimeSubCode_DAY_TO_SECOND = 10,
+  SqlDateTimeSubCode_HOUR_TO_MINUTE = 11,
+  SqlDateTimeSubCode_HOUR_TO_SECOND = 12,
+  SqlDateTimeSubCode_MINUTE_TO_SECOND = 13,
+};
+
 // Based on ODBC sql.h and sqlext.h definitions.
 enum CDataType {
   CDataType_CHAR = 1,
