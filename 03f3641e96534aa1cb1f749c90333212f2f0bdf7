@@ -104,6 +104,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "477f916b_81dd1567",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T17:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52a47db_27a596f4",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f5098ad_74f184c4",
@@ -117,6 +135,24 @@
       "writtenOn": "2022-03-16T15:10:53Z",
       "side": 1,
       "message": "Please reserve() this vector.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae567c4f_c1e3fe21",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T17:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5098ad_74f184c4",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -169,6 +205,24 @@
       "writtenOn": "2022-03-16T15:10:53Z",
       "side": 1,
       "message": "Let\u0027s create a typedef for this function type.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0790d90_aced66f6",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T17:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c6685a9_9faa284b",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
