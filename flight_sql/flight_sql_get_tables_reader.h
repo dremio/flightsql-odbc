@@ -15,37 +15,38 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "arrow/testing/gtest_util.h"
-#include "arrow/testing/builder.h"
-#include "boolean_array_accessor.h"
-#include "gtest/gtest.h"
+#include "record_batch_transformer.h"
+#include <arrow/array/builder_binary.h>
+#include <arrow/array/builder_primitive.h>
+#include <arrow/status.h>
+#include <arrow/util/optional.h>
 
 namespace driver {
 namespace flight_sql {
 
 using namespace arrow;
-using namespace odbcabstraction;
+using arrow::util::optional;
 
-TEST(BooleanArrayFlightSqlAccessor, Test_BooleanArray_CDataType_BIT) {
-  std::vector<bool> values = {true, false, true};
-  std::shared_ptr<Array> array;
-  ArrayFromVector<BooleanType>(values, &array);
+class GetTablesReader {
+private:
+  std::shared_ptr<RecordBatch> record_batch_;
+  int64_t current_row_{0};
 
-  BooleanArrayFlightSqlAccessor<CDataType_BIT> accessor(array.get());
+public:
+  explicit GetTablesReader(std::shared_ptr<RecordBatch> record_batch);
 
-  char buffer[values.size()];
-  ssize_t strlen_buffer[values.size()];
+  bool Next();
 
-  ColumnBinding binding(CDataType_BIT, 0, 0, buffer, 0, strlen_buffer);
+  optional<std::string> GetCatalogName();
 
-  ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0));
+  optional<std::string> GetDbSchemaName();
 
-  for (int i = 0; i < values.size(); ++i) {
-    ASSERT_EQ(sizeof(unsigned char), strlen_buffer[i]);
-    ASSERT_EQ(values[i] ? 1 : 0, buffer[i]);
-  }
-}
+  std::string GetTableName();
+
+  std::string GetTableType();
+
+  std::shared_ptr<Schema> GetSchema();
+};
 
 } // namespace flight_sql
 } // namespace driver
