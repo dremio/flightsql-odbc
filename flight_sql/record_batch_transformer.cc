@@ -18,6 +18,7 @@
 #include "record_batch_transformer.h"
 
 #include "utils.h"
+#include <arrow/builder.h>
 #include <arrow/array/util.h>
 #include <arrow/builder.h>
 #include <iostream>
