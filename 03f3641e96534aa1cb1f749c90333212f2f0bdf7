@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ad85632_912febfd",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T14:28:15Z",
+      "side": 1,
+      "message": "The flight sql already return the values sorted alphabetically",
+      "parentUuid": "7b5e6766_dd519970",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "faee24b7_8ab07f04",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 9
@@ -82,6 +100,24 @@
       "writtenOn": "2022-03-15T19:02:57Z",
       "side": 1,
       "message": "Why introduce polymorphism here if there\u0027s only one implementation? Use of virtual prevents inlining.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8bb8c54_48d0de3a",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T14:28:15Z",
+      "side": 1,
+      "message": "I\u0027ve changed it due a request that Rafael made, since he will need a new kind of transformer to do the operation on getColumns",
+      "parentUuid": "85c13812_1692a2f4",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
