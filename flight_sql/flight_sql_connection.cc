@@ -19,12 +19,15 @@
 
 #include "flight_sql_auth_method.h"
 #include "flight_sql_statement.h"
+#include "sql.h"
+#include "sqlext.h"
 #include <arrow/flight/client_cookie_middleware.h>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <iostream>
 #include <odbcabstraction/exceptions.h>
+#include <sqlext.h>
 
 namespace driver {
 namespace flight_sql {
@@ -71,6 +74,26 @@ TrackMissingRequiredProperty(const std::string &property,
 }
 
 } // namespace
+
+void FlightSqlConnection::LoadInfoFromServer() {
+  if (!has_server_info_) {
+    // TODO:
+    has_server_info_ = true;
+    // ODBC => GetSqlInfo
+    // SQL_MAX_ACTIVE_STATEMENTS -> SQL_MAX_STATEMENTS
+    // SQL_BATCH_ROW_COUNT -> SQL_BATCH_UPDATES_SUPPORTED
+    // SQL_MAX_DRIVER_CONNECTIONS -> SQL_MAX_CONNECTIONS
+  }
+}
+
+void FlightSqlConnection::SetHardcodedGetInfoValues() {
+  info_[SQL_DRIVER_VER] = "1.0.0";
+  info_[SQL_GETDATA_EXTENSIONS] = static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
+
+  // This should come from GetSqlInfo in the future.
+  info_[SQL_INFO_SCHEMA_VIEWS] = static_cast<uint32_t>(SQL_ISV_COLUMNS | SQL_ISV_TABLES);
+
+}
 
 void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
                                   std::vector<std::string> &missing_attr) {
@@ -182,7 +205,16 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
-  throw DriverException("GetInfo not implemented");
+  auto it = info_.find(info_type);
+
+  if (info_.end() == it) {
+    LoadInfoFromServer();
+    it = info_.find(info_type);
+    if (info_.end() == it) {
+      throw DriverException("Unknown GetInfo type: " + std::to_string(info_type));
+    }
+  }
+  return it->second;
 }
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)

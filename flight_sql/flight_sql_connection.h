@@ -29,10 +29,15 @@ class FlightSqlConnection : public odbcabstraction::Connection {
 
 private:
   std::map<AttributeId, Attribute> attribute_;
+  std::map<uint16_t, odbcabstraction::Connection::Info> info_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
   odbcabstraction::OdbcVersion odbc_version_;
+  bool has_server_info_;
   bool closed_;
+
+  void LoadInfoFromServer();
+  void SetHardcodedGetInfoValues();
 
 public:
   static const std::string HOST;
