@@ -129,13 +129,12 @@ TEST(Transformer, TransformerChangingOrderOfArrayTest) {
   auto original_record_batch =
       RecordBatch::Make(schema, 5, {first_array, second_array, third_array});
 
-  auto transformer =
-      RecordBatchTransformerWithTasksBuilder(schema)
-          .RenameField("third_array", "test3")
-          .RenameField("second_array", "test2")
-          .RenameField("first_array", "test1")
-          .AddFieldOfNulls("empty", int32())
-          .Build();
+  auto transformer = RecordBatchTransformerWithTasksBuilder(schema)
+                         .RenameField("third_array", "test3")
+                         .RenameField("second_array", "test2")
+                         .RenameField("first_array", "test1")
+                         .AddFieldOfNulls("empty", int32())
+                         .Build();
 
   const std::shared_ptr<RecordBatch> &transformed_record_batch =
       transformer->Transform(original_record_batch);
