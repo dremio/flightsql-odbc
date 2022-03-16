@@ -17,34 +17,42 @@
 
 #pragma once
 
-#include "flight_sql_connection.h"
-#include <arrow/flight/client.h>
+#include <arrow/flight/api.h>
+#include <atomic>
 #include <map>
 #include <memory>
-#include <string>
+#include <mutex>
 #include <odbcabstraction/connection.h>
+
+namespace arrow {
+namespace flight {
+namespace sql {
+class FlightSqlClient;
+}
+} // namespace flight
+} // namespace arrow
 
 namespace driver {
 namespace flight_sql {
 
-class FlightSqlAuthMethod {
+class GetInfoCache {
+
+private:
+  std::map<uint16_t, driver::odbcabstraction::Connection::Info> info_;
+  arrow::flight::FlightCallOptions &call_options_;
+  std::unique_ptr<arrow::flight::sql::FlightSqlClient> &sql_client_;
+  std::mutex mutex_;
+  std::atomic<bool> has_server_info_;
+
 public:
-  virtual ~FlightSqlAuthMethod() = default;
+  GetInfoCache(arrow::flight::FlightCallOptions &call_options,
+               std::unique_ptr<arrow::flight::sql::FlightSqlClient> &client);
+  void SetProperty(uint16_t property,
+                   driver::odbcabstraction::Connection::Info value);
+  driver::odbcabstraction::Connection::Info GetInfo(uint16_t info_type);
 
-  virtual void Authenticate(FlightSqlConnection &connection,
-                            arrow::flight::FlightCallOptions &call_options) = 0;
-
-  virtual std::string GetUser() {
-    return std::string();
-  }
-
-  static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
-      const std::unique_ptr<arrow::flight::FlightClient> &client,
-      const odbcabstraction::Connection::ConnPropertyMap &properties);
-
-protected:
-  FlightSqlAuthMethod() = default;
+private:
+  bool LoadInfoFromServer();
 };
-
 } // namespace flight_sql
 } // namespace driver

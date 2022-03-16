@@ -17,28 +17,20 @@
 
 #pragma once
 
-#include <memory>
-
-#include <odbcabstraction/types.h>
+#include <arrow/type.h>
 
 namespace driver {
-namespace odbcabstraction {
+namespace flight_sql {
 
-class Connection;
+void ReportSystemFunction(const std::string &function,
+                          uint32_t &current_sys_functions,
+                          uint32_t &current_convert_functions);
+void ReportNumericFunction(const std::string &function,
+                           uint32_t &current_functions);
+void ReportStringFunction(const std::string &function,
+                          uint32_t &current_functions);
+void ReportDatetimeFunction(const std::string &function,
+                            uint32_t &current_functions);
 
-/// \brief High-level representation of an ODBC driver.
-class Driver {
-protected:
-  Driver() = default;
-
-public:
-  virtual ~Driver() = default;
-
-  /// \brief Create a connection using given ODBC version.
-  /// \param odbc_version ODBC version to be used.
-  virtual std::shared_ptr<Connection>
-  CreateConnection(OdbcVersion odbc_version) = 0;
-};
-
-} // namespace odbcabstraction
+} // namespace flight_sql
 } // namespace driver

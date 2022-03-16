@@ -22,6 +22,8 @@
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
 
+#include "get_info_cache.h"
+
 namespace driver {
 namespace flight_sql {
 
@@ -31,6 +33,7 @@ private:
   std::map<AttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
+  GetInfoCache info_;
   odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
 
@@ -38,7 +41,9 @@ public:
   static const std::string HOST;
   static const std::string PORT;
   static const std::string USER;
+  static const std::string UID;
   static const std::string PASSWORD;
+  static const std::string PWD;
   static const std::string USE_TLS;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
