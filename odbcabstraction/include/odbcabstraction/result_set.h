@@ -15,12 +15,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#pragma once
+
 #include <map>
 #include <memory>
 
 #include <odbcabstraction/types.h>
-
-#pragma once
 
 namespace driver {
 namespace odbcabstraction {

@@ -78,6 +78,10 @@ public:
     call_options.headers.push_back(bearer_result.ValueOrDie());
   }
 
+  std::string GetUser() override {
+    return user_;
+  }
+
 private:
   FlightClient &client_;
   std::string user_;
@@ -90,8 +94,14 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
     const Connection::ConnPropertyMap &properties) {
 
   // Check if should use user-password authentication
-  const auto &it_user = properties.find(FlightSqlConnection::USER);
-  const auto &it_password = properties.find(FlightSqlConnection::PASSWORD);
+  auto it_user = properties.find(FlightSqlConnection::USER);
+  auto it_password = properties.find(FlightSqlConnection::PASSWORD);
+  if (it_user == properties.end() || it_password == properties.end()) {
+    // Accept UID/PWD as aliases for User/Password. These are suggested as standard properties
+    // in the documentation for SQLDriverConnect.
+    it_user = properties.find(FlightSqlConnection::UID);
+    it_password = properties.find(FlightSqlConnection::PWD);
+  }
   if (it_user != properties.end() || it_password != properties.end()) {
     const std::string &user = it_user != properties.end()
                                   ? boost::get<std::string>(it_user->second)
