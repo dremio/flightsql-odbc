@@ -34,6 +34,8 @@ typedef std::function<std::shared_ptr<Array>(
 /// A base class to implement different types of transformer.
 class RecordBatchTransformer {
 public:
+  virtual ~RecordBatchTransformer() = default;
+
   /// Execute the transformation based on predeclared tasks created by
   /// RenameField() method and/or AddFieldOfNulls().
   /// \param original     The original RecordBatch that will be used as base
