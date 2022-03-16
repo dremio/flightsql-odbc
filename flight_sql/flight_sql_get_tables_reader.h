@@ -15,26 +15,38 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
-
-#include <arrow/flight/types.h>
-#include <odbcabstraction/exceptions.h>
-#include <odbcabstraction/types.h>
+#include "record_batch_transformer.h"
+#include <arrow/array/builder_binary.h>
+#include <arrow/array/builder_primitive.h>
+#include <arrow/status.h>
+#include <arrow/util/optional.h>
 
 namespace driver {
 namespace flight_sql {
 
-inline void ThrowIfNotOK(const arrow::Status &status) {
-  if (!status.ok()) {
-    throw odbcabstraction::DriverException(status.ToString());
-  }
-}
+using namespace arrow;
+using arrow::util::optional;
 
-odbcabstraction::SqlDataType
-GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field);
+class GetTablesReader {
+private:
+  std::shared_ptr<RecordBatch> record_batch_;
+  int64_t current_row_;
 
-int16_t
-GetDataTypeFromArrowField_V2(const std::shared_ptr<arrow::Field> &field);
+public:
+  explicit GetTablesReader(std::shared_ptr<RecordBatch> record_batch);
+
+  bool Next();
+
+  optional<std::string> GetCatalogName();
+
+  optional<std::string> GetDbSchemaName();
+
+  std::string GetTableName();
+
+  std::string GetTableType();
+
+  std::shared_ptr<Schema> GetSchema();
+};
 
 } // namespace flight_sql
 } // namespace driver
