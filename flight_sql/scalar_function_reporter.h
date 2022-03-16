@@ -17,33 +17,15 @@
 
 #pragma once
 
-#include "flight_sql_connection.h"
-#include <arrow/flight/client.h>
-#include <map>
-#include <memory>
-#include <odbcabstraction/connection.h>
+#include <arrow/type.h>
 
 namespace driver {
 namespace flight_sql {
-
-class FlightSqlAuthMethod {
-public:
-  virtual ~FlightSqlAuthMethod() = default;
-
-  virtual void Authenticate(FlightSqlConnection &connection,
-                            arrow::flight::FlightCallOptions &call_options) = 0;
-
-  virtual std::string GetUser() {
-    return "";
-  }
-
-  static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
-      const std::unique_ptr<arrow::flight::FlightClient> &client,
-      const odbcabstraction::Connection::ConnPropertyMap &properties);
-
-protected:
-  FlightSqlAuthMethod() = default;
-};
+    
+    void ReportSystemFunction(const std::string& function, uint32_t& current_sys_functions, uint32_t& current_convert_functions);
+    void ReportNumericFunction(const std::string& function, uint32_t& current_functions);
+    void ReportStringFunction(const std::string& function, uint32_t& current_functions);
+    void ReportDatetimeFunction(const std::string& function, uint32_t& current_functions);
 
 } // namespace flight_sql
 } // namespace driver

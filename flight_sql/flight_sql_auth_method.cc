@@ -67,6 +67,10 @@ public:
       }
     }
 
+    std::string GetUser() override {
+      return user_;
+    }
+
     Result<std::pair<std::string, std::string>> bearer_result =
         client_.AuthenticateBasicToken(auth_call_options, user_, password_);
     if (!bearer_result.ok()) {
