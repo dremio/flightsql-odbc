@@ -89,6 +89,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b52a47db_27a596f4",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T15:10:53Z",
+      "side": 1,
+      "message": "Don\u0027t use explicit when you have more than one parameter.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f5098ad_74f184c4",
+        "filename": "flight_sql/record_batch_transformer.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T15:10:53Z",
+      "side": 1,
+      "message": "Please reserve() this vector.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85c13812_1692a2f4",
         "filename": "flight_sql/record_batch_transformer.h",
         "patchSetId": 9
@@ -118,6 +152,23 @@
       "side": 1,
       "message": "I\u0027ve changed it due a request that Rafael made, since he will need a new kind of transformer to do the operation on getColumns",
       "parentUuid": "85c13812_1692a2f4",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6685a9_9faa284b",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T15:10:53Z",
+      "side": 1,
+      "message": "Let\u0027s create a typedef for this function type.",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
