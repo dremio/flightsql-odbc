@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ef6817_9c794f08",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T17:27:51Z",
+      "side": 1,
+      "message": "This really isn\u0027t a quote separator, it\u0027s a value separator.\nWe should make sure edge cases work, for example if there\u0027s only TABLE.\n\nAlso, the table types are case insensitive but I presume the producer handles this.",
+      "revId": "eb8f98d89d8f1b50a597da0853354a51fc497150",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
