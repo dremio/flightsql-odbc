@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "arrow/testing/builder.h"
 #include "record_batch_transformer.h"
 #include "gtest/gtest.h"
 #include <arrow/record_batch.h>
-#include "arrow/testing/builder.h"
 using namespace arrow;
 
 namespace {

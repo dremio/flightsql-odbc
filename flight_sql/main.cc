@@ -151,19 +151,24 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
 void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
   const std::shared_ptr<ResultSet> &result_set =
-      statement->GetTables_V2(nullptr, nullptr, nullptr, nullptr);
+      statement->GetColumns_V3(nullptr, nullptr, nullptr, nullptr);
 
   const std::shared_ptr<ResultSetMetadata> &metadata =
       result_set->GetMetadata();
   size_t column_count = metadata->GetColumnCount();
 
+  int buffer_length = 1024;
+  char result[buffer_length];
+  ssize_t result_length;
+
   while (result_set->Move(1) == 1) {
-    int buffer_length = 1024;
-    char result[buffer_length];
-    ssize_t result_length;
-    result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
-                        result, buffer_length, &result_length);
-    std::cout << result << std::endl;
+    for (int i = 0; i < column_count; ++i) {
+      result_set->GetData(1 + i, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                          result, buffer_length, &result_length);
+      std::cout << result << '\t';
+    }
+
+    std::cout << std::endl;
   }
 
   std::cout << column_count << std::endl;
