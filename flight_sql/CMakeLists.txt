@@ -101,10 +101,13 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_result_set_metadata.cc
   flight_sql_statement.cc
   flight_sql_statement_get_tables.cc
+  flight_sql_statement_get_columns.cc
+  flight_sql_get_tables_reader.cc
   flight_sql_stream_chunk_iterator.cc
   get_info_cache.cc
   record_batch_transformer.cc
   scalar_function_reporter.cc
+  utils.cc
 )
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS

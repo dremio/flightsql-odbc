@@ -18,10 +18,12 @@
 #include "flight_sql_statement.h"
 #include "flight_sql_result_set.h"
 #include "flight_sql_result_set_metadata.h"
+#include "flight_sql_statement_get_columns.h"
 #include "flight_sql_statement_get_tables.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
 #include <arrow/flight/sql/server.h>
+#include <arrow/io/memory.h>
 
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
@@ -182,12 +184,40 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
+      call_options_, catalog_name, schema_name, table_name, true, nullptr);
+  ThrowIfNotOK(result.status());
+
+  auto flight_info = result.ValueOrDie();
+
+  auto transformer = std::make_shared<GetColumns_Transformer>(
+      odbcabstraction::V_2, column_name);
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      sql_client_, call_options_, flight_info, transformer);
+
   return current_result_set_;
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
+      call_options_, catalog_name, schema_name, table_name, true, nullptr);
+  ThrowIfNotOK(result.status());
+
+  auto flight_info = result.ValueOrDie();
+
+  auto transformer = std::make_shared<GetColumns_Transformer>(
+      odbcabstraction::V_3, column_name);
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+      sql_client_, call_options_, flight_info, transformer);
+
   return current_result_set_;
 }
 
