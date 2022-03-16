@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9239f2ac_0ee6e75b",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T14:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59de14ec_939d6bbc",
+      "revId": "1b7bd1549cc5eb449a7ee4e256cf9cf28aab80b4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec7c22d8_4863165c",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-16T14:21:55Z",
       "side": 1,
       "message": "Do not name parameters with _ at the end",
+      "revId": "1b7bd1549cc5eb449a7ee4e256cf9cf28aab80b4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aadcbfa9_46b02bae",
+        "filename": "flight_sql/flight_sql_statement_get_tables.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-16T14:24:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec7c22d8_4863165c",
       "revId": "1b7bd1549cc5eb449a7ee4e256cf9cf28aab80b4",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
