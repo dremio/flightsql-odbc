@@ -21,6 +21,7 @@
 #include <arrow/flight/client.h>
 #include <map>
 #include <memory>
+#include <string>
 #include <odbcabstraction/connection.h>
 
 namespace driver {
@@ -32,6 +33,10 @@ public:
 
   virtual void Authenticate(FlightSqlConnection &connection,
                             arrow::flight::FlightCallOptions &call_options) = 0;
+
+  virtual std::string GetUser() {
+    return std::string();
+  }
 
   static std::unique_ptr<FlightSqlAuthMethod> FromProperties(
       const std::unique_ptr<arrow::flight::FlightClient> &client,

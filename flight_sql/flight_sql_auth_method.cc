@@ -78,6 +78,10 @@ public:
     call_options.headers.push_back(bearer_result.ValueOrDie());
   }
 
+  std::string GetUser() override {
+    return user_;
+  }
+
 private:
   FlightClient &client_;
   std::string user_;
