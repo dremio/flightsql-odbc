@@ -81,6 +81,8 @@ find_package(OpenSSL REQUIRED)
 # Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(gRPC 1.36 CONFIG REQUIRED)
 
+find_package(Boost COMPONENTS regex REQUIRED)
+
 if (APPLE)
   add_compile_definitions(WITH_IODBC)
 endif()
@@ -101,10 +103,14 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_result_set_metadata.cc
   flight_sql_statement.cc
   flight_sql_statement_get_tables.cc
+  flight_sql_statement_get_columns_v2.cc
+  flight_sql_statement_get_columns_v3.cc
+  flight_sql_get_tables_reader.cc
   flight_sql_stream_chunk_iterator.cc
   get_info_cache.cc
   record_batch_transformer.cc
   scalar_function_reporter.cc
+  utils.cc
 )
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
@@ -115,6 +121,7 @@ set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
   gRPC::grpc++
+  Boost::regex
 )
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
