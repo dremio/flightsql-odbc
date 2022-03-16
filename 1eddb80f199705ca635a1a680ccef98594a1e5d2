@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d50a684_b245122e",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T14:56:36Z",
+      "side": 1,
+      "message": "Let\u0027s have this take in a const reference to table_type instead of pointer",
+      "revId": "1eddb80f199705ca635a1a680ccef98594a1e5d2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7db0c88_a5f29cf6",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T14:56:36Z",
+      "side": 1,
+      "message": "I feel like boost tokenizer to split on comma, then removing quotes/whitespace is better. Also there\u0027s probably a trim function in Arrow.",
+      "revId": "1eddb80f199705ca635a1a680ccef98594a1e5d2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ad6d6a_a2bac658",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T14:56:36Z",
+      "side": 1,
+      "message": "Why prefix with an underscore? That doesn\u0027t show up anywhere else?",
+      "revId": "1eddb80f199705ca635a1a680ccef98594a1e5d2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad861142_90f92929",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-16T14:56:36Z",
+      "side": 1,
+      "message": "emplace_back?",
+      "revId": "1eddb80f199705ca635a1a680ccef98594a1e5d2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
