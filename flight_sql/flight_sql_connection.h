@@ -22,6 +22,8 @@
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
 
+#include <mutex>
+
 namespace driver {
 namespace flight_sql {
 
@@ -30,14 +32,15 @@ class FlightSqlConnection : public odbcabstraction::Connection {
 private:
   std::map<AttributeId, Attribute> attribute_;
   std::map<uint16_t, odbcabstraction::Connection::Info> info_;
+  arrow::flight::sql::SqlInfoResultMap sql_info_cache_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
+  std::mutex mutex_;
   odbcabstraction::OdbcVersion odbc_version_;
-  bool has_server_info_;
+  std::atomic<bool> has_server_info_;
   bool closed_;
 
-  void LoadInfoFromServer();
-  void SetHardcodedGetInfoValues();
+  bool LoadInfoFromServer();
 
 public:
   static const std::string HOST;
