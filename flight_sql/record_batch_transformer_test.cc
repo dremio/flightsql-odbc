@@ -19,7 +19,9 @@
 #include "gtest/gtest.h"
 #include <arrow/record_batch.h>
 #include <arrow/testing/gtest_util.h>
-
+#if defined(__APPLE__) || defined(__WIN32)
+#include "arrow/testing/builder.h"
+#endif
 using namespace arrow;
 
 namespace {

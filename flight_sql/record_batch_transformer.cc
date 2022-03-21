@@ -19,7 +19,7 @@
 
 #include "utils.h"
 #include <arrow/array/util.h>
-#include <arrow/testing/gtest_util.h>
+#include <arrow/builder.h>
 #include <iostream>
 #include <utility>
 
