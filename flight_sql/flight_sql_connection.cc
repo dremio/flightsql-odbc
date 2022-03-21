@@ -23,7 +23,6 @@
 #include <boost/algorithm/string/join.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
-#include <iostream>
 #include <odbcabstraction/exceptions.h>
 
 namespace driver {

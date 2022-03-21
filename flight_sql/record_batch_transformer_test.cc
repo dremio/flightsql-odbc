@@ -18,8 +18,7 @@
 #include "record_batch_transformer.h"
 #include "gtest/gtest.h"
 #include <arrow/record_batch.h>
-#include <arrow/testing/gtest_util.h>
-
+#include "arrow/testing/builder.h"
 using namespace arrow;
 
 namespace {
