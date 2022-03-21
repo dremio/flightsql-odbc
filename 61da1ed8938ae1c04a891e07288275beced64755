@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da18dcdf_4b05792e",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T17:19:17Z",
+      "side": 1,
+      "message": "Can we move this or most of its logic to another file?",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a2cd869_fb8c1e97",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T17:19:17Z",
+      "side": 1,
+      "message": "Lets extract this and similar logics to methods in the anonymous namespace? Avoid code duplication",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "178746a0_92cd70b4",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T17:19:17Z",
+      "side": 1,
+      "message": "Can we have a `using arrow::flight::sql::SqlInfoOptions` to avoid very long lines?",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d263027_098b9972",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T17:19:17Z",
+      "side": 1,
+      "message": "nit: Format with clang-format 12 please\n\nI am running `clang-format-12 -i {odbcabstraction,flight_sql}/**/*.{h,cc}` locally",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe77dc6b_dbbfbee5",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T17:19:17Z",
+      "side": 1,
+      "message": "Is it really missing? It should be present on protobuf generated code",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
