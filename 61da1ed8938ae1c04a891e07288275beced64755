@@ -36,6 +36,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc9662e8_8075063b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T20:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c41567c3_9fe554db",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a2cd869_fb8c1e97",
@@ -49,6 +67,24 @@
       "writtenOn": "2022-03-21T17:19:17Z",
       "side": 1,
       "message": "Lets extract this and similar logics to methods in the anonymous namespace? Avoid code duplication",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed60c303_7d7460cb",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T20:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a2cd869_fb8c1e97",
       "revId": "61da1ed8938ae1c04a891e07288275beced64755",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -70,6 +106,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a72c76_f8fe8664",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T20:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "178746a0_92cd70b4",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d263027_098b9972",
@@ -83,6 +137,24 @@
       "writtenOn": "2022-03-21T17:19:17Z",
       "side": 1,
       "message": "nit: Format with clang-format 12 please\n\nI am running `clang-format-12 -i {odbcabstraction,flight_sql}/**/*.{h,cc}` locally",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cd5acd5_f9f54aa2",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T20:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d263027_098b9972",
       "revId": "61da1ed8938ae1c04a891e07288275beced64755",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -118,6 +190,24 @@
       "side": 1,
       "message": "There are _several_ enums missing from types.h. There are some that are in types.h though.",
       "parentUuid": "fe77dc6b_dbbfbee5",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3733c1e_5809579b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-21T20:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "474cb978_8b9148fb",
       "revId": "61da1ed8938ae1c04a891e07288275beced64755",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
