@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c41567c3_9fe554db",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-21T17:31:01Z",
+      "side": 1,
+      "message": "We can, but it\u0027ll just be giant method in a separate file. The problem is that we need to iterate over the stream and handle cache every property (compared to Java where we can just ask for a Map and use dynamic casting on union values.).",
+      "parentUuid": "da18dcdf_4b05792e",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a2cd869_fb8c1e97",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 3
@@ -82,6 +100,24 @@
       "writtenOn": "2022-03-21T17:19:17Z",
       "side": 1,
       "message": "Is it really missing? It should be present on protobuf generated code",
+      "revId": "61da1ed8938ae1c04a891e07288275beced64755",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "474cb978_8b9148fb",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-21T17:31:01Z",
+      "side": 1,
+      "message": "There are _several_ enums missing from types.h. There are some that are in types.h though.",
+      "parentUuid": "fe77dc6b_dbbfbee5",
       "revId": "61da1ed8938ae1c04a891e07288275beced64755",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
