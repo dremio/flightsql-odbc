@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c53ab5_eb2d5a6d",
+        "filename": "flight_sql/flight_sql_get_tables_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-22T17:59:13Z",
+      "side": 1,
+      "message": "Remove the zero initializer, since you\u0027re using the initialization list in the .cc",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "084fca7e_e96da864",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v2.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-22T17:59:13Z",
+      "side": 1,
+      "message": "This is part of the extended metadata changes I think? Do we have access to the map here?",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193315a9_0af6b9ff",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-22T17:59:13Z",
+      "side": 1,
+      "message": "GetDataTypeFromArrowField() needs to factor in the ODBC 2 / 3 version for datetime types.",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e85cae9_a88b1d19",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-22T17:59:13Z",
+      "side": 1,
+      "message": "Does RecordBatchTransformer already have a virtual default constructor? If so this isn\u0027t necessary on each subclass.",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
