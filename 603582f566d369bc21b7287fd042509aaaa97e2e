@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0b3e16_caa40c03",
+        "filename": "flight_sql/flight_sql_get_tables_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-22T21:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c53ab5_eb2d5a6d",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "084fca7e_e96da864",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-22T17:59:13Z",
       "side": 1,
       "message": "This is part of the extended metadata changes I think? Do we have access to the map here?",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad1c945f_64b6cbe2",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v2.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-22T21:00:49Z",
+      "side": 1,
+      "message": "This is part of CommandGetXdbcTypeInfo, is it OK to implement this one after we get it merged?",
+      "parentUuid": "084fca7e_e96da864",
       "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0a88da_192ab9a9",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-22T21:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193315a9_0af6b9ff",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e85cae9_a88b1d19",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-22T17:59:13Z",
       "side": 1,
       "message": "Does RecordBatchTransformer already have a virtual default constructor? If so this isn\u0027t necessary on each subclass.",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fe68dfb_38be1885",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-22T21:00:49Z",
+      "side": 1,
+      "message": "RecordBatchTransformer doesn\u0027t have a virtual default destructor, should it have?",
+      "parentUuid": "2e85cae9_a88b1d19",
       "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
