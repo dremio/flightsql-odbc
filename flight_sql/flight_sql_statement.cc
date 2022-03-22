@@ -60,9 +60,11 @@ void ClosePreparedStatementIfAny(
 
 } // namespace
 
-FlightSqlStatement::FlightSqlStatement(FlightSqlClient &sql_client,
-                                       FlightCallOptions call_options)
-    : sql_client_(sql_client), call_options_(call_options) {}
+FlightSqlStatement::FlightSqlStatement(
+    odbcabstraction::OdbcVersion odbc_version, FlightSqlClient &sql_client,
+    FlightCallOptions call_options)
+    : odbc_version_(odbc_version), sql_client_(sql_client),
+      call_options_(call_options) {}
 
 void FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
                                       const Attribute &value) {
@@ -87,7 +89,7 @@ FlightSqlStatement::Prepare(const std::string &query) {
 
   const auto &result_set_metadata =
       std::make_shared<FlightSqlResultSetMetadata>(
-          prepared_statement_->dataset_schema());
+          odbc_version_, prepared_statement_->dataset_schema());
   return boost::optional<std::shared_ptr<ResultSetMetadata>>(
       result_set_metadata);
 }
@@ -99,7 +101,7 @@ bool FlightSqlStatement::ExecutePrepared() {
   ThrowIfNotOK(result.status());
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, result.ValueOrDie(), nullptr);
+      odbc_version_, sql_client_, call_options_, result.ValueOrDie(), nullptr);
 
   return true;
 }
@@ -112,7 +114,7 @@ bool FlightSqlStatement::Execute(const std::string &query) {
   ThrowIfNotOK(result.status());
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, result.ValueOrDie(), nullptr);
+      odbc_version_, sql_client_, call_options_, result.ValueOrDie(), nullptr);
 
   return true;
 }
@@ -162,8 +164,9 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
-  ColumnNames column_names{"TABLE_QUALIFIER", "TABLE_OWNER", "TABLE_NAME",
-                           "TABLE_TYPE", "REMARKS"};
+  ColumnNames column_names{odbcabstraction::V_2, "TABLE_QUALIFIER",
+                           "TABLE_OWNER",        "TABLE_NAME",
+                           "TABLE_TYPE",         "REMARKS"};
 
   return GetTables(catalog_name, schema_name, table_name, table_type,
                    column_names);
@@ -172,8 +175,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
-  ColumnNames column_names{"TABLE_CAT", "TABLE_SCHEM", "TABLE_NAME",
-                           "TABLE_TYPE", "REMARKS"};
+  ColumnNames column_names{odbcabstraction::V_3, "TABLE_CAT",  "TABLE_SCHEM",
+                           "TABLE_NAME",         "TABLE_TYPE", "REMARKS"};
 
   return GetTables(catalog_name, schema_name, table_name, table_type,
                    column_names);
@@ -193,7 +196,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
   auto transformer = std::make_shared<GetColumns_V2_Transformer>();
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, flight_info, transformer);
+      odbc_version_, sql_client_, call_options_, flight_info, transformer);
 
   return current_result_set_;
 }
@@ -212,7 +215,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
   auto transformer = std::make_shared<GetColumns_V3_Transformer>();
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, flight_info, transformer);
+      odbc_version_, sql_client_, call_options_, flight_info, transformer);
 
   return current_result_set_;
 }

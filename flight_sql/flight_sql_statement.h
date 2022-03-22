@@ -31,6 +31,7 @@ namespace flight_sql {
 class FlightSqlStatement : public odbcabstraction::Statement {
 
 private:
+  odbcabstraction::OdbcVersion odbc_version_;
   std::map<StatementAttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   arrow::flight::sql::FlightSqlClient &sql_client_;
@@ -43,7 +44,8 @@ private:
             const ColumnNames &column_names);
 
 public:
-  FlightSqlStatement(arrow::flight::sql::FlightSqlClient &sql_client,
+  FlightSqlStatement(odbcabstraction::OdbcVersion odbc_version,
+                     arrow::flight::sql::FlightSqlClient &sql_client,
                      arrow::flight::FlightCallOptions call_options);
 
   void SetAttribute(StatementAttributeId attribute, const Attribute &value);

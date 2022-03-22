@@ -51,6 +51,7 @@ class FlightSqlResultSetColumn;
 
 class FlightSqlResultSet : public ResultSet {
 private:
+  odbcabstraction::OdbcVersion odbc_version_;
   std::vector<FlightSqlResultSetColumn> columns_;
   std::vector<int64_t> get_data_offsets_;
 
@@ -67,6 +68,7 @@ public:
   ~FlightSqlResultSet() override;
 
   FlightSqlResultSet(
+      odbcabstraction::OdbcVersion odbc_version,
       FlightSqlClient &flight_sql_client,
       const arrow::flight::FlightCallOptions &call_options,
       const std::shared_ptr<FlightInfo> &flight_info,

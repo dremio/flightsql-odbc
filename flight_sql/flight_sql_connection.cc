@@ -166,7 +166,7 @@ void FlightSqlConnection::Close() {
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
   return std::shared_ptr<Statement>(
-      new FlightSqlStatement(*sql_client_, call_options_));
+      new FlightSqlStatement(odbc_version_, *sql_client_, call_options_));
 }
 
 void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,

@@ -40,20 +40,21 @@ using odbcabstraction::CDataType;
 using odbcabstraction::DriverException;
 
 FlightSqlResultSet::FlightSqlResultSet(
+    odbcabstraction::OdbcVersion odbc_version,
     FlightSqlClient &flight_sql_client,
     const arrow::flight::FlightCallOptions &call_options,
     const std::shared_ptr<FlightInfo> &flight_info,
     const std::shared_ptr<RecordBatchTransformer> &transformer)
-    : num_binding_(0), current_row_(0),
+    : odbc_version_(odbc_version), num_binding_(0), current_row_(0),
       chunk_iterator_(flight_sql_client, call_options, flight_info) {
   current_chunk_.data = nullptr;
 
   transformer_ = transformer;
   if (transformer) {
-    metadata_.reset(
-        new FlightSqlResultSetMetadata(transformer_->GetTransformedSchema()));
+    metadata_.reset(new FlightSqlResultSetMetadata(
+        odbc_version_, transformer_->GetTransformedSchema()));
   } else {
-    metadata_.reset(new FlightSqlResultSetMetadata(flight_info));
+    metadata_.reset(new FlightSqlResultSetMetadata(odbc_version_, flight_info));
   }
 
   columns_.resize(metadata_->GetColumnCount());

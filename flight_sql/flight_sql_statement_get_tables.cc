@@ -71,8 +71,8 @@ GetTablesForSQLAllCatalogs(const ColumnNames &names,
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
-                                              flight_info, transformer);
+  return std::make_shared<FlightSqlResultSet>(
+      names.odbc_version, sql_client, call_options, flight_info, transformer);
 }
 
 std::shared_ptr<ResultSet> GetTablesForSQLAllDbSchemas(
@@ -96,8 +96,8 @@ std::shared_ptr<ResultSet> GetTablesForSQLAllDbSchemas(
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
-                                              flight_info, transformer);
+  return std::make_shared<FlightSqlResultSet>(
+      names.odbc_version, sql_client, call_options, flight_info, transformer);
 }
 
 std::shared_ptr<ResultSet>
@@ -122,8 +122,8 @@ GetTablesForSQLAllTableTypes(const ColumnNames &names,
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
-                                              flight_info, transformer);
+  return std::make_shared<FlightSqlResultSet>(
+      names.odbc_version, sql_client, call_options, flight_info, transformer);
 }
 
 std::shared_ptr<ResultSet> GetTablesForGenericUse(
@@ -149,8 +149,8 @@ std::shared_ptr<ResultSet> GetTablesForGenericUse(
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
-                                              flight_info, transformer);
+  return std::make_shared<FlightSqlResultSet>(
+      names.odbc_version, sql_client, call_options, flight_info, transformer);
 }
 
 } // namespace flight_sql

@@ -76,7 +76,7 @@ Transform_inner(const std::shared_ptr<RecordBatch> &original) {
       data.table_owner = table_schema;
       data.table_name = table_name;
       data.column_name = field->name();
-      data.data_type = GetDataTypeFromArrowField(field);
+      data.data_type = GetDataTypeFromArrowField(odbcabstraction::V_2, field);
       // TODO: Add missing metadata to Flight SQL?
       data.type_name = "";
       // TODO: Get from field's metadata "ARROW:FLIGHT:SQL:PRECISION"

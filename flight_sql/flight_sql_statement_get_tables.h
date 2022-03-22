@@ -31,6 +31,7 @@ using arrow::flight::sql::FlightSqlClient;
 using odbcabstraction::ResultSet;
 
 typedef struct {
+  odbcabstraction::OdbcVersion odbc_version;
   std::string catalog_column;
   std::string schema_column;
   std::string table_column;

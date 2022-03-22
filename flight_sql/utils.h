@@ -31,7 +31,8 @@ inline void ThrowIfNotOK(const arrow::Status &status) {
 }
 
 odbcabstraction::SqlDataType
-GetDataTypeFromArrowField(const std::shared_ptr<arrow::Field> &field);
+GetDataTypeFromArrowField(odbcabstraction::OdbcVersion odbc_version,
+                          const std::shared_ptr<arrow::Field> &field);
 
 } // namespace flight_sql
 } // namespace driver

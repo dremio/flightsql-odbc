@@ -54,7 +54,7 @@ size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
 
 SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  return GetDataTypeFromArrowField(field);
+  return GetDataTypeFromArrowField(odbc_version_, field);
 }
 
 driver::odbcabstraction::Nullability
@@ -172,11 +172,14 @@ bool FlightSqlResultSetMetadata::IsFixedPrecScale(int column_position) {
 }
 
 FlightSqlResultSetMetadata::FlightSqlResultSetMetadata(
+    odbcabstraction::OdbcVersion odbc_version,
     std::shared_ptr<arrow::Schema> schema)
-    : schema_(std::move(schema)) {}
+    : odbc_version_(odbc_version), schema_(std::move(schema)) {}
 
 FlightSqlResultSetMetadata::FlightSqlResultSetMetadata(
-    const std::shared_ptr<arrow::flight::FlightInfo> &flight_info) {
+    odbcabstraction::OdbcVersion odbc_version,
+    const std::shared_ptr<arrow::flight::FlightInfo> &flight_info)
+    : odbc_version_(odbc_version) {
   arrow::ipc::DictionaryMemo dict_memo;
 
   ThrowIfNotOK(flight_info->GetSchema(&dict_memo, &schema_));

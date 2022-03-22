@@ -82,7 +82,7 @@ Transform_inner(const std::shared_ptr<RecordBatch> &original) {
       data.table_schem = table_schema;
       data.table_name = table_name;
       data.column_name = field->name();
-      data.data_type = GetDataTypeFromArrowField(field);
+      data.data_type = GetDataTypeFromArrowField(odbcabstraction::V_3, field);
       // TODO: Add missing metadata to Flight SQL?
       data.type_name = "";
       // TODO: Get from field's metadata "ARROW:FLIGHT:SQL:PRECISION"
@@ -98,7 +98,8 @@ Transform_inner(const std::shared_ptr<RecordBatch> &original) {
       data.remarks = nullopt;
       // TODO: Add missing metadata to Flight SQL?
       data.column_def = nullopt;
-      data.sql_data_type = GetDataTypeFromArrowField(field);
+      data.sql_data_type =
+          GetDataTypeFromArrowField(odbcabstraction::V_3, field);
       // TODO: Implement better support for datetime
       data.sql_datetime_sub = nullopt;
       // TODO: Add missing metadata to Flight SQL?
