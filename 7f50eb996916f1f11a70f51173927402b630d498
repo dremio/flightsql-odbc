@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fc1e7ca_f5273e33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T17:47:07Z",
+      "side": 1,
+      "message": "For this project we aren\u0027t exposing DX tickets in titles since this will eventually be open sourced (and likely the git history will be public).",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff7069e5_75cceb22",
         "filename": "flight_sql/flight_sql_result_set.cc",
         "patchSetId": 21
