@@ -69,6 +69,24 @@
       "parentUuid": "4565055e_6d705387",
       "revId": "169b8ea884799d4d1072ff90104e1a8e585485c5",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e69c4f04_6e05a49e",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T17:18:33Z",
+      "side": 1,
+      "message": "This is an index-out-of-bounds error when table_type[table_types.size()] is used though.",
+      "parentUuid": "138a1903_4f5f064d",
+      "revId": "169b8ea884799d4d1072ff90104e1a8e585485c5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
