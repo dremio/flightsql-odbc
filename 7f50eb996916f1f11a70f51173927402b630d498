@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd2fa1e7_8fce18fd",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T17:32:04Z",
+      "side": 1,
+      "message": "Actually, why did these change from reserve to resize?",
+      "parentUuid": "61812a67_80e28d11",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49c85600_4dcdc5e9",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 21
