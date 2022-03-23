@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee59354_cb89658e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc1e7ca_f5273e33",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff7069e5_75cceb22",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e232f003_2555e079",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff7069e5_75cceb22",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77fb69a2_82a9b96b",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-23T17:27:42Z",
       "side": 1,
       "message": "Use the initializer list please. Use a ternary operator.",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dc129c4_e062cd11",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77fb69a2_82a9b96b",
       "revId": "7f50eb996916f1f11a70f51173927402b630d498",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -123,6 +177,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dbe8ca5_ab5fcc11",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "I don\u0027t know if it ever worked, when I ran the first time and broken. So I changed to fix it",
+      "parentUuid": "8faa911d_f4a6a681",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49c85600_4dcdc5e9",
@@ -136,6 +208,24 @@
       "writtenOn": "2022-03-23T17:27:42Z",
       "side": 1,
       "message": "This still seems like it runs more often than it needs to. For example it gets used when table_type is empty.\n\nMy suggestion is to just put this in the else clause that GetTablesForGenericUse is in.",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b43b50f1_9024d4d4",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49c85600_4dcdc5e9",
       "revId": "7f50eb996916f1f11a70f51173927402b630d498",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -157,6 +247,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5c5a87_feb2e47f",
+        "filename": "flight_sql/flight_sql_statement_get_tables.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909168f1_8e0e2acf",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a8fe100_cfd41d5c",
@@ -170,6 +278,24 @@
       "writtenOn": "2022-03-23T17:27:42Z",
       "side": 1,
       "message": "Newline at the end of file is missing.",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae38badf_dcf64939",
+        "filename": "flight_sql/parse_table_types_test.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a8fe100_cfd41d5c",
       "revId": "7f50eb996916f1f11a70f51173927402b630d498",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }

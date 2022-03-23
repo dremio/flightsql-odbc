@@ -87,6 +87,24 @@
       "parentUuid": "138a1903_4f5f064d",
       "revId": "169b8ea884799d4d1072ff90104e1a8e585485c5",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d831198b_151e8983",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T19:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e69c4f04_6e05a49e",
+      "revId": "169b8ea884799d4d1072ff90104e1a8e585485c5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
