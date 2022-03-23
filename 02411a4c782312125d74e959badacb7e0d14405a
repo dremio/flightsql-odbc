@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262fc4c4_7c297562",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T15:50:49Z",
+      "side": 1,
+      "message": "It seems like this should happen only for the Generic case and not any of the special cases.",
+      "revId": "02411a4c782312125d74e959badacb7e0d14405a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79c5ebcc_94e7c186",
+        "filename": "flight_sql/main.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T15:50:49Z",
+      "side": 1,
+      "message": "Why comment this out?",
+      "revId": "02411a4c782312125d74e959badacb7e0d14405a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
