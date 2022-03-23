@@ -89,6 +89,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e68ee96_6ca09e39",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v2.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-23T16:30:00Z",
+      "side": 1,
+      "message": "Created DX-47184",
+      "parentUuid": "3b1ee776_ef60da05",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "193315a9_0af6b9ff",
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "Yes, since we delete it polymorphically it _must_. The subclass destructors won\u0027t be invoked and we\u0027ll leak memory.",
       "parentUuid": "3fe68dfb_38be1885",
+      "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d74c539_2e3b3120",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-23T16:30:00Z",
+      "side": 1,
+      "message": "I see, thanks for the explanation. Fixed",
+      "parentUuid": "7a39d6e5_c64ab22a",
       "revId": "603582f566d369bc21b7287fd042509aaaa97e2e",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
