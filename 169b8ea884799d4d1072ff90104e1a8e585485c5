@@ -16,6 +16,23 @@
       "message": "This isn\u0027t right? Why would we parse the table types if it is \"%\"",
       "revId": "169b8ea884799d4d1072ff90104e1a8e585485c5",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4565055e_6d705387",
+        "filename": "flight_sql/flight_sql_statement_get_tables.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T16:56:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be i \u003c table_type.size()?",
+      "revId": "169b8ea884799d4d1072ff90104e1a8e585485c5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
