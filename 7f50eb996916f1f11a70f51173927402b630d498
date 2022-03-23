@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8faa911d_f4a6a681",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-23T17:46:10Z",
+      "side": 1,
+      "message": "Oh, I was comparing patch 1 to the most recent instead of base to the most recent. Base used the initializer list correctly.",
+      "parentUuid": "78f1c338_f89f407d",
+      "revId": "7f50eb996916f1f11a70f51173927402b630d498",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49c85600_4dcdc5e9",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 21
