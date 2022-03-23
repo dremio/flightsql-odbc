@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dcaf14a_50fcad1f",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T16:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "539a9830_8b435549",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "936c8f56_f3ee5099",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-15T19:02:57Z",
       "side": 1,
       "message": "Table type can be a comma-separated list with optional brackets. Elements can either be quoted with a single quote or unquoted.",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fe83a30_311c3bba",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T16:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "936c8f56_f3ee5099",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -70,6 +106,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d13a73aa_465bc3dd",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T16:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ad85632_912febfd",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faee24b7_8ab07f04",
@@ -83,6 +137,24 @@
       "writtenOn": "2022-03-15T19:02:57Z",
       "side": 1,
       "message": "These are the ODBC 3 names. See:\nhttps://docs.microsoft.com/en-us/sql/odbc/reference/syntax/sqltables-function?view\u003dsql-server-ver15#comments",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f38a7c_265260b7",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T16:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faee24b7_8ab07f04",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -188,6 +260,24 @@
       "side": 1,
       "message": "I\u0027ve changed it due a request that Rafael made, since he will need a new kind of transformer to do the operation on getColumns",
       "parentUuid": "85c13812_1692a2f4",
+      "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d56b704_b105d9ac",
+        "filename": "flight_sql/record_batch_transformer.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-03-23T16:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8bb8c54_48d0de3a",
       "revId": "03f3641e96534aa1cb1f749c90333212f2f0bdf7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
