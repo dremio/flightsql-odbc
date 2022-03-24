@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069c6029_26c42ab3",
+        "filename": "flight_sql/main.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-24T16:55:19Z",
+      "side": 1,
+      "message": "Why not make this a separate test case?",
+      "revId": "2e8e4b711329ac4ec2aea445cbe59cb1d974f680",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725cf354_36e5e785",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-24T16:55:19Z",
+      "side": 1,
+      "message": "I think the radix for real/float is 2.",
+      "revId": "2e8e4b711329ac4ec2aea445cbe59cb1d974f680",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
