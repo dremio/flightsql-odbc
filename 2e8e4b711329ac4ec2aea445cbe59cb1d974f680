@@ -69,6 +69,24 @@
       "parentUuid": "725cf354_36e5e785",
       "revId": "2e8e4b711329ac4ec2aea445cbe59cb1d974f680",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a63304c2_9e34a137",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-24T20:00:08Z",
+      "side": 1,
+      "message": "I think it\u0027s supposed to be 2 for approximate types based on the definition of SQL_NUM_PREC_RADIX here:\nhttps://docs.microsoft.com/en-us/sql/odbc/reference/syntax/sqlcolattribute-function?view\u003dsql-server-ver15",
+      "parentUuid": "ddfc57f1_efa79a4f",
+      "revId": "2e8e4b711329ac4ec2aea445cbe59cb1d974f680",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
