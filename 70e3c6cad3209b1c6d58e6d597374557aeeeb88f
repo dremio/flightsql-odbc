@@ -209,6 +209,24 @@
       "parentUuid": "04493692_48dda2e5",
       "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81d8105_ed7edb52",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-25T15:48:24Z",
+      "side": 1,
+      "message": "But if the character is \"_\" for example, it looks like it gets transformed to \".\" when it shouldn\u0027t get transformed if it is escaped.\n\nLet\u0027s add unit tests for this function.",
+      "parentUuid": "4962ee5a_717e911b",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
