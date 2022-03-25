@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68113745_d1a998c1",
+        "filename": "flight_sql/utils_test.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-25T16:41:15Z",
+      "side": 1,
+      "message": "I think we should test not just that the regex matches with a particular input, but what the calculated regex string actually was.",
+      "revId": "693b01c34648b9cf83adf2065c1a3aea9d6c940f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f42a2be_7d44348b",
+        "filename": "flight_sql/utils_test.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-25T16:41:15Z",
+      "side": 1,
+      "message": "We should test the scenario where the pattern itself has an escape in front of a wildcard (eg X\\%Y, which should treat the % as a literal and remove the escape).",
+      "revId": "693b01c34648b9cf83adf2065c1a3aea9d6c940f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
