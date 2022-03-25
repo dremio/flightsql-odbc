@@ -87,6 +87,24 @@
       "parentUuid": "ddfc57f1_efa79a4f",
       "revId": "2e8e4b711329ac4ec2aea445cbe59cb1d974f680",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "363a273d_45ed9883",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:50:20Z",
+      "side": 1,
+      "message": "Changed, I think it should also be changed on JDBC, right?",
+      "parentUuid": "a63304c2_9e34a137",
+      "revId": "2e8e4b711329ac4ec2aea445cbe59cb1d974f680",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
