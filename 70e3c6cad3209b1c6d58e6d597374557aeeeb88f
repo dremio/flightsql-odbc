@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0641b992_9333d0d7",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v2.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cab73bb_cf4563f0",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8adadda_6e43b7c0",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-24T21:14:58Z",
       "side": 1,
       "message": "This builder code is the same regardless of V2 or V3. Given that this is a template already, can\u0027t this be shared? Does this also get used by the tables code?",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4806e4f9_4c888b3d",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:46:24Z",
+      "side": 1,
+      "message": "Moved to utils.h.\nThis is only used on GetColumns, GetTables do not need to apprend to builders directly",
+      "parentUuid": "b8adadda_6e43b7c0",
       "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d264f441_2b9ab42b",
+        "filename": "flight_sql/flight_sql_statement_get_columns_v3.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:46:24Z",
+      "side": 1,
+      "message": "Nice! I refactored to remove duplication",
+      "parentUuid": "dc6b0b0f_814d369b",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c156977d_341af6b5",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-24T21:14:58Z",
       "side": 1,
       "message": "Just doing string +\u003d is more performant than using stringstream. stringstream is for formatting. It\u0027s not equivalent to StringBuilder in Java.",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6537a0a3_8b113cc9",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c156977d_341af6b5",
       "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -86,6 +158,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62139a0b_30b64ff5",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2625c4f9_5d2442a7",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04493692_48dda2e5",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-03-24T21:14:58Z",
       "side": 1,
       "message": "Shouldn\u0027t this escape the next character instead of transforming it if it is a special character?",
+      "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4962ee5a_717e911b",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-03-25T14:46:24Z",
+      "side": 1,
+      "message": "It gets escaped by append first this \"/\" and then the caracter itself in the switch statement",
+      "parentUuid": "04493692_48dda2e5",
       "revId": "70e3c6cad3209b1c6d58e6d597374557aeeeb88f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
