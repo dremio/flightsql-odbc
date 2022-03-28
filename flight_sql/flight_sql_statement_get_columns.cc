@@ -19,10 +19,12 @@
 #include <odbcabstraction/platform.h>
 #include "flight_sql_get_tables_reader.h"
 #include "utils.h"
+#include <arrow/flight/sql/column_metadata.h>
 
 namespace driver {
 namespace flight_sql {
 
+using arrow::flight::sql::ColumnMetadata;
 using arrow::util::make_optional;
 using arrow::util::nullopt;
 using arrow::util::optional;
@@ -84,9 +86,9 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
   GetTablesReader reader(original);
 
   optional<boost::xpressive::sregex> column_name_regex =
-      column_name_pattern ? make_optional(ConvertSqlPatternToRegex(
-                                            *column_name_pattern))
-                                      : nullopt;
+      column_name_pattern
+          ? make_optional(ConvertSqlPatternToRegex(*column_name_pattern))
+          : nullopt;
 
   while (reader.Next()) {
     const auto &table_catalog = reader.GetCatalogName();
@@ -112,6 +114,8 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
       odbcabstraction::SqlDataType data_type_v3 =
           GetDataTypeFromArrowField_V3(field);
 
+      ColumnMetadata metadata(field->metadata());
+
       data.table_cat = table_catalog;
       data.table_schem = table_schema;
       data.table_name = table_name;
@@ -119,21 +123,32 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
       data.data_type = odbc_version == odbcabstraction::V_3
                            ? data_type_v3
                            : GetDataTypeFromArrowField_V2(field);
-      data.type_name = GetTypeNameFromSqlDataType(data_type_v3);
-      // TODO: Get from field's metadata "ARROW:FLIGHT:SQL:PRECISION"
-      data.column_size = nullopt;
-      // TODO: Get from column_size
-      data.buffer_length = nullopt;
-      // TODO: Get from field's metadata "ARROW:FLIGHT:SQL:SCALE"
-      data.decimal_digits = nullopt;
+
+      // TODO: Use `metadata.GetTypeName()` when ARROW-16064 is merged.
+      const auto &type_name_result = field->metadata()->Get("ARROW:FLIGHT:SQL:TYPE_NAME");
+      data.type_name = type_name_result.ok() ?
+              type_name_result.ValueOrDie() :
+              GetTypeNameFromSqlDataType(data_type_v3);
+
+      const Result<int32_t> &precision_result = metadata.GetPrecision();
+      data.column_size = precision_result.ok()
+                             ? make_optional(precision_result.ValueOrDie())
+                             : nullopt;
+      data.char_octet_length =
+          GetCharOctetLength(data_type_v3, data.column_size);
+
+      data.buffer_length = GetBufferLength(data_type_v3, data.column_size);
+
+      const Result<int32_t> &scale_result = metadata.GetScale();
+      data.decimal_digits = scale_result.ok()
+                                ? make_optional(scale_result.ValueOrDie())
+                                : nullopt;
       data.num_prec_radix = GetRadixFromSqlDataType(data_type_v3);
       data.nullable = field->nullable();
       data.remarks = nullopt;
       data.column_def = nullopt;
       data.sql_data_type = GetNonConciseDataType(data_type_v3);
       data.sql_datetime_sub = GetSqlDateTimeSubCode(data_type_v3);
-      // TODO: Get from column_size
-      data.char_octet_length = nullopt;
       data.ordinal_position = i + 1;
       data.is_nullable = field->nullable() ? "YES" : "NO";
 

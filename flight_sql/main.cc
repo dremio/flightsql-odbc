@@ -188,7 +188,7 @@ void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
     for (int i = 0; i < column_count; ++i) {
       result_set->GetData(1 + i, driver::odbcabstraction::CDataType_CHAR, 0, 0,
                           result.data(), buffer_length, &result_length);
-      std::cout << result.data() << '\t';
+      std::cout << (result_length != -1 ? result.data() : "NULL") << '\t';
     }
 
     std::cout << std::endl;

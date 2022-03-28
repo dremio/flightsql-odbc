@@ -61,7 +61,7 @@ SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
 driver::odbcabstraction::Nullability
 FlightSqlResultSetMetadata::IsNullable(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  return field->nullable() ? odbcabstraction::NULLABILITY_NULLABLE : odbcabstraction::NULLABILITY_NO_NULLS
+  return field->nullable() ? odbcabstraction::NULLABILITY_NULLABLE : odbcabstraction::NULLABILITY_NO_NULLS;
 }
 
 std::string FlightSqlResultSetMetadata::GetSchemaName(int column_position) {
