@@ -56,11 +56,15 @@ GetDataTypeFromArrowField_V2(const std::shared_ptr<arrow::Field> &field);
 
 std::string GetTypeNameFromSqlDataType(int16_t data_type);
 
-optional<int16_t> GetRadixFromSqlDataType(int16_t data_type);
+optional<int16_t>
+GetRadixFromSqlDataType(odbcabstraction::SqlDataType data_type);
 
-int16_t GetNonConciseDataType(int16_t data_type);
+int16_t GetNonConciseDataType(odbcabstraction::SqlDataType data_type);
 
-optional<int16_t> GetSqlDateTimeSubCode(int16_t data_type);
+optional<int16_t> GetSqlDateTimeSubCode(odbcabstraction::SqlDataType data_type);
+
+optional<int16_t> GetCharOctetLength(odbcabstraction::SqlDataType data_type,
+                                     optional<int16_t> column_size);
 
 std::string ConvertSqlPatternToRegexString(const std::string &pattern);
 
