@@ -19,19 +19,9 @@
 
 #include "arrow/type_fwd.h"
 #include "types.h"
-#include <codecvt>
+#include "utils.h"
 #include <locale>
 #include <odbcabstraction/types.h>
-
-#ifdef WITH_IODBC
-typedef char32_t SqlWChar;
-typedef std::u32string SqlWString;
-#else
-typedef char16_t SqlWChar;
-typedef std::u16string SqlWString;
-#endif
-typedef std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>
-    CharToWStrConverter;
 
 namespace driver {
 namespace flight_sql {

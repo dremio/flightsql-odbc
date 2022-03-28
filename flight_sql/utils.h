@@ -20,6 +20,7 @@
 #include <arrow/flight/types.h>
 #include <arrow/util/optional.h>
 #include <boost/xpressive/xpressive.hpp>
+#include <codecvt>
 #include <odbcabstraction/exceptions.h>
 #include <odbcabstraction/types.h>
 
@@ -27,6 +28,16 @@ namespace driver {
 namespace flight_sql {
 
 using arrow::util::optional;
+
+#ifdef WITH_IODBC
+using SqlWChar = char32_t;
+using SqlWString = std::u32string;
+#else
+using SqlWChar = char16_t;
+using SqlWString = std::u16string;
+#endif
+using CharToWStrConverter =
+    std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>;
 
 inline void ThrowIfNotOK(const arrow::Status &status) {
   if (!status.ok()) {
@@ -61,11 +72,18 @@ GetDataTypeFromArrowField_V2(const std::shared_ptr<arrow::Field> &field);
 
 std::string GetTypeNameFromSqlDataType(int16_t data_type);
 
-optional<int16_t> GetRadixFromSqlDataType(int16_t data_type);
+optional<int16_t>
+GetRadixFromSqlDataType(odbcabstraction::SqlDataType data_type);
 
-int16_t GetNonConciseDataType(int16_t data_type);
+int16_t GetNonConciseDataType(odbcabstraction::SqlDataType data_type);
 
-optional<int16_t> GetSqlDateTimeSubCode(int16_t data_type);
+optional<int16_t> GetSqlDateTimeSubCode(odbcabstraction::SqlDataType data_type);
+
+optional<int32_t> GetCharOctetLength(odbcabstraction::SqlDataType data_type,
+                                     const optional<int32_t>& column_size);
+
+optional<int32_t> GetBufferLength(odbcabstraction::SqlDataType data_type,
+                                  const optional<int32_t>& column_size);
 
 std::string ConvertSqlPatternToRegexString(const std::string &pattern);
 

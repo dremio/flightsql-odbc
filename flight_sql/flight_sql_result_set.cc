@@ -148,7 +148,7 @@ bool FlightSqlResultSet::GetData(int column_n, CDataType target_type,
   // fetched, we need to subtract one from the current row.
   accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset);
 
-  if (strlen_buffer) {
+  if (strlen_buffer && strlen_buffer[0] != odbcabstraction::NULL_DATA) {
     bool has_more = value_offset + buffer_length <= strlen_buffer[0];
     value_offset += static_cast<int64_t>(buffer_length);
     return has_more;
