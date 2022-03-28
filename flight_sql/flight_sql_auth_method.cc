@@ -61,7 +61,7 @@ public:
     if (login_timeout.has_value()) {
       // ODBC's LOGIN_TIMEOUT attribute and FlightCallOptions.timeout use
       // seconds as time unit.
-      double timeout_seconds = boost::get<double>(login_timeout.value());
+      double timeout_seconds = static_cast<double>(boost::get<uint32_t>(login_timeout.value()));
       if (timeout_seconds > 0) {
         auth_call_options.timeout = TimeoutDuration{timeout_seconds};
       }

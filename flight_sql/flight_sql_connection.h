@@ -55,7 +55,7 @@ public:
 
   std::shared_ptr<odbcabstraction::Statement> CreateStatement() override;
 
-  void SetAttribute(AttributeId attribute, const Attribute &value) override;
+  bool SetAttribute(AttributeId attribute, const Attribute &value) override;
 
   boost::optional<Connection::Attribute>
   GetAttribute(Connection::AttributeId attribute) override;

@@ -68,6 +68,11 @@ TrackMissingRequiredProperty(const std::string &property,
   return prop_iter;
 }
 
+template <typename T>
+bool CheckIfSetToOnlyValidValue(const Connection::Attribute &value, T allowed_value) {
+  return boost::get<T>(value) == allowed_value;
+}
+
 } // namespace
 
 void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
@@ -90,16 +95,17 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     auth_method->Authenticate(*this, call_options_);
 
     sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
+    closed_ = false;
 
     // Note: This should likely come from Flight instead of being from the
     // connection properties to allow reporting a user for other auth mechanisms
     // and also decouple the database user from user credentials.
     info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
-    SetAttribute(CONNECTION_DEAD, false);
+    attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_FALSE);
 
     PopulateCallOptionsFromAttributes();
   } catch (...) {
-    SetAttribute(CONNECTION_DEAD, true);
+    attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
     sql_client_.reset();
 
     throw;
@@ -108,12 +114,13 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
 
 const FlightCallOptions &
 FlightSqlConnection::PopulateCallOptionsFromAttributes() {
-  // Set CONNECTION_TIMEOUT attribute
-  const boost::optional<Connection::Attribute> &connection_timeout =
-      GetAttribute(CONNECTION_TIMEOUT);
+  // Set CONNECTION_TIMEOUT attribute or LOGIN_TIMEOUT depending on if this
+  // is the first request.
+  const boost::optional<Connection::Attribute> &connection_timeout = closed_ ?
+      GetAttribute(LOGIN_TIMEOUT) : GetAttribute(CONNECTION_TIMEOUT);
   if (connection_timeout.has_value()) {
     call_options_.timeout =
-        TimeoutDuration{boost::get<double>(connection_timeout.value())};
+        TimeoutDuration{static_cast<double>(boost::get<uint32_t>(connection_timeout.value()))};
   }
 
   return call_options_;
@@ -166,6 +173,7 @@ void FlightSqlConnection::Close() {
 
   sql_client_.reset();
   closed_ = true;
+  attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
 }
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
@@ -173,15 +181,36 @@ std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
       new FlightSqlStatement(*sql_client_, call_options_));
 }
 
-void FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
+bool FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
                                        const Connection::Attribute &value) {
-  attribute_[attribute] = value;
+  switch (attribute) {
+  case ACCESS_MODE:
+    // We will always return read-write.
+    return CheckIfSetToOnlyValidValue(value, static_cast<uint32_t>(SQL_MODE_READ_WRITE));
+  case METADATA_ID:
+    return CheckIfSetToOnlyValidValue(value, static_cast<uint32_t>(SQL_FALSE));
+  case PACKET_SIZE:
+    return CheckIfSetToOnlyValidValue(value, static_cast<uint32_t>(0));
+  default:
+    attribute_[attribute] = value;
+    return true;
+  }
 }
 
 boost::optional<Connection::Attribute>
 FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
-  const auto &it = attribute_.find(attribute);
-  return boost::make_optional(it != attribute_.end(), it->second);
+  switch (attribute) {
+  case ACCESS_MODE:
+    // FlightSQL does not provide this metadata.
+    return boost::make_optional(Attribute(static_cast<uint32_t>(SQL_MODE_READ_WRITE)));
+  case METADATA_ID:
+    return boost::make_optional(Attribute(static_cast<uint32_t>(SQL_FALSE)));
+  case PACKET_SIZE:
+    return boost::make_optional(Attribute(static_cast<uint32_t>(0)));
+  default:
+    const auto &it = attribute_.find(attribute);
+    return boost::make_optional(it != attribute_.end(), it->second);
+  }
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
@@ -190,7 +219,10 @@ Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
     : odbc_version_(odbc_version), info_(call_options_, sql_client_),
-      closed_(false) {}
-
+      closed_(true) {
+  attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
+  attribute_[LOGIN_TIMEOUT] = static_cast<uint32_t>(0);
+  attribute_[CONNECTION_TIMEOUT] = static_cast<uint32_t>(0);
+}
 } // namespace flight_sql
 } // namespace driver

@@ -113,7 +113,7 @@ RecordBatchTransformerWithTasksBuilder::RenameField(
                                 original_fields->metadata()));
   } else {
     new_fields_.push_back(
-        field(transformed_name, original_fields->type(), nullptr));
+        field(transformed_name, original_fields->type(), std::shared_ptr<const KeyValueMetadata>()));
   }
 
   return *this;

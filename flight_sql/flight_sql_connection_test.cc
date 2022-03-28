@@ -29,21 +29,21 @@ using odbcabstraction::Connection;
 TEST(AttributeTests, SetAndGetAttribute) {
   FlightSqlConnection connection(odbcabstraction::V_3);
 
-  connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 200);
+  connection.SetAttribute(Connection::CONNECTION_TIMEOUT, static_cast<uint32_t>(200));
   const boost::optional<Connection::Attribute> firstValue =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
   EXPECT_TRUE(firstValue.has_value());
 
-  EXPECT_EQ(boost::get<int>(firstValue.value()), 200);
+  EXPECT_EQ(boost::get<uint32_t>(firstValue.value()), static_cast<uint32_t>(200));
 
-  connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 300);
+  connection.SetAttribute(Connection::CONNECTION_TIMEOUT, static_cast<uint32_t>(300));
 
   const boost::optional<Connection::Attribute> changeValue =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
   EXPECT_TRUE(changeValue.has_value());
-  EXPECT_EQ(boost::get<int>(changeValue.value()), 300);
+  EXPECT_EQ(boost::get<uint32_t>(changeValue.value()), static_cast<uint32_t>(300));
 
   connection.Close();
 }
@@ -112,7 +112,7 @@ TEST(PopulateCallOptionsTest, ConnectionTimeout) {
   ASSERT_EQ(TimeoutDuration{-1.0},
             connection.PopulateCallOptionsFromAttributes().timeout);
 
-  connection.SetAttribute(Connection::CONNECTION_TIMEOUT, 10.0);
+  connection.SetAttribute(Connection::CONNECTION_TIMEOUT, static_cast<uint32_t>(10));
   ASSERT_EQ(TimeoutDuration{10.0},
             connection.PopulateCallOptionsFromAttributes().timeout);
 }

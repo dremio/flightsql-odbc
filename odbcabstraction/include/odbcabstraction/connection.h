@@ -40,16 +40,12 @@ public:
 
   /// \brief Connection attributes
   enum AttributeId {
-    ACCESS_MODE,        // Tells if it should support write operations
-    AUTO_IPD,           // Relevant to parameter binding on statements
-    AUTOCOMMIT,         // Do not support transactions yet
-    CONNECTION_DEAD,    // Tells if connection is still alive
-    CONNECTION_TIMEOUT, // Matters to Connect()
-    DBC_INFO_TOKEN,     // Lookup
-    LOGIN_TIMEOUT,      // Matters to Connect()
-    METADATA_ID,        // Pass to statement
-    PACKET_SIZE,        // Lookup if there is a packet size on Flight
-    QUIET_MODE,         // Lookup
+    ACCESS_MODE,        // uint32_t - Tells if it should support write operations
+    CONNECTION_DEAD,    // uint32_t - Tells if connection is still alive
+    CONNECTION_TIMEOUT, // uint32_t - The timeout for connection functions after connecting.
+    LOGIN_TIMEOUT,      // uint32_t - The timeout for the initial connection
+    METADATA_ID,        // uint32_t - Modifies catalog function arguments to be identifiers
+    PACKET_SIZE,        // uint32_t - The Packet Size
   };
 
   /// \brief Case insensitive comparator
@@ -60,7 +56,7 @@ public:
     }
   };
 
-  typedef boost::variant<std::string, int, double, bool> Attribute;
+  typedef boost::variant<std::string, void*, uint64_t, uint32_t>  Attribute;
   typedef std::string Property;
   typedef boost::variant<std::string, uint32_t, uint16_t> Info;
   // ConnPropertyMap is case-insensitive for keys.
@@ -82,7 +78,9 @@ public:
   /// \brief Set a connection attribute (may be called at any time).
   /// \param attribute[in] Which attribute to set.
   /// \param value The value to be set.
-  virtual void SetAttribute(AttributeId attribute, const Attribute &value) = 0;
+  /// \return true if the value was set successfully or false if it was substituted with
+  /// a similar value.
+  virtual bool SetAttribute(AttributeId attribute, const Attribute &value) = 0;
 
   /// \brief Retrieve a connection attribute
   /// \param attribute[in] Attribute to be retrieved.
