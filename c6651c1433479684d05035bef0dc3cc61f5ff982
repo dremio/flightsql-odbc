@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc721012_392af1cd",
+        "filename": "flight_sql/flight_sql_statement_get_columns.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-28T17:59:56Z",
+      "side": 1,
+      "message": "No it\u0027s different. It\u0027s the size in bytes for the normal corresponding C type for the given SQL type (eg for 32-bit integers this should be 4, for SQL_TYPE_TIMESTAMP this should be sizeof(SQL_TIMESTAMP_STRUCT).",
+      "revId": "c6651c1433479684d05035bef0dc3cc61f5ff982",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c49275b0_46eabb71",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-03-28T17:59:56Z",
+      "side": 1,
+      "message": "CHAR_OCTET_LENGTH should be null for types other than string and binary.",
+      "revId": "c6651c1433479684d05035bef0dc3cc61f5ff982",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
