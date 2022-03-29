@@ -17,6 +17,8 @@
 
 include(FindODBC)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 include_directories(include)
 
 add_library(odbcabstraction 

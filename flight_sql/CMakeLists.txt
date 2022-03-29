@@ -18,48 +18,11 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
-
-SET(Arrow_STATIC ON)
-
-# Get Arrow using git.
-include(ExternalProject)
-
-set(ARROW_CMAKE_ARGS
-  -DARROW_FLIGHT=ON
-  -DARROW_FLIGHT_SQL=ON
-  -DARROW_IPC=ON
-  -DARROW_BUILD_SHARED=OFF
-  -DARROW_BUILD_STATIC=ON
-  -DARROW_COMPUTE=ON
-  -DARROW_WITH_UTF8PROC=OFF
-  -DARROW_BUILD_TESTS=OFF
-  -DARROW_DEPENDENCY_USE_SHARED=OFF
-  -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-  -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-  ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
-)
-
-if(NOT ARROW_GIT_REPOSITORY)
-  set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
-endif()
-if(NOT ARROW_GIT_TAG)
-  set(ARROW_GIT_TAG master)
-endif()
-
-message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
-ExternalProject_Add(ApacheArrow
-  GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
-  GIT_TAG ${ARROW_GIT_TAG}
-  CMAKE_ARGS ${ARROW_CMAKE_ARGS})
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
-link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/lib)
-
-# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
-find_package(ZLIB REQUIRED)
 
 # Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
 set(Protobuf_USE_STATIC_LIBS ON)
@@ -78,8 +41,58 @@ set(OpenSSL_USE_STATIC_LIBS ON)
 set(OPENSSL_USE_STATIC_LIBS ON)
 find_package(OpenSSL REQUIRED)
 
+# OpenSSL depends on krb5 on CentOS
+if (UNIX)
+  list(APPEND OPENSSL_LIBRARIES krb5 k5crypto)
+endif()
+
 # Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(gRPC 1.36 CONFIG REQUIRED)
+
+SET(Arrow_STATIC ON)
+
+# Get Arrow using git.
+include(ExternalProject)
+
+set(ARROW_CMAKE_ARGS
+  -DARROW_FLIGHT=ON
+  -DARROW_FLIGHT_SQL=ON
+  -DARROW_IPC=ON
+  -DARROW_BUILD_SHARED=OFF
+  -DARROW_BUILD_STATIC=ON
+  -DARROW_COMPUTE=ON
+  -DARROW_WITH_UTF8PROC=OFF
+  -DARROW_BUILD_TESTS=OFF
+  -DARROW_DEPENDENCY_USE_SHARED=OFF
+  -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+  -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
+  -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+  ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
+)
+
+if(NOT ARROW_GIT_REPOSITORY)
+  set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
+endif()
+if(NOT ARROW_GIT_TAG)
+  set(ARROW_GIT_TAG master)
+endif()
+
+message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
+ExternalProject_Add(ApacheArrow
+  GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
+  GIT_TAG ${ARROW_GIT_TAG}
+  CMAKE_ARGS ${ARROW_CMAKE_ARGS})
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  set(ARROW_LIB_DIR lib64)
+else()
+  set(ARROW_LIB_DIR lib)
+endif()
+link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/${ARROW_LIB_DIR})
+
+# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
+find_package(ZLIB REQUIRED)
 
 if (APPLE)
   add_compile_definitions(WITH_IODBC)
@@ -115,9 +128,10 @@ set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   arrow_flight
   arrow
   arrow_bundled_dependencies
+  gRPC::grpc++
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
-  gRPC::grpc++
+  ${OPENSSL_LIBRARIES}
 )
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
