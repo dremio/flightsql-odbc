@@ -36,8 +36,8 @@ inline void ThrowIfNotOK(const arrow::Status &status) {
 
 template <typename BUILDER, typename T>
 arrow::Status AppendToBuilder(BUILDER &builder, optional<T> opt_value) {
-  if (opt_value.has_value()) {
-    return builder.Append(opt_value.value());
+  if (opt_value) {
+    return builder.Append(*opt_value);
   } else {
     return builder.AppendNull();
   }
