@@ -18,6 +18,8 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
