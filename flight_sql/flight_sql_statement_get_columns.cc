@@ -83,8 +83,8 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
   GetTablesReader reader(original);
 
   optional<boost::xpressive::sregex> column_name_regex =
-      column_name_pattern.has_value() ? make_optional(ConvertSqlPatternToRegex(
-                                            column_name_pattern.value()))
+      column_name_pattern ? make_optional(ConvertSqlPatternToRegex(
+                                            *column_name_pattern))
                                       : nullopt;
 
   while (reader.Next()) {
@@ -95,9 +95,9 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
     for (int i = 0; i < schema->num_fields(); ++i) {
       const std::shared_ptr<Field> &field = schema->field(i);
 
-      if (column_name_regex.has_value() &&
+      if (column_name_regex &&
           !boost::xpressive::regex_match(field->name(),
-                                         column_name_regex.value())) {
+                                         *column_name_regex)) {
         continue;
       }
 

@@ -18,6 +18,8 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
@@ -56,7 +58,12 @@ ExternalProject_Add(ApacheArrow
   CMAKE_ARGS ${ARROW_CMAKE_ARGS})
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
-link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/lib)
+if (UNIX)
+  set(ARROW_LIB_DIR lib64)
+else()
+  set(ARROW_LIB_DIR lib)
+endif()
+link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/${ARROW_LIB_DIR})
 
 # Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(ZLIB REQUIRED)
