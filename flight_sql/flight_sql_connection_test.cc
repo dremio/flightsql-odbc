@@ -33,17 +33,17 @@ TEST(AttributeTests, SetAndGetAttribute) {
   const boost::optional<Connection::Attribute> firstValue =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_TRUE(firstValue.has_value());
+  EXPECT_TRUE(firstValue);
 
-  EXPECT_EQ(boost::get<uint32_t>(firstValue.value()), static_cast<uint32_t>(200));
+  EXPECT_EQ(boost::get<uint32_t>(*firstValue), static_cast<uint32_t>(200));
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, static_cast<uint32_t>(300));
 
   const boost::optional<Connection::Attribute> changeValue =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_TRUE(changeValue.has_value());
-  EXPECT_EQ(boost::get<uint32_t>(changeValue.value()), static_cast<uint32_t>(300));
+  EXPECT_TRUE(changeValue);
+  EXPECT_EQ(boost::get<uint32_t>(*changeValue), static_cast<uint32_t>(300));
 
   connection.Close();
 }
@@ -54,7 +54,7 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
   const boost::optional<Connection::Attribute> anOptional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_FALSE(anOptional.has_value());
+  EXPECT_FALSE(anOptional);
 
   connection.Close();
 }
