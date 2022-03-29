@@ -118,9 +118,9 @@ FlightSqlConnection::PopulateCallOptionsFromAttributes() {
   // is the first request.
   const boost::optional<Connection::Attribute> &connection_timeout = closed_ ?
       GetAttribute(LOGIN_TIMEOUT) : GetAttribute(CONNECTION_TIMEOUT);
-  if (connection_timeout.has_value()) {
+  if (connection_timeout) {
     call_options_.timeout =
-        TimeoutDuration{static_cast<double>(boost::get<uint32_t>(connection_timeout.value()))};
+        TimeoutDuration{static_cast<double>(boost::get<uint32_t>(*connection_timeout))};
   }
 
   return call_options_;
