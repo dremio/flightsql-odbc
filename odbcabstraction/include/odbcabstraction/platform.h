@@ -15,20 +15,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "utils.h"
-#include <odbcabstraction/platform.h> 
-#include "gtest/gtest.h"
+#pragma once
 
-namespace driver {
-namespace flight_sql {
+#if defined(_WIN32)
+  // NOMINMAX avoids std::min/max being defined as a c macro
+  #define NOMINMAX
+  #include <windows.h>
+    
+  #include <basetsd.h>
+  typedef SSIZE_T ssize_t;
 
-TEST(Utils, ConvertSqlPatternToRegexString) {
-  ASSERT_EQ(std::string("XY"), ConvertSqlPatternToRegexString("XY"));
-  ASSERT_EQ(std::string("X.Y"), ConvertSqlPatternToRegexString("X_Y"));
-  ASSERT_EQ(std::string("X.*Y"), ConvertSqlPatternToRegexString("X%Y"));
-  ASSERT_EQ(std::string("X%Y"), ConvertSqlPatternToRegexString("X\\%Y"));
-  ASSERT_EQ(std::string("X_Y"), ConvertSqlPatternToRegexString("X\\_Y"));
-}
-
-} // namespace flight_sql
-} // namespace driver
+#endif

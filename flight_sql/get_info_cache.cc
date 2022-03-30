@@ -17,6 +17,8 @@
 
 #include "get_info_cache.h"
 
+#include <odbcabstraction/platform.h>
+
 #include <arrow/array.h>
 #include <arrow/array/array_nested.h>
 #include <arrow/flight/sql/api.h>
@@ -838,7 +840,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             // java.
             constexpr int32_t COMPARISONS = 0;
             constexpr int32_t EXISTS = 1;
-            constexpr int32_t IN = 2;
+            constexpr int32_t INN = 2;
             constexpr int32_t QUANTIFIEDS = 3;
             uint32_t result = 0;
             if ((scalar_value & (1 << COMPARISONS)) != 0) {
@@ -847,7 +849,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             if ((scalar_value & (1 << EXISTS)) != 0) {
               result |= SQL_SQ_EXISTS;
             }
-            if ((scalar_value & (1 << IN)) != 0) {
+            if ((scalar_value & (1 << INN)) != 0) {
               result |= SQL_SQ_IN;
             }
             if ((scalar_value & (1 << QUANTIFIEDS)) != 0) {

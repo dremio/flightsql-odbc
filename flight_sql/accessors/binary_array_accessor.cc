@@ -18,6 +18,8 @@
 #include "binary_array_accessor.h"
 
 #include <arrow/array.h>
+#include <algorithm>
+#include <cstdint>
 
 namespace driver {
 namespace flight_sql {

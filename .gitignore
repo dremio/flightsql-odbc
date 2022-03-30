@@ -26,6 +26,8 @@ cmake-build-*/
 *.swp
 
 .idea
+.vs
+.vscode
 vcpkg_installed
 *-prefix
 _deps
