@@ -16,6 +16,7 @@
 // under the License.
 
 #include "utils.h"
+#include <odbcabstraction/platform.h> 
 #include "gtest/gtest.h"
 
 namespace driver {

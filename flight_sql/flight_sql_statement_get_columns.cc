@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_statement_get_columns.h"
+#include <odbcabstraction/platform.h>
 #include "flight_sql_get_tables_reader.h"
 #include "utils.h"
 

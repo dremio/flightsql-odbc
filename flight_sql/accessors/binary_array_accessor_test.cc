@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "arrow/testing/gtest_util.h"
 #include "arrow/testing/builder.h"
 #include "binary_array_accessor.h"
 #include "gtest/gtest.h"
@@ -33,11 +34,11 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Basic) {
   BinaryArrayFlightSqlAccessor<CDataType_BINARY> accessor(array.get());
 
   size_t max_strlen = 64;
-  char buffer[values.size() * max_strlen];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<char> buffer(values.size() * max_strlen);
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_BINARY, 0, 0, buffer, max_strlen,
-                        strlen_buffer);
+  ColumnBinding binding(CDataType_BINARY, 0, 0, buffer.data(), max_strlen,
+                        strlen_buffer.data());
 
   ASSERT_EQ(values.size(),
             accessor.GetColumnarData(&binding, 0, values.size(), 0));
@@ -48,8 +49,8 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Basic) {
     // It's safe to create a std::string from this data because we know it's
     // ASCII, this doesn't work with arbitrary binary data.
     ASSERT_EQ(values[i],
-              std::string(buffer + i * max_strlen,
-                          buffer + i * max_strlen + strlen_buffer[i]));
+              std::string(buffer.data() + i * max_strlen,
+                          buffer.data() + i * max_strlen + strlen_buffer[i]));
   }
 }
 
@@ -62,11 +63,11 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Truncation) {
   BinaryArrayFlightSqlAccessor<CDataType_BINARY> accessor(array.get());
 
   size_t max_strlen = 8;
-  char buffer[values.size() * max_strlen];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<char> buffer(values.size() * max_strlen);
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_BINARY, 0, 0, buffer, max_strlen,
-                        strlen_buffer);
+  ColumnBinding binding(CDataType_BINARY, 0, 0, buffer.data(), max_strlen,
+                        strlen_buffer.data());
 
   std::stringstream ss;
   int64_t value_offset = 0;
@@ -83,7 +84,7 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Truncation) {
     // Beware that CDataType_BINARY values are not null terminated.
     // It's safe to create a std::string from this data because we know it's
     // ASCII, this doesn't work with arbitrary binary data.
-    ss << std::string(buffer, buffer + chunk_length);
+    ss << std::string(buffer.data(), buffer.data() + chunk_length);
     value_offset += chunk_length;
   } while (value_offset < strlen_buffer[0]);
 

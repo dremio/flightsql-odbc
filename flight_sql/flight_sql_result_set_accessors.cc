@@ -16,6 +16,8 @@
 // under the License.
 
 #include "accessors/main.h"
+
+#include <odbcabstraction/platform.h>
 #include "boost/functional/hash.hpp"
 
 namespace driver {
