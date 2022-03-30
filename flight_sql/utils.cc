@@ -16,6 +16,7 @@
 // under the License.
 
 #include "utils.h"
+#include <odbcabstraction/platform.h> 
 #include <arrow/type.h>
 #include <odbcabstraction/types.h>
 

@@ -37,11 +37,11 @@ void TestPrimitiveArraySqlAccessor() {
   PrimitiveArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE> accessor(
       array.get());
 
-  c_type buffer[values.size()];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<c_type> buffer(values.size());
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(TARGET_TYPE, 0, 0, buffer, values.size(),
-                        strlen_buffer);
+  ColumnBinding binding(TARGET_TYPE, 0, 0, buffer.data(), values.size(),
+                        strlen_buffer.data());
 
   ASSERT_EQ(values.size(),
             accessor.GetColumnarData(&binding, 0, values.size(), 0));

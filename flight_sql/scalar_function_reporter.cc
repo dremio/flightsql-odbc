@@ -17,6 +17,8 @@
 
 #include "scalar_function_reporter.h"
 
+#include <odbcabstraction/platform.h>
+
 #include <sqlext.h>
 #include <string>
 #include <unordered_map>
