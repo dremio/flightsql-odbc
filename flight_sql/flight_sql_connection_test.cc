@@ -16,6 +16,9 @@
 // under the License.
 
 #include "flight_sql_connection.h"
+
+#include <odbcabstraction/platform.h>
+
 #include "gtest/gtest.h"
 #include <arrow/flight/types.h>
 

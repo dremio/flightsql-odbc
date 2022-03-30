@@ -16,6 +16,7 @@
 // under the License.
 
 #include "record_batch_transformer.h"
+#include <odbcabstraction/platform.h> 
 
 #include "utils.h"
 #include <arrow/array/util.h>

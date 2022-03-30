@@ -2,13 +2,26 @@
   "name": "flightsql-odbc",
   "version-string": "1.0.0",
   "dependencies": [
+    "abseil",
+    "benchmark",
+    "boost-filesystem",
+    "boost-multiprecision",
+    "boost-process",
+    "boost-system",
+    "boost-crc",
+    "boost-optional",
+    "boost-variant",
+    "boost-xpressive",
+    "brotli",
+    "gflags",
     "openssl",
     "protobuf",
     "zlib",
     "re2",
     "grpc",
     "utf8proc",
-    "gtest"
+    "zlib",
+    "zstd"
   ],
-  "builtin-baseline": "b5865bfeba430cd44063fc54a45a8861195a715f"
+  "builtin-baseline": "4e485c34f5e056327ef00c14e2e3620bc50de098"
 }
