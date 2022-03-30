@@ -17,6 +17,8 @@
 
 #include "flight_sql_auth_method.h"
 
+#include <odbcabstraction/platform.h>
+
 #include "flight_sql_connection.h"
 #include <odbcabstraction/exceptions.h>
 

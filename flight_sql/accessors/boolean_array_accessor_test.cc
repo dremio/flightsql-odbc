@@ -26,16 +26,16 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 TEST(BooleanArrayFlightSqlAccessor, Test_BooleanArray_CDataType_BIT) {
-  std::vector<bool> values = {true, false, true};
+  const std::vector<bool> values = {true, false, true};
   std::shared_ptr<Array> array;
   ArrayFromVector<BooleanType>(values, &array);
 
   BooleanArrayFlightSqlAccessor<CDataType_BIT> accessor(array.get());
 
-  char buffer[values.size()];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<char> buffer(values.size());
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_BIT, 0, 0, buffer, 0, strlen_buffer);
+  ColumnBinding binding(CDataType_BIT, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   ASSERT_EQ(values.size(),
             accessor.GetColumnarData(&binding, 0, values.size(), 0));

@@ -16,10 +16,12 @@
 // under the License.
 
 #include "record_batch_transformer.h"
+#include <odbcabstraction/platform.h> 
 
 #include "utils.h"
 #include <arrow/array/util.h>
 #include <arrow/builder.h>
+#include <arrow/testing/gtest_util.h>
 #include <iostream>
 #include <utility>
 
