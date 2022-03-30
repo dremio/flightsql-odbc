@@ -21,6 +21,8 @@
 #include <arrow/array.h>
 #include <arrow/scalar.h>
 #include <odbcabstraction/types.h>
+#include <algorithm>
+#include <cstdint>
 
 namespace driver {
 namespace flight_sql {

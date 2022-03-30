@@ -24,6 +24,9 @@ include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
 
+# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
+find_package(ZLIB REQUIRED)
+
 # Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
 set(Protobuf_USE_STATIC_LIBS ON)
 find_package(Protobuf REQUIRED)
@@ -57,16 +60,17 @@ include(ExternalProject)
 set(ARROW_CMAKE_ARGS
   -DARROW_FLIGHT=ON
   -DARROW_FLIGHT_SQL=ON
+  -DARROW_COMPUTE=ON
   -DARROW_IPC=ON
   -DARROW_BUILD_SHARED=OFF
   -DARROW_BUILD_STATIC=ON
-  -DARROW_COMPUTE=ON
   -DARROW_WITH_UTF8PROC=OFF
   -DARROW_BUILD_TESTS=OFF
-  -DARROW_DEPENDENCY_USE_SHARED=OFF
+  -DARROW_DEPENDENCY_SOURCE=VCPKG
+  -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
   -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-  -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
   -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
   ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
 )
 
@@ -98,6 +102,11 @@ if (APPLE)
   add_compile_definitions(WITH_IODBC)
 endif()
 
+if (MSVC)
+  # the following definitions stop arrow from using __declspec when staticly linking and will break on windows without them
+  add_compile_definitions(ARROW_STATIC ARROW_FLIGHT_STATIC)
+endif()
+
 enable_testing()
 
 set(ARROW_ODBC_SPI_SOURCES
@@ -123,11 +132,25 @@ set(ARROW_ODBC_SPI_SOURCES
   utils.cc
 )
 
+set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+
+if (MSVC)
+  set(ARROW_LIBS
+    arrow_flight_sql_static
+    arrow_flight_static
+    arrow_static
+  )
+else()
+  set(ARROW_LIBS
+    arrow_flight_sql
+    arrow_flight
+    arrow
+    arrow_bundled_dependencies
+  )
+endif()
+
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
-  arrow_flight_sql
-  arrow_flight
-  arrow
-  arrow_bundled_dependencies
+  ${ARROW_LIBS}
   gRPC::grpc++
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
@@ -135,6 +158,7 @@ set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
 )
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
+
 add_dependencies(arrow_odbc_spi_impl ApacheArrow)
 
 set_target_properties(arrow_odbc_spi_impl
@@ -171,7 +195,9 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
 )
 
 add_executable(arrow_odbc_spi_impl_test ${ARROW_ODBC_SPI_TEST_SOURCES})
+
 add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
+
 set_target_properties(arrow_odbc_spi_impl_test
   PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin

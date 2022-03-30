@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include <odbcabstraction/platform.h> 
 #include "arrow/testing/builder.h"
 #include "record_batch_transformer.h"
 #include "gtest/gtest.h"

@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_connection.h"
+#include <odbcabstraction/platform.h>
 #include <flight_sql/flight_sql_driver.h>
 
 namespace driver {
