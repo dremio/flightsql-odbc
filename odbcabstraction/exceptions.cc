@@ -16,6 +16,7 @@
 // under the License.
 
 #include <odbcabstraction/exceptions.h>
+#include <odbcabstraction/platform.h> 
 #include <utility>
 
 namespace driver {

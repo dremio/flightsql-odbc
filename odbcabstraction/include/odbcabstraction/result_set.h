@@ -20,6 +20,8 @@
 #include <map>
 #include <memory>
 
+#include <odbcabstraction/platform.h>
+
 #include <odbcabstraction/types.h>
 
 namespace driver {

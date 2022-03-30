@@ -16,6 +16,7 @@
 // under the License.
 
 #include <flight_sql/flight_sql_driver.h>
+#include <odbcabstraction/platform.h>
 
 #include "flight_sql_connection.h"
 #include "flight_sql_result_set.h"
@@ -46,8 +47,8 @@ void TestBindColumn(const std::shared_ptr<Connection> &connection) {
 
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
-  int batch_size = 100;
-  int max_strlen = 1000;
+  const int batch_size = 100;
+  const int max_strlen = 1000;
 
   char IncidntNum[batch_size][max_strlen];
   ssize_t IncidntNum_length[batch_size];
@@ -86,7 +87,7 @@ void TestGetData(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
   while (result_set->Move(1) == 1) {
-    int buffer_length = 1024;
+    const int buffer_length = 1024;
     char result[buffer_length];
     ssize_t result_length;
     result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
@@ -110,8 +111,8 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
 
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
-  int batch_size = 100;
-  int max_strlen = 1000;
+  const int batch_size = 100;
+  const int max_strlen = 1000;
 
   char IncidntNum[batch_size][max_strlen];
   ssize_t IncidntNum_length[batch_size];
@@ -159,11 +160,11 @@ void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
 
   while (result_set->Move(1) == 1) {
     int buffer_length = 1024;
-    char result[buffer_length];
+    std::vector<char> result(buffer_length);
     ssize_t result_length;
     result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
-                        result, buffer_length, &result_length);
-    std::cout << result << std::endl;
+                        result.data(), buffer_length, &result_length);
+    std::cout << result.data() << std::endl;
   }
 
   std::cout << column_count << std::endl;
@@ -180,14 +181,14 @@ void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
   size_t column_count = metadata->GetColumnCount();
 
   int buffer_length = 1024;
-  char result[buffer_length];
+  std::vector<char> result(buffer_length);
   ssize_t result_length;
 
   while (result_set->Move(1) == 1) {
     for (int i = 0; i < column_count; ++i) {
       result_set->GetData(1 + i, driver::odbcabstraction::CDataType_CHAR, 0, 0,
-                          result, buffer_length, &result_length);
-      std::cout << result << '\t';
+                          result.data(), buffer_length, &result_length);
+      std::cout << result.data() << '\t';
     }
 
     std::cout << std::endl;
@@ -209,13 +210,17 @@ int main() {
       {FlightSqlConnection::PASSWORD, std::string("dremio123")},
   };
   std::vector<std::string> missing_attr;
-  connection->Connect(properties, missing_attr);
+  try {
+    connection->Connect(properties, missing_attr);
 
-  //  TestBindColumnBigInt(connection);
-  //  TestBindColumn(connection);
-  //  TestGetData(connection);
-  //    TestGetTablesV2(connection);
-  TestGetColumnsV3(connection);
+    //  TestBindColumnBigInt(connection);
+    //  TestBindColumn(connection);
+    //  TestGetData(connection);
+    //    TestGetTablesV2(connection);
+    TestGetColumnsV3(connection);
+  } catch (...) {
+    std::cout << "error occured" << std::endl;
+  } 
 
   connection->Close();
   return 0;

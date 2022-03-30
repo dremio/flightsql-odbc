@@ -33,18 +33,18 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Basic) {
   StringArrayFlightSqlAccessor<CDataType_CHAR> accessor(array.get());
 
   size_t max_strlen = 64;
-  char buffer[values.size() * max_strlen];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<char> buffer(values.size() * max_strlen);
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_CHAR, 0, 0, buffer, max_strlen,
-                        strlen_buffer);
+  ColumnBinding binding(CDataType_CHAR, 0, 0, buffer.data(), max_strlen,
+                        strlen_buffer.data());
 
   ASSERT_EQ(values.size(),
             accessor.GetColumnarData(&binding, 0, values.size(), 0));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
-    ASSERT_EQ(values[i], std::string(buffer + i * max_strlen));
+    ASSERT_EQ(values[i], std::string(buffer.data() + i * max_strlen));
   }
 }
 
@@ -57,11 +57,11 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Truncation) {
   StringArrayFlightSqlAccessor<CDataType_CHAR> accessor(array.get());
 
   size_t max_strlen = 8;
-  char buffer[values.size() * max_strlen];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<char> buffer(values.size() * max_strlen);
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_CHAR, 0, 0, buffer, max_strlen,
-                        strlen_buffer);
+  ColumnBinding binding(CDataType_CHAR, 0, 0, buffer.data(), max_strlen,
+                        strlen_buffer.data());
 
   std::stringstream ss;
   int64_t value_offset = 0;
@@ -74,7 +74,7 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Truncation) {
 
     int64_t chunk_length = std::min(static_cast<int64_t>(max_strlen),
                                     strlen_buffer[0] - value_offset);
-    ss << buffer;
+    ss << buffer.data();
     value_offset += chunk_length - 1;
   } while (value_offset < strlen_buffer[0] - 1);
 
@@ -89,11 +89,11 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
   StringArrayFlightSqlAccessor<CDataType_WCHAR> accessor(array.get());
 
   size_t max_strlen = 64;
-  SqlWChar buffer[values.size() * max_strlen];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<SqlWChar> buffer(values.size() * max_strlen);
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_WCHAR, 0, 0, buffer, max_strlen,
-                        strlen_buffer);
+  ColumnBinding binding(CDataType_WCHAR, 0, 0, buffer.data(), max_strlen,
+                        strlen_buffer.data());
 
   ASSERT_EQ(values.size(),
             accessor.GetColumnarData(&binding, 0, values.size(), 0));
@@ -101,7 +101,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length() * sizeof(SqlWChar), strlen_buffer[i]);
     auto expected = CharToWStrConverter().from_bytes(values[i].c_str());
-    auto actual = SqlWString(buffer + i * max_strlen / sizeof(SqlWChar));
+    auto actual = SqlWString(buffer.data() + i * max_strlen / sizeof(SqlWChar));
     ASSERT_EQ(0, expected.compare(actual));
   }
 }
@@ -115,11 +115,11 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
   StringArrayFlightSqlAccessor<CDataType_WCHAR> accessor(array.get());
 
   size_t max_strlen = 8;
-  SqlWChar buffer[values.size() * max_strlen];
-  ssize_t strlen_buffer[values.size()];
+  std::vector<SqlWChar> buffer(values.size() * max_strlen);
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_WCHAR, 0, 0, buffer,
-                        max_strlen * sizeof(SqlWChar), strlen_buffer);
+  ColumnBinding binding(CDataType_WCHAR, 0, 0, buffer.data(),
+                        max_strlen * sizeof(SqlWChar), strlen_buffer.data());
 
   std::basic_stringstream<SqlWChar> ss;
   int64_t value_offset = 0;
@@ -134,7 +134,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
     int64_t chunk_length =
         std::min(static_cast<int64_t>(max_strlen * sizeof(SqlWChar)),
                  strlen_buffer[0] - value_offset);
-    finalStr += std::basic_string<SqlWChar>(buffer, chunk_length);
+    finalStr += std::basic_string<SqlWChar>(buffer.data(), chunk_length);
     value_offset += chunk_length - sizeof(SqlWChar);
   } while (value_offset < strlen_buffer[0] - sizeof(SqlWChar));
 

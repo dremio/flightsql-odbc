@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_result_set.h"
+#include <odbcabstraction/platform.h>
 
 #include <arrow/flight/types.h>
 #include <arrow/scalar.h>
