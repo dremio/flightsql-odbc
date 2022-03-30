@@ -16,6 +16,9 @@
 // under the License.
 
 #include "flight_sql_connection.h"
+
+#include <odbcabstraction/platform.h>
+
 #include "gtest/gtest.h"
 #include <arrow/flight/types.h>
 
@@ -54,7 +57,11 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
   const boost::optional<Connection::Attribute> anOptional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
+<<<<<<< HEAD
   EXPECT_FALSE(anOptional);
+=======
+  EXPECT_FALSE(anOptional.is_initialized());
+>>>>>>> 632a56f (DX-45521: Removed non std cpp such that the code will build on windows and modified the cmake files to handle using prebuilt arrow libraries.)
 
   connection.Close();
 }

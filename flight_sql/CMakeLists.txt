@@ -24,6 +24,52 @@ include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
 
+<<<<<<< HEAD
+=======
+SET(Arrow_STATIC ON)
+
+# Get Arrow using git.
+include(ExternalProject)
+
+if(NOT ARROW_GIT_REPOSITORY)
+  set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
+endif()
+if(NOT ARROW_GIT_TAG)
+  set(ARROW_GIT_TAG master)
+endif()
+
+set(ARROW_CMAKE_ARGS
+  -DARROW_FLIGHT=ON
+  -DARROW_FLIGHT_SQL=ON
+  -DARROW_COMPUTE=ON
+  -DARROW_IPC=ON
+  -DARROW_BUILD_SHARED=OFF
+  -DARROW_BUILD_STATIC=ON
+  -DARROW_WITH_UTF8PROC=OFF
+  -DARROW_BUILD_TESTS=OFF
+  -DARROW_DEPENDENCY_SOURCE=VCPKG
+  -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
+  -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+  -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
+)
+
+message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
+ExternalProject_Add(ApacheArrow
+  GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
+  GIT_TAG ${ARROW_GIT_TAG}
+  CMAKE_ARGS ${ARROW_CMAKE_ARGS})
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
+link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/lib)
+
+
+
+# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
+find_package(ZLIB REQUIRED)
+
+>>>>>>> 632a56f (DX-45521: Removed non std cpp such that the code will build on windows and modified the cmake files to handle using prebuilt arrow libraries.)
 # Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
 set(Protobuf_USE_STATIC_LIBS ON)
 find_package(Protobuf REQUIRED)
@@ -98,6 +144,11 @@ if (APPLE)
   add_compile_definitions(WITH_IODBC)
 endif()
 
+if (MSVC)
+  # the following definitions stop arrow from using __declspec when staticly linking and will break on windows without them
+  add_compile_definitions(ARROW_STATIC ARROW_FLIGHT_STATIC)
+endif()
+
 enable_testing()
 
 set(ARROW_ODBC_SPI_SOURCES
@@ -123,6 +174,8 @@ set(ARROW_ODBC_SPI_SOURCES
   utils.cc
 )
 
+set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   arrow_flight_sql
   arrow_flight
@@ -135,6 +188,7 @@ set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
 )
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
+
 add_dependencies(arrow_odbc_spi_impl ApacheArrow)
 
 set_target_properties(arrow_odbc_spi_impl
@@ -171,7 +225,9 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
 )
 
 add_executable(arrow_odbc_spi_impl_test ${ARROW_ODBC_SPI_TEST_SOURCES})
+
 add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
+
 set_target_properties(arrow_odbc_spi_impl_test
   PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin

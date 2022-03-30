@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_statement_get_tables.h"
+#include <odbcabstraction/platform.h>
 #include "arrow/flight/api.h"
 #include "arrow/flight/types.h"
 #include "flight_sql_result_set.h"

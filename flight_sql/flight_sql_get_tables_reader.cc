@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_get_tables_reader.h"
+#include <odbcabstraction/platform.h>
 #include "arrow/io/memory.h"
 #include "utils.h"
 
