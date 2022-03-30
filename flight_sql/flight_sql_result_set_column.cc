@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_result_set_column.h"
+#include <odbcabstraction/platform.h>
 #include "flight_sql_result_set.h"
 #include <accessors/types.h>
 #include <arrow/compute/api.h>

@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <odbcabstraction/platform.h>
 #include <arrow/array.h>
 #include <cstddef>
 #include <cstdint>

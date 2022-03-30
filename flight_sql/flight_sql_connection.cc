@@ -17,11 +17,14 @@
 
 #include "flight_sql_connection.h"
 
+#include <odbcabstraction/platform.h>
+
 #include <arrow/flight/client_cookie_middleware.h>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
+
 #include <sqlext.h>
 
 #include "flight_sql_auth_method.h"
