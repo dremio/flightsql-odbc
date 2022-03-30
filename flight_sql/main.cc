@@ -46,8 +46,8 @@ void TestBindColumn(const std::shared_ptr<Connection> &connection) {
 
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
-  int batch_size = 100;
-  int max_strlen = 1000;
+  const int batch_size = 100;
+  const int max_strlen = 1000;
 
   char IncidntNum[batch_size][max_strlen];
   ssize_t IncidntNum_length[batch_size];
@@ -86,7 +86,7 @@ void TestGetData(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
   while (result_set->Move(1) == 1) {
-    int buffer_length = 1024;
+    const int buffer_length = 1024;
     char result[buffer_length];
     ssize_t result_length;
     result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
@@ -110,8 +110,8 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
 
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
 
-  int batch_size = 100;
-  int max_strlen = 1000;
+  const int batch_size = 100;
+  const int max_strlen = 1000;
 
   char IncidntNum[batch_size][max_strlen];
   ssize_t IncidntNum_length[batch_size];

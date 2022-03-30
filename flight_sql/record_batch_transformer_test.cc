@@ -18,6 +18,9 @@
 #include "arrow/testing/builder.h"
 #include "record_batch_transformer.h"
 #include "gtest/gtest.h"
+#if defined(__APPLE__) || defined(_WIN32)
+#include <arrow/testing/builder.h>
+#endif
 #include <arrow/record_batch.h>
 using namespace arrow;
 

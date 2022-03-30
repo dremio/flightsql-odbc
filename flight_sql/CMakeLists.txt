@@ -27,20 +27,7 @@ SET(Arrow_STATIC ON)
 # Get Arrow using git.
 include(ExternalProject)
 
-set(ARROW_CMAKE_ARGS
-  -DARROW_FLIGHT=ON
-  -DARROW_FLIGHT_SQL=ON
-  -DARROW_IPC=ON
-  -DARROW_BUILD_SHARED=OFF
-  -DARROW_BUILD_STATIC=ON
-  -DARROW_COMPUTE=ON
-  -DARROW_WITH_UTF8PROC=OFF
-  -DARROW_BUILD_TESTS=OFF
-  -DARROW_DEPENDENCY_USE_SHARED=OFF
-  -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-  -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-  ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
-)
+
 
 if(NOT ARROW_GIT_REPOSITORY)
   set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
@@ -49,14 +36,47 @@ if(NOT ARROW_GIT_TAG)
   set(ARROW_GIT_TAG master)
 endif()
 
-message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
-ExternalProject_Add(ApacheArrow
-  GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
-  GIT_TAG ${ARROW_GIT_TAG}
-  CMAKE_ARGS ${ARROW_CMAKE_ARGS})
+if(ARROW_SOURCE STREQUAL "PREBUILT")
+  
+  include_directories(${ARROW_DIR}/include)
+  link_directories(${ARROW_DIR}/lib)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
-link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/lib)
+elseif(ARROW_SOURCE STREQUAL "GIT")
+
+  set(ARROW_CMAKE_ARGS
+    -DARROW_FLIGHT=ON
+    -DARROW_FLIGHT_SQL=ON
+    -DARROW_IPC=ON
+    -DARROW_BUILD_SHARED=OFF
+    -DARROW_COMPUTE=ON
+    -DARROW_WITH_UTF8PROC=OFF
+    -DARROW_BUILD_TESTS=OFF
+    -DARROW_DEPENDENCY_USE_SHARED=OFF
+    -DARROW_DEPENDENCY_SOURCE=VCPKG
+    -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
+    -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+    -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
+  )
+
+  message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
+  ExternalProject_Add(ApacheArrow
+    GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
+    GIT_TAG ${ARROW_GIT_TAG}
+    CMAKE_ARGS ${ARROW_CMAKE_ARGS})
+
+  include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
+  link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/lib)
+
+  add_dependencies(arrow_odbc_spi_impl ApacheArrow)
+  add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
+
+else()
+  
+  find_package(Arrow REQUIRED)
+
+endif()
 
 # Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(ZLIB REQUIRED)
@@ -111,17 +131,15 @@ set(ARROW_ODBC_SPI_SOURCES
 )
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
-  arrow_flight_sql
-  arrow_flight
-  arrow
-  arrow_bundled_dependencies
+  arrow_flight_sql_static
+  arrow_flight_static
+  arrow_static
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
   gRPC::grpc++
 )
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
-add_dependencies(arrow_odbc_spi_impl ApacheArrow)
 
 set_target_properties(arrow_odbc_spi_impl
   PROPERTIES
@@ -157,7 +175,6 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
 )
 
 add_executable(arrow_odbc_spi_impl_test ${ARROW_ODBC_SPI_TEST_SOURCES})
-add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
 set_target_properties(arrow_odbc_spi_impl_test
   PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin
