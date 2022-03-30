@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_stream_chunk_iterator.h"
+#include <odbcabstraction/platform.h>
 #include "utils.h"
 
 namespace driver {

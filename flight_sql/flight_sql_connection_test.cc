@@ -16,6 +16,9 @@
 // under the License.
 
 #include "flight_sql_connection.h"
+
+#include <odbcabstraction/platform.h>
+
 #include "gtest/gtest.h"
 #include <arrow/flight/types.h>
 
@@ -33,7 +36,7 @@ TEST(AttributeTests, SetAndGetAttribute) {
   const boost::optional<Connection::Attribute> firstValue =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_TRUE(firstValue.has_value());
+  EXPECT_TRUE(firstValue.is_initialized());
 
   EXPECT_EQ(boost::get<int>(firstValue.value()), 200);
 
@@ -42,7 +45,7 @@ TEST(AttributeTests, SetAndGetAttribute) {
   const boost::optional<Connection::Attribute> changeValue =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_TRUE(changeValue.has_value());
+  EXPECT_TRUE(changeValue.is_initialized());
   EXPECT_EQ(boost::get<int>(changeValue.value()), 300);
 
   connection.Close();
@@ -54,7 +57,7 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
   const boost::optional<Connection::Attribute> anOptional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_FALSE(anOptional.has_value());
+  EXPECT_FALSE(anOptional.is_initialized());
 
   connection.Close();
 }
