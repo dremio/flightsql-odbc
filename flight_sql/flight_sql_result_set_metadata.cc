@@ -16,6 +16,7 @@
 // under the License.
 
 #include "flight_sql_result_set_metadata.h"
+#include <odbcabstraction/platform.h>
 #include "arrow/util/key_value_metadata.h"
 #include "utils.h"
 

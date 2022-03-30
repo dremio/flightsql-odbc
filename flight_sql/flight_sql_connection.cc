@@ -17,11 +17,14 @@
 
 #include "flight_sql_connection.h"
 
+#include <odbcabstraction/platform.h>
+
 #include <arrow/flight/client_cookie_middleware.h>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
+
 #include <sqlext.h>
 
 #include "flight_sql_auth_method.h"
@@ -111,7 +114,7 @@ FlightSqlConnection::PopulateCallOptionsFromAttributes() {
   // Set CONNECTION_TIMEOUT attribute
   const boost::optional<Connection::Attribute> &connection_timeout =
       GetAttribute(CONNECTION_TIMEOUT);
-  if (connection_timeout.has_value()) {
+  if (connection_timeout.is_initialized()) {
     call_options_.timeout =
         TimeoutDuration{boost::get<double>(connection_timeout.value())};
   }
