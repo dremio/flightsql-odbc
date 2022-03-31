@@ -43,6 +43,7 @@ public:
     ACCESS_MODE,        // uint32_t - Tells if it should support write operations
     CONNECTION_DEAD,    // uint32_t - Tells if connection is still alive
     CONNECTION_TIMEOUT, // uint32_t - The timeout for connection functions after connecting.
+    CURRENT_CATALOG,    // std::string - The current catalog
     LOGIN_TIMEOUT,      // uint32_t - The timeout for the initial connection
     METADATA_ID,        // uint32_t - Modifies catalog function arguments to be identifiers
     PACKET_SIZE,        // uint32_t - The Packet Size
