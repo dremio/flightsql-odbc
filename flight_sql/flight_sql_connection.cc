@@ -118,9 +118,9 @@ FlightSqlConnection::PopulateCallOptionsFromAttributes() {
   // is the first request.
   const boost::optional<Connection::Attribute> &connection_timeout = closed_ ?
       GetAttribute(LOGIN_TIMEOUT) : GetAttribute(CONNECTION_TIMEOUT);
-  if (connection_timeout.has_value()) {
+  if (connection_timeout && boost::get<uint32_t>(*connection_timeout) > 0) {
     call_options_.timeout =
-        TimeoutDuration{static_cast<double>(boost::get<uint32_t>(connection_timeout.value()))};
+        TimeoutDuration{static_cast<double>(boost::get<uint32_t>(*connection_timeout))};
   }
 
   return call_options_;
@@ -223,6 +223,7 @@ FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
   attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
   attribute_[LOGIN_TIMEOUT] = static_cast<uint32_t>(0);
   attribute_[CONNECTION_TIMEOUT] = static_cast<uint32_t>(0);
+  attribute_[CURRENT_CATALOG] = "";
 }
 } // namespace flight_sql
 } // namespace driver
