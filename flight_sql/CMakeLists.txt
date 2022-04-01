@@ -43,7 +43,7 @@ find_package(OpenSSL REQUIRED)
 
 # OpenSSL depends on krb5 on CentOS
 if (UNIX)
-  list(APPEND OPENSSL_LIBRARIES krb5 k5crypto)
+#  list(APPEND OPENSSL_LIBRARIES krb5 k5crypto)
 endif()
 
 # Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
@@ -65,7 +65,7 @@ set(ARROW_CMAKE_ARGS
   -DARROW_BUILD_TESTS=OFF
   -DARROW_DEPENDENCY_USE_SHARED=OFF
   -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-  -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
+  # -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
   -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
   ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
 )
@@ -76,6 +76,9 @@ endif()
 if(NOT ARROW_GIT_TAG)
   set(ARROW_GIT_TAG master)
 endif()
+
+set(ARROW_GIT_REPOSITORY /home/rafael/simbiose/code/arrow-experimental)
+set(ARROW_GIT_TAG 68164c8df9)
 
 message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow
