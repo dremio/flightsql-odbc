@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4eedc6dc_8f9bdcd0",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T20:38:35Z",
+      "side": 1,
+      "message": "I will put in in a if",
+      "parentUuid": "b7bd1245_d407133d",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb8c5ff1_61851e15",
         "filename": "flight_sql/CMakeLists.txt",
         "patchSetId": 7
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b56a933_409214bd",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T20:38:35Z",
+      "side": 1,
+      "message": "Missed the duplication, will fix",
+      "parentUuid": "eb8c5ff1_61851e15",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f295075_ada1b47a",
         "filename": "flight_sql/CMakeLists.txt",
         "patchSetId": 7
@@ -48,6 +84,24 @@
       "writtenOn": "2022-04-04T19:18:29Z",
       "side": 1,
       "message": "Shouldn\u0027t this be multi-threaded static (/MT)?\nWe should set CMAKE_CXX_FLAGS_DEBUG as well, to the corresponding M*d flag.",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4a8136e_469229ec",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T20:38:35Z",
+      "side": 1,
+      "message": "I did not get /MT to build with arrow only /MD on windows.",
+      "parentUuid": "4f295075_ada1b47a",
       "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
