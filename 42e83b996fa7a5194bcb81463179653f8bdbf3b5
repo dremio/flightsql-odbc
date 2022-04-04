@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ef824f_b46c6f4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-04T22:00:37Z",
+      "side": 1,
+      "message": "Please provide more details in the commit message. Also remove DX tickets since this is intended for an open source release.",
+      "revId": "42e83b996fa7a5194bcb81463179653f8bdbf3b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "067a3242_a53de786",
