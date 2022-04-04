@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7bd1245_d407133d",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-04T19:18:29Z",
+      "side": 1,
+      "message": "This shouldn\u0027t always be on. It should only be there on Windows. Same with the other flags that you\u0027ve added.",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb8c5ff1_61851e15",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-04T19:18:29Z",
+      "side": 1,
+      "message": "There\u0027s now a zlib required at the top. Are both needed? Is the one at the top needed?",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f295075_ada1b47a",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-04T19:18:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be multi-threaded static (/MT)?\nWe should set CMAKE_CXX_FLAGS_DEBUG as well, to the corresponding M*d flag.",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
