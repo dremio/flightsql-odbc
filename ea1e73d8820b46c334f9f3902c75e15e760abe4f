@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b024fb_ac33bb1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T22:27:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aa5b972b_c0a81808",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7bd1245_d407133d",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "I will put in in a if",
       "parentUuid": "b7bd1245_d407133d",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e391b304_91dc8568",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T22:27:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4eedc6dc_8f9bdcd0",
       "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -88,6 +124,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b47cd17_c865e6dd",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T22:27:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4b56a933_409214bd",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f295075_ada1b47a",
@@ -119,6 +173,24 @@
       "side": 1,
       "message": "I did not get /MT to build with arrow only /MD on windows.",
       "parentUuid": "4f295075_ada1b47a",
+      "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44eb592e_5a9deb40",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-04T22:27:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a4a8136e_469229ec",
       "revId": "ea1e73d8820b46c334f9f3902c75e15e760abe4f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
