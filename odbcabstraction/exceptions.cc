@@ -24,12 +24,12 @@ namespace odbcabstraction {
 
 DriverException::DriverException(std::string message, std::string sql_state,
                                  int32_t native_error)
-    : message_(std::move(message)),
+    : msg_text_(std::move(message)),
       sql_state_(std::move(sql_state)),
       native_error_(native_error) {}
 
-const char *DriverException::what() const throw() { return message_.c_str(); }
-const std::string &DriverException::GetMessage() const { return message_; }
+const char *DriverException::what() const throw() { return msg_text_.c_str(); }
+const std::string &DriverException::GetMessageText() const { return msg_text_; }
 const std::string &DriverException::GetSqlState() const { return sql_state_; }
 int32_t DriverException::GetNativeError() const { return native_error_; }
 

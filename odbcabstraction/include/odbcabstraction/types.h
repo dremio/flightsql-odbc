@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <odbcabstraction/platform.h>
+
 namespace driver {
 namespace odbcabstraction {
 

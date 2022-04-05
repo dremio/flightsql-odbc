@@ -55,7 +55,7 @@ std::string Diagnostics::GetVendor() const {
 void driver::odbcabstraction::Diagnostics::AddError(
     const driver::odbcabstraction::DriverException &exception) {
   auto record = std::unique_ptr<DiagnosticsRecord>(new DiagnosticsRecord{
-    exception.GetMessage(), exception.GetSqlState(), exception.GetNativeError()});
+    exception.GetMessageText(), exception.GetSqlState(), exception.GetNativeError()});
   if (version_ == OdbcVersion::V_2) {
     RewriteSQLStateForODBC2(record->sql_state_);
   }
@@ -81,7 +81,7 @@ std::string driver::odbcabstraction::Diagnostics::GetMessageText(
     message += std::string("[") + vendor_ + "]";
   }
   const DiagnosticsRecord* rec = GetRecordAtIndex(record_index);
-  return message + "[" + data_source_component_ + "] (" + std::to_string(rec->native_error_) + ") " + rec->message_;
+  return message + "[" + data_source_component_ + "] (" + std::to_string(rec->native_error_) + ") " + rec->msg_text_;
 }
 
 OdbcVersion Diagnostics::GetOdbcVersion() const { return version_; }

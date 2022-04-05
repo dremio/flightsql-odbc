@@ -29,7 +29,7 @@ namespace odbcabstraction {
   class Diagnostics {
   public:
     struct DiagnosticsRecord {
-      std::string message_;
+      std::string msg_text_;
       std::string sql_state_;
       int32_t native_error_;
     };

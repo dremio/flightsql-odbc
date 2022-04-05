@@ -33,12 +33,12 @@ public:
 
   const char *what() const throw() override;
 
-  const std::string &GetMessage() const;
+  const std::string &GetMessageText() const;
   const std::string &GetSqlState() const;
   int32_t GetNativeError() const;
 
 private:
-  const std::string message_;
+  const std::string msg_text_;
   const std::string sql_state_;
   const int32_t native_error_;
 };

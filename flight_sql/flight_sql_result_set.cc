@@ -106,7 +106,7 @@ size_t FlightSqlResultSet::Move(size_t rows) {
       continue;
     }
 
-    for (auto it = columns_.begin(); it != columns_.end(); *it++) {
+    for (auto it = columns_.begin(); it != columns_.end(); ++it) {
       auto &column = *it;
 
       // There can be unbound columns.
