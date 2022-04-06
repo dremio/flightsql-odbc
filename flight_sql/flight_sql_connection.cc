@@ -26,6 +26,7 @@
 #include <odbcabstraction/exceptions.h>
 
 #include <sqlext.h>
+#include <iostream>
 
 #include "flight_sql_auth_method.h"
 #include "flight_sql_statement.h"
@@ -53,6 +54,7 @@ const std::string FlightSqlConnection::USER = "user";
 const std::string FlightSqlConnection::UID = "uid";
 const std::string FlightSqlConnection::PASSWORD = "password";
 const std::string FlightSqlConnection::PWD = "pwd";
+const std::string FlightSqlConnection::TOKEN = "token";
 const std::string FlightSqlConnection::USE_TLS = "useTls";
 
 namespace {
