@@ -23,6 +23,7 @@
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
 #include <sqlext.h>
+#include <iostream>
 
 #include "flight_sql_auth_method.h"
 #include "flight_sql_statement.h"
@@ -50,6 +51,7 @@ const std::string FlightSqlConnection::USER = "user";
 const std::string FlightSqlConnection::UID = "uid";
 const std::string FlightSqlConnection::PASSWORD = "password";
 const std::string FlightSqlConnection::PWD = "pwd";
+const std::string FlightSqlConnection::TOKEN = "token";
 const std::string FlightSqlConnection::USE_TLS = "useTls";
 
 namespace {
@@ -77,6 +79,7 @@ bool CheckIfSetToOnlyValidValue(const Connection::Attribute &value, T allowed_va
 
 void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
                                   std::vector<std::string> &missing_attr) {
+
   try {
     Location location = BuildLocation(properties, missing_attr);
     FlightClientOptions client_options =
