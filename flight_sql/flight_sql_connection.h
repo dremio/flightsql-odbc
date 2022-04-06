@@ -44,6 +44,7 @@ public:
   static const std::string UID;
   static const std::string PASSWORD;
   static const std::string PWD;
+  static const std::string TOKEN;
   static const std::string USE_TLS;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
