@@ -94,6 +94,8 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
   // Check if should use user-password authentication
   auto it_user = properties.find(FlightSqlConnection::USER);
   auto it_password = properties.find(FlightSqlConnection::PASSWORD);
+  auto it_token = properties.find(FlightSqlConnection::TOKEN);
+
   if (it_user == properties.end() || it_password == properties.end()) {
     // Accept UID/PWD as aliases for User/Password. These are suggested as
     // standard properties in the documentation for SQLDriverConnect.
@@ -111,9 +113,61 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
 
     return std::unique_ptr<FlightSqlAuthMethod>(
         new UserPasswordAuthMethod(*client, user, password));
+  } else if (true) { // TODO: remove and replace with logic
+    const std::string &token = null; // todo: pull out the token
+    return std::unique_ptr<FlightSqlAuthMethod>(new TokenAuthMethod(client, token));
   }
 
   return std::unique_ptr<FlightSqlAuthMethod>(new NoOpAuthMethod);
+}
+
+class TokenAuthHandler : public arrow::flight::ClientAuthHandler {
+  arrow::flight::Status Authenticate(ClientAuthSender &outgoing, ClientAuthReader &incoming) {
+    // TODO: authenticate and return status::ok or status::error on fail
+  }
+
+  arrow::flight::Status GetToken(std::string &token) {
+    // token is a out param
+    // TODO: unsure of how this works? Are we given a string and asked to verify it?
+  }
+}
+
+class TokenAuthMethod : public FlightSqlAuthMethod {
+private:
+  FlightClient &client_; // I assume this is a client to the coordinator or flight proxy
+  std::string &token_; // this is the token the user passes in from the UI or whereever
+
+public:
+  TokenAuthMethod(FlightClient &client, std::string &token): client_{client}, token_{std::move(token)} {}
+
+  void Authenticate(FlightSqlConnection &connection, FlightCallOptions &call_options) {
+    FlightCallOptions auth_call_options;
+    const boost::optional<Connection::Attribute> &login_timeout =
+        connection.GetAttribute(Connection::LOGIN_TIMEOUT);
+    if (login_timeout && boost::get<uint32_t>(*login_timeout) > 0) {
+      // ODBC's LOGIN_TIMEOUT attribute and FlightCallOptions.timeout use
+      // seconds as time unit.
+      double timeout_seconds = static_cast<double>(boost::get<uint32_t>(*login_timeout));
+      if (timeout_seconds > 0) {
+        auth_call_options.timeout = TimeoutDuration{timeout_seconds};
+      }
+    }
+
+    Result<std::pair<std::string, std::string>> bearer_result =
+        client_.AuthenticateBasicToken(auth_call_options, user_, password_);
+    if (!bearer_result.ok()) {
+      throw AuthenticationException(
+          "Failed to authenticate with user and password: " +
+          bearer_result.status().ToString());
+    }
+
+    call_options.headers.push_back(bearer_result.ValueOrDie());
+
+    // So I think we need to pass the token they give us through to TokenAuthHandler and then use it like a closure
+    const arrow::Status result = client_.Authenticate(call_options, std::unique_ptr(new TokenAuthHandler()));
+
+    // check to make sure the result is status ok
+  }
 }
 
 } // namespace flight_sql
