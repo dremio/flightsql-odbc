@@ -54,6 +54,7 @@ const std::string FlightSqlConnection::USER = "user";
 const std::string FlightSqlConnection::UID = "uid";
 const std::string FlightSqlConnection::PASSWORD = "password";
 const std::string FlightSqlConnection::PWD = "pwd";
+const std::string FlightSqlConnection::TOKEN = "token";
 const std::string FlightSqlConnection::USE_TLS = "useTls";
 
 namespace {
