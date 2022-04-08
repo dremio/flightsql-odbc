@@ -89,11 +89,13 @@ else()
     -DARROW_BUILD_TESTS=OFF
     -DARROW_DEPENDENCY_USE_SHARED=OFF
     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-    -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-    ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
-  )
-endif()
+    # -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
+  -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+  ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
+)endif()
+
+option(ARROW_GIT_REPOSITORY "Arrow repo" "$ENV{ARROW_GIT_REPOSITORY}")
+option(ARROW_GIT_TAG "Tag for the Arrow repository" "$ENV{ARROW_GIT_TAG}")
 
 if(NOT ARROW_GIT_REPOSITORY)
   set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
