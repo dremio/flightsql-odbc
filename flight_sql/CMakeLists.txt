@@ -70,6 +70,9 @@ set(ARROW_CMAKE_ARGS
   ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
 )
 
+define_option(ARROW_GIT_REPOSITORY "Arrow repo" "$ENV{ARROW_GIT_REPOSITORY}")
+define_option(ARROW_GIT_TAG "Tag for the Arrow repository" "$ENV{ARROW_GIT_TAG}")
+
 if(NOT ARROW_GIT_REPOSITORY)
   set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
 endif()
