@@ -80,7 +80,7 @@ std::string FlightSqlResultSetMetadata::GetTableName(int column_position) {
 
 std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
   // TODO Implement after the PR from column metadata is merged
-  return "";
+  return schema_->field(column_position - 1)->name();
 }
 
 size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
