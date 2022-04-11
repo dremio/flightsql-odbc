@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c1c5bf_c7a47d6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-11T16:13:55Z",
+      "side": 1,
+      "message": "Oh, I see. Authenticate() is supplied a call_options from the FlightSqlConnection that gets used on subsequent requests.",
+      "parentUuid": "08c9772a_8d7444f0",
+      "revId": "92099bd2e5c799be03a2172be3451778ebbd8dde",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "046a4398_0c2152a2",
