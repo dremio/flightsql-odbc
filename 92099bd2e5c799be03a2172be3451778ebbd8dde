@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c9772a_8d7444f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-11T16:11:40Z",
+      "side": 1,
+      "message": "There\u0027s something missing here. This adds the auth header during the authentication step, but doesn\u0027t add it to any request made after.",
+      "revId": "92099bd2e5c799be03a2172be3451778ebbd8dde",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "046a4398_0c2152a2",
@@ -91,6 +108,23 @@
         "endLine": 113,
         "endChar": 92
       },
+      "revId": "92099bd2e5c799be03a2172be3451778ebbd8dde",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59981bdd_6282241e",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-11T16:11:40Z",
+      "side": 1,
+      "message": "Include the gRPC error.\nCheck that the status is a 401 to ensure it is really an auth exception, otherwise throw a DriverException.",
       "revId": "92099bd2e5c799be03a2172be3451778ebbd8dde",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
