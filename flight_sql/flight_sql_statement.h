@@ -46,38 +46,38 @@ public:
   FlightSqlStatement(arrow::flight::sql::FlightSqlClient &sql_client,
                      arrow::flight::FlightCallOptions call_options);
 
-  void SetAttribute(StatementAttributeId attribute, const Attribute &value);
+  bool SetAttribute(StatementAttributeId attribute, const Attribute &value);
 
-  boost::optional<Attribute> GetAttribute(StatementAttributeId attribute);
+  boost::optional<Attribute> GetAttribute(StatementAttributeId attribute) override;
 
   boost::optional<std::shared_ptr<odbcabstraction::ResultSetMetadata>>
-  Prepare(const std::string &query);
+  Prepare(const std::string &query) override;
 
-  bool ExecutePrepared();
+  bool ExecutePrepared() override;
 
-  bool Execute(const std::string &query);
+  bool Execute(const std::string &query) override;
 
-  std::shared_ptr<odbcabstraction::ResultSet> GetResultSet();
+  std::shared_ptr<odbcabstraction::ResultSet> GetResultSet() override;
 
-  long GetUpdateCount();
+  long GetUpdateCount() override;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetTables_V2(const std::string *catalog_name, const std::string *schema_name,
-               const std::string *table_name, const std::string *table_type);
+               const std::string *table_name, const std::string *table_type) override;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetTables_V3(const std::string *catalog_name, const std::string *schema_name,
-               const std::string *table_name, const std::string *table_type);
+               const std::string *table_name, const std::string *table_type) override;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetColumns_V2(const std::string *catalog_name, const std::string *schema_name,
-                const std::string *table_name, const std::string *column_name);
+                const std::string *table_name, const std::string *column_name) override;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetColumns_V3(const std::string *catalog_name, const std::string *schema_name,
-                const std::string *table_name, const std::string *column_name);
+                const std::string *table_name, const std::string *column_name) override;
 
-  std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo(int dataType);
+  std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo(int dataType) override;
 };
 } // namespace flight_sql
 } // namespace driver

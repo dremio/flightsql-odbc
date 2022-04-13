@@ -42,14 +42,13 @@ public:
   /// \brief Statement attributes that can be called at anytime.
   ////TODO: Document attributes
   enum StatementAttributeId {
-    MAX_LENGTH,
-    MAX_ROWS,
-    METADATA_ID,
-    NOSCAN,
-    QUERY_TIMEOUT,
+    MAX_LENGTH,     // size_t - The maximum length when retrieving variable length data. 0 means no limit.
+    METADATA_ID,    // size_t - Modifies catalog function arguments to be identifiers. SQL_TRUE or SQL_FALSE.
+    NOSCAN,         // size_t - Indicates that the driver does not scan for escape sequences. Default to SQL_NOSCAN_OFF
+    QUERY_TIMEOUT,  // size_t - The time to wait in seconds for queries to execute. 0 to have no timeout.
   };
 
-  typedef boost::variant<std::string, int, double, bool> Attribute;
+  typedef boost::variant<size_t> Attribute;
 
   /// \brief Set a statement attribute (may be called at any time)
   ///
@@ -57,7 +56,9 @@ public:
   ///
   /// \param attribute Attribute identifier to set.
   /// \param value Value to be associated with the attribute.
-  virtual void SetAttribute(StatementAttributeId attribute,
+  /// \return true if the value was set successfully or false if it was substituted with
+  /// a similar value.
+  virtual bool SetAttribute(StatementAttributeId attribute,
                             const Attribute &value) = 0;
 
   /// \brief Retrieve a statement attribute.
