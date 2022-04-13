@@ -100,8 +100,28 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
         {SourceAndTargetPair(arrow::Type::type::BINARY, CDataType_BINARY),
          [](arrow::Array *array) {
            return new BinaryArrayFlightSqlAccessor<CDataType_BINARY>(array);
-         }}};
-
+         }},
+        {SourceAndTargetPair(arrow::Type::type::DATE32, CDataType_DATE),
+          [](arrow::Array *array) {
+            return new DateArrayFlightSqlAccessor<CDataType_DATE, Date32Array>(array);
+          }},
+        {SourceAndTargetPair(arrow::Type::type::DATE64, CDataType_DATE),
+          [](arrow::Array *array) {
+            return new DateArrayFlightSqlAccessor<CDataType_DATE, Date64Array>(array);
+          }},
+        {SourceAndTargetPair(arrow::Type::type::TIMESTAMP, CDataType_TIMESTAMP),
+            [](arrow::Array *array) {
+              return new TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP>(array);
+          }},
+        {SourceAndTargetPair(arrow::Type::type::TIME32, CDataType_TIME),
+          [](arrow::Array *array) {
+            return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array>(array);
+          }},
+        {SourceAndTargetPair(arrow::Type::type::TIME64, CDataType_TIME),
+          [](arrow::Array *array) {
+            return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array>(array);
+          }},
+         };
 }
 
 std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,

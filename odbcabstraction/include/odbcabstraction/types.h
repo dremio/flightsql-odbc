@@ -127,6 +127,35 @@ enum Updatability {
 constexpr ssize_t NULL_DATA = -1;
 constexpr ssize_t NO_TOTAL = -4;
 constexpr ssize_t ALL_TYPES = 0;
+constexpr ssize_t DAYS_TO_SECONDS_MULTIPLIER = 86400;
+constexpr ssize_t MILLI_TO_SECONDS_DIVISOR = 1000;
+constexpr ssize_t MICRO_TO_SECONDS_DIVISOR = 1000000;
+constexpr ssize_t NANO_TO_SECONDS_DIVISOR = 1000000000;
+
+typedef struct tagDATE_STRUCT
+{
+  int16_t  year;
+  u_int16_t  month;
+  u_int16_t  day;
+} DATE_STRUCT;
+
+typedef struct tagTIME_STRUCT
+{
+  u_int16_t   hour;
+  u_int16_t   minute;
+  u_int16_t   second;
+} TIME_STRUCT;
+
+typedef struct tagTIMESTAMP_STRUCT
+{
+  int16_t    year;
+  u_int16_t  month;
+  u_int16_t  day;
+  u_int16_t  hour;
+  u_int16_t  minute;
+  u_int16_t  second;
+  u_int32_t   fraction;
+} TIMESTAMP_STRUCT;
 
 } // namespace odbcabstraction
 } // namespace driver
