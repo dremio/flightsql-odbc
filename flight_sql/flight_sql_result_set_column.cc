@@ -29,35 +29,59 @@ namespace flight_sql {
 
 namespace {
 std::shared_ptr<arrow::DataType>
-ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
+ConvertCToArrowDataType(odbcabstraction::CDataType data_type,
+                        const std::shared_ptr<Array>& original_array) {
   switch (data_type) {
-  case odbcabstraction::CDataType_CHAR:
-  case odbcabstraction::CDataType_WCHAR:
-    return arrow::utf8();
-  case odbcabstraction::CDataType_SSHORT:
-    return arrow::int16();
-  case odbcabstraction::CDataType_USHORT:
-    return arrow::uint16();
-  case odbcabstraction::CDataType_SLONG:
-    return arrow::int32();
-  case odbcabstraction::CDataType_ULONG:
-    return arrow::uint32();
-  case odbcabstraction::CDataType_FLOAT:
-    return arrow::float32();
-  case odbcabstraction::CDataType_DOUBLE:
-    return arrow::float64();
-  case odbcabstraction::CDataType_BIT:
-    return arrow::boolean();
-  case odbcabstraction::CDataType_STINYINT:
-    return arrow::int8();
-  case odbcabstraction::CDataType_UTINYINT:
-    return arrow::uint8();
-  case odbcabstraction::CDataType_SBIGINT:
-    return arrow::int64();
-  case odbcabstraction::CDataType_UBIGINT:
-    return arrow::uint64();
-  case odbcabstraction::CDataType_BINARY:
-    return arrow::binary();
+    case odbcabstraction::CDataType_CHAR:
+    case odbcabstraction::CDataType_WCHAR:
+      return arrow::utf8();
+    case odbcabstraction::CDataType_SSHORT:
+      return arrow::int16();
+    case odbcabstraction::CDataType_USHORT:
+      return arrow::uint16();
+    case odbcabstraction::CDataType_SLONG:
+      return arrow::int32();
+    case odbcabstraction::CDataType_ULONG:
+      return arrow::uint32();
+    case odbcabstraction::CDataType_FLOAT:
+      return arrow::float32();
+    case odbcabstraction::CDataType_DOUBLE:
+      return arrow::float64();
+    case odbcabstraction::CDataType_BIT:
+      return arrow::boolean();
+    case odbcabstraction::CDataType_STINYINT:
+      return arrow::int8();
+    case odbcabstraction::CDataType_UTINYINT:
+      return arrow::uint8();
+    case odbcabstraction::CDataType_SBIGINT:
+      return arrow::int64();
+    case odbcabstraction::CDataType_UBIGINT:
+      return arrow::uint64();
+    case odbcabstraction::CDataType_BINARY:
+      return arrow::binary();
+    case odbcabstraction::CDataType_TIMESTAMP: {
+      auto type_id = original_array->type_id();
+      if (type_id == arrow::Type::TIMESTAMP) {
+        return original_array->type();
+      }
+      // TODO Analyze how the conversion will be made
+      return arrow::timestamp(TimeUnit::SECOND);
+    }
+    case odbcabstraction::CDataType_TIME: {
+      auto type_id = original_array->type_id();
+      if (type_id == arrow::Type::TIME32 || type_id == arrow::Type::TIME64) {
+        return original_array->type();
+      }
+      //TODO Analyze how the conversion will be made
+      return arrow::time64(TimeUnit::NANO);
+    }
+    case odbcabstraction::CDataType_DATE:
+      auto type = original_array->type();
+      if (type->Equals(date64()) || type->Equals(date32())) {
+        return type;
+      }
+      //TODO Analyze how the conversion will be made
+      return date64();
   }
 
   throw odbcabstraction::DriverException(std::string("Invalid target type: ") + std::to_string(data_type));
@@ -77,8 +101,7 @@ CastArray(const std::shared_ptr<arrow::Array> &original_array,
     return result.ValueOrDie();
   }
 
-  const std::shared_ptr<arrow::DataType> &target_arrow_type =
-      ConvertCToArrowDataType(target_type);
+  const std::shared_ptr<arrow::DataType> &target_arrow_type = ConvertCToArrowDataType(target_type, original_array);
   if (original_array->type()->Equals(target_arrow_type)) {
     // Avoid casting if target type is the same as original
     return original_array;

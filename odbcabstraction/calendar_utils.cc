@@ -15,12 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#pragma once
+#include <cstdint>
+#include <ctime>
 
-#include "binary_array_accessor.h"
-#include "boolean_array_accessor.h"
-#include "date_array_accessor.h"
-#include "time_array_accessor.h"
-#include "timestamp_array_accessor.h"
-#include "primitive_array_accessor.h"
-#include "string_array_accessor.h"
+namespace driver {
+namespace flight_sql {
+void GetTimeForMillisSinceEpoch(tm& date, int64_t value) {
+  #if defined(_WIN32)
+    gmtime_s(&date, &value);
+  #else
+    gmtime_r(&value, &date);
+  #endif
+  }
+} // namespace flight_sql
+} // namespace driver
