@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b567391_3d630f69",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-13T20:50:15Z",
+      "side": 1,
+      "message": "I don\u0027t see a way to properly implement GetUser() on FlightSqlAuthMethod when using token authentication. We probably need to add this to the protocol in a future version. Let\u0027s track this.",
+      "revId": "796fc4021dfac128d5bc2a7c627ac882a2e40359",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
