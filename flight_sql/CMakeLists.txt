@@ -128,8 +128,12 @@ enable_testing()
 set(ARROW_ODBC_SPI_SOURCES
   accessors/binary_array_accessor.cc
   accessors/boolean_array_accessor.cc
+  accessors/calendar_utils.cc
+  accessors/date_array_accessor.cc
   accessors/primitive_array_accessor.cc
   accessors/string_array_accessor.cc
+  accessors/time_array_accessor.cc
+  accessors/timestamp_array_accessor.cc
   flight_sql_auth_method.cc
   flight_sql_connection.cc
   flight_sql_driver.cc
@@ -207,8 +211,11 @@ target_link_libraries(arrow_odbc_spi_impl_cli arrow_odbc_spi_impl)
 set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/boolean_array_accessor_test.cc
   accessors/binary_array_accessor_test.cc
+  accessors/date_array_accessor_test.cc
   accessors/primitive_array_accessor_test.cc
   accessors/string_array_accessor_test.cc
+  accessors/time_array_accessor_test.cc
+  accessors/timestamp_array_accessor_test.cc
   flight_sql_connection_test.cc
   parse_table_types_test.cc
   json_converter_test.cc
