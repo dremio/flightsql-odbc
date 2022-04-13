@@ -93,6 +93,7 @@ enum CDataType {
   CDataType_FLOAT = 7,
   CDataType_DOUBLE = 8,
   CDataType_BIT = -7,
+  CDataType_DATE = -91,
   CDataType_STINYINT = ((-6) + (-20)),
   CDataType_UTINYINT = ((-6) + (-22)),
   CDataType_SBIGINT = ((-5) + (-20)),
@@ -120,6 +121,13 @@ enum Updatability {
 };
 
 constexpr int NULL_DATA = -1;
+
+typedef struct tagDATE_STRUCT
+{
+  int16_t  year;
+  int16_t  month;
+  int16_t  day;
+} DATE_STRUCT;
 
 } // namespace odbcabstraction
 } // namespace driver
