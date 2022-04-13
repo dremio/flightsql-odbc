@@ -25,6 +25,7 @@
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
 
+#include <sql.h>
 #include <sqlext.h>
 
 #include "flight_sql_auth_method.h"
@@ -70,12 +71,6 @@ TrackMissingRequiredProperty(const std::string &property,
   }
   return prop_iter;
 }
-
-template <typename T>
-bool CheckIfSetToOnlyValidValue(const Connection::Attribute &value, T allowed_value) {
-  return boost::get<T>(value) == allowed_value;
-}
-
 } // namespace
 
 void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
@@ -190,8 +185,6 @@ bool FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
   case ACCESS_MODE:
     // We will always return read-write.
     return CheckIfSetToOnlyValidValue(value, static_cast<uint32_t>(SQL_MODE_READ_WRITE));
-  case METADATA_ID:
-    return CheckIfSetToOnlyValidValue(value, static_cast<uint32_t>(SQL_FALSE));
   case PACKET_SIZE:
     return CheckIfSetToOnlyValidValue(value, static_cast<uint32_t>(0));
   default:
@@ -206,8 +199,6 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
   case ACCESS_MODE:
     // FlightSQL does not provide this metadata.
     return boost::make_optional(Attribute(static_cast<uint32_t>(SQL_MODE_READ_WRITE)));
-  case METADATA_ID:
-    return boost::make_optional(Attribute(static_cast<uint32_t>(SQL_FALSE)));
   case PACKET_SIZE:
     return boost::make_optional(Attribute(static_cast<uint32_t>(0)));
   default:

@@ -25,8 +25,11 @@
 #include "utils.h"
 #include <arrow/flight/sql/server.h>
 #include <arrow/io/memory.h>
+#include <sql.h>
+#include <sqlext.h>
 
 #include <boost/optional.hpp>
+#include <utility>
 #include <odbcabstraction/exceptions.h>
 
 namespace driver {
@@ -62,11 +65,35 @@ void ClosePreparedStatementIfAny(
 
 FlightSqlStatement::FlightSqlStatement(FlightSqlClient &sql_client,
                                        FlightCallOptions call_options)
-    : sql_client_(sql_client), call_options_(call_options) {}
+    : sql_client_(sql_client), call_options_(std::move(call_options)) {
+  attribute_[METADATA_ID] = static_cast<size_t>(SQL_FALSE);
+  attribute_[MAX_LENGTH] = static_cast<size_t>(0);
+  attribute_[NOSCAN] = static_cast<size_t>(SQL_NOSCAN_OFF);
+  attribute_[QUERY_TIMEOUT] = static_cast<size_t>(0);
+  call_options_.timeout = TimeoutDuration{-1};
+}
 
-void FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
+bool FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
                                       const Attribute &value) {
-  attribute_[attribute] = value;
+  switch (attribute) {
+  case METADATA_ID:
+    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_FALSE));
+  case NOSCAN:
+    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_NOSCAN_OFF));
+  case MAX_LENGTH:
+    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(0));
+  case QUERY_TIMEOUT:
+    if (boost::get<size_t>(value) > 0) {
+      call_options_.timeout =
+          TimeoutDuration{static_cast<double>(boost::get<size_t>(value))};
+    } else {
+      call_options_.timeout = TimeoutDuration{-1};
+      // Intentional fall-through.
+    }
+  default:
+    attribute_[attribute] = value;
+    return true;
+  }
 }
 
 boost::optional<Statement::Attribute>
