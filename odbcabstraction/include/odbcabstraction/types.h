@@ -93,6 +93,9 @@ enum CDataType {
   CDataType_FLOAT = 7,
   CDataType_DOUBLE = 8,
   CDataType_BIT = -7,
+  CDataType_DATE = 91,
+  CDataType_TIME = 92,
+  CDataType_TIMESTAMP = 93,
   CDataType_STINYINT = ((-6) + (-20)),
   CDataType_UTINYINT = ((-6) + (-22)),
   CDataType_SBIGINT = ((-5) + (-20)),
@@ -121,6 +124,35 @@ enum Updatability {
 
 constexpr int NULL_DATA = -1;
 constexpr int NO_TOTAL = -4;
+constexpr int DAYS_TO_SECONDS_MULTIPLIER = 86400;
+constexpr int MILLI_TO_SECONDS_DIVISOR = 1000;
+constexpr int MICRO_TO_SECONDS_DIVISOR = 1000000;
+constexpr int NANO_TO_SECONDS_DIVISOR = 1000000000;
+
+typedef struct tagDATE_STRUCT
+{
+  int16_t  year;
+  u_int16_t  month;
+  u_int16_t  day;
+} DATE_STRUCT;
+
+typedef struct tagTIME_STRUCT
+{
+  u_int16_t   hour;
+  u_int16_t   minute;
+  u_int16_t   second;
+} TIME_STRUCT;
+
+typedef struct tagTIMESTAMP_STRUCT
+{
+  int16_t    year;
+  u_int16_t  month;
+  u_int16_t  day;
+  u_int16_t  hour;
+  u_int16_t  minute;
+  u_int16_t  second;
+  u_int32_t   fraction;
+} TIMESTAMP_STRUCT;
 
 } // namespace odbcabstraction
 } // namespace driver
