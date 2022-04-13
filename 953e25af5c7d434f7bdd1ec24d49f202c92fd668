@@ -33,6 +33,24 @@
       "message": "Remove dependency on iostream.",
       "revId": "953e25af5c7d434f7bdd1ec24d49f202c92fd668",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46168ce4_658b4b75",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-13T20:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ed75576_4f6a7bc9",
+      "revId": "953e25af5c7d434f7bdd1ec24d49f202c92fd668",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
