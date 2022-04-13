@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e6e30ca_9f17a2d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-13T23:18:05Z",
+      "side": 1,
+      "message": "Okay, I am starting to get a better grasp of ODBC! I just have questions.",
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab54f467_007c44c3",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-13T23:18:05Z",
+      "side": 1,
+      "message": "Do we do connection level METADATA_ID or per statement? My understanding of this is fuzzy.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 58
+      },
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67df9367_750cedb1",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-13T23:18:05Z",
+      "side": 1,
+      "message": "NOSCAN_OFF means by default we are scanning for escape characters?",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 59
+      },
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a2c45b_92986840",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-13T23:18:05Z",
+      "side": 1,
+      "message": "Is this by default no timeout?",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 53
+      },
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
