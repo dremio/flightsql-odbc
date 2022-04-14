@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5f3f060_51899ba2",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T20:39:29Z",
+      "side": 1,
+      "message": "This worked fine on Mac and Windows. This is also being done in get_info_cache.cc so it doesn\u0027t appear to be a problem.",
+      "parentUuid": "12ae2365_0e837242",
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e1353da_9cacbcf6",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d63b5c0c_940eca6b",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T20:39:29Z",
+      "side": 1,
+      "message": "This worked fine on Mac and Windows. This is also being done in get_info_cache.cc so it doesn\u0027t appear to be a problem.",
+      "parentUuid": "0e1353da_9cacbcf6",
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab54f467_007c44c3",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 1
@@ -65,6 +101,30 @@
       "writtenOn": "2022-04-13T23:18:05Z",
       "side": 1,
       "message": "Do we do connection level METADATA_ID or per statement? My understanding of this is fuzzy.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 58
+      },
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0413fa79_db641774",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T20:39:29Z",
+      "side": 1,
+      "message": "It\u0027s per statement.",
+      "parentUuid": "ab54f467_007c44c3",
       "range": {
         "startLine": 69,
         "startChar": 2,
@@ -100,6 +160,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24f3b9c2_0c985baa",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T20:39:29Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "67df9367_750cedb1",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 59
+      },
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08a2c45b_92986840",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 1
@@ -111,6 +195,30 @@
       "writtenOn": "2022-04-13T23:18:05Z",
       "side": 1,
       "message": "Is this by default no timeout?",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 53
+      },
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d27019_58354040",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T20:39:29Z",
+      "side": 1,
+      "message": "Yes. This is also the documented ODBC default",
+      "parentUuid": "08a2c45b_92986840",
       "range": {
         "startLine": 72,
         "startChar": 2,

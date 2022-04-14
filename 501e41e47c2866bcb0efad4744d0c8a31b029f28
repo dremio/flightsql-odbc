@@ -22,6 +22,30 @@
       },
       "revId": "501e41e47c2866bcb0efad4744d0c8a31b029f28",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d537f2b_a730d99c",
+        "filename": "odbcabstraction/include/odbcabstraction/connection.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T20:39:29Z",
+      "side": 0,
+      "message": "Yes. The user can set this property through the ODBC connection, which sets a default for each subsequent statement that gets created.",
+      "parentUuid": "e905bdbc_03f9c06d",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "501e41e47c2866bcb0efad4744d0c8a31b029f28",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
