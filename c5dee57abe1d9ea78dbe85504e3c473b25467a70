@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b23656_9641234d",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T21:03:13Z",
+      "side": 1,
+      "message": "Assume this gets the variable from args or gives it a default right?",
+      "revId": "c5dee57abe1d9ea78dbe85504e3c473b25467a70",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ab8538_02dd4298",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T21:03:13Z",
+      "side": 1,
+      "message": "Remove \u003ciostream\u003e dependency",
+      "revId": "c5dee57abe1d9ea78dbe85504e3c473b25467a70",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ded7731_51b64986",
+        "filename": "flight_sql/flight_sql_statement_get_columns.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-14T21:03:13Z",
+      "side": 1,
+      "message": "Can you comment why this can be null? It seems like every table should have a schema.",
+      "revId": "c5dee57abe1d9ea78dbe85504e3c473b25467a70",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
