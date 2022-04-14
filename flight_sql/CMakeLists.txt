@@ -89,18 +89,14 @@ else()
     -DARROW_BUILD_TESTS=OFF
     -DARROW_DEPENDENCY_USE_SHARED=OFF
     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-    -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
+    # -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
     ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
   )
 endif()
 
-if(NOT ARROW_GIT_REPOSITORY)
-  set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
-endif()
-if(NOT ARROW_GIT_TAG)
-  set(ARROW_GIT_TAG master)
-endif()
+set(ARROW_GIT_REPOSITORY "https://github.com/apache/arrow.git" CACHE STRING "Arrow repository path or URL")
+set(ARROW_GIT_TAG "master" CACHE STRING "Tag for the Arrow repository")
 
 message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow

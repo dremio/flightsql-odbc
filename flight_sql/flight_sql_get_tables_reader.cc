@@ -80,7 +80,10 @@ std::shared_ptr<Schema> GetTablesReader::GetSchema() {
   ipc::DictionaryMemo in_memo;
   const Result<std::shared_ptr<Schema>> &result =
       ReadSchema(&dataset_schema_reader, &in_memo);
-  ThrowIfNotOK(result.status());
+  if (!result.ok()) {
+    // TODO: Handle possible errors
+    return nullptr;
+  }
 
   return result.ValueOrDie();
 }

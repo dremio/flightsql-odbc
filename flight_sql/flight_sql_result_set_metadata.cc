@@ -22,6 +22,7 @@
 
 #include <odbcabstraction/exceptions.h>
 #include <utility>
+#include <iostream>
 
 namespace driver {
 namespace flight_sql {
@@ -80,13 +81,13 @@ std::string FlightSqlResultSetMetadata::GetTableName(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  const std::string &name = schema_->field(column_position - 1)->name();
+  return name;
 }
 
 size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
-    // TODO Implement after the PR from column metadata is merged
     int column_position) {
+  // TODO Implement after the PR from column metadata is merged
   return 0;
 }
 

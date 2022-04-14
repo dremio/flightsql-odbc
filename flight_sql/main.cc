@@ -210,17 +210,13 @@ int main() {
       {FlightSqlConnection::PASSWORD, std::string("dremio123")},
   };
   std::vector<std::string> missing_attr;
-  try {
-    connection->Connect(properties, missing_attr);
+  connection->Connect(properties, missing_attr);
 
-    //  TestBindColumnBigInt(connection);
-    //  TestBindColumn(connection);
-    //  TestGetData(connection);
-    //    TestGetTablesV2(connection);
-    TestGetColumnsV3(connection);
-  } catch (...) {
-    std::cout << "error occured" << std::endl;
-  } 
+  //  TestBindColumnBigInt(connection);
+  //  TestBindColumn(connection);
+  //  TestGetData(connection);
+  //    TestGetTablesV2(connection);
+  TestGetColumnsV3(connection);
 
   connection->Close();
   return 0;
