@@ -38,6 +38,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1255bf05_99096e8b",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-14T22:26:50Z",
+      "side": 1,
+      "message": "Not resolved?",
+      "parentUuid": "0046d931_98448cfe",
+      "revId": "796fc4021dfac128d5bc2a7c627ac882a2e40359",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8063909b_d3b53de7",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-14T22:26:50Z",
+      "side": 1,
+      "message": "Missing override annotation",
+      "revId": "796fc4021dfac128d5bc2a7c627ac882a2e40359",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b567391_3d630f69",
         "filename": "flight_sql/flight_sql_auth_method.cc",
         "patchSetId": 7
@@ -120,6 +155,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "30617ac5_e60086b9",
+      "revId": "796fc4021dfac128d5bc2a7c627ac882a2e40359",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af0e22cb_95996e65",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-14T22:26:50Z",
+      "side": 1,
+      "message": "NOt resolved",
+      "parentUuid": "ef29b2ff_38822b41",
       "revId": "796fc4021dfac128d5bc2a7c627ac882a2e40359",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
