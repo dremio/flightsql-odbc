@@ -20,6 +20,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12ae2365_0e837242",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-14T20:28:43Z",
+      "side": 1,
+      "message": "Unused import / Usually importing sql.h on this layer breaks things",
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1353da_9cacbcf6",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-14T20:28:43Z",
+      "side": 1,
+      "message": "Is this OK on Mac/Windows? I had some problems when including sql.h and sqlext.h on this layer",
+      "revId": "21ffc1476337a50be27daa2dd96ec8293c8f8e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab54f467_007c44c3",
         "filename": "flight_sql/flight_sql_statement.cc",
         "patchSetId": 1
