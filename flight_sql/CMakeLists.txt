@@ -95,12 +95,8 @@ else()
   )
 endif()
 
-if(NOT ARROW_GIT_REPOSITORY)
-  set(ARROW_GIT_REPOSITORY https://github.com/apache/arrow.git)
-endif()
-if(NOT ARROW_GIT_TAG)
-  set(ARROW_GIT_TAG master)
-endif()
+set(ARROW_GIT_REPOSITORY "https://github.com/apache/arrow.git" CACHE STRING "Arrow repository path or URL")
+set(ARROW_GIT_TAG "master" CACHE STRING "Tag for the Arrow repository")
 
 message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow

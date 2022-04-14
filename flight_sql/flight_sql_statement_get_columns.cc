@@ -93,6 +93,9 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
     const auto &table_schema = reader.GetDbSchemaName();
     const auto &table_name = reader.GetTableName();
     const std::shared_ptr<Schema> &schema = reader.GetSchema();
+    if (schema == nullptr) {
+      continue;
+    }
     for (int i = 0; i < schema->num_fields(); ++i) {
       const std::shared_ptr<Field> &field = schema->field(i);
 
