@@ -80,7 +80,11 @@ std::shared_ptr<Schema> GetTablesReader::GetSchema() {
   ipc::DictionaryMemo in_memo;
   const Result<std::shared_ptr<Schema>> &result =
       ReadSchema(&dataset_schema_reader, &in_memo);
-  ThrowIfNotOK(result.status());
+  if (!result.ok()) {
+    // TODO: Ignoring this error until we fix the problem on Dremio server
+    // The problem is that complex types columns are being returned without the children types.
+    return nullptr;
+  }
 
   return result.ValueOrDie();
 }

@@ -17,6 +17,7 @@
 
 #include "flight_sql_result_set_metadata.h"
 #include <odbcabstraction/platform.h>
+#include "arrow/flight/sql/column_metadata.h"
 #include "arrow/util/key_value_metadata.h"
 #include "utils.h"
 
@@ -39,7 +40,6 @@ std::string FlightSqlResultSetMetadata::GetColumnName(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetName(int column_position) {
-  // TODO Get column alias from column metadata
   return schema_->field(column_position - 1)->name();
 }
 
@@ -60,8 +60,8 @@ SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
 
 driver::odbcabstraction::Nullability
 FlightSqlResultSetMetadata::IsNullable(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return odbcabstraction::NULLABILITY_NO_NULLS;
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  return field->nullable() ? odbcabstraction::NULLABILITY_NULLABLE : odbcabstraction::NULLABILITY_NO_NULLS
 }
 
 std::string FlightSqlResultSetMetadata::GetSchemaName(int column_position) {
@@ -80,13 +80,12 @@ std::string FlightSqlResultSetMetadata::GetTableName(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  return schema_->field(column_position - 1)->name();
 }
 
 size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
-    // TODO Implement after the PR from column metadata is merged
     int column_position) {
+  // TODO Implement after the PR from column metadata is merged
   return 0;
 }
 
