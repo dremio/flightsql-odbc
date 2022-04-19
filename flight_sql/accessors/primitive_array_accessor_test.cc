@@ -17,6 +17,7 @@
 
 #include "arrow/testing/builder.h"
 #include "primitive_array_accessor.h"
+#include <odbcabstraction/diagnostics.h>
 #include "gtest/gtest.h"
 
 namespace driver {
@@ -43,8 +44,9 @@ void TestPrimitiveArraySqlAccessor() {
   ColumnBinding binding(TARGET_TYPE, 0, 0, buffer.data(), values.size(),
                         strlen_buffer.data());
 
+  driver::odbcabstraction::Diagnostics diagnostics("Dummy", "Dummy", odbcabstraction::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0));
+            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(c_type), strlen_buffer[i]);

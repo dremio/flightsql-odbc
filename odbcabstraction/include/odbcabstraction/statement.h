@@ -15,12 +15,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#pragma once
+
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 #include <map>
 #include <vector>
-
-#pragma once
 
 namespace driver {
 namespace odbcabstraction {
@@ -168,6 +168,10 @@ public:
   ///
   /// \param dataType The SQL data type.
   virtual std::shared_ptr<ResultSet> GetTypeInfo(int dataType) = 0;
+
+  /// \brief Gets the diagnostics for this statement.
+  /// \return the diagnostics
+  virtual Diagnostics& GetDiagnostics() = 0;
 };
 
 } // namespace odbcabstraction

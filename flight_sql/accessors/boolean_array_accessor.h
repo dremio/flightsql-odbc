@@ -20,6 +20,7 @@
 #include "arrow/type_fwd.h"
 #include "types.h"
 #include <odbcabstraction/types.h>
+#include <odbcabstraction/diagnostics.h>
 
 namespace driver {
 namespace flight_sql {
@@ -35,7 +36,7 @@ public:
   explicit BooleanArrayFlightSqlAccessor(Array *array);
 
   void MoveSingleCell_impl(ColumnBinding *binding, BooleanArray *array,
-                           int64_t i, int64_t value_offset);
+                           int64_t i, int64_t value_offset, odbcabstraction::Diagnostics &diagnostics);
 };
 
 } // namespace flight_sql

@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#pragma once
+
 #include <boost/algorithm/string.hpp>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
@@ -22,8 +24,7 @@
 #include <vector>
 
 #include <odbcabstraction/types.h>
-
-#pragma once
+#include <odbcabstraction/diagnostics.h>
 
 namespace driver {
 namespace odbcabstraction {
@@ -89,6 +90,10 @@ public:
 
   /// \brief Retrieves info from the database (see ODBC's SQLGetInfo).
   virtual Info GetInfo(uint16_t info_type) = 0;
+
+  /// \brief Gets the diagnostics for this connection.
+  /// \return the diagnostics
+  virtual Diagnostics& GetDiagnostics() = 0;
 };
 
 } // namespace odbcabstraction

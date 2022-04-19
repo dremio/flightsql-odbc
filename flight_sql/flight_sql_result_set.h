@@ -30,6 +30,7 @@
 #include <odbcabstraction/platform.h>
 #include <odbcabstraction/exceptions.h>
 #include <odbcabstraction/result_set.h>
+#include <odbcabstraction/diagnostics.h>
 
 namespace driver {
 namespace flight_sql {
@@ -61,6 +62,7 @@ private:
   std::shared_ptr<ResultSetMetadata> metadata_;
   std::vector<FlightSqlResultSetColumn> columns_;
   std::vector<int64_t> get_data_offsets_;
+  odbcabstraction::Diagnostics &diagnostics_;
 
 public:
   ~FlightSqlResultSet() override;
@@ -69,7 +71,8 @@ public:
       FlightSqlClient &flight_sql_client,
       const arrow::flight::FlightCallOptions &call_options,
       const std::shared_ptr<FlightInfo> &flight_info,
-      const std::shared_ptr<RecordBatchTransformer> &transformer);
+      const std::shared_ptr<RecordBatchTransformer> &transformer,
+      odbcabstraction::Diagnostics& diagnostics);
 
   void Close() override;
 

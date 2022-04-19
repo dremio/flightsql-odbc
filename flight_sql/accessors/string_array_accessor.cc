@@ -31,7 +31,8 @@ template <typename CHAR_TYPE>
 inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
                                        ColumnBinding *binding,
                                        StringArray *array, int64_t i,
-                                       int64_t value_offset) {
+                                       int64_t value_offset,
+                                       odbcabstraction::Diagnostics &diagnostics) {
 
   const char *raw_value = array->Value(i).data();
   const void *value;
@@ -46,7 +47,6 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
     size_in_bytes = array->value_length(i);
   }
 
-  // TODO: Handle truncation
   size_t value_length =
       std::min(static_cast<size_t>(size_in_bytes - value_offset),
                binding->buffer_length);
@@ -60,6 +60,7 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
   if (binding->buffer_length > size_in_bytes + sizeof(CHAR_TYPE)) {
     char_buffer[size_in_bytes / sizeof(CHAR_TYPE)] = '\0';
   } else {
+    diagnostics.AddTruncationWarning();
     size_t chars_written = binding->buffer_length / sizeof(CHAR_TYPE);
     // If we failed to even write one char, the buffer is too small to hold a
     // NUL-terminator.
@@ -85,17 +86,17 @@ StringArrayFlightSqlAccessor<TARGET_TYPE>::StringArrayFlightSqlAccessor(
 template <>
 void StringArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
     ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t value_offset) {
+    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
   MoveSingleCellToCharBuffer<char>(&converter_, binding, array, i,
-                                   value_offset);
+                                   value_offset, diagnostics);
 }
 
 template <>
 void StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
     ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t value_offset) {
+    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
   MoveSingleCellToCharBuffer<SqlWChar>(&converter_, binding, array, i,
-                                       value_offset);
+                                       value_offset, diagnostics);
 }
 
 template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR>;
