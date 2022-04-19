@@ -20,6 +20,7 @@
 #include "arrow/flight/sql/client.h"
 #include "flight_sql_statement_get_tables.h"
 #include <odbcabstraction/statement.h>
+#include <odbcabstraction/diagnostics.h>
 
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
@@ -31,6 +32,7 @@ namespace flight_sql {
 class FlightSqlStatement : public odbcabstraction::Statement {
 
 private:
+  odbcabstraction::Diagnostics diagnostics_;
   std::map<StatementAttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   arrow::flight::sql::FlightSqlClient &sql_client_;
@@ -43,10 +45,12 @@ private:
             const ColumnNames &column_names);
 
 public:
-  FlightSqlStatement(arrow::flight::sql::FlightSqlClient &sql_client,
-                     arrow::flight::FlightCallOptions call_options);
+  FlightSqlStatement(
+      const odbcabstraction::Diagnostics &diagnostics,
+      arrow::flight::sql::FlightSqlClient &sql_client,
+      arrow::flight::FlightCallOptions call_options);
 
-  bool SetAttribute(StatementAttributeId attribute, const Attribute &value);
+  bool SetAttribute(StatementAttributeId attribute, const Attribute &value) override;
 
   boost::optional<Attribute> GetAttribute(StatementAttributeId attribute) override;
 
@@ -78,6 +82,8 @@ public:
                 const std::string *table_name, const std::string *column_name) override;
 
   std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo(int dataType) override;
+
+  odbcabstraction::Diagnostics &GetDiagnostics() override;
 };
 } // namespace flight_sql
 } // namespace driver
