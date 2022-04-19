@@ -38,3 +38,5 @@ build.*
 *lib*.a
 *arrow_odbc_spi_impl_cli
 *arrow_odbc_spi_impl_test
+.cmake/
+.cache/

@@ -21,6 +21,7 @@
 #include <arrow/array.h>
 #include <arrow/scalar.h>
 #include <odbcabstraction/types.h>
+#include <odbcabstraction/diagnostics.h>
 #include <algorithm>
 #include <cstdint>
 
@@ -37,24 +38,31 @@ inline size_t CopyFromArrayValuesToBinding(const std::shared_ptr<Array> &array,
   ssize_t element_size = sizeof(typename ARRAY_TYPE::value_type);
 
   int64_t length = array->length();
-  for (int64_t i = 0; i < length; ++i) {
-    if (array->IsNull(i)) {
-      binding->strlen_buffer[i] = NULL_DATA;
-    } else {
-      binding->strlen_buffer[i] = element_size;
+  int64_t nullCount = array->null_count();
+  if (binding->strlen_buffer) {
+    for (int64_t i = 0; i < length; ++i) {
+      if (array->IsNull(i)) {
+        binding->strlen_buffer[i] = NULL_DATA;
+      } else {
+        binding->strlen_buffer[i] = element_size;
+      }
     }
+  } else if (nullCount > 0) {
+    throw odbcabstraction::NullWithoutIndicatorException();
   }
 
-  const auto *values = typed_array->raw_values();
-  size_t value_length =
-      std::min(static_cast<size_t>(length), binding->buffer_length);
-  memcpy(binding->buffer, values, element_size * value_length);
+  if (nullCount != length) {
+    const auto *values = typed_array->raw_values();
+    size_t value_length =
+        std::min(static_cast<size_t>(length), binding->buffer_length);
+    memcpy(binding->buffer, values, element_size * value_length);
+  }
 
   return length;
 }
 
 inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,
-                             int64_t value_offset) {
+                             int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
   const std::shared_ptr<Scalar> &scalar = array->GetScalar(i).ValueOrDie();
   const std::shared_ptr<StringScalar> &utf8_scalar =
       internal::checked_pointer_cast<StringScalar>(
@@ -65,6 +73,10 @@ inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,
   size_t value_length =
       std::min(static_cast<size_t>(utf8_scalar->value->size() - value_offset),
                binding->buffer_length);
+
+  if (value_length <= static_cast<size_t>(utf8_scalar->value->size() - value_offset)) {
+    diagnostics.AddTruncationWarning();
+  }
 
   char *char_buffer = static_cast<char *>(binding->buffer);
   memcpy(&char_buffer[i * binding->buffer_length], value + value_offset,

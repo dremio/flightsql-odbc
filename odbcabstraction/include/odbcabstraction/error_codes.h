@@ -17,32 +17,20 @@
 
 #pragma once
 
-#include "arrow/type_fwd.h"
-#include "types.h"
-#include "utils.h"
-#include <locale>
-#include <odbcabstraction/types.h>
+#include <cstdint>
 
 namespace driver {
-namespace flight_sql {
+namespace odbcabstraction {
 
-using namespace arrow;
-using namespace odbcabstraction;
-
-template <CDataType TARGET_TYPE>
-class StringArrayFlightSqlAccessor
-    : public FlightSqlAccessor<StringArray, TARGET_TYPE,
-                               StringArrayFlightSqlAccessor<TARGET_TYPE>> {
-public:
-  explicit StringArrayFlightSqlAccessor(Array *array);
-
-  void MoveSingleCell_impl(ColumnBinding *binding, StringArray *array,
-                           int64_t i, int64_t value_offset,
-                           odbcabstraction::Diagnostics &diagnostics);
-
-private:
-  CharToWStrConverter converter_;
-};
-
-} // namespace flight_sql
-} // namespace driver
+  enum ODBCErrorCodes : int32_t {
+  ODBCErrorCodes_GENERAL_ERROR = 100,
+    ODBCErrorCodes_AUTH = 200,
+    ODBCErrorCodes_TLS = 300,
+    ODBCErrorCodes_FRACTIONAL_TRUNCATION_ERROR = 400,
+    ODBCErrorCodes_GENERAL_WARNING = 1000000,
+    ODBCErrorCodes_TRUNCATION_WARNING = 1000100,
+    ODBCErrorCodes_FRACTIONAL_TRUNCATION_WARNING = 1000100,
+    ODBCErrorCodes_INDICATOR_NEEDED = 1000200
+  };
+}
+}

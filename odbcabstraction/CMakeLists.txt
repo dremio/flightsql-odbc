@@ -22,6 +22,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include_directories(include)
 
 add_library(odbcabstraction 
+  include/odbcabstraction/diagnostics.h
+  include/odbcabstraction/error_codes.h
+  diagnostics.cc
   exceptions.cc)
 
 set_target_properties(odbcabstraction

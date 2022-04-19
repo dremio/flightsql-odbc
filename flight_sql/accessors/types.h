@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <odbcabstraction/exceptions.h>
 #include <odbcabstraction/types.h>
+#include <odbcabstraction/diagnostics.h>
 #include <sstream>
 
 namespace driver {
@@ -62,7 +63,8 @@ public:
 
   /// \brief Populates next cells
   virtual size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
-                                 size_t cells, int64_t value_offset) = 0;
+                                 size_t cells, int64_t value_offset,
+                                 odbcabstraction::Diagnostics &diagnostics) = 0;
 };
 
 template <typename ARROW_ARRAY, CDataType TARGET_TYPE, typename DERIVED>
@@ -73,51 +75,54 @@ public:
         array_(arrow::internal::checked_cast<ARROW_ARRAY *>(array)) {}
 
   size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
-                         size_t cells, int64_t value_offset) override {
+                         size_t cells, int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) override {
     const std::shared_ptr<Array> &array =
         array_->Slice(starting_row, static_cast<int64_t>(cells));
 
     return GetColumnarData(
         arrow::internal::checked_pointer_cast<ARROW_ARRAY>(array), binding,
-        value_offset);
+        value_offset, diagnostics);
   }
 
 private:
   ARROW_ARRAY *array_;
 
   size_t GetColumnarData(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
-                         ColumnBinding *binding, int64_t value_offset) {
+                         ColumnBinding *binding, int64_t value_offset,
+                         odbcabstraction::Diagnostics &diagnostics) {
     return static_cast<DERIVED *>(this)->GetColumnarData_impl(
-        sliced_array, binding, value_offset);
+        sliced_array, binding, value_offset, diagnostics);
   }
 
   size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
-                              ColumnBinding *binding, int64_t value_offset) {
+                              ColumnBinding *binding, int64_t value_offset,
+                              odbcabstraction::Diagnostics &diagnostics) {
     int64_t length = sliced_array->length();
+    int64_t nullCount = sliced_array->null_count();
+    if (nullCount > 0 && !binding->strlen_buffer) {
+      throw driver::odbcabstraction::NullWithoutIndicatorException();
+    }
+
     for (int64_t i = 0; i < length; ++i) {
       if (sliced_array->IsNull(i)) {
-        if (binding->strlen_buffer) {
-          binding->strlen_buffer[i] = odbcabstraction::NULL_DATA;
-        } else {
-          // TODO: Report error when data is null bor strlen_buffer is nullptr
-        }
-        continue;
+        binding->strlen_buffer[i] = odbcabstraction::NULL_DATA;
+      } else {
+        MoveSingleCell(binding, sliced_array.get(), i, value_offset,
+                       diagnostics);
       }
-
-      MoveSingleCell(binding, sliced_array.get(), i, value_offset);
     }
 
     return length;
   }
 
   void MoveSingleCell(ColumnBinding *binding, ARROW_ARRAY *array, int64_t i,
-                      int64_t value_offset) {
+                      int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
     return static_cast<DERIVED *>(this)->MoveSingleCell_impl(binding, array, i,
-                                                             value_offset);
+                                                             value_offset, diagnostics);
   }
 
   void MoveSingleCell_impl(ColumnBinding *binding, ARROW_ARRAY *array,
-                           int64_t i, int64_t value_offset) {
+                           int64_t i, int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
     std::stringstream ss;
     ss << "Unknown type conversion from StringArray to target C type "
        << TARGET_TYPE;
