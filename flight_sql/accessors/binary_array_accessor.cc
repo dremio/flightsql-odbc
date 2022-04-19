@@ -31,7 +31,7 @@ namespace {
 
 inline void MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
                                          BinaryArray *array, int64_t i,
-                                         int64_t value_offset) {
+                                         int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
 
   const char *value = array->Value(i).data();
   size_t size_in_bytes = array->value_length(i);
@@ -40,6 +40,9 @@ inline void MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
   size_t value_length =
       std::min(static_cast<size_t>(size_in_bytes - value_offset),
                binding->buffer_length);
+  if (size_in_bytes - value_offset > binding->buffer_length) {
+    diagnostics.AddTruncationWarning();
+  }
 
   auto *byte_buffer = static_cast<unsigned char *>(binding->buffer) +
                       i * binding->buffer_length;
@@ -61,8 +64,8 @@ BinaryArrayFlightSqlAccessor<TARGET_TYPE>::BinaryArrayFlightSqlAccessor(
 template <>
 void BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
     ColumnBinding *binding, BinaryArray *array, int64_t i,
-    int64_t value_offset) {
-  MoveSingleCellToBinaryBuffer(binding, array, i, value_offset);
+    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, diagnostics);
 }
 
 template class BinaryArrayFlightSqlAccessor<odbcabstraction::CDataType_BINARY>;

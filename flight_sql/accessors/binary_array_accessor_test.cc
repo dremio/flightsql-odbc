@@ -40,8 +40,9 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Basic) {
   ColumnBinding binding(CDataType_BINARY, 0, 0, buffer.data(), max_strlen,
                         strlen_buffer.data());
 
+  odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0));
+            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
@@ -74,8 +75,10 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Truncation) {
 
   // Construct the whole string by concatenating smaller chunks from
   // GetColumnarData
+  odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   do {
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset));
+    diagnostics.Clear();
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, diagnostics));
     ASSERT_EQ(values[0].length(), strlen_buffer[0]);
 
     int64_t chunk_length = std::min(static_cast<int64_t>(max_strlen),

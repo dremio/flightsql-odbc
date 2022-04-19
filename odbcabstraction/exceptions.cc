@@ -16,19 +16,29 @@
 // under the License.
 
 #include <odbcabstraction/exceptions.h>
-#include <odbcabstraction/platform.h> 
+#include <odbcabstraction/platform.h>
 #include <utility>
 
 namespace driver {
 namespace odbcabstraction {
 
-DriverException::DriverException(std::string message)
-    : message_(std::move(message)) {}
+DriverException::DriverException(std::string message, std::string sql_state,
+                                 int32_t native_error)
+    : message_(std::move(message)),
+      sql_state_(std::move(sql_state)),
+      native_error_(native_error) {}
 
 const char *DriverException::what() const throw() { return message_.c_str(); }
+const std::string &DriverException::GetMessage() const { return message_; }
+const std::string &DriverException::GetSqlState() const { return sql_state_; }
+int32_t DriverException::GetNativeError() const { return native_error_; }
 
-AuthenticationException::AuthenticationException(std::string message)
-    : DriverException(std::move(message)) {}
+AuthenticationException::AuthenticationException(std::string message, std::string sql_state,
+                                                 int32_t native_error)
+    : DriverException(message, sql_state, native_error) {}
 
+NullWithoutIndicatorException::NullWithoutIndicatorException(
+    std::string message, std::string sql_state, int32_t native_error)
+    : DriverException(message, sql_state, native_error) {}
 } // namespace odbcabstraction
 } // namespace driver
