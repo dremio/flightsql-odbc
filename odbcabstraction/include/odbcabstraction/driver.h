@@ -20,6 +20,7 @@
 #include <memory>
 
 #include <odbcabstraction/types.h>
+#include <odbcabstraction/diagnostics.h>
 
 namespace driver {
 namespace odbcabstraction {
@@ -38,6 +39,10 @@ public:
   /// \param odbc_version ODBC version to be used.
   virtual std::shared_ptr<Connection>
   CreateConnection(OdbcVersion odbc_version) = 0;
+
+  /// \brief Gets the diagnostics for this connection.
+  /// \return the diagnostics
+  virtual Diagnostics& GetDiagnostics() = 0;
 };
 
 } // namespace odbcabstraction

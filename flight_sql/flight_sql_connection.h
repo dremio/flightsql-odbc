@@ -34,6 +34,7 @@ private:
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
   GetInfoCache info_;
+  odbcabstraction::Diagnostics diagnostics_;
   odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
 
@@ -78,6 +79,8 @@ public:
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing
   const arrow::flight::FlightCallOptions &PopulateCallOptionsFromAttributes();
+
+  odbcabstraction::Diagnostics &GetDiagnostics() override;
 };
 } // namespace flight_sql
 } // namespace driver

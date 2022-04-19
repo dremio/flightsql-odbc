@@ -35,7 +35,7 @@ public:
   explicit BinaryArrayFlightSqlAccessor(Array *array);
 
   void MoveSingleCell_impl(ColumnBinding *binding, BinaryArray *array,
-                           int64_t i, int64_t value_offset);
+                           int64_t i, int64_t value_offset, odbcabstraction::Diagnostics &diagnostics);
 };
 
 } // namespace flight_sql
