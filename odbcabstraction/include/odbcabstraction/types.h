@@ -119,8 +119,8 @@ enum Updatability {
   UPDATABILITY_READWRITE_UNKNOWN = 2,
 };
 
-constexpr int NULL_DATA = -1;
-constexpr int NO_TOTAL = -4;
+constexpr ssize_t NULL_DATA = -1;
+constexpr ssize_t NO_TOTAL = -4;
 
 } // namespace odbcabstraction
 } // namespace driver
