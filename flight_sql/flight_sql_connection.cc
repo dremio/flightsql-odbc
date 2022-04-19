@@ -177,7 +177,7 @@ void FlightSqlConnection::Close() {
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
   return std::shared_ptr<Statement>(
-      new FlightSqlStatement(*sql_client_, call_options_));
+      new FlightSqlStatement(diagnostics_, *sql_client_, call_options_));
 }
 
 bool FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
@@ -209,16 +209,26 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
 }
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
-  return info_.GetInfo(info_type);
+  auto result = info_.GetInfo(info_type);
+  if (info_type == SQL_DBMS_NAME) {
+    // Update the database component reported in error messages.
+    // We do this lazily for performance reasons.
+    diagnostics_.SetDataSourceComponent(boost::get<std::string>(result));
+  }
+  return result;
 }
 
 FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
-    : odbc_version_(odbc_version), info_(call_options_, sql_client_),
+    : diagnostics_("Apache Arrow", "Flight SQL", odbc_version),
+      odbc_version_(odbc_version), info_(call_options_, sql_client_),
       closed_(true) {
   attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
   attribute_[LOGIN_TIMEOUT] = static_cast<uint32_t>(0);
   attribute_[CONNECTION_TIMEOUT] = static_cast<uint32_t>(0);
   attribute_[CURRENT_CATALOG] = "";
+}
+odbcabstraction::Diagnostics &FlightSqlConnection::GetDiagnostics() {
+  return diagnostics_;
 }
 } // namespace flight_sql
 } // namespace driver

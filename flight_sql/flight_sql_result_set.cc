@@ -44,7 +44,8 @@ FlightSqlResultSet::FlightSqlResultSet(
     FlightSqlClient &flight_sql_client,
     const arrow::flight::FlightCallOptions &call_options,
     const std::shared_ptr<FlightInfo> &flight_info,
-    const std::shared_ptr<RecordBatchTransformer> &transformer)
+    const std::shared_ptr<RecordBatchTransformer> &transformer,
+    odbcabstraction::Diagnostics& diagnostics)
     : num_binding_(0), current_row_(0),
       chunk_iterator_(flight_sql_client, call_options, flight_info),
       transformer_(transformer),
@@ -52,7 +53,8 @@ FlightSqlResultSet::FlightSqlResultSet(
                                   transformer->GetTransformedSchema())
                             : new FlightSqlResultSetMetadata(flight_info)),
       columns_(metadata_->GetColumnCount()),
-      get_data_offsets_(metadata_->GetColumnCount()) {
+      get_data_offsets_(metadata_->GetColumnCount()),
+      diagnostics_(diagnostics) {
   current_chunk_.data = nullptr;
 
   for (int i = 0; i < columns_.size(); ++i) {
@@ -112,7 +114,7 @@ size_t FlightSqlResultSet::Move(size_t rows) {
         continue;
 
       size_t accessor_rows = column.GetAccessorForBinding()->GetColumnarData(
-          &column.binding, current_row_, rows_to_fetch, 0);
+          &column.binding, current_row_, rows_to_fetch, 0, diagnostics_);
 
       if (rows_to_fetch != accessor_rows) {
         throw DriverException(
@@ -141,20 +143,15 @@ bool FlightSqlResultSet::GetData(int column_n, CDataType target_type,
   auto &column = columns_[column_n - 1];
   Accessor *accessor = column.GetAccessorForGetData(target_type);
 
-  int64_t &value_offset = get_data_offsets_[column_n - 1];
+  int64_t value_offset = get_data_offsets_[column_n - 1];
 
   // Note: current_row_ is always positioned at the index _after_ the one we are
   // on after calling Move(). So if we want to get data from the _last_ row
   // fetched, we need to subtract one from the current row.
-  accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset);
+  accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, diagnostics_);
 
-  if (strlen_buffer && strlen_buffer[0] != odbcabstraction::NULL_DATA) {
-    bool has_more = value_offset + buffer_length <= strlen_buffer[0];
-    value_offset += static_cast<int64_t>(buffer_length);
-    return has_more;
-  } else {
-    return false;
-  }
+  // If there was truncation, the converter would have reported it to the diagnostics.
+  return diagnostics_.HasWarning();
 }
 
 std::shared_ptr<arrow::Array>

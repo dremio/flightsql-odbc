@@ -39,8 +39,9 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Basic) {
   ColumnBinding binding(CDataType_CHAR, 0, 0, buffer.data(), max_strlen,
                         strlen_buffer.data());
 
+  odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0));
+            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
@@ -68,8 +69,10 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Truncation) {
 
   // Construct the whole string by concatenating smaller chunks from
   // GetColumnarData
+  odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   do {
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset));
+    diagnostics.Clear();
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, diagnostics));
     ASSERT_EQ(values[0].length(), strlen_buffer[0]);
 
     int64_t chunk_length = std::min(static_cast<int64_t>(max_strlen),
@@ -95,8 +98,9 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
   ColumnBinding binding(CDataType_WCHAR, 0, 0, buffer.data(), max_strlen,
                         strlen_buffer.data());
 
+  odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0));
+            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length() * sizeof(SqlWChar), strlen_buffer[i]);
@@ -127,8 +131,9 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
   // Construct the whole string by concatenating smaller chunks from
   // GetColumnarData
   std::basic_string<SqlWChar> finalStr;
+  driver::odbcabstraction::Diagnostics diagnostics("Dummy", "Dummy", odbcabstraction::V_3);
   do {
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset));
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, diagnostics));
     ASSERT_EQ(values[0].length() * sizeof(SqlWChar), strlen_buffer[0]);
 
     int64_t chunk_length =

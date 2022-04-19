@@ -41,7 +41,7 @@ using CharToWStrConverter =
 
 inline void ThrowIfNotOK(const arrow::Status &status) {
   if (!status.ok()) {
-    throw odbcabstraction::DriverException(status.ToString());
+    throw odbcabstraction::DriverException(status.message());
   }
 }
 
