@@ -54,6 +54,8 @@ endif()
 # Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(gRPC 1.36 CONFIG REQUIRED)
 
+find_package(RapidJSON CONFIG REQUIRED)
+
 SET(Arrow_STATIC ON)
 
 # Get Arrow using git.
@@ -141,6 +143,7 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_get_tables_reader.cc
   flight_sql_stream_chunk_iterator.cc
   get_info_cache.cc
+  json_converter.cc
   record_batch_transformer.cc
   scalar_function_reporter.cc
   utils.cc
@@ -170,6 +173,7 @@ set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
   ${OPENSSL_LIBRARIES}
+  ${RapidJSON_LIBRARIES}
 )
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
@@ -205,6 +209,7 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/string_array_accessor_test.cc
   flight_sql_connection_test.cc
   parse_table_types_test.cc
+  json_converter_test.cc
   record_batch_transformer_test.cc
   utils_test.cc
 )

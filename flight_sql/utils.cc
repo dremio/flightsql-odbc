@@ -87,8 +87,7 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
     break;
   }
 
-  throw driver::odbcabstraction::DriverException("Unsupported data type: " +
-                                                 type->ToString());
+  return odbcabstraction::SqlDataType_VARCHAR;
 }
 
 int16_t

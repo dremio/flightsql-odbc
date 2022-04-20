@@ -18,6 +18,7 @@
 #include "flight_sql_result_set_column.h"
 #include <odbcabstraction/platform.h>
 #include "flight_sql_result_set.h"
+#include "json_converter.h"
 #include <accessors/types.h>
 #include <arrow/compute/api.h>
 #include <memory>
@@ -63,6 +64,17 @@ ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
 std::shared_ptr<Array>
 CastArray(const std::shared_ptr<arrow::Array> &original_array,
           CDataType target_type) {
+  Type::type type = original_array->type_id();
+  auto is_complex = type == Type::LIST || type == Type::FIXED_SIZE_LIST || type == Type::LARGE_LIST
+                    || type == Type::MAP || type == Type::STRUCT;
+  if (is_complex &&
+      (target_type == odbcabstraction::CDataType_CHAR || target_type == odbcabstraction::CDataType_WCHAR)) {
+    const auto &result = ConvertToJson(original_array);
+    ThrowIfNotOK(result.status());
+
+    return result.ValueOrDie();
+  }
+
   const std::shared_ptr<arrow::DataType> &target_arrow_type =
       ConvertCToArrowDataType(target_type);
   if (original_array->type()->Equals(target_arrow_type)) {
