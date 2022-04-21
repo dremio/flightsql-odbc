@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748db03a_517cf78e",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-21T18:51:10Z",
+      "side": 1,
+      "message": "Why does this need to be thread_local? Isn\u0027t gmtime_r re-entrant already?",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c52c948d_0e472e8f",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-21T18:51:10Z",
+      "side": 1,
+      "message": "This might not be portable. Check if it exists on Windows.",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed9ebe32_02e7758f",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-21T18:51:10Z",
+      "side": 1,
+      "message": "Isn\u0027t this sizeof(DATE_STRUCT)?",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e397eecb_0bc01100",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-21T18:51:10Z",
+      "side": 1,
+      "message": "Avoid vector\u003cbool\u003e in general.",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26396ee8_2286f77d",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-21T18:51:10Z",
+      "side": 1,
+      "message": "Are you sure we need this? I understand we can\u0027t include sql.h here, but can you include it in the converter and use SQL_DATE_STRUCT?\n\nNote that this definition doesn\u0027t match SQL_DATE_STRUCT, which used SQLUSMALLINT for month and day.",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
