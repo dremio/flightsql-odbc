@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54252d56_03cfd6ef",
+        "filename": "flight_sql/accessors/common.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-25T14:21:25Z",
+      "side": 1,
+      "message": "null_count() is O(n), it iterates on a bitmap.\nIt may be better if we call it only if strlen_buffer is nullptr?",
+      "revId": "6823d5d061d6cc91eede5257138c0719b57812d0",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
