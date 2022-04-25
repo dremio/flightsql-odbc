@@ -34,6 +34,24 @@
       "parentUuid": "54252d56_03cfd6ef",
       "revId": "6823d5d061d6cc91eede5257138c0719b57812d0",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4a3dd2_78c49a8f",
+        "filename": "flight_sql/accessors/common.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-25T22:30:08Z",
+      "side": 1,
+      "message": "Decided _not_ to use the null bitmap either since it\u0027s not clear how Slice() affects this.",
+      "parentUuid": "30957218_6782f2b6",
+      "revId": "6823d5d061d6cc91eede5257138c0719b57812d0",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
