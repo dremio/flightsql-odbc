@@ -16,6 +16,24 @@
       "message": "null_count() is O(n), it iterates on a bitmap.\nIt may be better if we call it only if strlen_buffer is nullptr?",
       "revId": "6823d5d061d6cc91eede5257138c0719b57812d0",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30957218_6782f2b6",
+        "filename": "flight_sql/accessors/common.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-25T15:11:59Z",
+      "side": 1,
+      "message": "Good catch. It looks like it only iterates if the null count wasn\u0027t supplied to the constructor originally. (see https://arrow.apache.org/docs/cpp/api/array.html#_CPPv4NK5arrow5Array10null_countEv)\n\nI think we\u0027re not actually interested in the actual null count, and only want to know if the number of nulls is non-zero. We can do this efficiently by checking just checking if the bitmap is null which means either there are no nulls, or the entire vector is null (that is the type is NullVector):\nhttps://arrow.apache.org/docs/cpp/api/array.html#_CPPv4NK5arrow5Array10null_countEv",
+      "parentUuid": "54252d56_03cfd6ef",
+      "revId": "6823d5d061d6cc91eede5257138c0719b57812d0",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
