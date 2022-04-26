@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc51671_ca7e5b1e",
+        "filename": "flight_sql/json_converter.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-04-26T20:53:53Z",
+      "side": 1,
+      "message": "It seems expensive to allocate this over-and-over again for every cell. Can this be cached, reset, and reused?",
+      "revId": "5b27a6439676f1972a716c074d082540af05f5c5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
