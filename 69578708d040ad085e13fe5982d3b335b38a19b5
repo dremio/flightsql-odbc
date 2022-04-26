@@ -41,6 +41,30 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b25111_7ce066d1",
+        "filename": "flight_sql/flight_sql_stream_chunk_iterator.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-26T17:35:37Z",
+      "side": 1,
+      "message": "It actually doesn\u0027t, did this to solve a warning that I thought was an error (old method signature was deprecated anyway)",
+      "parentUuid": "e2825cf1_74dff251",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 49
+      },
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffaaeb5d_6e046db9",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-04-25T21:07:29Z",
       "side": 1,
       "message": "Don\u0027t use c_str() here, cuz rapidjson will have to call strlen. Just use.String(string).",
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c3f3bf_37e0b209",
+        "filename": "flight_sql/json_converter.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-26T17:35:37Z",
+      "side": 1,
+      "message": "Could not use String(std::string), but was able to pass value length as argument",
+      "parentUuid": "ffaaeb5d_6e046db9",
       "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -75,6 +117,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4d1cad2_589ec57a",
+        "filename": "flight_sql/json_converter.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-26T17:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e017ff1e_fd67ccd5",
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0829de9_82c1975c",
@@ -92,6 +152,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "327fd96e_63807af2",
+        "filename": "flight_sql/json_converter_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-26T17:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0829de9_82c1975c",
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "858eb050_62297fd4",
@@ -105,6 +183,24 @@
       "writtenOn": "2022-04-25T21:07:29Z",
       "side": 1,
       "message": "Delete this... This is an unreachable code warning.",
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78da57da_1cee2f4e",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-04-26T17:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "858eb050_62297fd4",
       "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
