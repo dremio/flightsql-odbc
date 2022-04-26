@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "042ca675_c5186f55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-26T15:36:19Z",
+      "side": 1,
+      "message": "Just a question 😊",
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2825cf1_74dff251",
+        "filename": "flight_sql/flight_sql_stream_chunk_iterator.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-04-26T15:36:19Z",
+      "side": 1,
+      "message": "How does this change relate to the handling of complex types?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 49
+      },
+      "revId": "69578708d040ad085e13fe5982d3b335b38a19b5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffaaeb5d_6e046db9",
