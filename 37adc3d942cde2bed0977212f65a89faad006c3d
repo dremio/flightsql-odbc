@@ -178,6 +178,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcbfe215_28892cb4",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-04-28T20:42:47Z",
+      "side": 1,
+      "message": "I found it, it is not compatible indeed. I will work on the changes tomorrow to port this to windows",
+      "parentUuid": "976b0ad4_78e3f01b",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ed9ebe32_02e7758f",
         "filename": "flight_sql/accessors/date_array_accessor.cc",
         "patchSetId": 2
