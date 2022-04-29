@@ -24,6 +24,8 @@ namespace driver {
 namespace flight_sql {
 
 using namespace odbcabstraction;
+using arrow::util::make_optional;
+using arrow::util::nullopt;
 
 SqlDataType
 GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
@@ -350,6 +352,65 @@ optional<int32_t> GetBufferLength(SqlDataType data_type,
     return 16;
   default:
     return arrow::util::nullopt;
+  }
+}
+
+optional<int32_t> GetDisplaySize(SqlDataType data_type,
+                                 const optional<int32_t>& column_size) {
+  switch (data_type) {
+    case SqlDataType_CHAR:
+    case SqlDataType_VARCHAR:
+    case SqlDataType_LONGVARCHAR:
+    case SqlDataType_WCHAR:
+    case SqlDataType_WVARCHAR:
+    case SqlDataType_WLONGVARCHAR:
+      return column_size;
+    case SqlDataType_BINARY:
+    case SqlDataType_VARBINARY:
+    case SqlDataType_LONGVARBINARY:
+      return column_size ? make_optional(*column_size * 2) : nullopt;
+    case SqlDataType_DECIMAL:
+    case SqlDataType_NUMERIC:
+      return column_size ? make_optional(*column_size + 2) : nullopt;
+    case SqlDataType_BIT:
+      return 1;
+    case SqlDataType_TINYINT:
+      return 4;
+    case SqlDataType_SMALLINT:
+      return 6;
+    case SqlDataType_INTEGER:
+      return 11;
+    case SqlDataType_BIGINT:
+      return 20;
+    case SqlDataType_REAL:
+      return 14;
+    case SqlDataType_FLOAT:
+    case SqlDataType_DOUBLE:
+      return 24;
+    case SqlDataType_TYPE_DATE:
+      return 10;
+    case SqlDataType_TYPE_TIME:
+      return 12; // Assuming format "hh:mm:ss.fff"
+    case SqlDataType_TYPE_TIMESTAMP:
+      return 23; // Assuming format "yyyy-mm-dd hh:mm:ss.fff"
+    case SqlDataType_INTERVAL_MONTH:
+    case SqlDataType_INTERVAL_YEAR:
+    case SqlDataType_INTERVAL_YEAR_TO_MONTH:
+    case SqlDataType_INTERVAL_DAY:
+    case SqlDataType_INTERVAL_HOUR:
+    case SqlDataType_INTERVAL_MINUTE:
+    case SqlDataType_INTERVAL_SECOND:
+    case SqlDataType_INTERVAL_DAY_TO_HOUR:
+    case SqlDataType_INTERVAL_DAY_TO_MINUTE:
+    case SqlDataType_INTERVAL_DAY_TO_SECOND:
+    case SqlDataType_INTERVAL_HOUR_TO_MINUTE:
+    case SqlDataType_INTERVAL_HOUR_TO_SECOND:
+    case SqlDataType_INTERVAL_MINUTE_TO_SECOND:
+      return nullopt; // TODO: Implement for INTERVAL types
+    case SqlDataType_GUID:
+      return 36;
+    default:
+      return nullopt;
   }
 }
 
