@@ -23,6 +23,7 @@
 
 #include <odbcabstraction/exceptions.h>
 #include <utility>
+#include <iostream>
 
 namespace driver {
 namespace flight_sql {
@@ -44,13 +45,17 @@ std::string FlightSqlResultSetMetadata::GetName(int column_position) {
 }
 
 size_t FlightSqlResultSetMetadata::GetPrecision(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetPrecision();
+  ThrowIfNotOK(result.status());
+  return result.ValueOrDie();
 }
 
 size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetScale();
+  ThrowIfNotOK(result.status());
+  return result.ValueOrDie();
 }
 
 SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
@@ -61,22 +66,37 @@ SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
 driver::odbcabstraction::Nullability
 FlightSqlResultSetMetadata::IsNullable(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  return field->nullable() ? odbcabstraction::NULLABILITY_NULLABLE : odbcabstraction::NULLABILITY_NO_NULLS;
+  return field->nullable() ? odbcabstraction::NULLABILITY_NULLABLE : odbcabstraction::NULLABILITY_NO_NULLS
 }
 
 std::string FlightSqlResultSetMetadata::GetSchemaName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetSchemaName();
+  if (result.ok()) {
+    return result.ValueOrDie();
+  } else {
+    return "";
+  }
 }
 
 std::string FlightSqlResultSetMetadata::GetCatalogName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetCatalogName();
+  if (result.ok()) {
+    return result.ValueOrDie();
+  } else {
+    return "";
+  }
 }
 
 std::string FlightSqlResultSetMetadata::GetTableName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetTableName();
+  if (result.ok()) {
+    return result.ValueOrDie();
+  } else {
+    return "";
+  }
 }
 
 std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
@@ -90,13 +110,17 @@ size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
 }
 
 std::string FlightSqlResultSetMetadata::GetBaseColumnName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  return schema_->field(column_position - 1)->name();
 }
 
 std::string FlightSqlResultSetMetadata::GetBaseTableName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetTableName();
+  if (result.ok()) {
+    return result.ValueOrDie();
+  } else {
+    return "";
+  }
 }
 
 std::string FlightSqlResultSetMetadata::GetConciseType(int column_position) {
@@ -157,8 +181,13 @@ bool FlightSqlResultSetMetadata::IsCaseSensitive(int column_position) {
 
 driver::odbcabstraction::Searchability
 FlightSqlResultSetMetadata::IsSearchable(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return odbcabstraction::SEARCHABILITY_NONE;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetIsSearchable();
+  if (result.ok()) {
+    return result.ValueOrDie() ? odbcabstraction::SEARCHABILITY_ALL : odbcabstraction::SEARCHABILITY_NONE;
+  } else {
+    return odbcabstraction::SEARCHABILITY_NONE;
+  }
 }
 
 bool FlightSqlResultSetMetadata::IsUnsigned(int column_position) {
