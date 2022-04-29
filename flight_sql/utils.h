@@ -85,6 +85,9 @@ optional<int32_t> GetCharOctetLength(odbcabstraction::SqlDataType data_type,
 optional<int32_t> GetBufferLength(odbcabstraction::SqlDataType data_type,
                                   const optional<int32_t>& column_size);
 
+optional<int32_t> GetDisplaySize(odbcabstraction::SqlDataType data_type,
+                                 const optional<int32_t>& column_size);
+
 std::string ConvertSqlPatternToRegexString(const std::string &pattern);
 
 boost::xpressive::sregex ConvertSqlPatternToRegex(const std::string &pattern);

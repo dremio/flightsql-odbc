@@ -30,6 +30,10 @@ namespace flight_sql {
 using namespace odbcabstraction;
 using arrow::DataType;
 using arrow::Field;
+using arrow::util::make_optional;
+using arrow::util::nullopt;
+
+constexpr int32_t StringColumnLength = 1024; // TODO: Get from connection
 
 size_t FlightSqlResultSetMetadata::GetColumnCount() {
   return schema_->num_fields();
@@ -44,13 +48,17 @@ std::string FlightSqlResultSetMetadata::GetName(int column_position) {
 }
 
 size_t FlightSqlResultSetMetadata::GetPrecision(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetPrecision();
+  ThrowIfNotOK(result.status());
+  return result.ValueOrDie();
 }
 
 size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  const auto &result = metadata.GetScale();
+  ThrowIfNotOK(result.status());
+  return result.ValueOrDie();
 }
 
 SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
@@ -65,18 +73,21 @@ FlightSqlResultSetMetadata::IsNullable(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetSchemaName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  return metadata.GetSchemaName().ValueOrElse([] { return ""; });
 }
 
 std::string FlightSqlResultSetMetadata::GetCatalogName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  return metadata.GetCatalogName().ValueOrElse([] { return ""; });
 }
 
 std::string FlightSqlResultSetMetadata::GetTableName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  return metadata.GetTableName().ValueOrElse([] { return ""; });
 }
 
 std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
@@ -85,18 +96,22 @@ std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
 
 size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
     int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
+  SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
+
+  return GetDisplaySize(data_type_v3, column_size).value_or(NO_TOTAL);
 }
 
 std::string FlightSqlResultSetMetadata::GetBaseColumnName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  return schema_->field(column_position - 1)->name();
 }
 
 std::string FlightSqlResultSetMetadata::GetBaseTableName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  return metadata.GetTableName().ValueOrElse([] { return ""; });
 }
 
 std::string FlightSqlResultSetMetadata::GetConciseType(int column_position) {
@@ -105,69 +120,99 @@ std::string FlightSqlResultSetMetadata::GetConciseType(int column_position) {
 }
 
 size_t FlightSqlResultSetMetadata::GetLength(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
+  SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
+
+  return GetBufferLength(data_type_v3, column_size).value_or(NO_TOTAL);
 }
 
 std::string FlightSqlResultSetMetadata::GetLiteralPrefix(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
+  // TODO: Flight SQL column metadata does not have this, should we add to the spec?
   return "";
 }
 
 std::string FlightSqlResultSetMetadata::GetLiteralSuffix(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
+  // TODO: Flight SQL column metadata does not have this, should we add to the spec?
   return "";
 }
 
 std::string FlightSqlResultSetMetadata::GetLocalTypeName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  // TODO: Is local type name the same as type name?
+  return metadata.GetTypeName().ValueOrElse([] { return ""; });
 }
 
 size_t FlightSqlResultSetMetadata::GetNumPrecRadix(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+
+  SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
+
+  return GetRadixFromSqlDataType(data_type_v3).value_or(NO_TOTAL);
 }
 
 size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return 0;
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
+  SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
+
+  return GetCharOctetLength(data_type_v3, column_size).value_or(NO_TOTAL);
 }
 
 std::string FlightSqlResultSetMetadata::GetTypeName(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return "";
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  return metadata.GetTypeName().ValueOrElse([] { return ""; });
 }
 
 driver::odbcabstraction::Updatability
 FlightSqlResultSetMetadata::GetUpdatable(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
   return odbcabstraction::UPDATABILITY_READWRITE_UNKNOWN;
 }
 
 bool FlightSqlResultSetMetadata::IsAutoUnique(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return false;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  // TODO: Is AutoUnique equivalent to AutoIncrement?
+  return metadata.GetIsAutoIncrement().ValueOrElse([] { return false; });
 }
 
 bool FlightSqlResultSetMetadata::IsCaseSensitive(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return false;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  return metadata.GetIsCaseSensitive().ValueOrElse([] { return false; });
 }
 
 driver::odbcabstraction::Searchability
 FlightSqlResultSetMetadata::IsSearchable(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return odbcabstraction::SEARCHABILITY_NONE;
+  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+
+  bool is_searchable = metadata.GetIsSearchable().ValueOrElse([] { return false; });
+  return is_searchable ? odbcabstraction::SEARCHABILITY_ALL : odbcabstraction::SEARCHABILITY_NONE;
 }
 
 bool FlightSqlResultSetMetadata::IsUnsigned(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
-  return false;
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+
+  switch (field->type()->id()) {
+    case arrow::Type::UINT8:
+    case arrow::Type::UINT16:
+    case arrow::Type::UINT32:
+    case arrow::Type::UINT64:
+      return true;
+    default:
+      return false;
+  }
 }
 
 bool FlightSqlResultSetMetadata::IsFixedPrecScale(int column_position) {
-  // TODO Implement after the PR from column metadata is merged
+  // TODO: Flight SQL column metadata does not have this, should we add to the spec?
   return false;
 }
 
