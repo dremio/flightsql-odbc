@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9ba0e8a_12db3963",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-02T18:58:36Z",
+      "side": 1,
+      "message": "Should be a size_t",
+      "range": {
+        "startLine": 48,
+        "startChar": 7,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b99181f_6bb1ba5e",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-02T18:58:36Z",
+      "side": 1,
+      "message": "This should be a size_t to align with .size()",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 10
+      },
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}

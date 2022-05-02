@@ -266,6 +266,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab5c5644_b4007056",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-02T18:58:36Z",
+      "side": 1,
+      "message": "vector\u003cbool\u003e has a specialization which is terrible - bool\u003cshort int\u003e or something of the sort would be better. Do you actually need the boolean values?",
+      "parentUuid": "6f92de72_41f29871",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26396ee8_2286f77d",
         "filename": "odbcabstraction/include/odbcabstraction/types.h",
         "patchSetId": 2
