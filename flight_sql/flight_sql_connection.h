@@ -27,6 +27,16 @@
 namespace driver {
 namespace flight_sql {
 
+class FlightSqlSslConfig;
+
+/// \brief Create an instance of the FlightSqlSslConfig class, from the properties passed
+///        into the map.
+/// \param connPropertyMap the map with the Connection properties.
+/// \return                An instance of the FlightSqlSslConfig.
+std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(
+  const odbcabstraction::Connection::ConnPropertyMap &connPropertyMap);
+
+
 class FlightSqlConnection : public odbcabstraction::Connection {
 
 private:
@@ -46,7 +56,10 @@ public:
   static const std::string PASSWORD;
   static const std::string PWD;
   static const std::string TOKEN;
-  static const std::string USE_TLS;
+  static const std::string USE_ENCRYPTION;
+  static const std::string DISABLE_CERTIFICATE_VERIFICATION;
+  static const std::string TRUSTED_CERTS;
+  static const std::string USE_SYSTEM_TRUST_STORE;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
@@ -67,14 +80,15 @@ public:
   /// \brief Builds a Location used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::Location
-  BuildLocation(const ConnPropertyMap &properties,
-                std::vector<std::string> &missing_attr);
+  BuildLocation(const ConnPropertyMap &properties, std::vector<std::string> &missing_attr,
+                const std::shared_ptr<FlightSqlSslConfig>& ssl_config);
 
   /// \brief Builds a FlightClientOptions used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::FlightClientOptions
   BuildFlightClientOptions(const ConnPropertyMap &properties,
-                           std::vector<std::string> &missing_attr);
+                           std::vector<std::string> &missing_attr,
+                           const std::shared_ptr<FlightSqlSslConfig>& ssl_config);
 
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing
