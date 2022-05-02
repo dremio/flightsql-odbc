@@ -18,8 +18,15 @@
 #include "flight_sql_connection.h"
 
 #include <odbcabstraction/platform.h>
+#include <odbcabstraction/utils.h>
 
+#include <arrow/flight/types.h>
 #include <arrow/flight/client_cookie_middleware.h>
+#include <flight_sql_auth_method.h>
+#include <flight_sql_statement.h>
+#include <flight_sql_ssl_config.h>
+#include <utils.h>
+
 #include <boost/algorithm/string/join.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
@@ -27,10 +34,58 @@
 
 #include <sql.h>
 #include <sqlext.h>
+#include <iostream>
 
-#include "flight_sql_auth_method.h"
-#include "flight_sql_statement.h"
-#include "utils.h"
+#include <openssl/ssl.h>
+#include <openssl/x509.h>
+
+#if defined _WIN32  || defined _WIN64
+
+#include <cryptuiapi.h>
+#include <iostream>
+#include <tchar.h>
+#include <wincrypt.h>
+#include <windows.h>
+
+inline
+int loadSystemTrustStore(std::string& certs) {
+  HCERTSTORE hStore;
+  PCCERT_CONTEXT pContext = NULL;
+  X509* x509;
+  char* stores[] = {
+    "CA",
+    "MY",
+    "ROOT",
+    "SPC"
+  };
+  int certCount = 0;
+
+  for (int i = 0; i < 4; i++) {
+  hStore = CertOpenSystemStore(NULL, stores[i]);
+
+  while (pContext = CertEnumCertificatesInStore(hStore, pContext)) {
+    DWORD size = 0;
+    CryptBinaryToString(pContext->pbCertEncoded, pContext->cbCertEncoded,
+                        CRYPT_STRING_BASE64HEADER, nullptr, &size);
+    std::vector<char> pem(size);
+    CryptBinaryToString(pContext->pbCertEncoded,
+                        pContext->cbCertEncoded, CRYPT_STRING_BASE64HEADER,
+                        pem.data(), &size);
+    certs += pem.data();
+  }
+
+  CertFreeCertificateContext(pContext);
+  CertCloseStore(hStore, 0);
+}
+
+return 0;
+}
+#else
+int loadSystemTrustStore(const SSL* ssl, std::string& msg) {
+return 0;
+}
+
+#endif
 
 namespace driver {
 namespace flight_sql {
@@ -43,6 +98,7 @@ using arrow::flight::FlightClientOptions;
 using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
+using driver::odbcabstraction::AsBool;
 using driver::odbcabstraction::Connection;
 using driver::odbcabstraction::DriverException;
 using driver::odbcabstraction::OdbcVersion;
@@ -55,12 +111,12 @@ const std::string FlightSqlConnection::UID = "uid";
 const std::string FlightSqlConnection::PASSWORD = "password";
 const std::string FlightSqlConnection::PWD = "pwd";
 const std::string FlightSqlConnection::TOKEN = "token";
-const std::string FlightSqlConnection::USE_TLS = "useTls";
+const std::string FlightSqlConnection::USE_ENCRYPTION = "useEncryption";
+const std::string FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION = "disableCertificateVerification";
+const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
+const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
 
 namespace {
-// TODO: Add properties for getting the certificates
-// TODO: Check if gRPC can use the system truststore, if not copy from Drill
-
 Connection::ConnPropertyMap::const_iterator
 TrackMissingRequiredProperty(const std::string &property,
                              const Connection::ConnPropertyMap &properties,
@@ -74,12 +130,43 @@ TrackMissingRequiredProperty(const std::string &property,
 }
 } // namespace
 
+std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(const Connection::ConnPropertyMap &connPropertyMap) {
+  auto use_encryption_iterator = connPropertyMap.find(
+    FlightSqlConnection::USE_ENCRYPTION);
+  bool use_encryption =
+    use_encryption_iterator != connPropertyMap.end() ? AsBool(
+      use_encryption_iterator->second) : true;
+
+  auto disable_cert_iterator = connPropertyMap.find(
+    FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION);
+  bool disable_cert =
+    disable_cert_iterator != connPropertyMap.end() ? AsBool(
+      disable_cert_iterator->second) : false;
+
+  auto trusted_certs_iterator = connPropertyMap.find(
+    FlightSqlConnection::TRUSTED_CERTS);
+  auto trusted_certs =
+    trusted_certs_iterator != connPropertyMap.end() ? trusted_certs_iterator->second : "";
+
+  auto system_trust_iterator = connPropertyMap.find(
+    FlightSqlConnection::USE_SYSTEM_TRUST_STORE);
+  auto system_trusted =
+    system_trust_iterator != connPropertyMap.end() ? AsBool(
+      system_trust_iterator->second) : true;
+
+  return std::make_shared<FlightSqlSslConfig>(disable_cert, trusted_certs,
+                                              system_trusted, use_encryption);
+}
+
 void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
                                   std::vector<std::string> &missing_attr) {
   try {
-    Location location = BuildLocation(properties, missing_attr);
+    auto flight_ssl_configs = LoadFlightSslConfigs(properties);
+    
+    Location location = BuildLocation(properties, missing_attr, flight_ssl_configs);
     FlightClientOptions client_options =
-        BuildFlightClientOptions(properties, missing_attr);
+      BuildFlightClientOptions(properties, missing_attr,
+                               flight_ssl_configs);
 
     const std::shared_ptr<arrow::flight::ClientMiddlewareFactory>
         &cookie_factory = arrow::flight::GetCookieFactory();
@@ -87,10 +174,10 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
 
     std::unique_ptr<FlightClient> flight_client;
     ThrowIfNotOK(
-        FlightClient::Connect(location, client_options, &flight_client));
+      FlightClient::Connect(location, client_options, &flight_client));
 
     std::unique_ptr<FlightSqlAuthMethod> auth_method =
-        FlightSqlAuthMethod::FromProperties(flight_client, properties);
+      FlightSqlAuthMethod::FromProperties(flight_client, properties);
     auth_method->Authenticate(*this, call_options_);
 
     sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
@@ -125,19 +212,38 @@ FlightSqlConnection::PopulateCallOptionsFromAttributes() {
   return call_options_;
 }
 
-FlightClientOptions FlightSqlConnection::BuildFlightClientOptions(
-    const ConnPropertyMap &properties, std::vector<std::string> &missing_attr) {
+arrow::flight::FlightClientOptions
+FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
+                                              std::vector<std::string> &missing_attr,
+                                              const std::shared_ptr<FlightSqlSslConfig>& ssl_config) {
   FlightClientOptions options;
   // Persist state information using cookies if the FlightProducer supports it.
   options.middleware.push_back(arrow::flight::GetCookieFactory());
 
-  // TODO: Set up TLS  properties
+  if (ssl_config->isUseEncryption()) {
+    if (ssl_config->isDisableCertificateVerification()) {
+      options.disable_server_verification = ssl_config->isDisableCertificateVerification();
+    } else {
+      if (ssl_config->isSystemTrustStore()) {
+        X509_STORE* store = X509_STORE_new();
+        std::string certs;
+        loadSystemTrustStore(certs);
+        options.tls_root_certs = certs;
+      } else if (!ssl_config->getTrustedCerts().empty()) {
+        flight::CertKeyPair cert_key_pair;
+        ThrowIfNotOK(ssl_config->readCerts(&cert_key_pair));
+        options.tls_root_certs = cert_key_pair.pem_cert;
+      }
+    }
+  }
+
   return std::move(options);
 }
 
-Location
+arrow::flight::Location
 FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
-                                   std::vector<std::string> &missing_attr) {
+                                   std::vector<std::string> &missing_attr,
+                                   const std::shared_ptr<FlightSqlSslConfig>& ssl_config) {
   const auto &host_iter =
       TrackMissingRequiredProperty(HOST, properties, missing_attr);
 
@@ -155,9 +261,7 @@ FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
   const int &port = boost::lexical_cast<int>(port_iter->second);
 
   Location location;
-  const auto &it_use_tls = properties.find(USE_TLS);
-  if (it_use_tls != properties.end() &&
-      boost::lexical_cast<bool>(it_use_tls->second)) {
+  if (ssl_config->isUseEncryption()) {
     ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
