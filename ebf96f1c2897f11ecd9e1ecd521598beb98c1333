@@ -88,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4f6e4a_1748e70d",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-02T17:34:13Z",
+      "side": 1,
+      "message": "Checked the legacy driver, it always returns 12 (leaving space for .fff at the end)",
+      "parentUuid": "a4dceef4_350f7616",
+      "revId": "ebf96f1c2897f11ecd9e1ecd521598beb98c1333",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "317623e7_67019ca2",
@@ -101,6 +119,24 @@
       "writtenOn": "2022-04-29T18:38:08Z",
       "side": 1,
       "message": "This one definitely can have fractions. We need to inspect the Schema to determine this.",
+      "revId": "ebf96f1c2897f11ecd9e1ecd521598beb98c1333",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8b922a6_7c564ab8",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-02T17:34:13Z",
+      "side": 1,
+      "message": "Checked the legacy driver, it always returns 24 (leaving space for .fff at the end)",
+      "parentUuid": "317623e7_67019ca2",
       "revId": "ebf96f1c2897f11ecd9e1ecd521598beb98c1333",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
