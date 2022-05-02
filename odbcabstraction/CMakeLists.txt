@@ -24,9 +24,11 @@ include_directories(include)
 add_library(odbcabstraction 
   include/odbcabstraction/diagnostics.h
   include/odbcabstraction/error_codes.h
+  include/odbcabstraction/utils.h
   calendar_utils.cc
   diagnostics.cc
-  exceptions.cc)
+  exceptions.cc
+  utils.cc)
 
 set_target_properties(odbcabstraction
     PROPERTIES

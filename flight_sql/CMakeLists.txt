@@ -145,6 +145,7 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_statement_get_tables.cc
   flight_sql_statement_get_type_info.cc
   flight_sql_statement_get_columns.cc
+  flight_sql_ssl_config.cc
   flight_sql_get_tables_reader.cc
   flight_sql_get_type_info_reader.cc
   flight_sql_stream_chunk_iterator.cc
@@ -152,8 +153,8 @@ set(ARROW_ODBC_SPI_SOURCES
   json_converter.cc
   record_batch_transformer.cc
   scalar_function_reporter.cc
-  utils.cc
-)
+  system_trust_store.cc
+  utils.cc)
 
 
 if (MSVC)

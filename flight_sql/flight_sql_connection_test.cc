@@ -66,42 +66,56 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 
 TEST(BuildLocationTests, ForTcp) {
   std::vector<std::string> missing_attr;
-  const Location &actual_location1 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32010")},
-      },
-      missing_attr);
+  Connection::ConnPropertyMap properties = {
+    {FlightSqlConnection::HOST, std::string("localhost")},
+    {FlightSqlConnection::PORT, std::string("32010")},
+    {FlightSqlConnection::USE_ENCRYPTION, std::string("false")},
+  };
+
+  const std::shared_ptr<FlightSqlSslConfig> &ssl_config =
+    LoadFlightSslConfigs(properties);
+
+  const Location &actual_location1 =
+    FlightSqlConnection::BuildLocation(properties, missing_attr, ssl_config);
   const Location &actual_location2 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32011")},
-      },
-      missing_attr);
+    {
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32011")},
+    },
+    missing_attr, ssl_config);
 
   Location expected_location;
   ASSERT_TRUE(
-      Location::ForGrpcTcp("localhost", 32010, &expected_location).ok());
+    Location::ForGrpcTcp("localhost", 32010, &expected_location).ok());
   ASSERT_EQ(expected_location, actual_location1);
   ASSERT_NE(expected_location, actual_location2);
 }
 
 TEST(BuildLocationTests, ForTls) {
   std::vector<std::string> missing_attr;
-  const Location &actual_location1 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32010")},
-          {FlightSqlConnection::USE_TLS, std::string("1")},
-      },
-      missing_attr);
+  Connection::ConnPropertyMap properties = {
+    {FlightSqlConnection::HOST, std::string("localhost")},
+    {FlightSqlConnection::PORT, std::string("32010")},
+    {FlightSqlConnection::USE_ENCRYPTION, std::string("1")},
+  };
+
+  const std::shared_ptr<FlightSqlSslConfig> &ssl_config =
+    LoadFlightSslConfigs(properties);
+
+  const Location &actual_location1 =
+    FlightSqlConnection::BuildLocation(properties, missing_attr, ssl_config);
+
+  Connection::ConnPropertyMap second_properties = {
+    {FlightSqlConnection::HOST, std::string("localhost")},
+    {FlightSqlConnection::PORT, std::string("32011")},
+    {FlightSqlConnection::USE_ENCRYPTION, std::string("1")},
+  };
+
+  const std::shared_ptr<FlightSqlSslConfig> &second_ssl_config =
+    LoadFlightSslConfigs(properties);
+
   const Location &actual_location2 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32011")},
-          {FlightSqlConnection::USE_TLS, std::string("1")},
-      },
-      missing_attr);
+    second_properties, missing_attr, ssl_config);
 
   Location expected_location;
   ASSERT_TRUE(
