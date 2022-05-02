@@ -23,6 +23,7 @@
 #include <arrow/flight/sql/api.h>
 
 #include "get_info_cache.h"
+#include "flight_sql_ssl_config.h"
 
 namespace driver {
 namespace flight_sql {
@@ -45,7 +46,10 @@ public:
   static const std::string PASSWORD;
   static const std::string PWD;
   static const std::string TOKEN;
-  static const std::string USE_TLS;
+  static const std::string USE_ENCRYPTION;
+  static const std::string DISABLE_CERTIFICATE_VERIFICATION;
+  static const std::string TRUSTED_CERTS;
+  static const std::string USE_SYSTEM_TRUST_STORE;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
@@ -66,14 +70,15 @@ public:
   /// \brief Builds a Location used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::Location
-  BuildLocation(const ConnPropertyMap &properties,
-                std::vector<std::string> &missing_attr);
+  BuildLocation(const ConnPropertyMap &properties, std::vector<std::string> &missing_attr,
+                const std::shared_ptr<FlightSqlSslConfig>& ssl_config);
 
   /// \brief Builds a FlightClientOptions used for FlightClient connection.
   /// \note Visible for testing
   static arrow::flight::FlightClientOptions
   BuildFlightClientOptions(const ConnPropertyMap &properties,
-                           std::vector<std::string> &missing_attr);
+                           std::vector<std::string> &missing_attr,
+                           const std::shared_ptr<FlightSqlSslConfig>& ssl_config);
 
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing

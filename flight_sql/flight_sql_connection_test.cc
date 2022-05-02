@@ -65,17 +65,17 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
 TEST(BuildLocationTests, ForTcp) {
   std::vector<std::string> missing_attr;
   const Location &actual_location1 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32010")},
-      },
-      missing_attr);
+    {
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32010")},
+    },
+    missing_attr, <#initializer#>);
   const Location &actual_location2 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32011")},
-      },
-      missing_attr);
+    {
+      {FlightSqlConnection::HOST, std::string("localhost")},
+      {FlightSqlConnection::PORT, std::string("32011")},
+    },
+    missing_attr, <#initializer#>);
 
   Location expected_location;
   ASSERT_TRUE(
@@ -87,19 +87,19 @@ TEST(BuildLocationTests, ForTcp) {
 TEST(BuildLocationTests, ForTls) {
   std::vector<std::string> missing_attr;
   const Location &actual_location1 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32010")},
-          {FlightSqlConnection::USE_TLS, std::string("1")},
-      },
-      missing_attr);
+    {
+      {FlightSqlConnection::HOST,           std::string("localhost")},
+      {FlightSqlConnection::PORT,           std::string("32010")},
+      {FlightSqlConnection::USE_ENCRYPTION, std::string("1")},
+    },
+    missing_attr, <#initializer#>);
   const Location &actual_location2 = FlightSqlConnection::BuildLocation(
-      {
-          {FlightSqlConnection::HOST, std::string("localhost")},
-          {FlightSqlConnection::PORT, std::string("32011")},
-          {FlightSqlConnection::USE_TLS, std::string("1")},
-      },
-      missing_attr);
+    {
+      {FlightSqlConnection::HOST,           std::string("localhost")},
+      {FlightSqlConnection::PORT,           std::string("32011")},
+      {FlightSqlConnection::USE_ENCRYPTION, std::string("1")},
+    },
+    missing_attr, <#initializer#>);
 
   Location expected_location;
   ASSERT_TRUE(
