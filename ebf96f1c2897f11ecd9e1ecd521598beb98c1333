@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92680b7e_34be3ae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-02T17:02:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bc48e59_5834a7c1",
+      "revId": "ebf96f1c2897f11ecd9e1ecd521598beb98c1333",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acd6c3ab_a2bd92d7",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-04-29T18:38:08Z",
       "side": 1,
       "message": "Why iostream?",
+      "revId": "ebf96f1c2897f11ecd9e1ecd521598beb98c1333",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7500133_8ddbfac7",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-02T17:02:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acd6c3ab_a2bd92d7",
       "revId": "ebf96f1c2897f11ecd9e1ecd521598beb98c1333",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
