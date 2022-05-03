@@ -92,18 +92,16 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
   return odbcabstraction::SqlDataType_VARCHAR;
 }
 
-int16_t
-GetDataTypeFromArrowField_V2(const std::shared_ptr<arrow::Field> &field) {
-  SqlDataType type = GetDataTypeFromArrowField_V3(field);
-  switch (type) {
-  case SqlDataType_TYPE_DATE:
-    return 9; // Same as SQL_DATE from sqlext.h
-  case SqlDataType_TYPE_TIME:
-    return 10; // Same as SQL_TIME from sqlext.h
-  case SqlDataType_TYPE_TIMESTAMP:
-    return 11; // Same as SQL_TIMESTAMP from sqlext.h
-  default:
-    return type;
+int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3) {
+  switch (data_type_v3) {
+    case SqlDataType_TYPE_DATE:
+      return 9; // Same as SQL_DATE from sqlext.h
+    case SqlDataType_TYPE_TIME:
+      return 10; // Same as SQL_TIME from sqlext.h
+    case SqlDataType_TYPE_TIMESTAMP:
+      return 11; // Same as SQL_TIMESTAMP from sqlext.h
+    default:
+      return data_type_v3;
   }
 }
 

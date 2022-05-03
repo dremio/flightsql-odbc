@@ -163,11 +163,20 @@ public:
   /// data types are intended for use in Data Definition Language (DDL)
   /// statements.
   ///
-  /// Accepts ODBC 2.x or 3.x data types as input.
-  /// Reports results according to which ODBC version is set on Driver.
+  /// NOTE: This is meant to be used by ODBC 2.x binding.
   ///
-  /// \param dataType The SQL data type.
-  virtual std::shared_ptr<ResultSet> GetTypeInfo(int dataType) = 0;
+  /// \param data_type The SQL data type.
+  virtual std::shared_ptr<ResultSet> GetTypeInfo_V2(int16_t data_type) = 0;
+
+  /// \brief Returns information about data types supported by the data source.
+  /// The driver returns the information in the form of an SQL result set. The
+  /// data types are intended for use in Data Definition Language (DDL)
+  /// statements.
+  ///
+  /// NOTE: This is meant to be used by ODBC 3.x binding.
+  ///
+  /// \param data_type The SQL data type.
+  virtual std::shared_ptr<ResultSet> GetTypeInfo_V3(int16_t data_type) = 0;
 
   /// \brief Gets the diagnostics for this statement.
   /// \return the diagnostics

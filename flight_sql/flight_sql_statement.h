@@ -81,7 +81,9 @@ public:
   GetColumns_V3(const std::string *catalog_name, const std::string *schema_name,
                 const std::string *table_name, const std::string *column_name) override;
 
-  std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo(int dataType) override;
+  std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo_V2(int16_t data_type) override;
+
+  std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo_V3(int16_t data_type) override;
 
   odbcabstraction::Diagnostics &GetDiagnostics() override;
 };
