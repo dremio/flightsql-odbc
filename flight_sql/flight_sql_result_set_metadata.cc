@@ -35,6 +35,17 @@ using arrow::util::nullopt;
 
 constexpr int32_t StringColumnLength = 1024; // TODO: Get from connection
 
+namespace {
+std::shared_ptr<const arrow::KeyValueMetadata> empty_metadata_map(new arrow::KeyValueMetadata);
+
+inline arrow::flight::sql::ColumnMetadata GetMetadata(const std::shared_ptr<Field> &field) {
+  const auto &metadata_map = field->metadata();
+
+  arrow::flight::sql::ColumnMetadata metadata(metadata_map ? metadata_map : empty_metadata_map);
+  return metadata;
+}
+}
+
 size_t FlightSqlResultSetMetadata::GetColumnCount() {
   return schema_->num_fields();
 }
@@ -48,17 +59,13 @@ std::string FlightSqlResultSetMetadata::GetName(int column_position) {
 }
 
 size_t FlightSqlResultSetMetadata::GetPrecision(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
-  const auto &result = metadata.GetPrecision();
-  ThrowIfNotOK(result.status());
-  return result.ValueOrDie();
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
+  return metadata.GetPrecision().ValueOrElse([] { return 0; });
 }
 
 size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
-  const auto &result = metadata.GetScale();
-  ThrowIfNotOK(result.status());
-  return result.ValueOrDie();
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
+  return metadata.GetScale().ValueOrElse([] { return 0; });
 }
 
 SqlDataType FlightSqlResultSetMetadata::GetDataType(int column_position) {
@@ -73,19 +80,19 @@ FlightSqlResultSetMetadata::IsNullable(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetSchemaName(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   return metadata.GetSchemaName().ValueOrElse([] { return ""; });
 }
 
 std::string FlightSqlResultSetMetadata::GetCatalogName(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   return metadata.GetCatalogName().ValueOrElse([] { return ""; });
 }
 
 std::string FlightSqlResultSetMetadata::GetTableName(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   return metadata.GetTableName().ValueOrElse([] { return ""; });
 }
@@ -97,7 +104,7 @@ std::string FlightSqlResultSetMetadata::GetColumnLabel(int column_position) {
 size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
     int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
@@ -110,7 +117,7 @@ std::string FlightSqlResultSetMetadata::GetBaseColumnName(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetBaseTableName(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
   return metadata.GetTableName().ValueOrElse([] { return ""; });
 }
 
@@ -121,7 +128,7 @@ std::string FlightSqlResultSetMetadata::GetConciseType(int column_position) {
 
 size_t FlightSqlResultSetMetadata::GetLength(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
@@ -140,7 +147,7 @@ std::string FlightSqlResultSetMetadata::GetLiteralSuffix(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetLocalTypeName(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   // TODO: Is local type name the same as type name?
   return metadata.GetTypeName().ValueOrElse([] { return ""; });
@@ -148,8 +155,6 @@ std::string FlightSqlResultSetMetadata::GetLocalTypeName(int column_position) {
 
 size_t FlightSqlResultSetMetadata::GetNumPrecRadix(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
-
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
   return GetRadixFromSqlDataType(data_type_v3).value_or(NO_TOTAL);
@@ -157,7 +162,7 @@ size_t FlightSqlResultSetMetadata::GetNumPrecRadix(int column_position) {
 
 size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
-  arrow::flight::sql::ColumnMetadata metadata(field->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
@@ -166,7 +171,7 @@ size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
 }
 
 std::string FlightSqlResultSetMetadata::GetTypeName(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   return metadata.GetTypeName().ValueOrElse([] { return ""; });
 }
@@ -177,21 +182,21 @@ FlightSqlResultSetMetadata::GetUpdatable(int column_position) {
 }
 
 bool FlightSqlResultSetMetadata::IsAutoUnique(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   // TODO: Is AutoUnique equivalent to AutoIncrement?
   return metadata.GetIsAutoIncrement().ValueOrElse([] { return false; });
 }
 
 bool FlightSqlResultSetMetadata::IsCaseSensitive(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   return metadata.GetIsCaseSensitive().ValueOrElse([] { return false; });
 }
 
 driver::odbcabstraction::Searchability
 FlightSqlResultSetMetadata::IsSearchable(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata(schema_->field(column_position - 1)->metadata());
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
   bool is_searchable = metadata.GetIsSearchable().ValueOrElse([] { return false; });
   return is_searchable ? odbcabstraction::SEARCHABILITY_ALL : odbcabstraction::SEARCHABILITY_NONE;
