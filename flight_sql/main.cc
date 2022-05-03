@@ -174,10 +174,37 @@ void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
   std::string column_name = "%";
   const std::shared_ptr<ResultSet> &result_set =
-      statement->GetColumns_V3(nullptr, nullptr, nullptr, &column_name);
+          statement->GetColumns_V3(nullptr, nullptr, nullptr, &column_name);
 
   const std::shared_ptr<ResultSetMetadata> &metadata =
-      result_set->GetMetadata();
+          result_set->GetMetadata();
+  size_t column_count = metadata->GetColumnCount();
+
+  int buffer_length = 1024;
+  std::vector<char> result(buffer_length);
+  ssize_t result_length;
+
+  while (result_set->Move(1) == 1) {
+    for (int i = 0; i < column_count; ++i) {
+      result_set->GetData(1 + i, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                          result.data(), buffer_length, &result_length);
+      std::cout << (result_length != -1 ? result.data() : "NULL") << '\t';
+    }
+
+    std::cout << std::endl;
+  }
+
+  std::cout << column_count << std::endl;
+}
+
+void TestGetTypeInfo(const std::shared_ptr<Connection> &connection) {
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  std::string column_name = "%";
+  const std::shared_ptr<ResultSet> &result_set =
+          statement->GetTypeInfo(0);
+
+  const std::shared_ptr<ResultSetMetadata> &metadata =
+          result_set->GetMetadata();
   size_t column_count = metadata->GetColumnCount();
 
   int buffer_length = 1024;
