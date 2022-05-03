@@ -59,6 +59,8 @@ ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
   case odbcabstraction::CDataType_BINARY:
     return arrow::binary();
   }
+
+  throw odbcabstraction::DriverException(std::string("Invalid target type: ") + std::to_string(data_type));
 }
 
 std::shared_ptr<Array>

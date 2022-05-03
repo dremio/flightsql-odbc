@@ -21,6 +21,7 @@
 #include "flight_sql_result_set_metadata.h"
 #include "flight_sql_statement_get_columns.h"
 #include "flight_sql_statement_get_tables.h"
+#include "flight_sql_statement_get_type_info.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
 #include <arrow/flight/sql/server.h>
@@ -252,7 +253,39 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
   return current_result_set_;
 }
 
-std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo(int dataType) {
+std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetXdbcTypeInfo(
+          call_options_);
+  ThrowIfNotOK(result.status());
+
+  auto flight_info = result.ValueOrDie();
+
+  auto transformer = std::make_shared<GetTypeInfo_Transformer>(
+          odbcabstraction::V_2, data_type);
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+          sql_client_, call_options_, flight_info, transformer, diagnostics_);
+
+  return current_result_set_;
+}
+
+std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetXdbcTypeInfo(
+          call_options_);
+  ThrowIfNotOK(result.status());
+
+  auto flight_info = result.ValueOrDie();
+
+  auto transformer = std::make_shared<GetTypeInfo_Transformer>(
+          odbcabstraction::V_3, data_type);
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+          sql_client_, call_options_, flight_info, transformer, diagnostics_);
+
   return current_result_set_;
 }
 
