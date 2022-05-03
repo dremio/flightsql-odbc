@@ -122,7 +122,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
       data.column_name = field->name();
       data.data_type = odbc_version == odbcabstraction::V_3
                            ? data_type_v3
-                           : GetDataTypeFromArrowField_V2(field);
+                           : ConvertSqlDataTypeFromV3ToV2(data_type_v3);
 
       // TODO: Use `metadata.GetTypeName()` when ARROW-16064 is merged.
       const auto &type_name_result = field->metadata()->Get("ARROW:FLIGHT:SQL:TYPE_NAME");

@@ -38,6 +38,7 @@ ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
     return arrow::int16();
   case odbcabstraction::CDataType_USHORT:
     return arrow::uint16();
+  case 4:
   case odbcabstraction::CDataType_SLONG:
     return arrow::int32();
   case odbcabstraction::CDataType_ULONG:
@@ -59,6 +60,8 @@ ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
   case odbcabstraction::CDataType_BINARY:
     return arrow::binary();
   }
+
+  throw odbcabstraction::DriverException(std::string("Invalid target type: ") + std::to_string(data_type));
 }
 
 std::shared_ptr<Array>
