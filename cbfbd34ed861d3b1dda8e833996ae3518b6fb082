@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86d31940_3c874cd2",
+        "filename": "flight_sql/accessors/date_array_accessor.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-03T18:12:06Z",
+      "side": 1,
+      "message": "Can you make the parameter name (i) better?",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9ba0e8a_12db3963",
         "filename": "flight_sql/accessors/date_array_accessor_test.cc",
         "patchSetId": 8
@@ -43,6 +60,57 @@
         "endLine": 79,
         "endChar": 10
       },
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb1b6a4_47c82e78",
+        "filename": "flight_sql/accessors/timestamp_array_accessor.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-03T18:12:06Z",
+      "side": 1,
+      "message": "It seems inefficient to have to do a bunch of duplicate work (types, etc) for each index in the array. It seems it would be more efficient to set up an accessor for the array and then retrieve each index, thus you could set up the converter once without needing a switch, etc.",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b08be07a_516fc45b",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-03T18:12:06Z",
+      "side": 1,
+      "message": "Why is this to second precision but time is to nano?",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa88ccf_0355afa3",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-03T18:12:06Z",
+      "side": 1,
+      "message": "Do these map to ODBC typedefs? If so, there are ODBC 2.x values here as well - https://docs.microsoft.com/en-us/sql/odbc/reference/appendixes/datetime-data-types?view\u003dsql-server-ver15",
       "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }

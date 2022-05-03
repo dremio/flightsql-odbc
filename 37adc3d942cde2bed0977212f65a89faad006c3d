@@ -315,6 +315,24 @@
       "parentUuid": "26396ee8_2286f77d",
       "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aee2bb6_1b88310f",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-03T18:12:06Z",
+      "side": 1,
+      "message": "Are there compilation errors or...?",
+      "parentUuid": "d2a6e84f_95178b61",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
