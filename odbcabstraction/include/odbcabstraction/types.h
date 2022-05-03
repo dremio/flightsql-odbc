@@ -121,6 +121,7 @@ enum Updatability {
 
 constexpr int NULL_DATA = -1;
 constexpr int NO_TOTAL = -4;
+constexpr int ALL_TYPES = 0;
 
 } // namespace odbcabstraction
 } // namespace driver
