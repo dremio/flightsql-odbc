@@ -76,7 +76,7 @@ public:
 
   void Close() override;
 
-  bool GetData(int column_n, CDataType target_type, int precision, int scale,
+  bool GetData(int column_n, int16_t target_type, int precision, int scale,
                void *buffer, size_t buffer_length,
                ssize_t *strlen_buffer) override;
 
@@ -86,7 +86,7 @@ public:
 
   std::shared_ptr<ResultSetMetadata> GetMetadata() override;
 
-  void BindColumn(int column_n, CDataType target_type, int precision, int scale,
+  void BindColumn(int column_n, int16_t target_type, int precision, int scale,
                   void *buffer, size_t buffer_length,
                   ssize_t *strlen_buffer) override;
 };
