@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ad3e8fa_33be84e2",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-05T10:47:38Z",
+      "side": 1,
+      "message": "Why not put this in the anonymous namespace?",
+      "revId": "29bbe6ebccd60340ecba2fc61593c81f8147a596",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
