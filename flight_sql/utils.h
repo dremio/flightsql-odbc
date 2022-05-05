@@ -69,6 +69,8 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field);
 
 int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3);
 
+odbcabstraction::CDataType ConvertCDataTypeFromV2ToV3(int16_t data_type_v2);
+
 std::string GetTypeNameFromSqlDataType(int16_t data_type);
 
 optional<int16_t>
