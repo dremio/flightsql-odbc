@@ -16,6 +16,24 @@
       "message": "This check might be bugged. If data_type is a v2 data type it should still match the corresponding type if the connection is running in v3 mode\n\nEg if the user passes SQL_TIMESTAMP and the GetTypeInfo returns SQL_TYPE_TIMESTAMP this should pass the filter and get returned to the user, regardless of whether they are using an ODBC V2 or V3 connection.\n\nSame with if the user passes in SQL_TYPE_TIMESTAMP and GetTypeInfo returns SQL_TIMESTAMP.",
       "revId": "e305699261b7254e92b2f89f3ca93342535c18e0",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28840225_73eda1c4",
+        "filename": "flight_sql/flight_sql_statement_get_type_info.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-05T20:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d312d7_0ebd04a3",
+      "revId": "e305699261b7254e92b2f89f3ca93342535c18e0",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
