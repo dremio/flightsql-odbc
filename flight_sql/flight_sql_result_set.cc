@@ -134,14 +134,14 @@ void FlightSqlResultSet::Close() {
   current_chunk_.data = nullptr;
 }
 
-bool FlightSqlResultSet::GetData(int column_n, CDataType target_type,
+bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
                                  int precision, int scale, void *buffer,
                                  size_t buffer_length, ssize_t *strlen_buffer) {
-  ColumnBinding binding(target_type, precision, scale, buffer, buffer_length,
+  ColumnBinding binding(ConvertCDataTypeFromV2ToV3(target_type), precision, scale, buffer, buffer_length,
                         strlen_buffer);
 
   auto &column = columns_[column_n - 1];
-  Accessor *accessor = column.GetAccessorForGetData(target_type);
+  Accessor *accessor = column.GetAccessorForGetData(binding.target_type);
 
   int64_t value_offset = get_data_offsets_[column_n - 1];
 
@@ -166,7 +166,7 @@ std::shared_ptr<ResultSetMetadata> FlightSqlResultSet::GetMetadata() {
   return metadata_;
 }
 
-void FlightSqlResultSet::BindColumn(int column_n, CDataType target_type,
+void FlightSqlResultSet::BindColumn(int column_n, int16_t target_type,
                                     int precision, int scale, void *buffer,
                                     size_t buffer_length,
                                     ssize_t *strlen_buffer) {
@@ -183,7 +183,7 @@ void FlightSqlResultSet::BindColumn(int column_n, CDataType target_type,
     num_binding_++;
   }
 
-  ColumnBinding binding(target_type, precision, scale, buffer, buffer_length,
+  ColumnBinding binding(ConvertCDataTypeFromV2ToV3(target_type), precision, scale, buffer, buffer_length,
                         strlen_buffer);
   column.SetBinding(binding);
 }
