@@ -105,6 +105,21 @@ int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3) {
   }
 }
 
+CDataType ConvertCDataTypeFromV2ToV3(int16_t data_type_v2) {
+  switch (data_type_v2) {
+    case 4: // Same as SQL_C_LONG from sqlext.h
+      return CDataType_SLONG;
+    case 5: // Same as SQL_C_SHORT from sqlext.h
+      return CDataType_SSHORT;
+    case 7: // Same as SQL_C_FLOAT from sqlext.h
+      return CDataType_FLOAT;
+    case 8: // Same as SQL_C_DOUBLE from sqlext.h
+      return CDataType_DOUBLE;
+    default:
+      return static_cast<CDataType>(data_type_v2);
+  }
+}
+
 std::string GetTypeNameFromSqlDataType(int16_t data_type) {
   switch (data_type) {
   case SqlDataType_CHAR:
