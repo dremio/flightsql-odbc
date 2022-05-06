@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0423df_f58f4c01",
+        "filename": "flight_sql/accessors/date_array_accessor.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-06T17:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86d31940_3c874cd2",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9ba0e8a_12db3963",
@@ -195,6 +213,24 @@
       "writtenOn": "2022-05-03T18:12:06Z",
       "side": 1,
       "message": "Do these map to ODBC typedefs? If so, there are ODBC 2.x values here as well - https://docs.microsoft.com/en-us/sql/odbc/reference/appendixes/datetime-data-types?view\u003dsql-server-ver15",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17540242_09a5e41c",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-06T17:44:30Z",
+      "side": 1,
+      "message": "This will be worked in another ticket. I think Rafael is dealing it",
+      "parentUuid": "aaa88ccf_0355afa3",
       "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
