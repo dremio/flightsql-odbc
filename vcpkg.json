@@ -12,6 +12,7 @@
     "boost-optional",
     "boost-variant",
     "boost-xpressive",
+    "boost-beast",
     "brotli",
     "gflags",
     "openssl",
