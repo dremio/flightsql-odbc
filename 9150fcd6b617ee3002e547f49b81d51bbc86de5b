@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff4004c_21cd4e7d",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-06T21:14:00Z",
+      "side": 1,
+      "message": "Missing SQL_C_TINYINT",
+      "revId": "9150fcd6b617ee3002e547f49b81d51bbc86de5b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbb74baf_e43339e6",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-06T21:14:00Z",
+      "side": 1,
+      "message": "Missing tinyint support (8-bit integer).",
+      "revId": "9150fcd6b617ee3002e547f49b81d51bbc86de5b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
