@@ -17,6 +17,7 @@
     "gflags",
     "openssl",
     "protobuf",
+    "rapidjson",
     "zlib",
     "re2",
     "grpc",
