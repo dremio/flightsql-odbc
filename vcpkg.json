@@ -4,6 +4,7 @@
   "dependencies": [
     "abseil",
     "benchmark",
+    "boost-beast",
     "boost-filesystem",
     "boost-multiprecision",
     "boost-process",
