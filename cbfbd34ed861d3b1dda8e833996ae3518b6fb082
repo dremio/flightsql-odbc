@@ -41,6 +41,30 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afdb0c97_87a131f1",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-06T14:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9ba0e8a_12db3963",
+      "range": {
+        "startLine": 48,
+        "startChar": 7,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b99181f_6bb1ba5e",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-05-02T18:58:36Z",
       "side": 1,
       "message": "This should be a size_t to align with .size()",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 10
+      },
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d203900e_fe1fe5e0",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-06T14:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b99181f_6bb1ba5e",
       "range": {
         "startLine": 79,
         "startChar": 7,
@@ -94,6 +142,24 @@
       "writtenOn": "2022-05-03T18:12:06Z",
       "side": 1,
       "message": "Why is this to second precision but time is to nano?",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2e051ce_cf0ecdaf",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-06T14:25:32Z",
+      "side": 1,
+      "message": "This part is not completely yet. This seconds part would involve the possible conversion between the types. Me and Rafael are discussing the best way to approach it",
+      "parentUuid": "b08be07a_516fc45b",
       "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
