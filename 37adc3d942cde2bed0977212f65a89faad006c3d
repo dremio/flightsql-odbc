@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11d61487_2e021084",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:04:36Z",
+      "side": 1,
+      "message": "Let\u0027s get rid of both static and thread_local please.",
+      "parentUuid": "bffeb496_2fb5883f",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c52c948d_0e472e8f",
         "filename": "flight_sql/accessors/date_array_accessor.cc",
         "patchSetId": 2
@@ -439,6 +457,24 @@
       "side": 1,
       "message": "I\u0027ve tried to add it to the accessor it self. but then since I couldn\u0027t Rafael instructed me to add it here",
       "parentUuid": "7c64c27c_4e7c9bfa",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b42c2ab_6ad6b7f3",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:04:36Z",
+      "side": 1,
+      "message": "Please try adding sqltypes.h to the converters (ideally in the .cc file, but if necessary the header.)\n\nTry to remove the inclusion of odbcabstraction/types.h if it is there.",
+      "parentUuid": "843c0701_fd6bcc89",
       "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
