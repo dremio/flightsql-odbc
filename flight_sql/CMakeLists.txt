@@ -129,6 +129,7 @@ set(ARROW_ODBC_SPI_SOURCES
   accessors/binary_array_accessor.cc
   accessors/boolean_array_accessor.cc
   accessors/date_array_accessor.cc
+  accessors/decimal_array_accessor.cc
   accessors/primitive_array_accessor.cc
   accessors/string_array_accessor.cc
   accessors/time_array_accessor.cc
@@ -211,6 +212,7 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/boolean_array_accessor_test.cc
   accessors/binary_array_accessor_test.cc
   accessors/date_array_accessor_test.cc
+  accessors/decimal_array_accessor_test.cc
   accessors/primitive_array_accessor_test.cc
   accessors/string_array_accessor_test.cc
   accessors/time_array_accessor_test.cc

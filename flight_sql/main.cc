@@ -82,17 +82,22 @@ void TestBindColumn(const std::shared_ptr<Connection> &connection) {
 void TestGetData(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
   statement->Execute(
-      "SELECT IncidntNum, Category FROM \"@dremio\".Test LIMIT 10");
+      "SELECT * FROM \"@dremio\".\"test_numeric\"");
 
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
+  const std::shared_ptr<ResultSetMetadata> &metadata = result_set->GetMetadata();
+
+  std::cout << metadata->GetDataType(1) << std::endl;
 
   while (result_set->Move(1) == 1) {
-    const int buffer_length = 1024;
-    char result[buffer_length];
+    driver::odbcabstraction::NUMERIC_STRUCT result[0];
     ssize_t result_length;
-    result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
-                        result, buffer_length, &result_length);
-    std::cout << result << std::endl;
+    result_set->GetData(1, driver::odbcabstraction::CDataType_NUMERIC, 0, 0,
+                        result, 0, &result_length);
+    std::cout << "precision:" << result[0].precision << std::endl;
+    std::cout << "scale:" << result[0].scale << std::endl;
+    std::cout << "sign:" << result[0].sign << std::endl;
+    std::cout << "val:" << result[0].val << std::endl;
   }
 }
 
@@ -172,9 +177,10 @@ void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
 
 void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  std::string table_name = "test_numeric";
   std::string column_name = "%";
   const std::shared_ptr<ResultSet> &result_set =
-      statement->GetColumns_V3(nullptr, nullptr, nullptr, &column_name);
+      statement->GetColumns_V3(nullptr, nullptr, &table_name, &column_name);
 
   const std::shared_ptr<ResultSetMetadata> &metadata =
       result_set->GetMetadata();
@@ -210,17 +216,13 @@ int main() {
       {FlightSqlConnection::PASSWORD, std::string("dremio123")},
   };
   std::vector<std::string> missing_attr;
-  try {
-    connection->Connect(properties, missing_attr);
+  connection->Connect(properties, missing_attr);
 
-    //  TestBindColumnBigInt(connection);
-    //  TestBindColumn(connection);
-    //  TestGetData(connection);
-    //    TestGetTablesV2(connection);
-    TestGetColumnsV3(connection);
-  } catch (...) {
-    std::cout << "error occured" << std::endl;
-  } 
+  //  TestBindColumnBigInt(connection);
+//    TestBindColumn(connection);
+    TestGetData(connection);
+  //  TestGetTablesV2(connection);
+//    TestGetColumnsV3(connection);
 
   connection->Close();
   return 0;
