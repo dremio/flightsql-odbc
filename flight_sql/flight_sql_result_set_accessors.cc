@@ -100,8 +100,11 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
         {SourceAndTargetPair(arrow::Type::type::BINARY, CDataType_BINARY),
          [](arrow::Array *array) {
            return new BinaryArrayFlightSqlAccessor<CDataType_BINARY>(array);
+         }},
+        {SourceAndTargetPair(arrow::Type::type::DECIMAL128, CDataType_NUMERIC),
+         [](arrow::Array *array) {
+           return new DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>(array);
          }}};
-
 }
 
 std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,
