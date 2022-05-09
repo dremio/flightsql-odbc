@@ -103,6 +103,7 @@ enum CDataType {
   CDataType_SBIGINT = ((-5) + (-20)),
   CDataType_UBIGINT = ((-5) + (-22)),
   CDataType_BINARY = (-2),
+  CDataType_NUMERIC = 2,
 };
 
 enum Nullability {
@@ -127,6 +128,13 @@ enum Updatability {
 constexpr ssize_t NULL_DATA = -1;
 constexpr ssize_t NO_TOTAL = -4;
 constexpr ssize_t ALL_TYPES = 0;
+
+typedef struct tagNUMERIC_STRUCT {
+  uint8_t precision;
+  int8_t scale;
+  uint8_t sign; // The sign field is 1 if positive, 0 if negative.
+  uint8_t val[16]; //[e], [f]
+} NUMERIC_STRUCT;
 
 } // namespace odbcabstraction
 } // namespace driver
