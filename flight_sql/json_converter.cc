@@ -213,11 +213,17 @@ public:
   }
 
   Status Visit(const Decimal128Scalar &scalar) override {
-    return Status::NotImplemented("Cannot convert Decimal128Scalar to JSON.");
+    const auto &view = scalar.ToString();
+    writer_.RawValue(view.data(), view.length(), rapidjson::kNumberType);
+
+    return Status::OK();
   }
 
   Status Visit(const Decimal256Scalar &scalar) override {
-    return Status::NotImplemented("Cannot convert Decimal256Scalar to JSON.");
+    const auto &view = scalar.ToString();
+    writer_.RawValue(view.data(), view.length(), rapidjson::kNumberType);
+
+    return Status::OK();
   }
 
   Status Visit(const ListScalar &scalar) override {

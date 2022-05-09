@@ -64,7 +64,6 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
   case arrow::Type::TIMESTAMP:
     return odbcabstraction::SqlDataType_TYPE_TIMESTAMP;
   case arrow::Type::DECIMAL128:
-  case arrow::Type::DECIMAL256:
     return odbcabstraction::SqlDataType_DECIMAL;
   case arrow::Type::TIME32:
   case arrow::Type::TIME64:

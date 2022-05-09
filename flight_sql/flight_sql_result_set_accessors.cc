@@ -121,7 +121,10 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
           [](arrow::Array *array) {
             return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array>(array);
           }},
-         };
+        {SourceAndTargetPair(arrow::Type::type::DECIMAL128, CDataType_NUMERIC),
+          [](arrow::Array *array) {
+            return new DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>(array);
+          }}};
 }
 
 std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,

@@ -22,5 +22,6 @@
 #include "date_array_accessor.h"
 #include "time_array_accessor.h"
 #include "timestamp_array_accessor.h"
+#include "decimal_array_accessor.h"
 #include "primitive_array_accessor.h"
 #include "string_array_accessor.h"
