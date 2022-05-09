@@ -103,6 +103,7 @@ enum CDataType {
   CDataType_SBIGINT = ((-5) + (-20)),
   CDataType_UBIGINT = ((-5) + (-22)),
   CDataType_BINARY = (-2),
+  CDataType_NUMERIC = 2,
 };
 
 enum Nullability {
@@ -156,6 +157,13 @@ typedef struct tagTIMESTAMP_STRUCT
   u_int16_t  second;
   u_int32_t   fraction;
 } TIMESTAMP_STRUCT;
+
+typedef struct tagNUMERIC_STRUCT {
+  uint8_t precision;
+  int8_t scale;
+  uint8_t sign; // The sign field is 1 if positive, 0 if negative.
+  uint8_t val[16]; //[e], [f]
+} NUMERIC_STRUCT;
 
 } // namespace odbcabstraction
 } // namespace driver
