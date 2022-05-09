@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36941a4_e6b866a9",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:11:45Z",
+      "side": 1,
+      "message": "Don\u0027t create arrays this way. It doesn\u0027t work on Windows. Use a std::vector if you need dynamically sized arrays. Otherwise just use a constant.",
+      "revId": "74c2952a2015a73901a2add823c2c8358e71b9c4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcac2873_fd4660de",
+        "filename": "flight_sql/accessors/date_array_accessor_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:11:45Z",
+      "side": 1,
+      "message": "Remove static thread_local.",
+      "revId": "74c2952a2015a73901a2add823c2c8358e71b9c4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59861cca_c3087706",
+        "filename": "flight_sql/accessors/time_array_accessor.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:11:45Z",
+      "side": 1,
+      "message": "Remove static thread_local.",
+      "revId": "74c2952a2015a73901a2add823c2c8358e71b9c4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4883fb8e_3fde8670",
+        "filename": "flight_sql/accessors/time_array_accessor_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:11:45Z",
+      "side": 1,
+      "message": "Remove use of variable-length arrays and use vector or a constant.",
+      "revId": "74c2952a2015a73901a2add823c2c8358e71b9c4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e10cee_1e5aaf41",
+        "filename": "flight_sql/accessors/timestamp_array_accessor.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:11:45Z",
+      "side": 1,
+      "message": "Move the anonymous namespace outside driver/flight_sql namespaces.",
+      "revId": "74c2952a2015a73901a2add823c2c8358e71b9c4",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}

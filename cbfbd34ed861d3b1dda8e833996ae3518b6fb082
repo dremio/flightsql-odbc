@@ -202,6 +202,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21ef772f_a26c2f99",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-09T20:11:45Z",
+      "side": 1,
+      "message": "Has this been addressed? (it\u0027s not marked Resolved).",
+      "parentUuid": "c2e051ce_cf0ecdaf",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aaa88ccf_0355afa3",
         "filename": "odbcabstraction/include/odbcabstraction/types.h",
         "patchSetId": 8
