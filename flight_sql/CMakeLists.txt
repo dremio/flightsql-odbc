@@ -128,6 +128,7 @@ enable_testing()
 set(ARROW_ODBC_SPI_SOURCES
   accessors/binary_array_accessor.cc
   accessors/boolean_array_accessor.cc
+  accessors/decimal_array_accessor.cc
   accessors/primitive_array_accessor.cc
   accessors/string_array_accessor.cc
   flight_sql_auth_method.cc
@@ -207,6 +208,7 @@ target_link_libraries(arrow_odbc_spi_impl_cli arrow_odbc_spi_impl)
 set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/boolean_array_accessor_test.cc
   accessors/binary_array_accessor_test.cc
+  accessors/decimal_array_accessor_test.cc
   accessors/primitive_array_accessor_test.cc
   accessors/string_array_accessor_test.cc
   flight_sql_connection_test.cc

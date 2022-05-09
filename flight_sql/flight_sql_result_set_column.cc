@@ -29,35 +29,73 @@ namespace flight_sql {
 
 namespace {
 std::shared_ptr<arrow::DataType>
-ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
-  switch (data_type) {
-  case odbcabstraction::CDataType_CHAR:
-  case odbcabstraction::CDataType_WCHAR:
+GetDefaultDataTypeForTypeId(arrow::Type::type type_id) {
+  switch (type_id) {
+  case arrow::Type::STRING:
     return arrow::utf8();
-  case odbcabstraction::CDataType_SSHORT:
+  case arrow::Type::INT16:
     return arrow::int16();
-  case odbcabstraction::CDataType_USHORT:
+  case arrow::Type::UINT16:
     return arrow::uint16();
-  case odbcabstraction::CDataType_SLONG:
+  case arrow::Type::INT32:
     return arrow::int32();
-  case odbcabstraction::CDataType_ULONG:
+  case arrow::Type::UINT32:
     return arrow::uint32();
-  case odbcabstraction::CDataType_FLOAT:
+  case arrow::Type::FLOAT:
     return arrow::float32();
-  case odbcabstraction::CDataType_DOUBLE:
+  case arrow::Type::DOUBLE:
     return arrow::float64();
-  case odbcabstraction::CDataType_BIT:
+  case arrow::Type::BOOL:
     return arrow::boolean();
-  case odbcabstraction::CDataType_STINYINT:
+  case arrow::Type::INT8:
     return arrow::int8();
-  case odbcabstraction::CDataType_UTINYINT:
+  case arrow::Type::UINT8:
     return arrow::uint8();
-  case odbcabstraction::CDataType_SBIGINT:
+  case arrow::Type::INT64:
     return arrow::int64();
-  case odbcabstraction::CDataType_UBIGINT:
+  case arrow::Type::UINT64:
     return arrow::uint64();
-  case odbcabstraction::CDataType_BINARY:
+  case arrow::Type::BINARY:
     return arrow::binary();
+  case arrow::Type::DECIMAL:
+    return arrow::decimal128(10, 2); // TODO: This is wrong
+  }
+
+  throw odbcabstraction::DriverException(std::string("Invalid type id: ") + std::to_string(type_id));
+}
+
+arrow::Type::type
+ConvertCToArrowType(odbcabstraction::CDataType data_type) {
+  switch (data_type) {
+    case odbcabstraction::CDataType_CHAR:
+    case odbcabstraction::CDataType_WCHAR:
+      return arrow::Type::STRING;
+    case odbcabstraction::CDataType_SSHORT:
+      return arrow::Type::INT16;
+    case odbcabstraction::CDataType_USHORT:
+      return arrow::Type::UINT16;
+    case odbcabstraction::CDataType_SLONG:
+      return arrow::Type::INT32;
+    case odbcabstraction::CDataType_ULONG:
+      return arrow::Type::UINT32;
+    case odbcabstraction::CDataType_FLOAT:
+      return arrow::Type::FLOAT;
+    case odbcabstraction::CDataType_DOUBLE:
+      return arrow::Type::DOUBLE;
+    case odbcabstraction::CDataType_BIT:
+      return arrow::Type::BOOL;
+    case odbcabstraction::CDataType_STINYINT:
+      return arrow::Type::INT8;
+    case odbcabstraction::CDataType_UTINYINT:
+      return arrow::Type::UINT8;
+    case odbcabstraction::CDataType_SBIGINT:
+      return arrow::Type::INT64;
+    case odbcabstraction::CDataType_UBIGINT:
+      return arrow::Type::UINT64;
+    case odbcabstraction::CDataType_BINARY:
+      return arrow::Type::BINARY;
+    case odbcabstraction::CDataType_NUMERIC:
+      return arrow::Type::DECIMAL;
   }
 
   throw odbcabstraction::DriverException(std::string("Invalid target type: ") + std::to_string(data_type));
@@ -66,32 +104,30 @@ ConvertCToArrowDataType(odbcabstraction::CDataType data_type) {
 std::shared_ptr<Array>
 CastArray(const std::shared_ptr<arrow::Array> &original_array,
           CDataType target_type) {
-  Type::type type = original_array->type_id();
-  auto is_complex = type == Type::LIST || type == Type::FIXED_SIZE_LIST || type == Type::LARGE_LIST
-                    || type == Type::MAP || type == Type::STRUCT;
-  if (is_complex &&
-      (target_type == odbcabstraction::CDataType_CHAR || target_type == odbcabstraction::CDataType_WCHAR)) {
-    const auto &result = ConvertToJson(original_array);
-    ThrowIfNotOK(result.status());
-
-    return result.ValueOrDie();
-  }
-
-  const std::shared_ptr<arrow::DataType> &target_arrow_type =
-      ConvertCToArrowDataType(target_type);
-  if (original_array->type()->Equals(target_arrow_type)) {
+  const arrow::Type::type &target_arrow_type_id =
+      ConvertCToArrowType(target_type);
+  if (original_array->type()->id() == target_arrow_type_id) {
     // Avoid casting if target type is the same as original
     return original_array;
   }
 
   arrow::compute::CastOptions cast_options;
-  cast_options.to_type = target_arrow_type;
+  cast_options.to_type = GetDefaultDataTypeForTypeId(target_arrow_type_id);
 
   const arrow::Result<arrow::Datum> &result =
       arrow::compute::CallFunction("cast", {original_array}, &cast_options);
-  ThrowIfNotOK(result.status());
-  arrow::Datum datum = result.ValueOrDie();
-  return std::move(datum).make_array();
+  if (result.ok()) {
+    arrow::Datum datum = result.ValueOrDie();
+    return std::move(datum).make_array();
+  } else if (target_type == odbcabstraction::CDataType_CHAR || target_type == odbcabstraction::CDataType_WCHAR) {
+    // Fallback to JSON conversion if target type is CHAR/WCHAR
+    const auto &json_conversion_result = ConvertToJson(original_array);
+    ThrowIfNotOK(json_conversion_result.status());
+
+    return json_conversion_result.ValueOrDie();
+  } else {
+    throw odbcabstraction::DriverException(result.status().message());
+  }
 }
 
 } // namespace
