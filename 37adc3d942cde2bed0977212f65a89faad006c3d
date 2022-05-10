@@ -567,6 +567,24 @@
       "parentUuid": "63695678_4736f0b7",
       "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8ea7b2c_0ba3bfe0",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T16:24:41Z",
+      "side": 1,
+      "message": "I am getting the log and will create a ticket to that",
+      "parentUuid": "b9f917ed_62dec2b5",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }

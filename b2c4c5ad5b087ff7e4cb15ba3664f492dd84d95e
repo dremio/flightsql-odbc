@@ -16,6 +16,24 @@
       "message": "Forgot this in previous comments.\nShould this method be GetTimeForMillisSinceEpoch(or whatever) rather than GetTimeForAccessor, and move this into a class in odbcabstraction instead of flight_sql?\nThis seems like a general concept.",
       "revId": "b2c4c5ad5b087ff7e4cb15ba3664f492dd84d95e",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11fc533c_0a73b749",
+        "filename": "flight_sql/accessors/calendar_utils.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T16:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644c298a_daccff91",
+      "revId": "b2c4c5ad5b087ff7e4cb15ba3664f492dd84d95e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
