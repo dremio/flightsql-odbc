@@ -220,6 +220,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69cbb70a_40866f96",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T13:56:50Z",
+      "side": 1,
+      "message": "We are gonna do the conversions in a separate patch/task",
+      "parentUuid": "21ef772f_a26c2f99",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aaa88ccf_0355afa3",
         "filename": "odbcabstraction/include/odbcabstraction/types.h",
         "patchSetId": 8
@@ -249,6 +267,24 @@
       "side": 1,
       "message": "This will be worked in another ticket. I think Rafael is dealing it",
       "parentUuid": "aaa88ccf_0355afa3",
+      "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07c26670_2b99f10a",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T13:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17540242_09a5e41c",
       "revId": "cbfbd34ed861d3b1dda8e833996ae3518b6fb082",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }

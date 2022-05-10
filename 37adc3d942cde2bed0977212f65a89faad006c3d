@@ -106,6 +106,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a22d98_147ad52a",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T13:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "281fa3be_22da19d6",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "748db03a_517cf78e",
@@ -195,6 +213,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2beab8_054690a0",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T13:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11d61487_2e021084",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c52c948d_0e472e8f",
@@ -244,6 +280,24 @@
       "side": 1,
       "message": "I found it, it is not compatible indeed. I will work on the changes tomorrow to port this to windows",
       "parentUuid": "976b0ad4_78e3f01b",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "958841a2_ce438a30",
+        "filename": "flight_sql/accessors/date_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T13:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcbfe215_28892cb4",
       "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -475,6 +529,24 @@
       "side": 1,
       "message": "Please try adding sqltypes.h to the converters (ideally in the .cc file, but if necessary the header.)\n\nTry to remove the inclusion of odbcabstraction/types.h if it is there.",
       "parentUuid": "843c0701_fd6bcc89",
+      "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63695678_4736f0b7",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-10T13:56:50Z",
+      "side": 1,
+      "message": "I couldn\u0027t include de sqltypes.h on the accessors. I get compilation errors",
+      "parentUuid": "1b42c2ab_6ad6b7f3",
       "revId": "37adc3d942cde2bed0977212f65a89faad006c3d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
