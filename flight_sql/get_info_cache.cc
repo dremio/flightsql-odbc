@@ -303,7 +303,7 @@ bool GetInfoCache::LoadInfoFromServer() {
           switch (info_type) {
           // String properties
           case SqlInfoOptions::FLIGHT_SQL_SERVER_NAME: {
-            std::string server_name = scalar->ToString();
+            std::string server_name(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
 
             // TODO: Consider creating different properties in GetSqlInfo.
             // TODO: Investigate if SQL_SERVER_NAME should just be the host
@@ -317,7 +317,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case SqlInfoOptions::FLIGHT_SQL_SERVER_VERSION: {
-            info_[SQL_DBMS_VER] = scalar->ToString();
+            info_[SQL_DBMS_VER] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
             break;
           }
           case SqlInfoOptions::FLIGHT_SQL_SERVER_ARROW_VERSION: {
@@ -325,31 +325,27 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case SqlInfoOptions::SQL_SEARCH_STRING_ESCAPE: {
-            info_[SQL_SEARCH_PATTERN_ESCAPE] = scalar->ToString();
+            info_[SQL_SEARCH_PATTERN_ESCAPE] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
             break;
           }
           case ARROW_SQL_IDENTIFIER_QUOTE_CHAR: {
-            info_[SQL_IDENTIFIER_QUOTE_CHAR] = scalar->ToString();
-            break;
-          }
-          case ARROW_SQL_KEYWORDS: {
-            info_[SQL_KEYWORDS] = scalar->ToString();
+            info_[SQL_IDENTIFIER_QUOTE_CHAR] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
             break;
           }
           case SqlInfoOptions::SQL_EXTRA_NAME_CHARACTERS: {
-            info_[SQL_SPECIAL_CHARACTERS] = scalar->ToString();
+            info_[SQL_SPECIAL_CHARACTERS] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
             break;
           }
           case ARROW_SQL_SCHEMA_TERM: {
-            info_[SQL_SCHEMA_TERM] = scalar->ToString();
+            info_[SQL_SCHEMA_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
             break;
           }
           case ARROW_SQL_PROCEDURE_TERM: {
-            info_[SQL_PROCEDURE_TERM] = scalar->ToString();
+            info_[SQL_PROCEDURE_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
             break;
           }
           case ARROW_SQL_CATALOG_TERM: {
-            info_[SQL_CATALOG_TERM] = scalar->ToString();
+            info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
 
             // This property implies catalogs are supported.
             info_[SQL_CATALOG_NAME] = "Y";
@@ -991,10 +987,29 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
 
+          case ARROW_SQL_KEYWORDS: {
+              std::shared_ptr<arrow::Array> list_value =
+                  reinterpret_cast<arrow::BaseListScalar*>(scalar)->value;
+              std::string result;
+              for (int64_t list_index = 0; list_index < list_value->length();
+                ++list_index) {
+                if (!list_value->IsNull(list_index)) {
+                  if (list_index != 0) {
+                    result += ", ";
+                  }
+
+                  result += reinterpret_cast<arrow::StringArray*>(list_value.get())
+                      ->GetString(list_index);
+                }
+              }
+              info_[SQL_KEYWORDS] = std::move(result);
+              break;
+          }
+
           // Map<int32, list<int32> properties
           case SqlInfoOptions::SQL_SUPPORTS_CONVERT: {
             arrow::MapScalar *map_scalar =
-                reinterpret_cast<arrow::MapScalar *>(scalar);
+                reinterpret_cast<arrow::MapScalar *>(scalar->value.get());
             auto data_array = map_scalar->value;
             arrow::StructArray *map_contents =
                 reinterpret_cast<arrow::StructArray *>(data_array.get());
@@ -1071,6 +1086,7 @@ bool GetInfoCache::LoadInfoFromServer() {
         info_[SQL_CORRELATION_NAME] = static_cast<uint16_t>(SQL_CN_NONE);
       }
     }
+    return true;
   }
 
   return false;
