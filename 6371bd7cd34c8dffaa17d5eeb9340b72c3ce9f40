@@ -37,6 +37,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d7ce42a_805f187f",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-11T23:23:01Z",
+      "side": 1,
+      "message": "I think that ODBC is supposed to factor in the precision/scale from the ARD when retrieving data as SQL_C_NUMERIC. It\u0027s used to control the output scale/precision, which affects the buffer.\n\nThis is an area that Kyle knows pretty well:\nhttps://docs.microsoft.com/en-us/sql/odbc/reference/appendixes/retrieve-numeric-data-sql-numeric-struct-kb222831?view\u003dsql-server-ver15",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b2ca5f1_ecbd50e1",
+        "filename": "flight_sql/accessors/decimal_array_accessor_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-11T23:23:01Z",
+      "side": 1,
+      "message": "Pass the vector in by const reference.",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "079f5414_cfeed3c6",
         "filename": "flight_sql/accessors/decimal_array_accessor_test.cc",
         "patchSetId": 2
@@ -48,6 +82,23 @@
       "writtenOn": "2022-05-11T21:19:28Z",
       "side": 1,
       "message": "Let\u0027s avoid using a vector of bool. I guess you can remove this parameter from the ArrayFromVector call",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b08f0317_cbc1b335",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-11T23:23:01Z",
+      "side": 1,
+      "message": "?? What will we do to address this?",
       "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
