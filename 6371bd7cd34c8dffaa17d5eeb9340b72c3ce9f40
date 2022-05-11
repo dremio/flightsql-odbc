@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d13c1e12_bc79979f",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-11T21:19:28Z",
+      "side": 1,
+      "message": "Let\u0027s move the anonymous namespace outside driver/flight_sql namespaces.",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "110d0f7a_22b28349",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-11T21:19:28Z",
+      "side": 1,
+      "message": "Do we need to get this data type every time we move a cell? Can we have this logic just once?",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "079f5414_cfeed3c6",
+        "filename": "flight_sql/accessors/decimal_array_accessor_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-11T21:19:28Z",
+      "side": 1,
+      "message": "Let\u0027s avoid using a vector of bool. I guess you can remove this parameter from the ArrayFromVector call",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
