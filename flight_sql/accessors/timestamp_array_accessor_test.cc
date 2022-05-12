@@ -40,9 +40,9 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
   TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP> accessor(timestamp_array.get());
 
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
-  ssize_t strlen_buffer[values.size()];
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
           accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
@@ -78,9 +78,9 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_SECONDS) {
   TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP> accessor(timestamp_array.get());
 
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
-  ssize_t strlen_buffer[values.size()];
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
 
   ASSERT_EQ(values.size(),
@@ -115,9 +115,9 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MICRO) {
   TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP> accessor(timestamp_array.get());
 
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
-  ssize_t strlen_buffer[values.size()];
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
 
     ASSERT_EQ(values.size(),
@@ -153,9 +153,9 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_NANO) {
   TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP> accessor(timestamp_array.get());
 
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
-  ssize_t strlen_buffer[values.size()];
+  std::vector<ssize_t> strlen_buffer(values.size());
 
-  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),

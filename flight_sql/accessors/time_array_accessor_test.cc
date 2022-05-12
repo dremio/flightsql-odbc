@@ -39,9 +39,9 @@ TEST(TEST_TIME32, TIME_WITH_SECONDS) {
   TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array> accessor(time32_array.get());
 
   std::vector<TIME_STRUCT> buffer(t32_values.size());
-  ssize_t strlen_buffer[t32_values.size()];
+  std::vector<ssize_t> strlen_buffer(t32_values.size());
 
-  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t32_values.size(),
@@ -71,9 +71,9 @@ TEST(TEST_TIME32, TIME_WITH_MILLI) {
   TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array> accessor(time32_array.get());
 
   std::vector<TIME_STRUCT> buffer(t32_values.size());
-  ssize_t strlen_buffer[t32_values.size()];
+  std::vector<ssize_t> strlen_buffer(t32_values.size());
 
-  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t32_values.size(),
@@ -106,9 +106,9 @@ TEST(TEST_TIME64, TIME_WITH_MICRO) {
   TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array> accessor(time64_array.get());
 
   std::vector<TIME_STRUCT> buffer(t64_values.size());
-  ssize_t strlen_buffer[t64_values.size()];
+  std::vector<ssize_t> strlen_buffer(t64_values.size());
 
-  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t64_values.size(),
@@ -141,9 +141,9 @@ TEST(TEST_TIME64, TIME_WITH_NANO) {
       time64_array.get());
 
   std::vector<TIME_STRUCT> buffer(t64_values.size());
-  ssize_t strlen_buffer[t64_values.size()];
+  std::vector<ssize_t> strlen_buffer(t64_values.size());
 
-  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer);
+  ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t64_values.size(),
