@@ -191,6 +191,24 @@
       "message": "?? What will we do to address this?",
       "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02eb3c3e_7e5d610e",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-12T22:45:18Z",
+      "side": 1,
+      "message": "Sorry about this, just removed it.\nI think it\u0027s not necessary right now, this will matter only if we want to retrieve other datatypes as SQL_NUMERIC",
+      "parentUuid": "b08f0317_cbc1b335",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
