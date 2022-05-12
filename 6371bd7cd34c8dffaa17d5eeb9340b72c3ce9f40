@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4be7d1_d6b2a5ae",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-12T17:43:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d13c1e12_bc79979f",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "110d0f7a_22b28349",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-11T21:19:28Z",
       "side": 1,
       "message": "Do we need to get this data type every time we move a cell? Can we have this logic just once?",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f66c03c6_a34dd509",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-12T17:43:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "110d0f7a_22b28349",
       "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b821195_2217b246",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-12T17:43:39Z",
+      "side": 1,
+      "message": "You are right! I added rescaling to it, thanks",
+      "parentUuid": "0d7ce42a_805f187f",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b2ca5f1_ecbd50e1",
@@ -69,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "393b0002_88946feb",
+        "filename": "flight_sql/accessors/decimal_array_accessor_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-12T17:43:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b2ca5f1_ecbd50e1",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "079f5414_cfeed3c6",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-05-11T21:19:28Z",
       "side": 1,
       "message": "Let\u0027s avoid using a vector of bool. I guess you can remove this parameter from the ArrayFromVector call",
+      "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2916cf86_2ddd54bb",
+        "filename": "flight_sql/accessors/decimal_array_accessor_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-12T17:43:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "079f5414_cfeed3c6",
       "revId": "6371bd7cd34c8dffaa17d5eeb9340b72c3ce9f40",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
