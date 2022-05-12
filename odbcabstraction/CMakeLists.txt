@@ -24,6 +24,7 @@ include_directories(include)
 add_library(odbcabstraction 
   include/odbcabstraction/diagnostics.h
   include/odbcabstraction/error_codes.h
+  calendar_utils.cc
   diagnostics.cc
   exceptions.cc)
 

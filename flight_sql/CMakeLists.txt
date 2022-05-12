@@ -128,7 +128,6 @@ enable_testing()
 set(ARROW_ODBC_SPI_SOURCES
   accessors/binary_array_accessor.cc
   accessors/boolean_array_accessor.cc
-  accessors/calendar_utils.cc
   accessors/date_array_accessor.cc
   accessors/primitive_array_accessor.cc
   accessors/string_array_accessor.cc
