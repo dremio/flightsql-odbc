@@ -21,7 +21,7 @@
 #pragma once
 
 namespace driver {
-namespace flight_sql {
+namespace odbcabstraction {
   void GetTimeForMillisSinceEpoch(tm& date, int64_t value);
 } // namespace flight_sql
 } // namespace driver
