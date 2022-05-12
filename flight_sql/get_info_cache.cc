@@ -244,6 +244,12 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
   info_[SQL_AGGREGATE_FUNCTIONS] = static_cast<uint32_t>(
       SQL_AF_ALL | SQL_AF_AVG | SQL_AF_COUNT | SQL_AF_DISTINCT | SQL_AF_MAX |
       SQL_AF_MIN | SQL_AF_SUM);
+
+  // Assume catalogs are not supported by default. ODBC checks if SQL_CATALOG_NAME is
+  // "Y" or "N" to determine if catalogs are supported.
+  info_[SQL_CATALOG_TERM] = "";
+  info_[SQL_CATALOG_NAME] = "N";
+  info_[SQL_CATALOG_NAME_SEPARATOR] = "";
 }
 
 void GetInfoCache::SetProperty(
@@ -345,11 +351,16 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case ARROW_SQL_CATALOG_TERM: {
+            std::string catalog_term(std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view()));
+            if (catalog_term.empty()) {
+              info_[SQL_CATALOG_NAME] = "N";
+              info_[SQL_CATALOG_NAME_SEPARATOR] = "";
+            } else {
+              info_[SQL_CATALOG_NAME] = "Y";
+              info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+            }
             info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
 
-            // This property implies catalogs are supported.
-            info_[SQL_CATALOG_NAME] = "Y";
-            info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
             break;
           }
 
