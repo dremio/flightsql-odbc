@@ -142,20 +142,20 @@ typedef struct tagDATE_STRUCT
 
 typedef struct tagTIME_STRUCT
 {
-  u_int16_t   hour;
-  u_int16_t   minute;
-  u_int16_t   second;
+  uint16_t   hour;
+  uint16_t   minute;
+  uint16_t   second;
 } TIME_STRUCT;
 
 typedef struct tagTIMESTAMP_STRUCT
 {
   int16_t    year;
-  u_int16_t  month;
-  u_int16_t  day;
-  u_int16_t  hour;
-  u_int16_t  minute;
-  u_int16_t  second;
-  u_int32_t   fraction;
+  uint16_t  month;
+  uint16_t  day;
+  uint16_t  hour;
+  uint16_t  minute;
+  uint16_t  second;
+  uint32_t   fraction;
 } TIMESTAMP_STRUCT;
 
 typedef struct tagNUMERIC_STRUCT {
