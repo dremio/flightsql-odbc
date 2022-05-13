@@ -17,6 +17,7 @@
 
 #include <flight_sql/flight_sql_driver.h>
 #include <odbcabstraction/platform.h>
+#include <odbcabstraction/types.h>
 
 #include "flight_sql_connection.h"
 #include "flight_sql_result_set.h"
@@ -90,14 +91,14 @@ void TestGetData(const std::shared_ptr<Connection> &connection) {
   std::cout << metadata->GetDataType(1) << std::endl;
 
   while (result_set->Move(1) == 1) {
-    driver::odbcabstraction::NUMERIC_STRUCT result[0];
+    driver::odbcabstraction::NUMERIC_STRUCT result;
     ssize_t result_length;
     result_set->GetData(1, driver::odbcabstraction::CDataType_NUMERIC, 0, 0,
-                        result, 0, &result_length);
-    std::cout << "precision:" << result[0].precision << std::endl;
-    std::cout << "scale:" << result[0].scale << std::endl;
-    std::cout << "sign:" << result[0].sign << std::endl;
-    std::cout << "val:" << result[0].val << std::endl;
+                        &result, 0, &result_length);
+    std::cout << "precision:" << result.precision << std::endl;
+    std::cout << "scale:" << result.scale << std::endl;
+    std::cout << "sign:" << result.sign << std::endl;
+    std::cout << "val:" << result.val << std::endl;
   }
 }
 
