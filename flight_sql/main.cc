@@ -17,6 +17,7 @@
 
 #include <flight_sql/flight_sql_driver.h>
 #include <odbcabstraction/platform.h>
+#include <odbcabstraction/types.h>
 
 #include "flight_sql_connection.h"
 #include "flight_sql_result_set.h"
