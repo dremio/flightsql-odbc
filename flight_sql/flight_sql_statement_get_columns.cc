@@ -49,7 +49,7 @@ std::shared_ptr<Schema> GetColumns_V3_Schema() {
       field("SQL_DATETIME_SUB", int16()),
       field("CHAR_OCTET_LENGTH", int32()),
       field("ORDINAL_POSITION", int32()),
-      field("IS_NULLABLE", int32()),
+      field("IS_NULLABLE", utf8()),
   });
 }
 
@@ -72,7 +72,7 @@ std::shared_ptr<Schema> GetColumns_V2_Schema() {
       field("SQL_DATETIME_SUB", int16()),
       field("CHAR_OCTET_LENGTH", int32()),
       field("ORDINAL_POSITION", int32()),
-      field("IS_NULLABLE", int32()),
+      field("IS_NULLABLE", utf8()),
   });
 }
 
