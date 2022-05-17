@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "606aeedb_405b53e8",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Please remember to get rid of iostream.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f2cf6c0_0d4a8183",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "This should use angle brackets and be up in the section for external header includes.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c931da_6ea670c8",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Let\u0027s try to sort by name.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d600c26_0ef86a63",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Can we name this \"asBool()\" or something more specific than Parse.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c83847b_8c02e12a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "I think JDBC does _not_ support using true/false strings. We should be consistent. I\u0027d prefer if we _did_ support true/false as strings.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c8d9506_9de81a54",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "value.compare is the same as strcmp, or even value \u003d\u003d \"true\" works.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "facc8065_3bb996be",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t handle when you use an irregular case, like TrUE.\nYou can just use a case-insensitive comparison.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ce5453_56197c2f",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Maybe Parse should take in the property map, prop name, etc and a default for when the value isn\u0027t found or isn\u0027t valid.\n\nSince this should be true by default, I think an invalid value should resolve to true as well for example (and log a warning).\n\nLet\u0027s move the parse method into ODBCAbstraction since it is a general concept, not a flight-sql concept.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4000da1_8dbf33c7",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Use angle brackets for system headers.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a63f2efd_44c0a30f",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "I think you only need fstream? It seems like you are including too much.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14df6d5c_f80f3b90",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Please use namespace driver { namespace flight_sql {\n...",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1fef519_69883558",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "This gets default-initialized to empty string.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "880bc466_98cba046",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Let\u0027s not use Arrow error handling.\nThrow a DriverException instead.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a06658e4_d296f7ad",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "Seems like this can be const as well?",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a322b79_4c98d774",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-17T15:45:45Z",
+      "side": 1,
+      "message": "This should go at the top of the fields. Sort fields by size to minimize structure padding.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
