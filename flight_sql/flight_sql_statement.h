@@ -86,6 +86,8 @@ public:
   std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo_V3(int16_t data_type) override;
 
   odbcabstraction::Diagnostics &GetDiagnostics() override;
+
+  void Cancel() override;
 };
 } // namespace flight_sql
 } // namespace driver
