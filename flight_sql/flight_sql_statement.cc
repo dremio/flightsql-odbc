@@ -75,6 +75,7 @@ FlightSqlStatement::FlightSqlStatement(
   attribute_[NOSCAN] = static_cast<size_t>(SQL_NOSCAN_OFF);
   attribute_[QUERY_TIMEOUT] = static_cast<size_t>(0);
   call_options_.timeout = TimeoutDuration{-1};
+  call_options_.stop_token = stop_source_.token();
 }
 
 bool FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
@@ -109,6 +110,7 @@ FlightSqlStatement::GetAttribute(StatementAttributeId attribute) {
 boost::optional<std::shared_ptr<ResultSetMetadata>>
 FlightSqlStatement::Prepare(const std::string &query) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<PreparedStatement>> result =
       sql_client_.Prepare(call_options_, query);
@@ -125,6 +127,7 @@ FlightSqlStatement::Prepare(const std::string &query) {
 
 bool FlightSqlStatement::ExecutePrepared() {
   assert(prepared_statement_.get() != nullptr);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<FlightInfo>> result = prepared_statement_->Execute();
   ThrowIfNotOK(result.status());
@@ -137,6 +140,7 @@ bool FlightSqlStatement::ExecutePrepared() {
 
 bool FlightSqlStatement::Execute(const std::string &query) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<FlightInfo>> result =
       sql_client_.Execute(call_options_, query);
@@ -159,6 +163,7 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
     const std::string *table_name, const std::string *table_type,
     const ColumnNames &column_names) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   std::vector<std::string> table_types;
 
@@ -217,6 +222,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
       call_options_, catalog_name, schema_name, table_name, true, nullptr);
@@ -237,6 +243,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
       call_options_, catalog_name, schema_name, table_name, true, nullptr);
@@ -255,6 +262,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetXdbcTypeInfo(
           call_options_);
@@ -273,6 +281,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type)
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type) {
   ClosePreparedStatementIfAny(prepared_statement_);
+  stop_source_.Reset();
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetXdbcTypeInfo(
           call_options_);
@@ -291,6 +300,13 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type)
 
 odbcabstraction::Diagnostics &FlightSqlStatement::GetDiagnostics() {
   return diagnostics_;
+}
+
+void FlightSqlStatement::Cancel() {
+  stop_source_.RequestStop();
+
+  if (!current_result_set_) return;
+  current_result_set_->Cancel();
 }
 
 } // namespace flight_sql

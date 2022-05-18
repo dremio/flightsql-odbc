@@ -38,6 +38,7 @@ private:
   arrow::flight::sql::FlightSqlClient &sql_client_;
   std::shared_ptr<odbcabstraction::ResultSet> current_result_set_;
   std::shared_ptr<arrow::flight::sql::PreparedStatement> prepared_statement_;
+  StopSource stop_source_;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetTables(const std::string *catalog_name, const std::string *schema_name,
@@ -86,6 +87,8 @@ public:
   std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo_V3(int16_t data_type) override;
 
   odbcabstraction::Diagnostics &GetDiagnostics() override;
+
+  void Cancel() override;
 };
 } // namespace flight_sql
 } // namespace driver
