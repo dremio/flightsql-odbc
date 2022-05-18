@@ -42,6 +42,9 @@ public:
   /// \brief Closes ResultSet, releasing any resources allocated by it.
   virtual void Close() = 0;
 
+  /// \brief Cancels ResultSet.
+  virtual void Cancel() = 0;
+
   /// \brief Binds a column with a result buffer. The buffer will be filled with
   /// up to `GetMaxBatchSize()` values.
   ///

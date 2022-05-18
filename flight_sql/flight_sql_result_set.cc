@@ -134,6 +134,11 @@ void FlightSqlResultSet::Close() {
   current_chunk_.data = nullptr;
 }
 
+void FlightSqlResultSet::Cancel() {
+  chunk_iterator_.Close();
+  current_chunk_.data = nullptr;
+}
+
 bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
                                  int precision, int scale, void *buffer,
                                  size_t buffer_length, ssize_t *strlen_buffer) {
@@ -156,6 +161,11 @@ bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
 
 std::shared_ptr<arrow::Array>
 FlightSqlResultSet::GetArrayForColumn(int column) {
+  if (!current_chunk_.data) {
+    // This may happen if query is cancelled right after SQLFetch and before SQLGetData.
+    throw DriverException("No RecordBatch loaded.", "24000");
+  }
+
   std::shared_ptr<Array> original_array =
       current_chunk_.data->column(column - 1);
 
