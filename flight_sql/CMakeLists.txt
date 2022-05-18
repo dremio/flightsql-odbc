@@ -24,7 +24,11 @@ include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
 
-# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
+if (DEFINED CMAKE_TOOLCHAIN_FILE)
+  include(${CMAKE_TOOLCHAIN_FILE})
+endif()
+
+# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed unless provided by VCPKG.
 find_package(ZLIB REQUIRED)
 
 # Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
@@ -35,7 +39,7 @@ find_package(Protobuf REQUIRED)
 # May need to set OPENSSL_ROOT_DIR first. On Mac if using brew:
 # brew install openssl@1.1
 # add to the cmake line -DOPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m
-if (NOT DEFINED OPENSSL_ROOT_DIR AND DEFINED APPLE)
+if (NOT DEFINED OPENSSL_ROOT_DIR AND DEFINED APPLE AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1m)
 endif()
 # This is based on Arrow's FindOpenSSL module. It's not clear if both variables
@@ -79,6 +83,29 @@ if (MSVC)
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
   )
+elseif(APPLE)
+  set(ARROW_CMAKE_ARGS
+          -DARROW_FLIGHT=ON
+          -DARROW_FLIGHT_SQL=ON
+          -DARROW_IPC=ON
+          -DARROW_BUILD_SHARED=OFF
+          -DARROW_BUILD_STATIC=ON
+          -DARROW_COMPUTE=ON
+          -DARROW_WITH_UTF8PROC=OFF
+          -DARROW_BUILD_TESTS=OFF
+          -DARROW_DEPENDENCY_USE_SHARED=OFF
+          -DARROW_DEPENDENCY_USE_STATIC=ON
+          -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+          -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
+          -DVCPKG_MANIFEST_MODE=OFF
+          -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+          -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+          -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+          ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
+          )
+  if (DEFINED CMAKE_TOOLCHAIN_FILE)
+    list(APPEND ARROW_CMAKE_ARGS -DARROW_DEPENDENCY_SOURCE=VCPKG)
+  endif()
 else()
   set(ARROW_CMAKE_ARGS
     -DARROW_FLIGHT=ON
@@ -106,17 +133,13 @@ ExternalProject_Add(ApacheArrow
   GIT_TAG ${ARROW_GIT_TAG}
   CMAKE_ARGS ${ARROW_CMAKE_ARGS})
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
+include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(ARROW_LIB_DIR lib64)
 else()
   set(ARROW_LIB_DIR lib)
 endif()
 link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/${ARROW_LIB_DIR})
-
-if (APPLE)
-  add_compile_definitions(WITH_IODBC)
-endif()
 
 if (MSVC)
   # the following definitions stop arrow from using __declspec when staticly linking and will break on windows without them

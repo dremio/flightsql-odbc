@@ -15,8 +15,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-include(FindODBC)
-
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include_directories(include)
@@ -36,4 +34,4 @@ set_target_properties(odbcabstraction
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     )
-target_link_libraries(odbcabstraction ${ODBC_LIBRARIES})
+target_link_libraries(odbcabstraction)
