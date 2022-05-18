@@ -44,6 +44,8 @@ FlightStreamChunkIterator::FlightStreamChunkIterator(
 FlightStreamChunkIterator::~FlightStreamChunkIterator() { Close(); }
 
 bool FlightStreamChunkIterator::GetNext(FlightStreamChunk *chunk) {
+  if (closed_) return false;
+
   chunk->data = nullptr;
   while (stream_readers_it_ != stream_readers_.end()) {
     const auto &chunk_result = (*stream_readers_it_)->Next();
