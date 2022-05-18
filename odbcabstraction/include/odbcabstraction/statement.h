@@ -181,6 +181,9 @@ public:
   /// \brief Gets the diagnostics for this statement.
   /// \return the diagnostics
   virtual Diagnostics& GetDiagnostics() = 0;
+
+  /// \brief Cancels the processing of this statement.
+  virtual void Cancel() = 0;
 };
 
 } // namespace odbcabstraction

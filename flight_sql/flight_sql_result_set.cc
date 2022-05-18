@@ -134,6 +134,11 @@ void FlightSqlResultSet::Close() {
   current_chunk_.data = nullptr;
 }
 
+void FlightSqlResultSet::Cancel() {
+  chunk_iterator_.Close();
+  current_chunk_.data = nullptr;
+}
+
 bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
                                  int precision, int scale, void *buffer,
                                  size_t buffer_length, ssize_t *strlen_buffer) {
