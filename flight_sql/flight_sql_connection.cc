@@ -21,6 +21,7 @@
 
 #include <arrow/flight/client_cookie_middleware.h>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
@@ -57,7 +58,19 @@ const std::string FlightSqlConnection::PWD = "pwd";
 const std::string FlightSqlConnection::TOKEN = "token";
 const std::string FlightSqlConnection::USE_TLS = "useTls";
 
+
 namespace {
+const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROPERTIES = {
+    FlightSqlConnection::HOST,
+    FlightSqlConnection::PORT,
+    FlightSqlConnection::USER,
+    FlightSqlConnection::UID,
+    FlightSqlConnection::PASSWORD,
+    FlightSqlConnection::PWD,
+    FlightSqlConnection::TOKEN,
+    FlightSqlConnection::USE_TLS
+};
+
 // TODO: Add properties for getting the certificates
 // TODO: Check if gRPC can use the system truststore, if not copy from Drill
 
@@ -102,7 +115,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_FALSE);
 
-    PopulateCallOptionsFromAttributes();
+    PopulateCallOptions(properties);
   } catch (...) {
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
     sql_client_.reset();
@@ -112,7 +125,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
 }
 
 const FlightCallOptions &
-FlightSqlConnection::PopulateCallOptionsFromAttributes() {
+FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
   // Set CONNECTION_TIMEOUT attribute or LOGIN_TIMEOUT depending on if this
   // is the first request.
   const boost::optional<Connection::Attribute> &connection_timeout = closed_ ?
@@ -120,6 +133,16 @@ FlightSqlConnection::PopulateCallOptionsFromAttributes() {
   if (connection_timeout && boost::get<uint32_t>(*connection_timeout) > 0) {
     call_options_.timeout =
         TimeoutDuration{static_cast<double>(boost::get<uint32_t>(*connection_timeout))};
+  }
+
+  for (auto prop : props) {
+    if (BUILT_IN_PROPERTIES.count(prop.first) != 0) {
+      continue;
+    }
+
+    // Note: header names must be lower case for gRPC.
+    std::string key_lc = boost::algorithm::to_lower_copy(prop.first);
+    call_options_.headers.emplace_back(std::make_pair(key_lc, prop.second));
   }
 
   return call_options_;
