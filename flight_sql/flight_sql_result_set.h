@@ -76,6 +76,8 @@ public:
 
   void Close() override;
 
+  void Cancel() override;
+
   bool GetData(int column_n, int16_t target_type, int precision, int scale,
                void *buffer, size_t buffer_length,
                ssize_t *strlen_buffer) override;
