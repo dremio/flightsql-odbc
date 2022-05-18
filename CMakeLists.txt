@@ -24,6 +24,16 @@ project(flightsql_odbc)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+# Add ODBC dependencies.
+if (APPLE)
+    set(ODBC_INCLUDE_DIRS /usr/local/Cellar/libiodbc/3.52.15/include)
+    set(ODBC_LIBRARIES /usr/local/Cellar/libiodbc/3.52.15/lib/libiodbc.a)
+    add_compile_definitions(HAVE_LONG_LONG SQLCOLATTRIBUTE_SQLLEN WITH_IODBC)
+else()
+    find_package(ODBC REQUIRED)
+endif()
+include_directories(${ODBC_INCLUDE_DIRS})
+
 # Fetch and include GTest
 # Adapted from Google's documentation: https://google.github.io/googletest/quickstart-cmake.html#set-up-a-project
 include(FetchContent)
