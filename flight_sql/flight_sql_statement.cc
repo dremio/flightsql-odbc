@@ -293,5 +293,10 @@ odbcabstraction::Diagnostics &FlightSqlStatement::GetDiagnostics() {
   return diagnostics_;
 }
 
+void FlightSqlStatement::Cancel() {
+  if (!current_result_set_) return;
+  current_result_set_->Cancel();
+}
+
 } // namespace flight_sql
 } // namespace driver
