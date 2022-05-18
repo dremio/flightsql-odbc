@@ -113,11 +113,11 @@ TEST(PopulateCallOptionsTest, ConnectionTimeout) {
 
   // Expect default timeout to be -1
   ASSERT_EQ(TimeoutDuration{-1.0},
-            connection.PopulateCallOptionsFromAttributes().timeout);
+            connection.PopulateCallOptions(Connection::ConnPropertyMap()).timeout);
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, static_cast<uint32_t>(10));
   ASSERT_EQ(TimeoutDuration{10.0},
-            connection.PopulateCallOptionsFromAttributes().timeout);
+            connection.PopulateCallOptions(Connection::ConnPropertyMap()).timeout);
 }
 
 } // namespace flight_sql
