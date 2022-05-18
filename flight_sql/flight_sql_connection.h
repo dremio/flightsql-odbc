@@ -78,7 +78,7 @@ public:
 
   /// \brief Builds a FlightCallOptions used on gRPC calls.
   /// \note Visible for testing
-  const arrow::flight::FlightCallOptions &PopulateCallOptionsFromAttributes();
+  const arrow::flight::FlightCallOptions &PopulateCallOptions(const ConnPropertyMap &properties);
 
   odbcabstraction::Diagnostics &GetDiagnostics() override;
 };
