@@ -21,6 +21,7 @@
 
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>
+#include <vector>
 
 #include "get_info_cache.h"
 
@@ -49,6 +50,9 @@ private:
   bool closed_;
 
 public:
+  static const std::vector<std::string> ALL_KEYS;
+  static const std::string DSN;
+  static const std::string DRIVER;
   static const std::string HOST;
   static const std::string PORT;
   static const std::string USER;
