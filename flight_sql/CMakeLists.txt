@@ -28,7 +28,8 @@ if (DEFINED CMAKE_TOOLCHAIN_FILE)
   include(${CMAKE_TOOLCHAIN_FILE})
 endif()
 
-# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed unless provided by VCPKG.
+# Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
+>>>>>>> c9af4c0 ([WIP] Implement Configuration Dialog)
 find_package(ZLIB REQUIRED)
 
 # Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
@@ -179,6 +180,17 @@ set(ARROW_ODBC_SPI_SOURCES
   system_trust_store.cc
   utils.cc)
 
+if (WIN32)
+    include_directories(flight_sql/include)
+
+    list(APPEND ARROW_ODBC_SPI_SOURCES
+     config/configuration.cpp
+     config/connection_string_parser.cpp
+     ui/custom_window.cpp
+     ui/window.cpp
+     ui/dsn_configuration_window.cpp
+     system_dsn.cc)
+endif()
 
 if (MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE "/MD")
