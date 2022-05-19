@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a9d795_e6c6fe3d",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "606aeedb_405b53e8",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f2cf6c0_0d4a8183",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "This should use angle brackets and be up in the section for external header includes.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f77fd343_9d1b76a2",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f2cf6c0_0d4a8183",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6baeb924_886137a1",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0c931da_6ea670c8",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d600c26_0ef86a63",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "Can we name this \"asBool()\" or something more specific than Parse.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a0dbf7_9a8217b0",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d600c26_0ef86a63",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -103,6 +175,42 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c2c798_5a095782",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c8d9506_9de81a54",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48f9d1a7_bf68da62",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "JDBC supports the string as well",
+      "parentUuid": "4c83847b_8c02e12a",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "facc8065_3bb996be",
@@ -116,6 +224,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "This doesn\u0027t handle when you use an irregular case, like TrUE.\nYou can just use a case-insensitive comparison.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bdaefc5_7965b50e",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facc8065_3bb996be",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -137,6 +263,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a4d6d2e_7ac5b3b3",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ce5453_56197c2f",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4000da1_8dbf33c7",
@@ -150,6 +294,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "Use angle brackets for system headers.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "117b538b_57c0075c",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4000da1_8dbf33c7",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -171,6 +333,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9402d8a3_c16019a7",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a63f2efd_44c0a30f",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14df6d5c_f80f3b90",
@@ -184,6 +364,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "Please use namespace driver { namespace flight_sql {\n...",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e93e3316_124491cf",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14df6d5c_f80f3b90",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -205,6 +403,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7391919_6df875ec",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1fef519_69883558",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "880bc466_98cba046",
@@ -218,6 +434,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "Let\u0027s not use Arrow error handling.\nThrow a DriverException instead.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e8650f_406bddda",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "880bc466_98cba046",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -239,6 +473,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0662c9d_d5cb4f91",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a06658e4_d296f7ad",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a322b79_4c98d774",
@@ -252,6 +504,24 @@
       "writtenOn": "2022-05-17T15:45:45Z",
       "side": 1,
       "message": "This should go at the top of the fields. Sort fields by size to minimize structure padding.",
+      "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "430deccb_16e1df67",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-19T21:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a322b79_4c98d774",
       "revId": "fd0168e2117905e02156ec3b23ac2e68ab470c44",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
