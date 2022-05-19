@@ -55,6 +55,8 @@ using driver::odbcabstraction::DriverException;
 using driver::odbcabstraction::OdbcVersion;
 using driver::odbcabstraction::Statement;
 
+const std::string FlightSqlConnection::DSN = "dsn";
+const std::string FlightSqlConnection::DRIVER = "driver";
 const std::string FlightSqlConnection::HOST = "host";
 const std::string FlightSqlConnection::PORT = "port";
 const std::string FlightSqlConnection::USER = "user";
@@ -66,6 +68,11 @@ const std::string FlightSqlConnection::USE_ENCRYPTION = "useEncryption";
 const std::string FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION = "disableCertificateVerification";
 const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
+
+const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
+    FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT, 
+    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::PWD, FlightSqlConnection::USE_ENCRYPTION,
+    FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE, FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION };
 
 namespace {
 
