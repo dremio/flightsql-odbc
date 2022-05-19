@@ -40,8 +40,8 @@ cmake ..^
     -DVCPKG_MANIFEST_MODE=OFF^
     -G"Visual Studio 17 2022"^
     -A x64^
-    -DCMAKE_BUILD_TYPE=release
+    -DCMAKE_BUILD_TYPE=debug
 
-cmake --build . --parallel 8 --config Release
+cmake --build . --parallel 8 --config Debug
 
 cd ..
