@@ -24,6 +24,7 @@ include_directories(
     include
     ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
 
+
 # Add Zlib dependencies needed by Arrow Flight. Should be pre-installed.
 find_package(ZLIB REQUIRED)
 
@@ -155,6 +156,20 @@ set(ARROW_ODBC_SPI_SOURCES
   utils.cc
 )
 
+if (WIN32)
+    include_directories(flight_sql/include)
+
+    list(APPEND ARROW_ODBC_SPI_SOURCES
+     config/configuration.cpp
+     config/connection_string_parser.cpp
+     config/diagnostic_record.cpp
+     config/diagnostic_record_storage.cpp
+     config/dsn_config.cpp
+     ui/custom_window.cpp
+     ui/window.cpp
+     ui/dsn_configuration_window.cpp
+     system_dsn.cc)
+endif()
 
 if (MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE "/MD")
