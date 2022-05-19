@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29fdd956_c8e463be",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-19T17:58:33Z",
+      "side": 1,
+      "message": "Likely we\u0027ll want to use our own types that we\u0027ve already defined for these concepts (see in odbcabstraction/Connection.h the ConnPropertyMap typedef).",
+      "revId": "c6b4e5dcc505b28d67f1e24329d4627d1af7519f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f598d141_fdf8ce2b",
+        "filename": "flight_sql/config/connection_string_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-19T17:58:33Z",
+      "side": 1,
+      "message": "We have a function that does this in warpdrive that we should probably rework to be a helper function in odbcabstraction.",
+      "revId": "c6b4e5dcc505b28d67f1e24329d4627d1af7519f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf1c929_5109f960",
+        "filename": "flight_sql/config/diagnostic_record.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-19T17:58:33Z",
+      "side": 1,
+      "message": "We have our own Diagnostics classes that we should be using (see exceptions.h and diagnostics.h in ODBCAbstraction).",
+      "revId": "c6b4e5dcc505b28d67f1e24329d4627d1af7519f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
