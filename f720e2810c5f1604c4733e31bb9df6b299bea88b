@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45b223f_e20e71e8",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "Should this be useSystemTrustStore?",
+      "revId": "f720e2810c5f1604c4733e31bb9df6b299bea88b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28a4ad5_5e0524c4",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "Why not just useEncryption, or shouldUseEncryption?",
+      "revId": "f720e2810c5f1604c4733e31bb9df6b299bea88b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8fbc9ce_52904f34",
+        "filename": "flight_sql/flight_sql_ssl_config.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "Maybe useSystemTrustStore?",
+      "revId": "f720e2810c5f1604c4733e31bb9df6b299bea88b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}

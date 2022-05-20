@@ -88,6 +88,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2a8ebcd_0c1e8003",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "Can we use a vector or something such that the for loop doesn\u0027t hard-code the length?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7ce9ebe_323dd33b",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 12
@@ -139,6 +156,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fe6d8ce_9534c8b5",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "Would it be better to use a std::string instead of a vector here?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3db9e011_b5e5b84f",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 12
@@ -173,6 +207,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e4c738b_adbd6633",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "This seems wrong, if the property is missing you return properties.end()?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "254dfd16_ed46ba15",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 12
@@ -184,6 +235,23 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "I would think we shouldn\u0027t default to using the system trust stores on operating systems that don\u0027t support this. On the other hand, if we do later add support for the system trust store, we shouldn\u0027t change the default. Let\u0027s check with Ray and Rapinder on this?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c508c052_7b5ce900",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "Nit: can the method be called \"shouldDisableCertificateVerification\"?\nAlso - why not set disable_server_verification even if it\u0027s false?",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -218,6 +286,23 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "This store never gets released. Also appears to never get used...",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e350a14_baa3ef42",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-20T18:07:13Z",
+      "side": 1,
+      "message": "What\u0027s the point of store here?",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
