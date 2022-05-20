@@ -105,6 +105,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40a8f305_123df2b4",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T18:51:14Z",
+      "side": 1,
+      "message": "You could use std::array\u003c\u003e to wrap the fixed size array and make it iterable (should be able to use a range-based for loop if you do this).",
+      "parentUuid": "f2a8ebcd_0c1e8003",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7ce9ebe_323dd33b",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 12
