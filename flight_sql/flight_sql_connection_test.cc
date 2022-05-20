@@ -31,6 +31,7 @@ using odbcabstraction::Connection;
 
 TEST(AttributeTests, SetAndGetAttribute) {
   FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.closed_ = false;
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT,
                           static_cast<uint32_t>(200));
@@ -55,11 +56,12 @@ TEST(AttributeTests, SetAndGetAttribute) {
 
 TEST(AttributeTests, GetAttributeWithoutSetting) {
   FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.closed_ = false;
 
-  const boost::optional<Connection::Attribute> anOptional =
+  const boost::optional<Connection::Attribute> optional =
     connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
 
-  EXPECT_FALSE(anOptional);
+  EXPECT_EQ(0, boost::get<uint32_t>(*optional));
 
   connection.Close();
 }
@@ -69,6 +71,7 @@ TEST(BuildLocationTests, ForTcp) {
   Connection::ConnPropertyMap properties = {
     {FlightSqlConnection::HOST, std::string("localhost")},
     {FlightSqlConnection::PORT, std::string("32010")},
+    {FlightSqlConnection::USE_ENCRYPTION, std::string("false")},
   };
 
   const std::shared_ptr<FlightSqlSslConfig> &ssl_config =
@@ -125,6 +128,7 @@ TEST(BuildLocationTests, ForTls) {
 
 TEST(PopulateCallOptionsTest, ConnectionTimeout) {
   FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.closed_ = false;
 
   // Expect default timeout to be -1
   ASSERT_EQ(TimeoutDuration{-1.0},

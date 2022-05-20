@@ -39,6 +39,13 @@ std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(
 class FlightSqlConnection : public odbcabstraction::Connection {
 
 private:
+  // Added as friend of this class so the private field close_
+  // can be changed in the test. Otherwise, it will not be able to get the
+  // some of the correct attribute values.
+  FRIEND_TEST(PopulateCallOptionsTest, ConnectionTimeout);
+  FRIEND_TEST(AttributeTests, SetAndGetAttribute);
+  FRIEND_TEST(AttributeTests, GetAttributeWithoutSetting);
+
   std::map<AttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
