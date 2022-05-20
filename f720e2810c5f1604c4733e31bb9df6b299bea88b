@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c5a0001_63c8ddf2",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T18:47:59Z",
+      "side": 1,
+      "message": "I\u0027d just always resize this, and initialize values to \u0027\\0\u0027. Just because I\u0027m not sure if concatentation uses the size() or the NUL-terminator on all platforms.",
+      "revId": "f720e2810c5f1604c4733e31bb9df6b299bea88b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c45b223f_e20e71e8",
         "filename": "flight_sql/flight_sql_ssl_config.h",
         "patchSetId": 13
