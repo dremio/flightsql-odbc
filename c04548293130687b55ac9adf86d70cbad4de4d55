@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93cd000_140a8e5a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Headers that are internal to this project (such as flight_sql_auth_method) should _not_ be in angle brackets. Headers from dependencies should.\n\nAngle brackets search system include paths IIRC, while quotes don\u0027t. There is a semantic difference.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c70c4b5_0fce0b65",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "I think I said in the last review to remove iostream and now we\u0027re including it twice. Please check over this.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb50552b_30d85815",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "This is copied from somewhere. Please attribute it.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d3a2bb2_5c240372",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "nullptr instead of NULL.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de6600d7_e39b264a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "const char* stores[] ?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7ce9ebe_323dd33b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Is there any error handling we need for this?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f74826b_a88c6c95",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Do we need to do any error handling on these function calls?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd4ffd91_204e1c01",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Let\u0027s declare this vector outside of the for loop and resize() as necessary to reduce the number of reallocations.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3db9e011_b5e5b84f",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "This assumes the CryptBinaryToString() returns a NUL-terminated string. Is it? If it is, should pem be a std::string instead of vector\u003cchar\u003e? And does the size returned by CryptBinaryToString include space for the NUL terminator?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a9244ba_13730081",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "It would be good to have a higher level class that wraps the hstore, acts as an iterable that exposes pem data, and auto-manages releasing pContexts and the hStore.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "254dfd16_ed46ba15",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "I would think we shouldn\u0027t default to using the system trust stores on operating systems that don\u0027t support this. On the other hand, if we do later add support for the system trust store, we shouldn\u0027t change the default. Let\u0027s check with Ray and Rapinder on this?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "959a7279_694fdb8c",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be wrapped in #ifdef _WIN32 ?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75b355c9_ec8a48c0",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "This store never gets released. Also appears to never get used...",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0128227_2103bee9",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "The return value for loadSystemTrustStore() is never used.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95904f6c_2eeee529",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "It seems like you can just forward declare FlightSqlSslConfig instead of including it.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d81bdb9a_b9d69285",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Initialize fields in the same order they are declared in the header. This is a build warning.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dee09ec_28e92e84",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "This function seems more like it\u0027s for loading the cert to Flight Client Options. readCerts is a bit unclear.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eeed1b2_09f95697",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "I mentioned this last time. Please don\u0027t return arrow codes within the driver.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522b2b5e_f547c705",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "odbcabstraction",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a13d7ef_c897611d",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "I feel this should take in a default that the caller chooses.\nAlso, do you think this function should also do the map lookup (or have an overload that does the map lookup).",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "064f291e_a08248ef",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:01:34Z",
+      "side": 1,
+      "message": "Should be odbcabstraction.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
