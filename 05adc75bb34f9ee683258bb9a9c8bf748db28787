@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5a4469_bdf0a238",
+        "filename": "flight_sql/system_dsn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:51:04Z",
+      "side": 1,
+      "message": "This needs to actually throw an exception, like a DriverException.",
+      "revId": "05adc75bb34f9ee683258bb9a9c8bf748db28787",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef4331d_9d4aefe0",
+        "filename": "flight_sql/system_dsn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:51:04Z",
+      "side": 1,
+      "message": "We shouldn\u0027t throw and catch integers.",
+      "revId": "05adc75bb34f9ee683258bb9a9c8bf748db28787",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "038a881a_7e47e6b7",
+        "filename": "flight_sql/ui/window.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T17:51:04Z",
+      "side": 1,
+      "message": "Are you trying to get the DLL\u0027s HINSTANCE? This is supplied by DllMain():\nhttps://stackoverflow.com/questions/2126657/how-can-i-get-hinstance-from-a-dll",
+      "revId": "05adc75bb34f9ee683258bb9a9c8bf748db28787",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
