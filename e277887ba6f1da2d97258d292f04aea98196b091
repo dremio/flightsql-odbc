@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f3d0ed9_4c1cf733",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-20T16:39:23Z",
+      "side": 1,
+      "message": "Does this introduce a gtest dependency (or dependency on tests) to FlightSqlConnection? If that\u0027s the case, definitely don\u0027t do this.\n\nYou can just make a public setter and say in a comment it\u0027s for unit testing.",
+      "revId": "e277887ba6f1da2d97258d292f04aea98196b091",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
