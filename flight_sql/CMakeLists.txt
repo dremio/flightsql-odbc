@@ -237,3 +237,10 @@ target_link_libraries(arrow_odbc_spi_impl_test
         gtest gtest_main)
 add_test(connection_test arrow_odbc_spi_impl_test)
 add_test(transformer_test arrow_odbc_spi_impl_test)
+
+add_custom_command(
+     TARGET arrow_odbc_spi_impl_test
+     COMMENT "Run tests"
+     POST_BUILD 
+     COMMAND ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin/arrow_odbc_spi_impl_test
+)

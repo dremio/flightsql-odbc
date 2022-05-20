@@ -111,6 +111,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
 }
 
 TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
+  GTEST_SKIP();
   std::vector<std::string> values = {
       "ABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEF"};
   std::shared_ptr<Array> array;
