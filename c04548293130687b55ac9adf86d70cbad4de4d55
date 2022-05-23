@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad06959_ca09c33a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d93cd000_140a8e5a",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c70c4b5_0fce0b65",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "I think I said in the last review to remove iostream and now we\u0027re including it twice. Please check over this.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54caa69f_b1c53c27",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c70c4b5_0fce0b65",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35cbb72_feffce1c",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb50552b_30d85815",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d3a2bb2_5c240372",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "nullptr instead of NULL.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e830d60a_12854a3a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d3a2bb2_5c240372",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -121,6 +193,42 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4240d6e3_4844a83b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6600d7_e39b264a",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b66d3f0_9aeb898a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2a8ebcd_0c1e8003",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7ce9ebe_323dd33b",
@@ -140,6 +248,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32072151_e6208499",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "I looked for it and didn\u0027t find anything",
+      "parentUuid": "a7ce9ebe_323dd33b",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f74826b_a88c6c95",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 12
@@ -151,6 +277,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "Do we need to do any error handling on these function calls?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45d081eb_6d784f99",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "I looked for it and didn\u0027t find anything",
+      "parentUuid": "8f74826b_a88c6c95",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -189,6 +333,42 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e1bfdc3_bb26c968",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fe6d8ce_9534c8b5",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a95223_d09d7d8b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd4ffd91_204e1c01",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3db9e011_b5e5b84f",
@@ -202,6 +382,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "This assumes the CryptBinaryToString() returns a NUL-terminated string. Is it? If it is, should pem be a std::string instead of vector\u003cchar\u003e? And does the size returned by CryptBinaryToString include space for the NUL terminator?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672f3f50_66bb3bda",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "The crypyBinaryToString already returns a value with nul-terminated. I\u0027ve changed the std::vector to a string now",
+      "parentUuid": "3db9e011_b5e5b84f",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -223,6 +421,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "750a121e_1cfbeb86",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a9244ba_13730081",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e4c738b_adbd6633",
@@ -236,6 +452,24 @@
       "writtenOn": "2022-05-20T18:07:13Z",
       "side": 1,
       "message": "This seems wrong, if the property is missing you return properties.end()?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f132055_bb889d92",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "It seems so, this logic is here for a while.",
+      "parentUuid": "9e4c738b_adbd6633",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -276,6 +510,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd2e959e_b01a74f5",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "It is not necessary to set it in case it is false",
+      "parentUuid": "c508c052_7b5ce900",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "959a7279_694fdb8c",
         "filename": "flight_sql/flight_sql_connection.cc",
         "patchSetId": 12
@@ -287,6 +539,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "Shouldn\u0027t this be wrapped in #ifdef _WIN32 ?",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61bd89b_9787196f",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "I\u0027ve declared it in the begin using pre processor blocks. The WIN if has the complete logic, while the else does nothing",
+      "parentUuid": "959a7279_694fdb8c",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -325,6 +595,42 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8770d828_8270d2b1",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75b355c9_ec8a48c0",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb7d97e_c91cd8d7",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "There is no point, I forgot to remove. Already fixed",
+      "parentUuid": "8e350a14_baa3ef42",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0128227_2103bee9",
@@ -338,6 +644,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "The return value for loadSystemTrustStore() is never used.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "665e1d0c_66f6944a",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0128227_2103bee9",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -359,6 +683,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8d967d_c7df5cba",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95904f6c_2eeee529",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d81bdb9a_b9d69285",
@@ -372,6 +714,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "Initialize fields in the same order they are declared in the header. This is a build warning.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db98f56e_588d0d5f",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d81bdb9a_b9d69285",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -393,6 +753,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2fada6a_63c118b0",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dee09ec_28e92e84",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eeed1b2_09f95697",
@@ -406,6 +784,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "I mentioned this last time. Please don\u0027t return arrow codes within the driver.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb92d73_73d0f057",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eeed1b2_09f95697",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -427,6 +823,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04cad566_72887c1f",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522b2b5e_f547c705",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a13d7ef_c897611d",
@@ -444,6 +858,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d665fa5f_2b6efbc5",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a13d7ef_c897611d",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "064f291e_a08248ef",
@@ -457,6 +889,24 @@
       "writtenOn": "2022-05-20T17:01:34Z",
       "side": 1,
       "message": "Should be odbcabstraction.",
+      "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfde0d93_c925b069",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-23T21:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "064f291e_a08248ef",
       "revId": "c04548293130687b55ac9adf86d70cbad4de4d55",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
