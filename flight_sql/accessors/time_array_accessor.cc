@@ -22,17 +22,17 @@ namespace driver {
 namespace flight_sql {
 namespace {
 template <typename T>
-long ConvertTimeValue(typename T::value_type value, TimeUnit::type unit) {
+int64_t ConvertTimeValue(typename T::value_type value, TimeUnit::type unit) {
   return value;
 }
 
 template <>
-long ConvertTimeValue<Time32Array>(int32_t value, TimeUnit::type unit) {
+int64_t ConvertTimeValue<Time32Array>(int32_t value, TimeUnit::type unit) {
   return unit == TimeUnit::SECOND ? value : value / MILLI_TO_SECONDS_DIVISOR;
 }
 
 template <>
-long ConvertTimeValue<Time64Array>(int64_t value, TimeUnit::type unit) {
+int64_t ConvertTimeValue<Time64Array>(int64_t value, TimeUnit::type unit) {
   return unit == TimeUnit::MICRO ? value / MICRO_TO_SECONDS_DIVISOR
                                  : value / NANO_TO_SECONDS_DIVISOR;
 }

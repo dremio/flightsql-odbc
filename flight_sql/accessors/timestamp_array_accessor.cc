@@ -21,8 +21,8 @@
 using namespace arrow;
 
 namespace {
-long convertTimeStampBasedOnUnit(TimeUnit::type unit) {
-  long converted_result;
+int64_t convertTimeStampBasedOnUnit(TimeUnit::type unit) {
+  int64_t converted_result;
   switch (unit) {
     case TimeUnit::SECOND:
       converted_result = 1;
@@ -64,7 +64,7 @@ TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding 
   typedef unsigned char c_type;
   auto *buffer = static_cast<TIMESTAMP_STRUCT *>(binding->buffer);
 
-  long value = array->Value(cell_counter);
+  int64_t value = array->Value(cell_counter);
   const auto divisor = convertTimeStampBasedOnUnit(timestamp_type_->unit());
   const auto converted_result = value / divisor;
   tm timestamp{};

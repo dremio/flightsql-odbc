@@ -84,7 +84,7 @@ TEST(TEST_TIME32, TIME_WITH_MILLI) {
 
     tm time{};
 
-    long convertedValue = t32_values[i] / MILLI_TO_SECONDS_DIVISOR;
+    auto convertedValue = t32_values[i] / MILLI_TO_SECONDS_DIVISOR;
     GetTimeForMillisSinceEpoch(time, convertedValue);
 
     ASSERT_EQ(buffer[i].hour, time.tm_hour);
