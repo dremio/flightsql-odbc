@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef7aebaa_77532077",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "anonymous namespace.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2f81716_aed306e9",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "vector\u003cconst char*\u003e\nAlso declare this outside the function as a constant to avoid recreating this vector for every connection. This could also be std::array\u003cconst char*\u003e to avoid using heap space.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d50c5d1_eec02996",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "++i instead of i++ (it actually matters for iterators)\nOr just use a range-based for loop.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385fe2ea_64ae35fa",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Please add a newline to the end of file",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec34ec89_a323b98c",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Could just return p_context !\u003d nullptr.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "993a8210_9251765a",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Instead of using const cast on data(), use \u0026cert[0] to get a writable buffer without breaking const correctness.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c958e0c_1e3607ec",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "There is a tab here",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "506b36f6_bb6dd209",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Just return h_store_ !\u003d nullptr",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ad93981_11244d39",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Need to check if p_context_ is NULL?",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b631846_0df721dd",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Null check, and what does the zero mean?",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d625e2f1_583469fd",
+        "filename": "flight_sql/system_trust_store.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "Please add a newline to the end of file.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aaf44e7_d249c4f0",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-24T01:16:22Z",
+      "side": 1,
+      "message": "property_name should be a const reference.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
