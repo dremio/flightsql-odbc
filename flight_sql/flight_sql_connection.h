@@ -81,6 +81,10 @@ public:
   const arrow::flight::FlightCallOptions &PopulateCallOptions(const ConnPropertyMap &properties);
 
   odbcabstraction::Diagnostics &GetDiagnostics() override;
+
+  /// \brief A setter to the field closed_.
+  /// \note Visible for testing
+  void SetClosed(bool is_closed);
 };
 } // namespace flight_sql
 } // namespace driver

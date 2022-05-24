@@ -253,5 +253,9 @@ FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
 odbcabstraction::Diagnostics &FlightSqlConnection::GetDiagnostics() {
   return diagnostics_;
 }
+
+void FlightSqlConnection::SetClosed(bool is_closed) {
+  closed_ = is_closed;
+}
 } // namespace flight_sql
 } // namespace driver

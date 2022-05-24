@@ -30,8 +30,8 @@ using arrow::flight::TimeoutDuration;
 using odbcabstraction::Connection;
 
 TEST(AttributeTests, SetAndGetAttribute) {
-  GTEST_SKIP();
   FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.SetClosed(false);
 
   connection.SetAttribute(Connection::CONNECTION_TIMEOUT, static_cast<uint32_t>(200));
   const boost::optional<Connection::Attribute> firstValue =
@@ -53,13 +53,13 @@ TEST(AttributeTests, SetAndGetAttribute) {
 }
 
 TEST(AttributeTests, GetAttributeWithoutSetting) {
-  GTEST_SKIP();
   FlightSqlConnection connection(odbcabstraction::V_3);
 
-  const boost::optional<Connection::Attribute> anOptional =
+  const boost::optional<Connection::Attribute> optional =
       connection.GetAttribute(Connection::CONNECTION_TIMEOUT);
+  connection.SetClosed(false);
 
-  EXPECT_FALSE(anOptional);
+  EXPECT_EQ(0, boost::get<uint32_t>(*optional));
 
   connection.Close();
 }
@@ -111,8 +111,8 @@ TEST(BuildLocationTests, ForTls) {
 }
 
 TEST(PopulateCallOptionsTest, ConnectionTimeout) {
-  GTEST_SKIP();
   FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.SetClosed(false);
 
   // Expect default timeout to be -1
   ASSERT_EQ(TimeoutDuration{-1.0},

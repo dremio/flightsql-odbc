@@ -28,7 +28,7 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
-  std::vector<int64_t> values = {86400370,  172800000, 259200000, 1649793238110,
+  std::vector<int64_t> values = {86400370,  172800000, 259200000, 1649793238110LL,
                                  345600000, 432000000, 518400000};
 
   std::shared_ptr<Array> timestamp_array;
@@ -52,7 +52,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
 
     tm date{};
 
-    long converted_time = values[i] / MILLI_TO_SECONDS_DIVISOR;
+    auto converted_time = values[i] / MILLI_TO_SECONDS_DIVISOR;
     GetTimeForMillisSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
@@ -90,7 +90,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_SECONDS) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
     tm date{};
 
-    long converted_time = values[i];
+    auto converted_time = values[i];
     GetTimeForMillisSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
@@ -128,7 +128,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MICRO) {
 
     tm date{};
 
-    long converted_time = values[i] / MICRO_TO_SECONDS_DIVISOR;
+    auto converted_time = values[i] / MICRO_TO_SECONDS_DIVISOR;
     GetTimeForMillisSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
@@ -165,7 +165,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_NANO) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
     tm date{};
 
-    long converted_time = values[i] / NANO_TO_SECONDS_DIVISOR;
+    auto converted_time = values[i] / NANO_TO_SECONDS_DIVISOR;
     GetTimeForMillisSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));

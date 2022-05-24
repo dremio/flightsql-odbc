@@ -111,7 +111,6 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
 }
 
 TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
-  GTEST_SKIP();
   std::vector<std::string> values = {
       "ABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEF"};
   std::shared_ptr<Array> array;
@@ -140,7 +139,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
     int64_t chunk_length =
         std::min(static_cast<int64_t>(max_strlen * sizeof(SqlWChar)),
                  strlen_buffer[0] - value_offset);
-    finalStr += std::basic_string<SqlWChar>(buffer.data(), chunk_length);
+    finalStr += std::basic_string<SqlWChar>(buffer.data());
     value_offset += chunk_length - sizeof(SqlWChar);
   } while (value_offset < strlen_buffer[0] - sizeof(SqlWChar));
 

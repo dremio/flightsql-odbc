@@ -24,21 +24,21 @@ using namespace arrow;
 
 
 namespace {
-  template <typename T> long convertDate(typename T::value_type value) {
+  template <typename T> int64_t convertDate(typename T::value_type value) {
     return value;
   }
 
 /// Converts the value from the array, which is in milliseconds, to seconds.
 /// \param value    the value extracted from the array in milliseconds.
 /// \return         the converted value in seconds.
-  template <> long convertDate<Date64Array>(int64_t value) {
+  template <> int64_t convertDate<Date64Array>(int64_t value) {
     return value / driver::flight_sql::MILLI_TO_SECONDS_DIVISOR;
   }
 
 /// Converts the value from the array, which is in days, to seconds.
 /// \param value    the value extracted from the array in days.
 /// \return         the converted value in seconds.
-  template <> long convertDate<Date32Array>(int32_t value) {
+  template <> int64_t convertDate<Date32Array>(int32_t value) {
     return value * driver::flight_sql::DAYS_TO_SECONDS_MULTIPLIER;
   }
 } // namespace
@@ -61,7 +61,7 @@ void DateArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
   int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
   typedef unsigned char c_type;
   auto *buffer = static_cast<DATE_STRUCT *>(binding->buffer);
-  long value = convertDate<ARROW_ARRAY>(array->Value(cell_counter));
+  auto value = convertDate<ARROW_ARRAY>(array->Value(cell_counter));
   tm date{};
 
   GetTimeForMillisSinceEpoch(date, value);
