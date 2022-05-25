@@ -16,6 +16,24 @@
       "message": "?? This is already included.",
       "revId": "17046b8a78455216284194a2d51bc5db999eb0c9",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d862492b_a9c525fc",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T17:13:40Z",
+      "side": 1,
+      "message": "This is wrong, I guess it was a misclick in on of the hotkeys",
+      "parentUuid": "b2897581_44c4f60c",
+      "revId": "17046b8a78455216284194a2d51bc5db999eb0c9",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
