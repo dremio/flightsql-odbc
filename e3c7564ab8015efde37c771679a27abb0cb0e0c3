@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b195e2e_b70cacd6",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef7aebaa_77532077",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2f81716_aed306e9",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-24T01:16:22Z",
       "side": 1,
       "message": "vector\u003cconst char*\u003e\nAlso declare this outside the function as a constant to avoid recreating this vector for every connection. This could also be std::array\u003cconst char*\u003e to avoid using heap space.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a60d3a23_40c24c4b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2f81716_aed306e9",
       "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aba4cae_18fef950",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d50c5d1_eec02996",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "385fe2ea_64ae35fa",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-05-24T01:16:22Z",
       "side": 1,
       "message": "Please add a newline to the end of file",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8d29e5_a08e1550",
+        "filename": "flight_sql/flight_sql_ssl_config.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385fe2ea_64ae35fa",
       "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -86,6 +158,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab9b21fd_f1b3c4d3",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec34ec89_a323b98c",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "993a8210_9251765a",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-05-24T01:16:22Z",
       "side": 1,
       "message": "Instead of using const cast on data(), use \u0026cert[0] to get a writable buffer without breaking const correctness.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9eabadc_3cf90628",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "993a8210_9251765a",
       "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -120,6 +228,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83607625_289911a7",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c958e0c_1e3607ec",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "506b36f6_bb6dd209",
@@ -137,6 +263,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ce9110_a2c8b15a",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "506b36f6_bb6dd209",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ad93981_11244d39",
@@ -150,6 +294,24 @@
       "writtenOn": "2022-05-24T01:16:22Z",
       "side": 1,
       "message": "Need to check if p_context_ is NULL?",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab61c8a6_64a3e708",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad93981_11244d39",
       "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -173,6 +335,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8660616a_b0927fc5",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "The parameters is used to free the memory of the context in case you try to free the store without closing the context first",
+      "parentUuid": "6b631846_0df721dd",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d625e2f1_583469fd",
         "filename": "flight_sql/system_trust_store.h",
         "patchSetId": 18
@@ -184,6 +364,24 @@
       "writtenOn": "2022-05-24T01:16:22Z",
       "side": 1,
       "message": "Please add a newline to the end of file.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50da5394_96d08e91",
+        "filename": "flight_sql/system_trust_store.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d625e2f1_583469fd",
       "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -201,6 +399,24 @@
       "writtenOn": "2022-05-24T01:16:22Z",
       "side": 1,
       "message": "property_name should be a const reference.",
+      "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f5f130_d0476406",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-25T16:41:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aaf44e7_d249c4f0",
       "revId": "e3c7564ab8015efde37c771679a27abb0cb0e0c3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
