@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4ff6b4_2008ea15",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-25T17:05:53Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "8db0663b3cf19ed44d24e9ed94250c03c72fc1be",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
