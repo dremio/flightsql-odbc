@@ -132,9 +132,9 @@ public:
   Status Visit(const BinaryScalar &scalar) override {
     const auto &view = scalar.view();
     size_t encoded_size = base64::encoded_size(view.length());
-    char* encoded = new char[encoded_size];
-    base64::encode(encoded, view.data(), view.length());
-    writer_.String(encoded, encoded_size);
+    std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
+    base64::encode(&encoded[0], view.data(), view.length());
+    writer_.String(&encoded[0], encoded_size, true);
 
     return Status::OK();
   }
@@ -149,9 +149,9 @@ public:
   Status Visit(const LargeBinaryScalar &scalar) override {
     const auto &view = scalar.view();
     size_t encoded_size = base64::encoded_size(view.length());
-    char* encoded = new char[encoded_size];
-    base64::encode(encoded, view.data(), view.length());
-    writer_.String(encoded, encoded_size);
+    std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
+    base64::encode(&encoded[0], view.data(), view.length());
+    writer_.String(&encoded[0], encoded_size, true);
 
     return Status::OK();
   }
@@ -159,9 +159,9 @@ public:
   Status Visit(const FixedSizeBinaryScalar &scalar) override {
     const auto &view = scalar.view();
     size_t encoded_size = base64::encoded_size(view.length());
-    char* encoded = new char[encoded_size];
-    base64::encode(encoded, view.data(), view.length());
-    writer_.String(encoded, encoded_size);
+    std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
+    base64::encode(&encoded[0], view.data(), view.length());
+    writer_.String(&encoded[0], encoded_size, true);
 
     return Status::OK();
   }
