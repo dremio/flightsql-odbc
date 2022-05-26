@@ -139,6 +139,24 @@
       "parentUuid": "8a5591c0_be4fd4b1",
       "revId": "5b11c6134f867796d3e0e6e767befc8ba3ad2cf3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49908ed6_707b0c10",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-26T20:55:16Z",
+      "side": 1,
+      "message": "Create a ticket",
+      "parentUuid": "7c7fe825_850a483e",
+      "revId": "5b11c6134f867796d3e0e6e767befc8ba3ad2cf3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
