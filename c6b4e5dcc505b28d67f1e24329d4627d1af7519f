@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e269f080_0cff7910",
+        "filename": "flight_sql/config/connection_string_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-05-26T19:06:21Z",
+      "side": 1,
+      "message": "The function is here:\nhttps://github.com/dremio/warpdrive/blob/0d7b1400096b336e03e7a4c12e3573f3fba34c35/src/warpdrive/ODBCConnection.cc#L651\n\nThere\u0027s also a function to read connection settings from an existing DSN:\nhttps://github.com/dremio/warpdrive/blob/0d7b1400096b336e03e7a4c12e3573f3fba34c35/src/warpdrive/ODBCConnection.cc#L41",
+      "parentUuid": "f598d141_fdf8ce2b",
+      "revId": "c6b4e5dcc505b28d67f1e24329d4627d1af7519f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "faf1c929_5109f960",
         "filename": "flight_sql/config/diagnostic_record.cpp",
         "patchSetId": 2
