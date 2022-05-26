@@ -19,7 +19,15 @@
 
 #if defined(_WIN32)
   // NOMINMAX avoids std::min/max being defined as a c macro
+  #ifndef NOMINMAX
   #define NOMINMAX
+  #endif
+
+  // Avoid including extraneous Windows headers.
+  #ifndef WIN32_LEAN_AND_MEAN
+  #define WIN32_LEAN_AND_MEAN
+  #endif
+
   #include <windows.h>
     
   #include <basetsd.h>
