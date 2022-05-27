@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77131279_489393ef",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-27T20:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e9ed1fd_df3b1d5c",
+      "revId": "5659bd75de2cd28385537ffa6b4bdf32ee3ac324",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d02320f_b0c529b5",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-27T20:16:25Z",
       "side": 1,
       "message": "I\u0027d prefer default cases over just falling out of the switch.",
+      "revId": "5659bd75de2cd28385537ffa6b4bdf32ee3ac324",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6a7e15b_623ffc3d",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-27T20:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d02320f_b0c529b5",
       "revId": "5659bd75de2cd28385537ffa6b4bdf32ee3ac324",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
