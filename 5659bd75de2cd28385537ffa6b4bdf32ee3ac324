@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e9ed1fd_df3b1d5c",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-27T20:16:25Z",
+      "side": 1,
+      "message": "Can you move this to the default case to match the prior function?",
+      "revId": "5659bd75de2cd28385537ffa6b4bdf32ee3ac324",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d02320f_b0c529b5",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-27T20:16:25Z",
+      "side": 1,
+      "message": "I\u0027d prefer default cases over just falling out of the switch.",
+      "revId": "5659bd75de2cd28385537ffa6b4bdf32ee3ac324",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
