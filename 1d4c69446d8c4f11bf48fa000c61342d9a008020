@@ -33,6 +33,24 @@
       "message": "Seems like a switch would be much better suited to this, or a map lookup?",
       "revId": "1d4c69446d8c4f11bf48fa000c61342d9a008020",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87948a38_992e9f67",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-05-27T18:55:16Z",
+      "side": 1,
+      "message": "Thanks Kyle, I \u0027ve changed to a switch statement",
+      "parentUuid": "00179add_e67015fe",
+      "revId": "1d4c69446d8c4f11bf48fa000c61342d9a008020",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
