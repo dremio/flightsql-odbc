@@ -16,8 +16,10 @@
 // under the License.
 
 #include "utils.h"
+#include "arrow/type_fwd.h"
 #include <odbcabstraction/platform.h> 
 #include <arrow/type.h>
+#include <arrow/compute/api.h>
 #include <odbcabstraction/types.h>
 
 namespace driver {
@@ -471,6 +473,235 @@ boost::xpressive::sregex ConvertSqlPatternToRegex(const std::string &pattern) {
   const std::string &regex_str = ConvertSqlPatternToRegexString(pattern);
   return boost::xpressive::sregex(boost::xpressive::sregex::compile(regex_str));
 }
+
+bool NeedArrayConversion(arrow::Type::type original_type_id, odbcabstraction::CDataType data_type) {
+  switch (original_type_id) {
+    case arrow::Type::DATE32:
+    case arrow::Type::DATE64:
+      return data_type != odbcabstraction::CDataType_DATE;
+    case arrow::Type::TIME32:
+    case arrow::Type::TIME64:
+      return data_type != odbcabstraction::CDataType_TIME;
+    case arrow::Type::TIMESTAMP:
+      return data_type != odbcabstraction::CDataType_TIMESTAMP;
+    case arrow::Type::STRING:
+      return data_type != odbcabstraction::CDataType_CHAR &&
+             data_type != odbcabstraction::CDataType_WCHAR;
+    case arrow::Type::INT16:
+      return data_type != odbcabstraction::CDataType_SSHORT;
+    case arrow::Type::UINT16:
+      return data_type != odbcabstraction::CDataType_USHORT;
+    case arrow::Type::INT32:
+      return data_type != odbcabstraction::CDataType_SLONG;
+    case arrow::Type::UINT32:
+      return data_type != odbcabstraction::CDataType_ULONG;
+    case arrow::Type::FLOAT:
+      return data_type != odbcabstraction::CDataType_FLOAT;
+    case arrow::Type::DOUBLE:
+      return data_type != odbcabstraction::CDataType_DOUBLE;
+    case arrow::Type::BOOL:
+      return data_type != odbcabstraction::CDataType_BIT;
+    case arrow::Type::INT8:
+      return data_type != odbcabstraction::CDataType_STINYINT;
+    case arrow::Type::UINT8:
+      return data_type != odbcabstraction::CDataType_UTINYINT;
+    case arrow::Type::INT64:
+      return data_type != odbcabstraction::CDataType_SBIGINT;
+    case arrow::Type::UINT64:
+      return data_type != odbcabstraction::CDataType_UBIGINT;
+    case arrow::Type::BINARY:
+      return data_type != odbcabstraction::CDataType_BINARY;
+    case arrow::Type::DECIMAL128:
+      return data_type != odbcabstraction::CDataType_NUMERIC;
+    default:
+      throw odbcabstraction::DriverException(std::string("Invalid conversion"));
+  }
+}
+
+std::shared_ptr<arrow::DataType>
+GetDefaultDataTypeForTypeId(arrow::Type::type type_id) {
+  switch (type_id) {
+    case arrow::Type::STRING:
+      return arrow::utf8();
+    case arrow::Type::INT16:
+      return arrow::int16();
+    case arrow::Type::UINT16:
+      return arrow::uint16();
+    case arrow::Type::INT32:
+      return arrow::int32();
+    case arrow::Type::UINT32:
+      return arrow::uint32();
+    case arrow::Type::FLOAT:
+      return arrow::float32();
+    case arrow::Type::DOUBLE:
+      return arrow::float64();
+    case arrow::Type::BOOL:
+      return arrow::boolean();
+    case arrow::Type::INT8:
+      return arrow::int8();
+    case arrow::Type::UINT8:
+      return arrow::uint8();
+    case arrow::Type::INT64:
+      return arrow::int64();
+    case arrow::Type::UINT64:
+      return arrow::uint64();
+    case arrow::Type::BINARY:
+      return arrow::binary();
+    case arrow::Type::DATE64:
+      return arrow::date64();
+    case arrow::Type::TIME64:
+      return arrow::time64(arrow::TimeUnit::MICRO);
+    case arrow::Type::TIMESTAMP:
+      return arrow::timestamp(arrow::TimeUnit::SECOND);
+  }
+
+  throw odbcabstraction::DriverException(std::string("Invalid type id: ") + std::to_string(type_id));
+}
+
+arrow::Type::type
+ConvertCToArrowType(odbcabstraction::CDataType data_type) {
+  switch (data_type) {
+    case odbcabstraction::CDataType_CHAR:
+    case odbcabstraction::CDataType_WCHAR:
+      return arrow::Type::STRING;
+    case odbcabstraction::CDataType_SSHORT:
+      return arrow::Type::INT16;
+    case odbcabstraction::CDataType_USHORT:
+      return arrow::Type::UINT16;
+    case odbcabstraction::CDataType_SLONG:
+      return arrow::Type::INT32;
+    case odbcabstraction::CDataType_ULONG:
+      return arrow::Type::UINT32;
+    case odbcabstraction::CDataType_FLOAT:
+      return arrow::Type::FLOAT;
+    case odbcabstraction::CDataType_DOUBLE:
+      return arrow::Type::DOUBLE;
+    case odbcabstraction::CDataType_BIT:
+      return arrow::Type::BOOL;
+    case odbcabstraction::CDataType_STINYINT:
+      return arrow::Type::INT8;
+    case odbcabstraction::CDataType_UTINYINT:
+      return arrow::Type::UINT8;
+    case odbcabstraction::CDataType_SBIGINT:
+      return arrow::Type::INT64;
+    case odbcabstraction::CDataType_UBIGINT:
+      return arrow::Type::UINT64;
+    case odbcabstraction::CDataType_BINARY:
+      return arrow::Type::BINARY;
+    case odbcabstraction::CDataType_NUMERIC:
+      return arrow::Type::DECIMAL128;
+    case odbcabstraction::CDataType_TIMESTAMP:
+      return arrow::Type::TIMESTAMP;
+    case odbcabstraction::CDataType_TIME:
+      return arrow::Type::TIME64;
+    case odbcabstraction::CDataType_DATE:
+      return arrow::Type::DATE64;
+    default:
+      throw odbcabstraction::DriverException(std::string("Invalid target type: ") + std::to_string(data_type));
+  }
+}
+
+odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id) {
+  switch (type_id) {
+    case arrow::Type::STRING:
+      return odbcabstraction::CDataType_CHAR;
+    case arrow::Type::INT16:
+      return odbcabstraction::CDataType_SSHORT;
+    case arrow::Type::UINT16:
+      return odbcabstraction::CDataType_USHORT;
+    case arrow::Type::INT32:
+      return odbcabstraction::CDataType_SLONG;
+    case arrow::Type::UINT32:
+      return odbcabstraction::CDataType_ULONG;
+    case arrow::Type::FLOAT:
+      return odbcabstraction::CDataType_FLOAT;
+    case arrow::Type::DOUBLE:
+      return odbcabstraction::CDataType_DOUBLE;
+    case arrow::Type::BOOL:
+      return odbcabstraction::CDataType_BIT;
+    case arrow::Type::INT8:
+      return odbcabstraction::CDataType_STINYINT;
+    case arrow::Type::UINT8:
+      return odbcabstraction::CDataType_UTINYINT;
+    case arrow::Type::INT64:
+      return odbcabstraction::CDataType_SBIGINT;
+    case arrow::Type::UINT64:
+      return odbcabstraction::CDataType_UBIGINT;
+    case arrow::Type::BINARY:
+      return odbcabstraction::CDataType_BINARY;
+    case arrow::Type::DATE64:
+    case arrow::Type::DATE32:
+      return odbcabstraction::CDataType_DATE;
+    case arrow::Type::TIME64:
+    case arrow::Type::TIME32:
+      return odbcabstraction::CDataType_TIME;
+    case arrow::Type::TIMESTAMP:
+      return odbcabstraction::CDataType_TIMESTAMP;
+    default:
+      throw odbcabstraction::DriverException(std::string("Invalid type id: ") + std::to_string(type_id));
+  }
+}
+
+std::shared_ptr<arrow::Array>
+CheckConversion(const arrow::Result<arrow::Datum> &result) {
+  if (result.ok()) {
+    const arrow::Datum &datum = result.ValueOrDie();
+    return datum.make_array();
+  } else {
+    throw odbcabstraction::DriverException(result.status().message());
+  }
+}
+
+ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
+                              odbcabstraction::CDataType target_type) {
+  // The else statement has a convert the works for the most case of array
+  // conversion. In case, we find conversion that the default one can't handle
+  // we can include some additional if-else statement with the logic to handle
+  // it
+  if (original_type_id == arrow::Type::STRING &&
+      target_type == odbcabstraction::CDataType_TIME) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::compute::StrptimeOptions options("%H:%M", arrow::TimeUnit::MICRO, false);
+
+      auto converted_result =
+        arrow::compute::Strptime({original_array}, options);
+      auto first_converted_array = CheckConversion(converted_result);
+
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = time64(arrow::TimeUnit::MICRO);
+      return CheckConversion(arrow::compute::CallFunction(
+        "cast", {first_converted_array}, &cast_options));
+    };
+  } else if (original_type_id == arrow::Type::STRING &&
+             target_type == odbcabstraction::CDataType_DATE) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      // The Strptime requires a date format. Using the ISO 8601 format
+      arrow::compute::StrptimeOptions options("%Y-%m-%d", arrow::TimeUnit::SECOND,
+                                              false);
+
+      auto converted_result =
+        arrow::compute::Strptime({original_array}, options);
+
+      auto first_converted_array = CheckConversion(converted_result);
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = arrow::date64();
+      return CheckConversion(arrow::compute::CallFunction(
+        "cast", {first_converted_array}, &cast_options));
+    };
+  } else {
+    // Default converter
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      const arrow::Type::type &target_arrow_type_id =
+        ConvertCToArrowType(target_type);
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = GetDefaultDataTypeForTypeId(target_arrow_type_id);
+
+      return CheckConversion(arrow::compute::CallFunction(
+        "cast", {original_array}, &cast_options));
+    };
+  }
+}
+
 
 } // namespace flight_sql
 } // namespace driver
