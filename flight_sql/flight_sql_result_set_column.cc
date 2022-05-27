@@ -27,36 +27,46 @@
 namespace driver {
 namespace flight_sql {
 
+typedef std::function<
+  std::shared_ptr<arrow::Array>(std::shared_ptr<arrow::Array>)>
+  ArrayConvertTask;
+
 namespace {
 std::shared_ptr<arrow::DataType>
 GetDefaultDataTypeForTypeId(arrow::Type::type type_id) {
   switch (type_id) {
-  case arrow::Type::STRING:
-    return arrow::utf8();
-  case arrow::Type::INT16:
-    return arrow::int16();
-  case arrow::Type::UINT16:
-    return arrow::uint16();
-  case arrow::Type::INT32:
-    return arrow::int32();
-  case arrow::Type::UINT32:
-    return arrow::uint32();
-  case arrow::Type::FLOAT:
-    return arrow::float32();
-  case arrow::Type::DOUBLE:
-    return arrow::float64();
-  case arrow::Type::BOOL:
-    return arrow::boolean();
-  case arrow::Type::INT8:
-    return arrow::int8();
-  case arrow::Type::UINT8:
-    return arrow::uint8();
-  case arrow::Type::INT64:
-    return arrow::int64();
-  case arrow::Type::UINT64:
-    return arrow::uint64();
-  case arrow::Type::BINARY:
-    return arrow::binary();
+    case arrow::Type::STRING:
+      return arrow::utf8();
+    case arrow::Type::INT16:
+      return arrow::int16();
+    case arrow::Type::UINT16:
+      return arrow::uint16();
+    case arrow::Type::INT32:
+      return arrow::int32();
+    case arrow::Type::UINT32:
+      return arrow::uint32();
+    case arrow::Type::FLOAT:
+      return arrow::float32();
+    case arrow::Type::DOUBLE:
+      return arrow::float64();
+    case arrow::Type::BOOL:
+      return arrow::boolean();
+    case arrow::Type::INT8:
+      return arrow::int8();
+    case arrow::Type::UINT8:
+      return arrow::uint8();
+    case arrow::Type::INT64:
+      return arrow::int64();
+    case arrow::Type::UINT64:
+      return arrow::uint64();
+    case arrow::Type::BINARY:
+      return arrow::binary();
+    case arrow::Type::DATE64:
+      return arrow::date64();
+    case arrow::Type::TIME64:
+      return arrow::time64(TimeUnit::MICRO);
+    case arrow::Type::TIMESTAMP:
+      return arrow::timestamp(TimeUnit::SECOND);
   }
 
   throw odbcabstraction::DriverException(std::string("Invalid type id: ") + std::to_string(type_id));
@@ -94,39 +104,144 @@ ConvertCToArrowType(odbcabstraction::CDataType data_type) {
       return arrow::Type::BINARY;
     case odbcabstraction::CDataType_NUMERIC:
       return arrow::Type::DECIMAL128;
+    case odbcabstraction::CDataType_TIMESTAMP:
+      return arrow::Type::TIMESTAMP;
+    case odbcabstraction::CDataType_TIME:
+      return arrow::Type::TIME64;
+    case odbcabstraction::CDataType_DATE:
+      return arrow::Type::DATE64;
   }
 
   throw odbcabstraction::DriverException(std::string("Invalid target type: ") + std::to_string(data_type));
 }
 
-std::shared_ptr<Array>
-CastArray(const std::shared_ptr<arrow::Array> &original_array,
-          CDataType target_type) {
-  const arrow::Type::type &target_arrow_type_id = ConvertCToArrowType(target_type);
-  if (original_array->type()->id() == target_arrow_type_id) {
-    // Avoid casting if target type is the same as original
-    return original_array;
+bool NeedConversion(arrow::Type::type original_type_id, odbcabstraction::CDataType data_type) {
+  if (original_type_id == arrow::Type::DATE64 || original_type_id == arrow::Type::DATE32) {
+    return data_type != odbcabstraction::CDataType_DATE;
+  } else if (original_type_id == arrow::Type::TIME64 || original_type_id == arrow::Type::TIME32) {
+    return data_type != odbcabstraction::CDataType_TIME;
   }
+  else if (original_type_id == arrow::Type::TIMESTAMP) {
+    return data_type != odbcabstraction::CDataType_TIMESTAMP;
+  }
+  else if (original_type_id == arrow::Type::STRING) {
+    return (data_type != odbcabstraction::CDataType_CHAR && data_type != odbcabstraction::CDataType_WCHAR);
+  }
+  else if (original_type_id == arrow::Type::INT16) {
+    return data_type != odbcabstraction::CDataType_SSHORT;
+  }
+  else if (original_type_id == arrow::Type::UINT16) {
+    return data_type != odbcabstraction::CDataType_USHORT;
+  }
+  else if (original_type_id == arrow::Type::INT32) {
+    return data_type != odbcabstraction::CDataType_SLONG;
+  }
+  else if (original_type_id == arrow::Type::UINT32) {
+    return data_type != odbcabstraction::CDataType_ULONG;
+  }
+  else if (original_type_id == arrow::Type::FLOAT) {
+    return data_type != odbcabstraction::CDataType_FLOAT;
+  }
+  else if (original_type_id == arrow::Type::DOUBLE) {
+    return data_type != odbcabstraction::CDataType_DOUBLE;
+  }
+  else if (original_type_id == arrow::Type::BOOL) {
+    return data_type != odbcabstraction::CDataType_BIT;
+  }
+  else if (original_type_id == arrow::Type::INT8) {
+    return data_type != odbcabstraction::CDataType_STINYINT;
+  }
+  else if (original_type_id == arrow::Type::UINT8) {
+    return data_type != odbcabstraction::CDataType_UTINYINT;
+  }
+  else if (original_type_id == arrow::Type::INT64) {
+    return data_type != odbcabstraction::CDataType_SBIGINT;
+  }
+  else if (original_type_id == arrow::Type::UINT64) {
+    return data_type != odbcabstraction::CDataType_UBIGINT;
+  }
+  else if (original_type_id == arrow::Type::BINARY) {
+    return data_type != odbcabstraction::CDataType_BINARY;
+  }
+  else if (original_type_id == arrow::Type::DECIMAL128) {
+    return data_type != odbcabstraction::CDataType_NUMERIC;
+  } else {
+    throw odbcabstraction::DriverException(std::string("Invalid conversion"));
+  }
+}
 
-  arrow::compute::CastOptions cast_options;
-  cast_options.to_type = GetDefaultDataTypeForTypeId(target_arrow_type_id);
-
-  const arrow::Result<arrow::Datum> &result =
-      arrow::compute::CallFunction("cast", {original_array}, &cast_options);
+std::shared_ptr<arrow::Array>
+CheckConversion(const arrow::Result<arrow::Datum> &result) {
   if (result.ok()) {
-    arrow::Datum datum = result.ValueOrDie();
-    return std::move(datum).make_array();
-  } else if (target_type == odbcabstraction::CDataType_CHAR || target_type == odbcabstraction::CDataType_WCHAR) {
-    // Fallback to JSON conversion if target type is CHAR/WCHAR
-    const auto &json_conversion_result = ConvertToJson(original_array);
-    ThrowIfNotOK(json_conversion_result.status());
-
-    return json_conversion_result.ValueOrDie();
+    const arrow::Datum &datum = result.ValueOrDie();
+    return datum.make_array();
   } else {
     throw odbcabstraction::DriverException(result.status().message());
   }
 }
 
+ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
+                              odbcabstraction::CDataType target_type) {
+  // The else statement has a convert the works for the most case of array
+  // conversion. In case, we find conversion that the default one can't handle
+  // we can include some additional if-else statement with the logic to handle
+  // it
+  if (original_type_id == arrow::Type::STRING &&
+      target_type == odbcabstraction::CDataType_TIME) {
+    return [=](const std::shared_ptr<Array> &original_array) {
+      arrow::compute::StrptimeOptions options("%H:%M", TimeUnit::MICRO, false);
+
+      auto converted_result =
+          arrow::compute::Strptime({original_array}, options);
+      auto first_converted_array = CheckConversion(converted_result);
+
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = time64(TimeUnit::MICRO);
+      return CheckConversion(arrow::compute::CallFunction(
+          "cast", {first_converted_array}, &cast_options));
+    };
+  } else if (original_type_id == arrow::Type::STRING &&
+             target_type == odbcabstraction::CDataType_DATE) {
+    return [=](const std::shared_ptr<Array> &original_array) {
+      // The Strptime requires a date format. Using the ISO 8601 format
+      arrow::compute::StrptimeOptions options("%Y-%m-%d", TimeUnit::SECOND,
+                                              false);
+
+      auto converted_result =
+          arrow::compute::Strptime({original_array}, options);
+
+      auto first_converted_array = CheckConversion(converted_result);
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = date64();
+      return CheckConversion(arrow::compute::CallFunction(
+          "cast", {first_converted_array}, &cast_options));
+    };
+  } else {
+    // Default converter
+    return [=](const std::shared_ptr<Array> &original_array) {
+      const arrow::Type::type &target_arrow_type_id =
+          ConvertCToArrowType(target_type);
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = GetDefaultDataTypeForTypeId(target_arrow_type_id);
+
+      return CheckConversion(arrow::compute::CallFunction(
+          "cast", {original_array}, &cast_options));
+    };
+  }
+}
+
+std::shared_ptr<Array>
+CastArray(const std::shared_ptr<arrow::Array> &original_array,
+          CDataType target_type) {
+  bool conversion = NeedConversion(original_array->type()->id(), target_type);
+
+  if (conversion) {
+    auto converter = GetConverter(original_array->type_id(), target_type);
+    return converter(original_array);
+  } else {
+    return original_array;
+  }
+}
 } // namespace
 
 std::unique_ptr<Accessor>
