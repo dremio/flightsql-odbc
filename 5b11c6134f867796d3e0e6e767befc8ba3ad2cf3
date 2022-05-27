@@ -157,6 +157,42 @@
       "parentUuid": "7c7fe825_850a483e",
       "revId": "5b11c6134f867796d3e0e6e767befc8ba3ad2cf3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44cf09ac_4604d08f",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-27T16:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49908ed6_707b0c10",
+      "revId": "5b11c6134f867796d3e0e6e767befc8ba3ad2cf3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2250e0b_166774d9",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-27T16:42:49Z",
+      "side": 1,
+      "message": "Created a ticket for this",
+      "parentUuid": "290dce85_ea7938e3",
+      "revId": "5b11c6134f867796d3e0e6e767befc8ba3ad2cf3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a3a500e_133cd69f",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-27T16:42:49Z",
+      "side": 1,
+      "message": "Yes!",
+      "parentUuid": "8804c4b3_7c75d82e",
+      "revId": "df7c88794d17b5d8ef0ae3741ed9fef21a5e2635",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "377f51e5_fadbf104",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-26T20:55:16Z",
       "side": 1,
       "message": "This should be SQL State 24000 (Invalid Cursor State).\nThis should also be the same as if SQLCloseCursor got called in between SQLFetch and SQLGetData.",
+      "revId": "df7c88794d17b5d8ef0ae3741ed9fef21a5e2635",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff7d61b_38d63d2c",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-27T16:42:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "377f51e5_fadbf104",
       "revId": "df7c88794d17b5d8ef0ae3741ed9fef21a5e2635",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
