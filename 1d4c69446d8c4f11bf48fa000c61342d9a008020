@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7da450_973c7622",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-27T16:52:41Z",
+      "side": 1,
+      "message": "Please add tests that show the failures you fixed.",
+      "revId": "1d4c69446d8c4f11bf48fa000c61342d9a008020",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00179add_e67015fe",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-05-27T16:52:41Z",
+      "side": 1,
+      "message": "Seems like a switch would be much better suited to this, or a map lookup?",
+      "revId": "1d4c69446d8c4f11bf48fa000c61342d9a008020",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
