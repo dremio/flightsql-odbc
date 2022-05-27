@@ -164,14 +164,12 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
 
   if ((catalog_name && *catalog_name == "%") &&
       (schema_name && schema_name->empty()) &&
-      (table_name && table_name->empty()) &&
-      (table_type && table_type->empty())) {
+      (table_name && table_name->empty())) {
     current_result_set_ =
         GetTablesForSQLAllCatalogs(column_names, call_options_, sql_client_, diagnostics_);
   } else if ((catalog_name && catalog_name->empty()) &&
              (schema_name && *schema_name == "%") &&
-             (table_name && table_name->empty()) &&
-             (table_type && table_type->empty())) {
+             (table_name && table_name->empty())) {
     current_result_set_ = GetTablesForSQLAllDbSchemas(
         column_names, call_options_, sql_client_, schema_name, diagnostics_);
   } else if ((catalog_name && catalog_name->empty()) &&
