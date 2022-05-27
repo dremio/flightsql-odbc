@@ -104,6 +104,7 @@ enum CDataType {
   CDataType_UBIGINT = ((-5) + (-22)),
   CDataType_BINARY = (-2),
   CDataType_NUMERIC = 2,
+  CDataType_DEFAULT = 99,
 };
 
 enum Nullability {

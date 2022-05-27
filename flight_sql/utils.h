@@ -27,6 +27,10 @@
 namespace driver {
 namespace flight_sql {
 
+typedef std::function<
+  std::shared_ptr<arrow::Array>(std::shared_ptr<arrow::Array>)>
+  ArrayConvertTask;
+
 using arrow::util::optional;
 
 #ifdef WITH_IODBC
@@ -92,6 +96,20 @@ optional<int32_t> GetDisplaySize(odbcabstraction::SqlDataType data_type,
 std::string ConvertSqlPatternToRegexString(const std::string &pattern);
 
 boost::xpressive::sregex ConvertSqlPatternToRegex(const std::string &pattern);
+
+bool NeedArrayConversion(arrow::Type::type original_type_id,
+                         odbcabstraction::CDataType data_type);
+
+std::shared_ptr<arrow::DataType> GetDefaultDataTypeForTypeId(arrow::Type::type type_id);
+
+arrow::Type::type ConvertCToArrowType(odbcabstraction::CDataType data_type);
+
+odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id);
+
+std::shared_ptr<arrow::Array> CheckConversion(const arrow::Result<arrow::Datum> &result);
+
+ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
+                              odbcabstraction::CDataType target_type);
 
 } // namespace flight_sql
 } // namespace driver
