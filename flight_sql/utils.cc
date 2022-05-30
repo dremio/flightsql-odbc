@@ -21,9 +21,25 @@
 #include <arrow/type.h>
 #include <arrow/compute/api.h>
 #include <odbcabstraction/types.h>
+#include <json_converter.h>
 
 namespace driver {
 namespace flight_sql {
+
+namespace {
+bool IsComplexType(arrow::Type::type type_id) {
+  switch (type_id) {
+    case arrow::Type::LIST:
+    case arrow::Type::LARGE_LIST:
+    case arrow::Type::FIXED_SIZE_LIST:
+    case arrow::Type::MAP:
+    case arrow::Type::STRUCT:
+      return true;
+    default:
+      return false;
+  }
+}
+}
 
 using namespace odbcabstraction;
 using arrow::util::make_optional;
@@ -513,6 +529,12 @@ bool NeedArrayConversion(arrow::Type::type original_type_id, odbcabstraction::CD
       return data_type != odbcabstraction::CDataType_BINARY;
     case arrow::Type::DECIMAL128:
       return data_type != odbcabstraction::CDataType_NUMERIC;
+    case arrow::Type::LIST:
+    case arrow::Type::LARGE_LIST:
+    case arrow::Type::FIXED_SIZE_LIST:
+    case arrow::Type::MAP:
+    case arrow::Type::STRUCT:
+      return data_type == odbcabstraction::CDataType_CHAR || data_type == odbcabstraction::CDataType_WCHAR;
     default:
       throw odbcabstraction::DriverException(std::string("Invalid conversion"));
   }
@@ -688,16 +710,24 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
       return CheckConversion(arrow::compute::CallFunction(
         "cast", {first_converted_array}, &cast_options));
     };
+  } else if (IsComplexType(original_type_id) &&
+             (target_type == odbcabstraction::CDataType_CHAR ||
+              target_type == odbcabstraction::CDataType_WCHAR)) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      const auto &json_conversion_result = ConvertToJson(original_array);
+      ThrowIfNotOK(json_conversion_result.status());
+      return json_conversion_result.ValueOrDie();
+    };
   } else {
     // Default converter
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
       const arrow::Type::type &target_arrow_type_id =
-        ConvertCToArrowType(target_type);
+          ConvertCToArrowType(target_type);
       arrow::compute::CastOptions cast_options;
       cast_options.to_type = GetDefaultDataTypeForTypeId(target_arrow_type_id);
 
       return CheckConversion(arrow::compute::CallFunction(
-        "cast", {original_array}, &cast_options));
+          "cast", {original_array}, &cast_options));
     };
   }
 }
