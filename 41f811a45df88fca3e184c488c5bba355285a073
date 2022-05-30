@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bfe50b1_7ee8f8c8",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-05-30T17:49:27Z",
+      "side": 1,
+      "message": "Consider CDataType_WCHAR as well",
+      "revId": "41f811a45df88fca3e184c488c5bba355285a073",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
