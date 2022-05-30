@@ -18,7 +18,6 @@
 #include "flight_sql_result_set_column.h"
 #include <odbcabstraction/platform.h>
 #include "flight_sql_result_set.h"
-#include "json_converter.h"
 #include "utils.h"
 #include <accessors/types.h>
 #include <memory>
