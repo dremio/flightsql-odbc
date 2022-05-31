@@ -710,7 +710,7 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
       return CheckConversion(arrow::compute::CallFunction(
         "cast", {first_converted_array}, &cast_options));
     };
-  } else if (IsComplexType(original_type_id) &&
+  } else if ((IsComplexType(original_type_id) || original_type_id == arrow::Type::DECIMAL128) &&
              (target_type == odbcabstraction::CDataType_CHAR ||
               target_type == odbcabstraction::CDataType_WCHAR)) {
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
