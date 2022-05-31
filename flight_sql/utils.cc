@@ -16,8 +16,9 @@
 // under the License.
 
 #include "utils.h"
+#include "arrow/builder.h"
 #include "arrow/type_fwd.h"
-#include <odbcabstraction/platform.h> 
+#include <odbcabstraction/platform.h>
 #include <arrow/type.h>
 #include <arrow/compute/api.h>
 #include <odbcabstraction/types.h>
@@ -710,7 +711,29 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
       return CheckConversion(arrow::compute::CallFunction(
         "cast", {first_converted_array}, &cast_options));
     };
-  } else if (IsComplexType(original_type_id) &&
+  } else if (original_type_id == arrow::Type::DECIMAL128 &&
+             (target_type == odbcabstraction::CDataType_CHAR ||
+              target_type == odbcabstraction::CDataType_WCHAR)) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::StringBuilder builder;
+      int64_t length = original_array->length();
+      ThrowIfNotOK(builder.ReserveData(length));
+
+      for (int64_t i = 0; i < length; ++i) {
+        if (original_array->IsNull(i)) {
+          ThrowIfNotOK(builder.AppendNull());
+        } else {
+          auto result = original_array->GetScalar(i);
+          auto scalar = result.ValueOrDie();
+          ThrowIfNotOK(builder.Append(scalar->ToString()));
+        }
+      }
+
+      auto finish = builder.Finish();
+
+      return finish.ValueOrDie();
+    };
+  } else if (IsComplexType(original_type_id)  &&
              (target_type == odbcabstraction::CDataType_CHAR ||
               target_type == odbcabstraction::CDataType_WCHAR)) {
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
@@ -731,7 +754,5 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
     };
   }
 }
-
-
 } // namespace flight_sql
 } // namespace driver
