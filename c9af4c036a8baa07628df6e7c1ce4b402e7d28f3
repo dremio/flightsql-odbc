@@ -490,6 +490,24 @@
       "message": "Is the port_edit field being set to be numbers-only? And the password_edit field being set to be a masked field?",
       "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ebab2cc_c43c6186",
+        "filename": "flight_sql/ui/dsn_configuration_window.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T21:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03c42e84_62691d23",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }

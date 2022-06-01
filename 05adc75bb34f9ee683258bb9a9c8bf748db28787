@@ -122,6 +122,24 @@
       "parentUuid": "038a881a_7e47e6b7",
       "revId": "05adc75bb34f9ee683258bb9a9c8bf748db28787",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74ea30d_9db8ae61",
+        "filename": "flight_sql/ui/window.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T21:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3fdbcde_db0fd67d",
+      "revId": "05adc75bb34f9ee683258bb9a9c8bf748db28787",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
