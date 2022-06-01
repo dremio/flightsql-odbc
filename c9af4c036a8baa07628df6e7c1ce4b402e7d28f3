@@ -194,6 +194,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc60a112_2ef05926",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T20:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca12a12f_e2d9c560",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e38bf07_27b64a2e",
@@ -225,6 +243,24 @@
       "side": 1,
       "message": "Unfortunately not, but I\u0027ve made it to do so.",
       "parentUuid": "2e38bf07_27b64a2e",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42658883_d268c69b",
+        "filename": "flight_sql/config/connection_string_parser.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T20:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30d19f4d_e698d299",
       "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },

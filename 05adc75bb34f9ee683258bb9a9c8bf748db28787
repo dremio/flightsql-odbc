@@ -36,6 +36,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a570b9dd_6cb594a7",
+        "filename": "flight_sql/system_dsn.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T20:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a051594_22f563f8",
+      "revId": "05adc75bb34f9ee683258bb9a9c8bf748db28787",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aef4331d_9d4aefe0",
