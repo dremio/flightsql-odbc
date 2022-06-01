@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e4aae59_95968b01",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 45
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T19:12:09Z",
+      "side": 1,
+      "message": "My plan is to go the other way, remove them in flight_sql_connection and reference them from here.",
+      "parentUuid": "091353ee_3efe1cff",
+      "revId": "328b4bd036027d79d84eecae1d0a0084211cf4aa",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c83c197_88ecf269",
         "filename": "flight_sql/config/configuration.cpp",
         "patchSetId": 45

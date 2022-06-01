@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc26d999_57cdafe4",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-01T19:12:09Z",
+      "side": 1,
+      "message": "Is there a default port for Arrow?",
+      "parentUuid": "8a2876fc_10a26d20",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8759ac12_05490249",
         "filename": "flight_sql/config/configuration.cpp",
         "patchSetId": 46
