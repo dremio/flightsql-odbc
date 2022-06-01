@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec5e201_f42f4836",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 46
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Please ensure that the order the controls get iterated over makes sense when hitting tab (eg top to bottom, left to right).",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c22972b1_6832611d",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "This work should be under driver::flight_sql::config.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a2876fc_10a26d20",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Don\u0027t use a Dremio default port. This is not a Dremio driver.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8759ac12_05490249",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "This is hard to read. Can we add a comment about this? I assume this relates to the way the data is returned by SQLGetPrivateProfileString.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca02cab7_3d52b78b",
+        "filename": "flight_sql/config/configuration.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Kind of surprised there\u0027s no way to do map subtraction in C++.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e38bf07_27b64a2e",
+        "filename": "flight_sql/config/connection_string_parser.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Should just be able to include config/connection_string_parser.h.\nflight_sql should already be an include directory.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c53fb0ca_c7daed1f",
+        "filename": "flight_sql/include/flight_sql/config/configuration.h",
+        "patchSetId": 46
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "#include \u003codbcabstraction/platform.h\u003e instead of including windows.h correctly. There are some macros that should be set before including windows.h.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e693d49_d3b7c807",
+        "filename": "flight_sql/include/flight_sql/config/configuration.h",
+        "patchSetId": 46
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Just include \u003codbcabstraction/connection.h\u003e",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6ca6d4b_92b4a227",
+        "filename": "flight_sql/include/flight_sql/config/connection_string_parser.h",
+        "patchSetId": 46
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "double-quotes instead of angle-brackets. Angle brackets should be used for external or system headers",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a984bc65_df071b5e",
+        "filename": "flight_sql/include/flight_sql/config/connection_string_parser.h",
+        "patchSetId": 46
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Should declare a copy constructor and assignment operator as delete;",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21482b3b_2c9a68d0",
+        "filename": "flight_sql/include/flight_sql/ui/dsn_configuration_window.h",
+        "patchSetId": 46
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "No need for explicit when there are two parameters and none are optional.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcac3b4b_2f329b92",
+        "filename": "flight_sql/include/flight_sql/ui/window.h",
+        "patchSetId": 46
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Nit: This should appear before the bool to reduce struct padding.",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03c42e84_62691d23",
+        "filename": "flight_sql/ui/dsn_configuration_window.cpp",
+        "patchSetId": 46
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-01T19:02:53Z",
+      "side": 1,
+      "message": "Is the port_edit field being set to be numbers-only? And the password_edit field being set to be a masked field?",
+      "revId": "c9af4c036a8baa07628df6e7c1ce4b402e7d28f3",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
