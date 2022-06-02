@@ -1,0 +1,7 @@
+Code-Review+2: Kyle Porter (CW) <kporter@dremio.com>
+Verified+1: jenkins (via gerrit) <jenkins@dremio.com>
+Submitted-by: Kyle Porter (CW) <kporter@dremio.com>
+Submitted-at: Thu, 02 Jun 2022 23:43:26 +0000
+Reviewed-on: https://gerrit.drem.io/gerrit/c/flightsql-odbc/+/37742
+Project: flightsql-odbc
+Branch: refs/heads/master
