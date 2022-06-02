@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1b4811_0eb4a219",
+        "filename": "flight_sql/include/flight_sql/config/connection_string_parser.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-02T21:26:31Z",
+      "side": 1,
+      "message": "Nit: explicit",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9bc48c7_b4581154",
+        "filename": "flight_sql/include/flight_sql/ui/add_property_window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-02T21:26:31Z",
+      "side": 1,
+      "message": "Nit: explicit",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21b369be_58c43e67",
+        "filename": "flight_sql/include/flight_sql/ui/add_property_window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-02T21:26:31Z",
+      "side": 1,
+      "message": "Nit: override on overridden virtual functions.",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79a667a_2f32673c",
+        "filename": "flight_sql/include/flight_sql/ui/add_property_window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-02T21:26:31Z",
+      "side": 1,
+      "message": "Nit: These should be moved below value but before bools.",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f212a1_af7e39e1",
+        "filename": "flight_sql/include/flight_sql/ui/window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-02T21:26:31Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
