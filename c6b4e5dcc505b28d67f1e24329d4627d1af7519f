@@ -122,6 +122,24 @@
       "parentUuid": "faf1c929_5109f960",
       "revId": "c6b4e5dcc505b28d67f1e24329d4627d1af7519f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27a09e70_e96d2b49",
+        "filename": "flight_sql/config/diagnostic_record.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-02T20:30:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "924a3514_46f921b4",
+      "revId": "c6b4e5dcc505b28d67f1e24329d4627d1af7519f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
