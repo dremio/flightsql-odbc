@@ -16,6 +16,24 @@
       "message": "What was the purpose of the table_type \u0026\u0026 table_type-\u003eempty()? I assume we included that logic for a reason originally?",
       "revId": "5935cf185927c8f28ce44344fda0d86e9070e674",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b93e474d_0ee61070",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-02T17:42:14Z",
+      "side": 1,
+      "message": "It was a misunderstanding with the ODBC docs, this logic only applies to the other arguments",
+      "parentUuid": "3dba9827_87e50325",
+      "revId": "5935cf185927c8f28ce44344fda0d86e9070e674",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
