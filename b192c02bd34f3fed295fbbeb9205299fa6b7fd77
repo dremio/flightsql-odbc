@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1defdd3_c5ac3cfb",
+        "filename": "flight_sql/include/flight_sql/config/connection_string_parser.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-02T21:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1b4811_0eb4a219",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9bc48c7_b4581154",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-02T21:26:31Z",
       "side": 1,
       "message": "Nit: explicit",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9998c935_960f0970",
+        "filename": "flight_sql/include/flight_sql/ui/add_property_window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-02T21:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9bc48c7_b4581154",
       "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b43e764_a16b0b4b",
+        "filename": "flight_sql/include/flight_sql/ui/add_property_window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-02T21:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21b369be_58c43e67",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b79a667a_2f32673c",
@@ -69,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ff175c8_f55f2922",
+        "filename": "flight_sql/include/flight_sql/ui/add_property_window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-02T21:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b79a667a_2f32673c",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73f212a1_af7e39e1",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-06-02T21:26:31Z",
       "side": 1,
       "message": "explicit",
+      "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc6c33a5_62f2d6f6",
+        "filename": "flight_sql/include/flight_sql/ui/window.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000034
+      },
+      "writtenOn": "2022-06-02T21:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73f212a1_af7e39e1",
       "revId": "b192c02bd34f3fed295fbbeb9205299fa6b7fd77",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
