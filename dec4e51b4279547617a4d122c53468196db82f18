@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7f81cf_fa42f93f",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-03T14:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3964b5b_2b10106f",
+      "revId": "dec4e51b4279547617a4d122c53468196db82f18",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b2b46bb_969e8067",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-03T14:36:25Z",
       "side": 1,
       "message": "Ned to check for nulls and use AppendNull() if there\u0027s a null.",
+      "revId": "dec4e51b4279547617a4d122c53468196db82f18",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528214a5_f349d8b4",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-03T14:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b2b46bb_969e8067",
       "revId": "dec4e51b4279547617a4d122c53468196db82f18",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
