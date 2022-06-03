@@ -175,6 +175,11 @@ TEST(ConvertToJson, Lists) {
   ASSERT_EQ(expected_string, ConvertToJson(ListScalar{array}));
   ASSERT_EQ(expected_string, ConvertToJson(FixedSizeListScalar{array}));
   ASSERT_EQ(expected_string, ConvertToJson(LargeListScalar{array}));
+
+  StringBuilder builder;
+  ASSERT_OK(builder.AppendNull());
+  ASSERT_EQ("[null]", ConvertToJson(ListScalar{builder.Finish().ValueOrDie()}));
+  ASSERT_EQ("[]", ConvertToJson(ListScalar{StringBuilder().Finish().ValueOrDie()}));
 }
 
 TEST(ConvertToJson, Struct) {
