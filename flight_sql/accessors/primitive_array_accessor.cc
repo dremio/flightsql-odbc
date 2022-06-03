@@ -34,7 +34,7 @@ template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
 size_t
 PrimitiveArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::GetColumnarData_impl(
     const std::shared_ptr<ARROW_ARRAY> &sliced_array, ColumnBinding *binding,
-    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   return CopyFromArrayValuesToBinding<ARROW_ARRAY>(sliced_array, binding);
 }
 

@@ -44,9 +44,10 @@ void TestPrimitiveArraySqlAccessor() {
   ColumnBinding binding(TARGET_TYPE, 0, 0, buffer.data(), values.size(),
                         strlen_buffer.data());
 
+  int64_t value_offset = 0;
   driver::odbcabstraction::Diagnostics diagnostics("Dummy", "Dummy", odbcabstraction::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(c_type), strlen_buffer[i]);

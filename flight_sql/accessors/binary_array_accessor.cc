@@ -31,25 +31,31 @@ namespace {
 
 inline void MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
                                          BinaryArray *array, int64_t i,
-                                         int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+                                         int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
 
   const char *value = array->Value(i).data();
   size_t size_in_bytes = array->value_length(i);
 
-  // TODO: Handle truncation
+  size_t remaining_length = static_cast<size_t>(size_in_bytes - value_offset);
   size_t value_length =
-      std::min(static_cast<size_t>(size_in_bytes - value_offset),
+      std::min(remaining_length,
                binding->buffer_length);
-  if (size_in_bytes - value_offset > binding->buffer_length) {
-    diagnostics.AddTruncationWarning();
-  }
 
   auto *byte_buffer = static_cast<unsigned char *>(binding->buffer) +
                       i * binding->buffer_length;
   memcpy(byte_buffer, ((char *)value) + value_offset, value_length);
 
+  if (remaining_length > binding->buffer_length) {
+    diagnostics.AddTruncationWarning();
+    if (update_value_offset) {
+      value_offset += value_length;
+    }
+  } else if (update_value_offset) {
+    value_offset = -1;
+  }
+
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = static_cast<ssize_t>(size_in_bytes);
+    binding->strlen_buffer[i] = static_cast<ssize_t>(remaining_length);
   }
 }
 
@@ -64,8 +70,8 @@ BinaryArrayFlightSqlAccessor<TARGET_TYPE>::BinaryArrayFlightSqlAccessor(
 template <>
 void BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
     ColumnBinding *binding, BinaryArray *array, int64_t i,
-    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, diagnostics);
+    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, update_value_offset, diagnostics);
 }
 
 template class BinaryArrayFlightSqlAccessor<odbcabstraction::CDataType_BINARY>;
