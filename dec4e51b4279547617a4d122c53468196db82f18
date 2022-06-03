@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3964b5b_2b10106f",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-03T14:36:25Z",
+      "side": 1,
+      "message": "int64_t i.",
+      "revId": "dec4e51b4279547617a4d122c53468196db82f18",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2b46bb_969e8067",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-03T14:36:25Z",
+      "side": 1,
+      "message": "Ned to check for nulls and use AppendNull() if there\u0027s a null.",
+      "revId": "dec4e51b4279547617a4d122c53468196db82f18",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
