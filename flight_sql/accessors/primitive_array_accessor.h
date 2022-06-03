@@ -39,7 +39,8 @@ public:
   explicit PrimitiveArrayFlightSqlAccessor(Array *array);
 
   size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
-                              ColumnBinding *binding, int64_t value_offset, odbcabstraction::Diagnostics &diagnostics);
+                              ColumnBinding *binding, int64_t &value_offset,
+                              bool update_value_offset, odbcabstraction::Diagnostics &diagnostics);
 };
 
 } // namespace flight_sql
