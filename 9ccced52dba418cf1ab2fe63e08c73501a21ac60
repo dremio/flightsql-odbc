@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5ae00b_5d96bae7",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-03T15:14:44Z",
+      "side": 1,
+      "message": "Can you put parentheses around the two target_type checks to ensure the order of operations?",
+      "revId": "9ccced52dba418cf1ab2fe63e08c73501a21ac60",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
