@@ -41,9 +41,10 @@ TEST(DateArrayAccessor, Test_Date32Array_CDataType_DATE) {
 
   ColumnBinding binding(CDataType_DATE, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(DATE_STRUCT), strlen_buffer[i]);
@@ -72,9 +73,10 @@ TEST(DateArrayAccessor, Test_Date64Array_CDataType_DATE) {
 
   ColumnBinding binding(CDataType_DATE, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(DATE_STRUCT), strlen_buffer[i]);

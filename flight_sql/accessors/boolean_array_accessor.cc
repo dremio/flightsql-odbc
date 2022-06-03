@@ -32,7 +32,7 @@ BooleanArrayFlightSqlAccessor<TARGET_TYPE>::BooleanArrayFlightSqlAccessor(
 template <CDataType TARGET_TYPE>
 void BooleanArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(
     ColumnBinding *binding, BooleanArray *array, int64_t i,
-    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   typedef unsigned char c_type;
   bool value = array->Value(i);
 

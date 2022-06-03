@@ -42,10 +42,11 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
   std::vector<ssize_t> strlen_buffer(values.size());
 
+  int64_t value_offset = 0;
   ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
@@ -80,11 +81,12 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_SECONDS) {
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
   std::vector<ssize_t> strlen_buffer(values.size());
 
+  int64_t value_offset = 0;
   ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
 
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
@@ -117,11 +119,12 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MICRO) {
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
   std::vector<ssize_t> strlen_buffer(values.size());
 
+  int64_t value_offset = 0;
   ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
 
     ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
@@ -155,11 +158,12 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_NANO) {
   std::vector<TIMESTAMP_STRUCT> buffer(values.size());
   std::vector<ssize_t> strlen_buffer(values.size());
 
+  int64_t value_offset = 0;
   ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);

@@ -43,9 +43,10 @@ TEST(TEST_TIME32, TIME_WITH_SECONDS) {
 
   ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t32_values.size(),
-          accessor.GetColumnarData(&binding, 0, t32_values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, t32_values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < t32_values.size(); ++i) {
     ASSERT_EQ(sizeof(TIME_STRUCT), strlen_buffer[i]);
@@ -75,9 +76,10 @@ TEST(TEST_TIME32, TIME_WITH_MILLI) {
 
   ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t32_values.size(),
-          accessor.GetColumnarData(&binding, 0, t32_values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, t32_values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < t32_values.size(); ++i) {
     ASSERT_EQ(sizeof(TIME_STRUCT), strlen_buffer[i]);
@@ -110,9 +112,10 @@ TEST(TEST_TIME64, TIME_WITH_MICRO) {
 
   ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t64_values.size(),
-          accessor.GetColumnarData(&binding, 0, t64_values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, t64_values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < t64_values.size(); ++i) {
     ASSERT_EQ(sizeof(TIME_STRUCT), strlen_buffer[i]);
@@ -145,9 +148,10 @@ TEST(TEST_TIME64, TIME_WITH_NANO) {
 
   ColumnBinding binding(CDataType_TIME, 0, 0, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(t64_values.size(),
-          accessor.GetColumnarData(&binding, 0, t64_values.size(), 0, diagnostics));
+          accessor.GetColumnarData(&binding, 0, t64_values.size(), value_offset, false, diagnostics));
 
   for (size_t i = 0; i < t64_values.size(); ++i) {
     ASSERT_EQ(sizeof(TIME_STRUCT), strlen_buffer[i]);

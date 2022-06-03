@@ -54,7 +54,7 @@ bool FlightStreamChunkIterator::GetNext(FlightStreamChunk *chunk) {
     if (chunk->data != nullptr) {
       return true;
     }
-    stream_readers_it_++;
+    ++stream_readers_it_;
   }
   return false;
 }

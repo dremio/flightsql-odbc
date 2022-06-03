@@ -75,9 +75,10 @@ void AssertNumericOutput(int input_precision, int input_scale, const std::vector
 
   ColumnBinding binding(CDataType_NUMERIC, output_precision, output_scale, buffer.data(), 0, strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(NUMERIC_STRUCT), strlen_buffer[i]);
