@@ -31,6 +31,43 @@ using namespace boost::beast::detail;
 using driver::flight_sql::ThrowIfNotOK;
 
 namespace {
+template <typename ScalarT>
+Status ConvertScalarToStringAndWrite(const ScalarT& scalar, rapidjson::Writer<rapidjson::StringBuffer>& writer) {
+  ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
+  const auto &view = reinterpret_cast<StringScalar*>(string_scalar.get())->view();
+  writer.String(view.data(), view.length(), true);
+  return Status::OK();
+}
+
+template <typename BinaryScalarT>
+Status ConvertBinaryToBase64StringAndWrite(const BinaryScalarT& scalar, rapidjson::Writer<rapidjson::StringBuffer>& writer) {
+  const auto &view = scalar.view();
+  size_t encoded_size = base64::encoded_size(view.length());
+  std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
+  base64::encode(&encoded[0], view.data(), view.length());
+  writer.String(&encoded[0], encoded_size, true);
+  return Status::OK();
+}
+
+template <typename ListScalarT>
+Status WriteListScalar(const ListScalarT& scalar, rapidjson::Writer<rapidjson::StringBuffer>& writer,
+                       arrow::ScalarVisitor* visitor) {
+  writer.StartArray();
+  for (int64_t i = 0; i < scalar.value->length(); ++i) {
+    if (scalar.value->IsNull(i)) {
+      writer.Null();
+    } else {
+      const auto &result = scalar.value->GetScalar(i);
+      ThrowIfNotOK(result.status());
+      ThrowIfNotOK(result.ValueOrDie()->Accept(visitor));
+    }
+  }
+
+  writer.EndArray();
+  return Status::OK();
+}
+
+
 class ScalarToJson : public arrow::ScalarVisitor {
 private:
   rapidjson::StringBuffer string_buffer_;
@@ -130,13 +167,7 @@ public:
   }
 
   Status Visit(const BinaryScalar &scalar) override {
-    const auto &view = scalar.view();
-    size_t encoded_size = base64::encoded_size(view.length());
-    std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
-    base64::encode(&encoded[0], view.data(), view.length());
-    writer_.String(&encoded[0], encoded_size, true);
-
-    return Status::OK();
+    return ConvertBinaryToBase64StringAndWrite(scalar, writer_);
   }
 
   Status Visit(const LargeStringScalar &scalar) override {
@@ -147,69 +178,48 @@ public:
   }
 
   Status Visit(const LargeBinaryScalar &scalar) override {
-    const auto &view = scalar.view();
-    size_t encoded_size = base64::encoded_size(view.length());
-    std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
-    base64::encode(&encoded[0], view.data(), view.length());
-    writer_.String(&encoded[0], encoded_size, true);
-
-    return Status::OK();
+    return ConvertBinaryToBase64StringAndWrite(scalar, writer_);
   }
 
   Status Visit(const FixedSizeBinaryScalar &scalar) override {
-    const auto &view = scalar.view();
-    size_t encoded_size = base64::encoded_size(view.length());
-    std::vector<char> encoded(std::max(encoded_size, static_cast<size_t>(1)));
-    base64::encode(&encoded[0], view.data(), view.length());
-    writer_.String(&encoded[0], encoded_size, true);
-
-    return Status::OK();
+    return ConvertBinaryToBase64StringAndWrite(scalar, writer_);
   }
 
   Status Visit(const Date64Scalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const Date32Scalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const Time32Scalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const Time64Scalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const TimestampScalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const DayTimeIntervalScalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const MonthDayNanoIntervalScalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const MonthIntervalScalar &scalar) override {
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const DurationScalar &scalar) override {
     // TODO: Append TimeUnit on conversion
-    ARROW_ASSIGN_OR_RAISE(auto string_scalar, scalar.CastTo(utf8()))
-    return string_scalar->Accept(this);
+    return ConvertScalarToStringAndWrite(scalar, writer_);
   }
 
   Status Visit(const Decimal128Scalar &scalar) override {
@@ -227,55 +237,19 @@ public:
   }
 
   Status Visit(const ListScalar &scalar) override {
-    writer_.StartArray();
-    for (int i = 0; i < scalar.value->length(); ++i) {
-      const auto &result = scalar.value->GetScalar(i);
-      ThrowIfNotOK(result.status());
-      ThrowIfNotOK(result.ValueOrDie()->Accept(this));
-    }
-
-    writer_.EndArray();
-
-    return Status::OK();
+    return WriteListScalar(scalar, writer_, this);
   }
 
   Status Visit(const LargeListScalar &scalar) override {
-    writer_.StartArray();
-    for (int i = 0; i < scalar.value->length(); ++i) {
-      const auto &result = scalar.value->GetScalar(i);
-      ThrowIfNotOK(result.status());
-      ThrowIfNotOK(result.ValueOrDie()->Accept(this));
-    }
-
-    writer_.EndArray();
-
-    return Status::OK();
+    return WriteListScalar(scalar, writer_, this);
   }
 
   Status Visit(const MapScalar &scalar) override {
-    writer_.StartArray();
-    for (int i = 0; i < scalar.value->length(); ++i) {
-      const auto &result = scalar.value->GetScalar(i);
-      ThrowIfNotOK(result.status());
-      ThrowIfNotOK(result.ValueOrDie()->Accept(this));
-    }
-
-    writer_.EndArray();
-
-    return Status::OK();
+    return WriteListScalar(scalar, writer_, this);
   }
 
   Status Visit(const FixedSizeListScalar &scalar) override {
-    writer_.StartArray();
-    for (int i = 0; i < scalar.value->length(); ++i) {
-      const auto &result = scalar.value->GetScalar(i);
-      ThrowIfNotOK(result.status());
-      ThrowIfNotOK(result.ValueOrDie()->Accept(this));
-    }
-
-    writer_.EndArray();
-
-    return Status::OK();
+    return WriteListScalar(scalar, writer_, this);
   }
 
   Status Visit(const StructScalar &scalar) override {
@@ -329,9 +303,13 @@ arrow::Result<std::shared_ptr<arrow::Array>> ConvertToJson(const std::shared_ptr
   int64_t length = input->length();
   RETURN_NOT_OK(builder.ReserveData(length));
 
-  for (int i = 0; i < length; ++i) {
-    ARROW_ASSIGN_OR_RAISE(auto scalar, input->GetScalar(i))
-    RETURN_NOT_OK(builder.Append(ConvertToJson(*scalar)));
+  for (int64_t i = 0; i < length; ++i) {
+    if (input->IsNull(i)) {
+      RETURN_NOT_OK(builder.AppendNull());
+    } else {
+      ARROW_ASSIGN_OR_RAISE(auto scalar, input->GetScalar(i))
+      RETURN_NOT_OK(builder.Append(ConvertToJson(*scalar)));
+    }
   }
   
   return builder.Finish();
