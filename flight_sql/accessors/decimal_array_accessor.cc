@@ -41,14 +41,14 @@ template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
 DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::DecimalArrayFlightSqlAccessor(
     Array *array)
     : FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE,
-                        DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>>(array) {
-  data_type_ = std::static_pointer_cast<Decimal128Type>(array->type());
+                        DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>>(array),
+      data_type_(std::static_pointer_cast<Decimal128Type>(array->type())) {
 }
 
 template <>
 void DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::MoveSingleCell_impl(
     ColumnBinding *binding, Decimal128Array *array, int64_t i,
-    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   auto result = &(static_cast<NUMERIC_STRUCT *>(binding->buffer)[i]);
   int32_t original_scale = data_type_->scale();
 

@@ -64,7 +64,7 @@ inline size_t CopyFromArrayValuesToBinding(const std::shared_ptr<Array> &array,
 }
 
 inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,
-                             int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+                             int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   const std::shared_ptr<Scalar> &scalar = array->GetScalar(i).ValueOrDie();
   const std::shared_ptr<StringScalar> &utf8_scalar =
       internal::checked_pointer_cast<StringScalar>(
@@ -72,13 +72,10 @@ inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,
 
   const uint8_t *value = utf8_scalar->value->data();
 
+  size_t remaining_length = static_cast<size_t>(utf8_scalar->value->size() - value_offset);
   size_t value_length =
-      std::min(static_cast<size_t>(utf8_scalar->value->size() - value_offset),
+      std::min(remaining_length,
                binding->buffer_length);
-
-  if (value_length <= static_cast<size_t>(utf8_scalar->value->size() - value_offset)) {
-    diagnostics.AddTruncationWarning();
-  }
 
   char *char_buffer = static_cast<char *>(binding->buffer);
   memcpy(&char_buffer[i * binding->buffer_length], value + value_offset,
@@ -86,8 +83,19 @@ inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,
   if (value_length + 1 < binding->buffer_length) {
     char_buffer[i * binding->buffer_length + value_length] = '\0';
   }
+
+  if (value_length <= static_cast<size_t>(utf8_scalar->value->size() - value_offset)) {
+    diagnostics.AddTruncationWarning();
+    if (update_value_offset) {
+      value_offset += binding->buffer_length - 1;
+    }
+    char_buffer[i * binding->buffer_length + value_length - 1] = '\0';
+  } else if (update_value_offset) {
+    value_offset = -1;
+  }
+
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = utf8_scalar->value->size() + 1;
+    binding->strlen_buffer[i] = remaining_length;
   }
 }
 
