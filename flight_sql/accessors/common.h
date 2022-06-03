@@ -63,33 +63,5 @@ inline size_t CopyFromArrayValuesToBinding(const std::shared_ptr<Array> &array,
   return length;
 }
 
-inline void MoveToCharBuffer(ColumnBinding *binding, Array *array, int64_t i,
-                             int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  const std::shared_ptr<Scalar> &scalar = array->GetScalar(i).ValueOrDie();
-  const std::shared_ptr<StringScalar> &utf8_scalar =
-      internal::checked_pointer_cast<StringScalar>(
-          scalar->CastTo(utf8()).ValueOrDie());
-
-  const uint8_t *value = utf8_scalar->value->data();
-
-  size_t value_length =
-      std::min(static_cast<size_t>(utf8_scalar->value->size() - value_offset),
-               binding->buffer_length);
-
-  if (value_length <= static_cast<size_t>(utf8_scalar->value->size() - value_offset)) {
-    diagnostics.AddTruncationWarning();
-  }
-
-  char *char_buffer = static_cast<char *>(binding->buffer);
-  memcpy(&char_buffer[i * binding->buffer_length], value + value_offset,
-         value_length);
-  if (value_length + 1 < binding->buffer_length) {
-    char_buffer[i * binding->buffer_length + value_length] = '\0';
-  }
-  if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = utf8_scalar->value->size() + 1;
-  }
-}
-
 } // namespace flight_sql
 } // namespace driver

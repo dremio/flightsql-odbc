@@ -58,7 +58,7 @@ DateArrayFlightSqlAccessor<
 template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
 void DateArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
   ColumnBinding *binding, ARROW_ARRAY *array, int64_t cell_counter,
-  int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   typedef unsigned char c_type;
   auto *buffer = static_cast<DATE_STRUCT *>(binding->buffer);
   auto value = convertDate<ARROW_ARRAY>(array->Value(cell_counter));

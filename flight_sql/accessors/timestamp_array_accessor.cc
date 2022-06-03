@@ -59,7 +59,8 @@ void
 TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding *binding,
                                                                   TimestampArray *array,
                                                                   int64_t cell_counter,
-                                                                  int64_t value_offset,
+                                                                  int64_t &value_offset,
+                                                                  bool update_value_offset,
                                                                   odbcabstraction::Diagnostics &diagnostics) {
   typedef unsigned char c_type;
   auto *buffer = static_cast<TIMESTAMP_STRUCT *>(binding->buffer);

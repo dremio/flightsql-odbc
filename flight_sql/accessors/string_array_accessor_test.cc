@@ -39,9 +39,10 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Basic) {
   ColumnBinding binding(CDataType_CHAR, 0, 0, buffer.data(), max_strlen,
                         strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
@@ -72,14 +73,12 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Truncation) {
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   do {
     diagnostics.Clear();
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, diagnostics));
-    ASSERT_EQ(values[0].length(), strlen_buffer[0]);
+    int64_t original_value_offset = value_offset;
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics));
+    ASSERT_EQ(values[0].length() - original_value_offset, strlen_buffer[0]);
 
-    int64_t chunk_length = std::min(static_cast<int64_t>(max_strlen),
-                                    strlen_buffer[0] - value_offset);
     ss << buffer.data();
-    value_offset += chunk_length - 1;
-  } while (value_offset < strlen_buffer[0] - 1);
+  } while (value_offset < values[0].length() && value_offset != -1);
 
   ASSERT_EQ(values[0], ss.str());
 }
@@ -98,9 +97,10 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
   ColumnBinding binding(CDataType_WCHAR, 0, 0, buffer.data(), max_strlen,
                         strlen_buffer.data());
 
+  int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), 0, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length() * sizeof(SqlWChar), strlen_buffer[i]);
@@ -133,15 +133,12 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
   std::basic_string<SqlWChar> finalStr;
   driver::odbcabstraction::Diagnostics diagnostics("Dummy", "Dummy", odbcabstraction::V_3);
   do {
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, diagnostics));
-    ASSERT_EQ(values[0].length() * sizeof(SqlWChar), strlen_buffer[0]);
+    int64_t original_value_offset = value_offset;
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics));
+    ASSERT_EQ(values[0].length() * sizeof(SqlWChar) - original_value_offset, strlen_buffer[0]);
 
-    int64_t chunk_length =
-        std::min(static_cast<int64_t>(max_strlen * sizeof(SqlWChar)),
-                 strlen_buffer[0] - value_offset);
     finalStr += std::basic_string<SqlWChar>(buffer.data());
-    value_offset += chunk_length - sizeof(SqlWChar);
-  } while (value_offset < strlen_buffer[0] - sizeof(SqlWChar));
+  } while (value_offset < values[0].length() * sizeof(SqlWChar) && value_offset != -1);
 
   auto expected = CharToWStrConverter().from_bytes(values[0].c_str());
   auto actual = finalStr;

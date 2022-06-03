@@ -46,15 +46,15 @@ FlightSqlResultSet::FlightSqlResultSet(
     const std::shared_ptr<FlightInfo> &flight_info,
     const std::shared_ptr<RecordBatchTransformer> &transformer,
     odbcabstraction::Diagnostics& diagnostics)
-    : num_binding_(0), current_row_(0),
-      chunk_iterator_(flight_sql_client, call_options, flight_info),
+    : chunk_iterator_(flight_sql_client, call_options, flight_info),
       transformer_(transformer),
       metadata_(transformer ? new FlightSqlResultSetMetadata(
                                   transformer->GetTransformedSchema())
                             : new FlightSqlResultSetMetadata(flight_info)),
       columns_(metadata_->GetColumnCount()),
-      get_data_offsets_(metadata_->GetColumnCount()),
-      diagnostics_(diagnostics) {
+      get_data_offsets_(metadata_->GetColumnCount(), 0),
+      diagnostics_(diagnostics),
+      current_row_(0), num_binding_(0), reset_get_data_(false) {
   current_chunk_.data = nullptr;
 
   for (int i = 0; i < columns_.size(); ++i) {
@@ -79,7 +79,7 @@ size_t FlightSqlResultSet::Move(size_t rows) {
   }
 
   // Reset GetData value offsets.
-  if (num_binding_ != get_data_offsets_.size()) {
+  if (num_binding_ != get_data_offsets_.size() && reset_get_data_) {
     std::fill(get_data_offsets_.begin(), get_data_offsets_.end(), 0);
   }
 
@@ -113,8 +113,9 @@ size_t FlightSqlResultSet::Move(size_t rows) {
       if (!column.is_bound)
         continue;
 
+      int64_t value_offset = 0;
       size_t accessor_rows = column.GetAccessorForBinding()->GetColumnarData(
-          &column.binding, current_row_, rows_to_fetch, 0, diagnostics_);
+          &column.binding, current_row_, rows_to_fetch, value_offset, false, diagnostics_);
 
       if (rows_to_fetch != accessor_rows) {
         throw DriverException(
@@ -142,18 +143,24 @@ void FlightSqlResultSet::Cancel() {
 bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
                                  int precision, int scale, void *buffer,
                                  size_t buffer_length, ssize_t *strlen_buffer) {
+  reset_get_data_ = true;
+  // Check if the offset is already at the end.
+  int64_t& value_offset = get_data_offsets_[column_n - 1];
+  if (value_offset == -1) {
+    return false;
+  }
+  
   ColumnBinding binding(ConvertCDataTypeFromV2ToV3(target_type), precision, scale, buffer, buffer_length,
                         strlen_buffer);
 
   auto &column = columns_[column_n - 1];
   Accessor *accessor = column.GetAccessorForGetData(binding.target_type);
 
-  int64_t value_offset = get_data_offsets_[column_n - 1];
 
   // Note: current_row_ is always positioned at the index _after_ the one we are
   // on after calling Move(). So if we want to get data from the _last_ row
   // fetched, we need to subtract one from the current row.
-  accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, diagnostics_);
+  accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, true, diagnostics_);
 
   // If there was truncation, the converter would have reported it to the diagnostics.
   return diagnostics_.HasWarning();

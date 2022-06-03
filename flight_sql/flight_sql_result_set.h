@@ -53,8 +53,6 @@ class FlightSqlResultSetColumn;
 
 class FlightSqlResultSet : public ResultSet {
 private:
-  int num_binding_;
-  int64_t current_row_;
   FlightStreamChunkIterator chunk_iterator_;
   FlightStreamChunk current_chunk_;
   std::shared_ptr<Schema> schema_;
@@ -63,6 +61,9 @@ private:
   std::vector<FlightSqlResultSetColumn> columns_;
   std::vector<int64_t> get_data_offsets_;
   odbcabstraction::Diagnostics &diagnostics_;
+  int64_t current_row_;
+  int num_binding_;
+  bool reset_get_data_;
 
 public:
   ~FlightSqlResultSet() override;

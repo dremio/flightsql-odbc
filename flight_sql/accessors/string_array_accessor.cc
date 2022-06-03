@@ -31,7 +31,8 @@ template <typename CHAR_TYPE>
 inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
                                        ColumnBinding *binding,
                                        StringArray *array, int64_t i,
-                                       int64_t value_offset,
+                                       int64_t &value_offset,
+                                       bool update_value_offset,
                                        odbcabstraction::Diagnostics &diagnostics) {
 
   const char *raw_value = array->Value(i).data();
@@ -47,8 +48,9 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
     size_in_bytes = array->value_length(i);
   }
 
+  size_t remaining_length = static_cast<size_t>(size_in_bytes - value_offset);
   size_t value_length =
-      std::min(static_cast<size_t>(size_in_bytes - value_offset),
+      std::min(remaining_length,
                binding->buffer_length);
 
   auto *byte_buffer =
@@ -57,8 +59,11 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
   memcpy(char_buffer, ((char *)value) + value_offset, value_length);
 
   // Write a NUL terminator
-  if (binding->buffer_length > size_in_bytes + sizeof(CHAR_TYPE)) {
-    char_buffer[size_in_bytes / sizeof(CHAR_TYPE)] = '\0';
+  if (binding->buffer_length >= remaining_length + sizeof(CHAR_TYPE)) {
+    char_buffer[remaining_length / sizeof(CHAR_TYPE)] = '\0';
+    if (update_value_offset) {
+      value_offset = -1;
+    }
   } else {
     diagnostics.AddTruncationWarning();
     size_t chars_written = binding->buffer_length / sizeof(CHAR_TYPE);
@@ -67,10 +72,13 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
     if (chars_written > 0) {
       char_buffer[(chars_written - 1)] = '\0';
     }
+    if (update_value_offset) {
+      value_offset += binding->buffer_length - sizeof(CHAR_TYPE);
+    }
   }
 
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = static_cast<ssize_t>(size_in_bytes);
+    binding->strlen_buffer[i] = static_cast<ssize_t>(remaining_length);
   }
 }
 
@@ -86,17 +94,17 @@ StringArrayFlightSqlAccessor<TARGET_TYPE>::StringArrayFlightSqlAccessor(
 template <>
 void StringArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
     ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   MoveSingleCellToCharBuffer<char>(&converter_, binding, array, i,
-                                   value_offset, diagnostics);
+                                   value_offset, update_value_offset, diagnostics);
 }
 
 template <>
 void StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
     ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    int64_t &value_offset,  bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   MoveSingleCellToCharBuffer<SqlWChar>(&converter_, binding, array, i,
-                                       value_offset, diagnostics);
+                                       value_offset, update_value_offset, diagnostics);
 }
 
 template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR>;
