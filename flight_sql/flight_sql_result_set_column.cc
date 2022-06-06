@@ -67,6 +67,7 @@ FlightSqlResultSetColumn::GetAccessorForTargetType(CDataType target_type) {
   }
 
   cached_accessor_ = CreateAccessor(target_type);
+  cached_original_array_ = original_array.get();
   return cached_accessor_.get();
 }
 
@@ -100,9 +101,10 @@ void FlightSqlResultSetColumn::ResetBinding() {
 }
 
 void FlightSqlResultSetColumn::ResetAccessor() {
-  if (is_bound) {
-    cached_accessor_.reset();
-  }
+  // An improvement would be to have ResetAccessor take in a newly acquired array.
+  // Then the accessor itself should switch to the new array and reset internal
+  // state, rather than deleting the accessor.
+  cached_accessor_.reset();
 }
 
 } // namespace flight_sql
