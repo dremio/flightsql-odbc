@@ -24,7 +24,6 @@
 #include "flight_sql_statement_get_type_info.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
-#include <arrow/flight/sql/server.h>
 #include <arrow/io/memory.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -45,7 +44,6 @@ using arrow::flight::Location;
 using arrow::flight::TimeoutDuration;
 using arrow::flight::sql::FlightSqlClient;
 using arrow::flight::sql::PreparedStatement;
-using arrow::flight::sql::SqlSchema;
 using driver::odbcabstraction::DriverException;
 using driver::odbcabstraction::ResultSet;
 using driver::odbcabstraction::ResultSetMetadata;

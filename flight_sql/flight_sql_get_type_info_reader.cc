@@ -17,8 +17,8 @@
 
 #include "flight_sql_get_type_info_reader.h"
 #include <odbcabstraction/platform.h>
-#include "arrow/io/memory.h"
-#include "arrow/array.h"
+#include <arrow/io/memory.h>
+#include <arrow/array.h>
 #include "utils.h"
 
 #include <utility>

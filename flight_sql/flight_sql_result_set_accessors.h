@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "arrow/type_fwd.h"
+#include <arrow/type_fwd.h>
 #include <memory>
 #include <odbcabstraction/types.h>
 

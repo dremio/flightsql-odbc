@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#pragma once
+
 #include <cstdint>
 #include <ctime>
-
-#pragma once
 
 namespace driver {
 namespace odbcabstraction {

@@ -16,13 +16,13 @@
 // under the License.
 
 #include "utils.h"
-#include "arrow/builder.h"
-#include "arrow/type_fwd.h"
+#include <arrow/builder.h>
+#include <arrow/type_fwd.h>
 #include <odbcabstraction/platform.h>
 #include <arrow/type.h>
 #include <arrow/compute/api.h>
 #include <odbcabstraction/types.h>
-#include <json_converter.h>
+#include "json_converter.h"
 
 namespace driver {
 namespace flight_sql {

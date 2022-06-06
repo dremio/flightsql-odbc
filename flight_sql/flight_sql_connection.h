@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <odbcabstraction/connection.h>
+#include <odbcabstraction/spi/connection.h>
 
 #include <arrow/flight/api.h>
 #include <arrow/flight/sql/api.h>

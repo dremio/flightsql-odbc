@@ -26,10 +26,9 @@
 #include <arrow/datum.h>
 #include <arrow/flight/sql/client.h>
 #include <arrow/flight/types.h>
-#include <iostream>
 #include <odbcabstraction/platform.h>
 #include <odbcabstraction/exceptions.h>
-#include <odbcabstraction/result_set.h>
+#include <odbcabstraction/spi/result_set.h>
 #include <odbcabstraction/diagnostics.h>
 
 namespace driver {

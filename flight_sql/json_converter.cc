@@ -20,7 +20,6 @@
 #include <arrow/scalar.h>
 #include <arrow/builder.h>
 #include <arrow/visitor.h>
-#include <iostream>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/writer.h>
 #include "utils.h"

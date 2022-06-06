@@ -150,40 +150,76 @@ endif()
 enable_testing()
 
 set(ARROW_ODBC_SPI_SOURCES
+  include/flight_sql/flight_sql_driver.h
   accessors/binary_array_accessor.cc
+  accessors/binary_array_accessor.h
   accessors/boolean_array_accessor.cc
+  accessors/boolean_array_accessor.h
+  accessors/common.h
   accessors/date_array_accessor.cc
+  accessors/date_array_accessor.h
   accessors/decimal_array_accessor.cc
+  accessors/decimal_array_accessor.h
+  accessors/main.h
   accessors/primitive_array_accessor.cc
+  accessors/primitive_array_accessor.h
   accessors/string_array_accessor.cc
+  accessors/string_array_accessor.h
   accessors/time_array_accessor.cc
+  accessors/time_array_accessor.h
   accessors/timestamp_array_accessor.cc
+  accessors/timestamp_array_accessor.h
   flight_sql_auth_method.cc
+  flight_sql_auth_method.h
   flight_sql_connection.cc
+  flight_sql_connection.h
   flight_sql_driver.cc
-  flight_sql_result_set.cc
-  flight_sql_result_set_accessors.cc
-  flight_sql_result_set_column.cc
-  flight_sql_result_set_metadata.cc
-  flight_sql_statement.cc
-  flight_sql_statement_get_tables.cc
-  flight_sql_statement_get_type_info.cc
-  flight_sql_statement_get_columns.cc
-  flight_sql_ssl_config.cc
   flight_sql_get_tables_reader.cc
+  flight_sql_get_tables_reader.h
   flight_sql_get_type_info_reader.cc
+  flight_sql_get_type_info_reader.h
+  flight_sql_result_set.cc
+  flight_sql_result_set.h
+  flight_sql_result_set_accessors.cc
+  flight_sql_result_set_accessors.h
+  flight_sql_result_set_column.cc
+  flight_sql_result_set_column.h
+  flight_sql_result_set_metadata.cc
+  flight_sql_result_set_metadata.h
+  flight_sql_ssl_config.cc
+  flight_sql_ssl_config.h
+  flight_sql_statement.cc
+  flight_sql_statement.h
+  flight_sql_statement_get_columns.cc
+  flight_sql_statement_get_columns.h
+  flight_sql_statement_get_tables.cc
+  flight_sql_statement_get_tables.h
+  flight_sql_statement_get_type_info.cc
+  flight_sql_statement_get_type_info.h
   flight_sql_stream_chunk_iterator.cc
+  flight_sql_stream_chunk_iterator.h
   get_info_cache.cc
+  get_info_cache.h
   json_converter.cc
+  json_converter.h
   record_batch_transformer.cc
+  record_batch_transformer.h
   scalar_function_reporter.cc
+  scalar_function_reporter.h
   system_trust_store.cc
+  system_trust_store.h
   utils.cc)
 
 if (WIN32)
     include_directories(flight_sql/include)
 
     list(APPEND ARROW_ODBC_SPI_SOURCES
+     include/flight_sql/config/configuration.h
+     include/flight_sql/config/connection_string_parser.h
+     include/flight_sql/ui/add_property_window.h
+     include/flight_sql/ui/custom_window.h
+     include/flight_sql/ui/dsn_configuration_window.h
+     include/flight_sql/ui/window.h
      config/configuration.cc
      config/connection_string_parser.cc
      ui/custom_window.cc

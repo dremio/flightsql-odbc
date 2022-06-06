@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "arrow/flight/types.h"
+#include <arrow/flight/types.h>
 #include <arrow/status.h>
 #include <string>
 
