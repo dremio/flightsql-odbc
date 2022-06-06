@@ -18,7 +18,7 @@
 #pragma once
 
 #include "arrow/flight/types.h"
-#include <odbcabstraction/result_set.h>
+#include <odbcabstraction/spi/result_set.h>
 #include <odbcabstraction/diagnostics.h>
 #include "record_batch_transformer.h"
 #include <arrow/flight/sql/client.h>

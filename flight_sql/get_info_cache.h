@@ -22,7 +22,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
-#include <odbcabstraction/connection.h>
+#include <odbcabstraction/spi/connection.h>
 
 namespace arrow {
 namespace flight {

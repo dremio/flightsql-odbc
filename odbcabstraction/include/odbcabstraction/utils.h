@@ -18,7 +18,7 @@
 #pragma once
 
 #include <string>
-#include <odbcabstraction/connection.h>
+#include <odbcabstraction/spi/connection.h>
 
 namespace driver {
 namespace odbcabstraction {
@@ -29,7 +29,7 @@ using driver::odbcabstraction::Connection;
 /// \param value            the value to be parsed.
 /// \param default_value    the default value in case the parse fails.
 /// \return                 the parsed valued.
-bool AsBool(const std::string& value, const bool default_value);
+bool AsBool(const std::string& value, bool default_value);
 
 /// Looks up for a value inside the ConnPropertyMap and then try to parse it.
 /// In case it does not find or it cannot parse, the default value will be returned.
@@ -37,7 +37,7 @@ bool AsBool(const std::string& value, const bool default_value);
 /// \param connPropertyMap    the map with the connection properties.
 /// \param property_name      the name of the property that will be looked up.
 /// \return                   the parsed valued.
-bool AsBool(const bool default_value, const Connection::ConnPropertyMap& connPropertyMap,
+bool AsBool(bool default_value, const Connection::ConnPropertyMap& connPropertyMap,
             const std::string& property_name);
 } // namespace odbcabstraction
 } // namespace driver

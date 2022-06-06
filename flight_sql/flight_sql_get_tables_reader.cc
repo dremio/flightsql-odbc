@@ -17,7 +17,10 @@
 
 #include "flight_sql_get_tables_reader.h"
 #include <odbcabstraction/platform.h>
-#include "arrow/io/memory.h"
+#include <arrow/io/memory.h>
+#include <arrow/array/builder_binary.h>
+#include <arrow/array/builder_primitive.h>
+#include <arrow/status.h>
 #include "utils.h"
 
 #include <utility>

@@ -18,7 +18,7 @@
 #include "accessors/main.h"
 
 #include <odbcabstraction/platform.h>
-#include "boost/functional/hash.hpp"
+#include <boost/functional/hash.hpp>
 
 namespace driver {
 namespace flight_sql {

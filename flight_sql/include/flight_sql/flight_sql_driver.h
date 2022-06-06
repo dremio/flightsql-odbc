@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <odbcabstraction/driver.h>
+#include <odbcabstraction/spi/driver.h>
 #include <odbcabstraction/diagnostics.h>
 
 namespace driver {

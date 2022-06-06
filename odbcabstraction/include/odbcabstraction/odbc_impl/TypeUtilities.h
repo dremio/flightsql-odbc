@@ -15,35 +15,28 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "record_batch_transformer.h"
-#include <arrow/util/optional.h>
+#pragma once
 
-namespace driver {
-namespace flight_sql {
+#include <sql.h>
+#include <sqlext.h>
 
-using namespace arrow;
-using arrow::util::optional;
-
-class GetTablesReader {
-private:
-  std::shared_ptr<RecordBatch> record_batch_;
-  int64_t current_row_;
-
-public:
-  explicit GetTablesReader(std::shared_ptr<RecordBatch> record_batch);
-
-  bool Next();
-
-  optional<std::string> GetCatalogName();
-
-  optional<std::string> GetDbSchemaName();
-
-  std::string GetTableName();
-
-  std::string GetTableType();
-
-  std::shared_ptr<Schema> GetSchema();
-};
-
-} // namespace flight_sql
-} // namespace driver
+namespace ODBC {
+  inline SQLSMALLINT GetSqlTypeForODBCVersion(SQLSMALLINT type, bool isOdbc2x) {
+    switch (type) {
+      case SQL_DATE:
+      case SQL_TYPE_DATE:
+        return isOdbc2x ? SQL_DATE : SQL_TYPE_DATE;
+      
+      case SQL_TIME:
+      case SQL_TYPE_TIME:
+        return isOdbc2x ? SQL_TIME : SQL_TYPE_TIME;
+    
+      case SQL_TIMESTAMP:
+      case SQL_TYPE_TIMESTAMP:
+        return isOdbc2x ? SQL_TIMESTAMP : SQL_TYPE_TIMESTAMP;
+    
+      default:
+        return type;
+    }
+  }
+}

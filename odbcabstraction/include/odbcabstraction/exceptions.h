@@ -20,7 +20,7 @@
 #include <exception>
 #include <string>
 #include <cstdint>
-#include "error_codes.h"
+#include <odbcabstraction/error_codes.h>
 
 namespace driver {
 namespace odbcabstraction {

@@ -21,7 +21,7 @@
 #include <arrow/flight/client.h>
 #include <map>
 #include <memory>
-#include <odbcabstraction/connection.h>
+#include <odbcabstraction/spi/connection.h>
 #include <string>
 
 namespace driver {

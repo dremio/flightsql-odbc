@@ -19,7 +19,7 @@
 
 #include <arrow/flight/types.h>
 #include <arrow/type.h>
-#include <odbcabstraction/result_set_metadata.h>
+#include <odbcabstraction/spi/result_set_metadata.h>
 
 namespace driver {
 namespace flight_sql {

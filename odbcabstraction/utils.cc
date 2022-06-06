@@ -22,7 +22,7 @@
 namespace driver {
 namespace odbcabstraction {
 
-bool AsBool(const std::string& value, const bool default_value) {
+bool AsBool(const std::string& value, bool default_value) {
   if (boost::iequals(value, "true") || boost::iequals(value, "1")) {
     return true;
   } else if (boost::iequals(value, "false") || boost::iequals(value, "0")) {
@@ -32,8 +32,8 @@ bool AsBool(const std::string& value, const bool default_value) {
   }
 }
 
-bool AsBool( const bool default_value, const Connection::ConnPropertyMap& connPropertyMap,
-             const std::string& property_name) {
+bool AsBool(bool default_value, const Connection::ConnPropertyMap& connPropertyMap,
+            const std::string& property_name) {
 
   auto extracted_property = connPropertyMap.find(
     property_name);

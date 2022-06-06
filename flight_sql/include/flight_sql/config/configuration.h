@@ -21,7 +21,7 @@
 #include "winuser.h"
 #include <stdint.h>
 #include <string>
-#include <odbcabstraction/connection.h>
+#include <odbcabstraction/spi/connection.h>
 
 namespace driver {
 namespace flight_sql {

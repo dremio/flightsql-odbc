@@ -20,7 +20,6 @@
 
 #include <arrow/flight/types.h>
 #include <arrow/scalar.h>
-#include <iostream>
 #include <utility>
 
 #include "flight_sql_result_set_column.h"

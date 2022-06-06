@@ -16,9 +16,6 @@
 // under the License.
 
 #include "record_batch_transformer.h"
-#include <arrow/array/builder_binary.h>
-#include <arrow/array/builder_primitive.h>
-#include <arrow/status.h>
 #include <arrow/util/optional.h>
 
 namespace driver {

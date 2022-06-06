@@ -17,9 +17,8 @@
 
 #pragma once
 
-#include "arrow/flight/sql/client.h"
 #include "flight_sql_statement_get_tables.h"
-#include <odbcabstraction/statement.h>
+#include <odbcabstraction/spi/statement.h>
 #include <odbcabstraction/diagnostics.h>
 
 #include <arrow/flight/api.h>

@@ -17,8 +17,8 @@
 
 #include "flight_sql_result_set_metadata.h"
 #include <odbcabstraction/platform.h>
-#include "arrow/flight/sql/column_metadata.h"
-#include "arrow/util/key_value_metadata.h"
+#include <arrow/flight/sql/column_metadata.h>
+#include <arrow/util/key_value_metadata.h>
 #include "utils.h"
 
 #include <odbcabstraction/exceptions.h>
