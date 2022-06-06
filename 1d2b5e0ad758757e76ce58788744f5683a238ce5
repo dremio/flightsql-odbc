@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71b6878c_3a7cf69f",
+        "filename": "odbcabstraction/.DS_Store",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-06T16:19:24Z",
+      "side": 1,
+      "message": "Nope, removed. Thanks.",
+      "parentUuid": "1d5978c0_b60eb2fd",
+      "revId": "1d2b5e0ad758757e76ce58788744f5683a238ce5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d888c4c_eeebe295",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-06T16:17:13Z",
       "side": 1,
       "message": "Should this file have been commited?",
+      "revId": "1d2b5e0ad758757e76ce58788744f5683a238ce5",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69a92d3f_a1982706",
+        "filename": "odbcabstraction/include/odbcabstraction/.DS_Store",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-06T16:19:24Z",
+      "side": 1,
+      "message": "Nope, removed. Thanks.",
+      "parentUuid": "4d888c4c_eeebe295",
       "revId": "1d2b5e0ad758757e76ce58788744f5683a238ce5",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
