@@ -1,3 +1,8 @@
+@rem
+@rem Copyright (C) 2020-2022 Dremio Corporation
+@rem
+@rem See "LICENSE" for license information.
+@rem
 
 @rem
 @rem Copyright 2015 the original author or authors.
