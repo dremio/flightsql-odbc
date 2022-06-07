@@ -323,7 +323,8 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case SqlInfoOptions::FLIGHT_SQL_SERVER_VERSION: {
-            info_[SQL_DBMS_VER] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
+            info_[SQL_DBMS_VER] = ConvertToDBMSVer(
+                std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view()));
             break;
           }
           case SqlInfoOptions::FLIGHT_SQL_SERVER_ARROW_VERSION: {
