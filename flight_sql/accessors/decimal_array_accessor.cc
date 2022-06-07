@@ -35,7 +35,7 @@ DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::DecimalArrayFlightSqlAc
 }
 
 template <>
-void DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::MoveSingleCell_impl(
+RowStatus DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::MoveSingleCell_impl(
     ColumnBinding *binding, Decimal128Array *array, int64_t i,
     int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   auto result = &(static_cast<NUMERIC_STRUCT *>(binding->buffer)[i]);
@@ -69,6 +69,8 @@ void DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::MoveSing
   if (binding->strlen_buffer) {
     binding->strlen_buffer[i] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+
+  return odbcabstraction::RowStatus_SUCCESS;
 }
 
 template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
