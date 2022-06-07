@@ -29,7 +29,7 @@ TEST(BooleanArrayFlightSqlAccessor, Test_BooleanArray_CDataType_BIT) {
   int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(unsigned char), strlen_buffer[i]);

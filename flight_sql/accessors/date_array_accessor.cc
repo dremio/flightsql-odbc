@@ -45,7 +45,7 @@ DateArrayFlightSqlAccessor<
           array) {}
 
 template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
-void DateArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
+RowStatus DateArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
   ColumnBinding *binding, ARROW_ARRAY *array, int64_t cell_counter,
   int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   typedef unsigned char c_type;
@@ -62,6 +62,8 @@ void DateArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
   if (binding->strlen_buffer) {
     binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+
+  return odbcabstraction::RowStatus_SUCCESS;
 }
 
 template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
