@@ -35,7 +35,7 @@ TimeArrayFlightSqlAccessor<
           array) {}
 
 template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
-void TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
+RowStatus TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
   ColumnBinding *binding, ARROW_ARRAY *array, int64_t cell_counter,
   int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostic) {
   typedef unsigned char c_type;

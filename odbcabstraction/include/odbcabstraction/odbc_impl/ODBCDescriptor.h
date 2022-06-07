@@ -112,6 +112,10 @@ namespace ODBC
         return m_arraySize;
       }
 
+      inline SQLUSMALLINT* GetArrayStatusPtr() {
+        return m_arrayStatusPtr;
+      }
+
       inline void SetRowsProcessed(SQLULEN rows) {
         if (m_rowsProccessedPtr) {
           *m_rowsProccessedPtr = rows;
