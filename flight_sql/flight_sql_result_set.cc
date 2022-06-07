@@ -14,6 +14,7 @@
 #include "flight_sql_result_set_column.h"
 #include "flight_sql_result_set_metadata.h"
 #include "utils.h"
+#include "odbcabstraction/types.h"
 
 namespace driver {
 namespace flight_sql {
@@ -52,7 +53,7 @@ FlightSqlResultSet::FlightSqlResultSet(
   ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema_));
 }
 
-size_t FlightSqlResultSet::Move(size_t rows) {
+size_t FlightSqlResultSet::Move(size_t rows, uint16_t *row_status_array) {
   // Consider it might be the first call to Move() and current_chunk is not
   // populated yet
   assert(rows > 0);
@@ -104,9 +105,22 @@ size_t FlightSqlResultSet::Move(size_t rows) {
       auto *accessor = column.GetAccessorForBinding();
       ColumnBinding shifted_binding = column.binding;
       shifted_binding.buffer = static_cast<uint8_t*>(shifted_binding.buffer) + accessor->GetCellLength(&shifted_binding) * fetched_rows;
+      uint16_t *shifted_row_status_array = row_status_array ? &row_status_array[fetched_rows] : nullptr;
 
-      size_t accessor_rows = accessor->GetColumnarData(
-          &shifted_binding, current_row_, rows_to_fetch, value_offset, false, diagnostics_);
+      if (shifted_row_status_array) {
+        std::fill(shifted_row_status_array, &shifted_row_status_array[rows_to_fetch], odbcabstraction::RowStatus_SUCCESS);
+      }
+
+      size_t accessor_rows;
+      try {
+        accessor_rows = accessor->GetColumnarData(&shifted_binding, current_row_, rows_to_fetch, value_offset, false,
+                                                  diagnostics_, shifted_row_status_array);
+      } catch (std::exception &err) {
+        if (shifted_row_status_array) {
+          std::fill(shifted_row_status_array, &shifted_row_status_array[rows_to_fetch], odbcabstraction::RowStatus_ERROR);
+        }
+        throw err;
+      }
 
       if (rows_to_fetch != accessor_rows) {
         throw DriverException(
@@ -151,7 +165,8 @@ bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
   // Note: current_row_ is always positioned at the index _after_ the one we are
   // on after calling Move(). So if we want to get data from the _last_ row
   // fetched, we need to subtract one from the current row.
-  accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, true, diagnostics_);
+  // TODO: Should GetData update row status array?
+  accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, true, diagnostics_, nullptr);
 
   // If there was truncation, the converter would have reported it to the diagnostics.
   return diagnostics_.HasWarning();

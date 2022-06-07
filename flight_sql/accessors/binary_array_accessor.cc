@@ -18,9 +18,10 @@ using namespace odbcabstraction;
 
 namespace {
 
-inline void MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
+inline RowStatus MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
                                          BinaryArray *array, int64_t i,
                                          int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  RowStatus result = odbcabstraction::RowStatus_SUCCESS;
 
   const char *value = array->Value(i).data();
   size_t size_in_bytes = array->value_length(i);
@@ -35,6 +36,7 @@ inline void MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
   memcpy(byte_buffer, ((char *)value) + value_offset, value_length);
 
   if (remaining_length > binding->buffer_length) {
+    result = odbcabstraction::RowStatus_SUCCESS_WITH_INFO;
     diagnostics.AddTruncationWarning();
     if (update_value_offset) {
       value_offset += value_length;
@@ -46,6 +48,8 @@ inline void MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
   if (binding->strlen_buffer) {
     binding->strlen_buffer[i] = static_cast<ssize_t>(remaining_length);
   }
+
+  return result;
 }
 
 } // namespace
@@ -57,10 +61,10 @@ BinaryArrayFlightSqlAccessor<TARGET_TYPE>::BinaryArrayFlightSqlAccessor(
                         BinaryArrayFlightSqlAccessor<TARGET_TYPE>>(array) {}
 
 template <>
-void BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
+RowStatus BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
     ColumnBinding *binding, BinaryArray *array, int64_t i,
     int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, update_value_offset, diagnostics);
+  return MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, update_value_offset, diagnostics);
 }
 
 template <CDataType TARGET_TYPE>

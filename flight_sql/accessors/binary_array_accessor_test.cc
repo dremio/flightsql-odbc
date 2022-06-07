@@ -32,7 +32,7 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Basic) {
   int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
@@ -69,7 +69,7 @@ TEST(BinaryArrayAccessor, Test_CDataType_BINARY_Truncation) {
   do {
     diagnostics.Clear();
     int64_t original_value_offset = value_offset;
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics));
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics, nullptr));
     ASSERT_EQ(values[0].length() - original_value_offset, strlen_buffer[0]);
 
     int64_t chunk_length = 0;

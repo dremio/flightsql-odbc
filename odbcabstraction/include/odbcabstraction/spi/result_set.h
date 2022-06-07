@@ -58,7 +58,7 @@ public:
   ///
   /// \param rows The maximum number of rows to be fetched.
   /// \returns The number of rows fetched.
-  virtual size_t Move(size_t rows) = 0;
+  virtual size_t Move(size_t rows, uint16_t *row_status_array) = 0;
 
   /// \brief Populates `buffer` with the value on current row for given column.
   /// If the value doesn't fit the buffer this method returns true and

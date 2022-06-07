@@ -155,5 +155,11 @@ typedef struct tagNUMERIC_STRUCT {
   uint8_t val[16]; //[e], [f]
 } NUMERIC_STRUCT;
 
+enum RowStatus: uint16_t {
+  RowStatus_SUCCESS = 0,  // Same as SQL_ROW_SUCCESS
+  RowStatus_SUCCESS_WITH_INFO = 6,  // Same as SQL_ROW_SUCCESS_WITH_INFO
+  RowStatus_ERROR = 5  // Same as SQL_ROW_ERROR
+};
+
 } // namespace odbcabstraction
 } // namespace driver

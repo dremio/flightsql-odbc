@@ -17,12 +17,13 @@ using namespace odbcabstraction;
 namespace {
 
 template <typename CHAR_TYPE>
-inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
+inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
                                        ColumnBinding *binding,
                                        StringArray *array, int64_t i,
                                        int64_t &value_offset,
                                        bool update_value_offset,
                                        odbcabstraction::Diagnostics &diagnostics) {
+  RowStatus result = odbcabstraction::RowStatus_SUCCESS;
 
   const char *raw_value = array->Value(i).data();
   const void *value;
@@ -54,6 +55,7 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
       value_offset = -1;
     }
   } else {
+    result = odbcabstraction::RowStatus_SUCCESS_WITH_INFO;
     diagnostics.AddTruncationWarning();
     size_t chars_written = binding->buffer_length / sizeof(CHAR_TYPE);
     // If we failed to even write one char, the buffer is too small to hold a
@@ -69,6 +71,8 @@ inline void MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
   if (binding->strlen_buffer) {
     binding->strlen_buffer[i] = static_cast<ssize_t>(remaining_length);
   }
+
+  return result;
 }
 
 } // namespace
@@ -81,18 +85,18 @@ StringArrayFlightSqlAccessor<TARGET_TYPE>::StringArrayFlightSqlAccessor(
       converter_() {}
 
 template <>
-void StringArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
+RowStatus StringArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
     ColumnBinding *binding, StringArray *array, int64_t i,
     int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  MoveSingleCellToCharBuffer<char>(&converter_, binding, array, i,
+  return MoveSingleCellToCharBuffer<char>(&converter_, binding, array, i,
                                    value_offset, update_value_offset, diagnostics);
 }
 
 template <>
-void StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
+RowStatus StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
     ColumnBinding *binding, StringArray *array, int64_t i,
     int64_t &value_offset,  bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  MoveSingleCellToCharBuffer<SqlWChar>(&converter_, binding, array, i,
+  return MoveSingleCellToCharBuffer<SqlWChar>(&converter_, binding, array, i,
                                        value_offset, update_value_offset, diagnostics);
 }
 
