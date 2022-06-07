@@ -21,7 +21,9 @@
 #include <odbcabstraction/platform.h>
 #include <arrow/type.h>
 #include <arrow/compute/api.h>
+#include <boost/tokenizer.hpp>
 #include <odbcabstraction/types.h>
+#include <sstream>
 #include "json_converter.h"
 
 namespace driver {
@@ -754,5 +756,85 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
     };
   }
 }
+std::string ConvertToDBMSVer(const std::string &str) {
+  boost::char_separator<char> separator(".");
+  boost::tokenizer< boost::char_separator<char> > tokenizer(str, separator);
+  std::string result;
+  // The permitted ODBC format is ##.##.####<custom-server-information>
+  // If any of the first 3 tokens are not numbers or are greater than the permitted digits,
+  // assume we hit the custom-server-information early and assume the remaining version digits are zero.
+  size_t position = 0;
+  bool is_showing_custom_data = false;
+  auto pad_remaining_tokens = [&](size_t pos) -> std::string {
+    std::string padded_str;
+    if (pos == 0) {
+      padded_str += "00";
+    }
+    if (pos <= 1) {
+      padded_str += ".00";
+    }
+    if (pos <= 2) {
+      padded_str += ".0000";
+    }
+    return padded_str;
+  };
+
+  for(auto token : tokenizer)
+  {
+    if (token.empty()) {
+      continue;
+    }
+
+    if (!is_showing_custom_data && position < 3) {
+      std::string suffix;
+      try {
+        size_t next_pos = 0;
+        int version = stoi(token, &next_pos);
+        if (next_pos != token.size()) {
+          suffix = &token[0];
+        }
+        if (version < 0 ||
+            (position < 2 && (version > 99)) ||
+            (position == 2 && version > 9999)) {
+          is_showing_custom_data = true;
+        } else {
+          std::stringstream strstream;
+          if (position == 2) {
+            strstream << std::setfill('0') << std::setw(4);
+          } else {
+            strstream << std::setfill('0') << std::setw(2);
+          }
+          strstream << version;
+
+          if (position != 0) {
+            result += ".";
+          }
+          result += strstream.str();
+          if (next_pos != token.size()) {
+            suffix = &token[next_pos];
+            result += pad_remaining_tokens(++position) + suffix;
+            position = 4; // Prevent additional padding.
+            is_showing_custom_data = true;
+            continue;
+          }
+          ++position;
+          continue;
+        }
+      } catch (std::logic_error&) {
+        is_showing_custom_data = true;
+      }
+
+      result += pad_remaining_tokens(position) + suffix;
+      ++position;
+    }
+
+    result += "." + token;
+    ++position;
+  }
+
+  result += pad_remaining_tokens(position);
+  return result;
+}
+
 } // namespace flight_sql
 } // namespace driver

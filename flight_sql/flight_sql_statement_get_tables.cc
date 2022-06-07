@@ -23,9 +23,6 @@
 #include "record_batch_transformer.h"
 #include "utils.h"
 
-#include <boost/algorithm/string/trim.hpp>
-#include <boost/tokenizer.hpp>
-
 namespace driver {
 namespace flight_sql {
 
@@ -33,8 +30,6 @@ using arrow::Result;
 using arrow::flight::FlightClientOptions;
 using arrow::flight::FlightInfo;
 using arrow::flight::sql::FlightSqlClient;
-
-typedef boost::tokenizer<boost::escaped_list_separator<char>> Tokenizer;
 
 void ParseTableTypes(const std::string &table_type,
                      std::vector<std::string> &table_types) {

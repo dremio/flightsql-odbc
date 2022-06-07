@@ -111,5 +111,7 @@ std::shared_ptr<arrow::Array> CheckConversion(const arrow::Result<arrow::Datum> 
 ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
                               odbcabstraction::CDataType target_type);
 
+std::string ConvertToDBMSVer(const std::string& str);
+
 } // namespace flight_sql
 } // namespace driver
