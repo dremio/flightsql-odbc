@@ -107,6 +107,11 @@ void StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
                                        value_offset, update_value_offset, diagnostics);
 }
 
+template <CDataType TARGET_TYPE>
+size_t StringArrayFlightSqlAccessor<TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+  return binding->buffer_length;
+}
+
 template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR>;
 template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_WCHAR>;
 

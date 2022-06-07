@@ -39,6 +39,8 @@ public:
                            int64_t &value_offset, bool update_value_offset,
                            odbcabstraction::Diagnostics &diagnostics);
 
+  size_t GetCellLength_impl(ColumnBinding *binding) const;
+
 private:
   std::shared_ptr<TimestampType> timestamp_type_;
 };

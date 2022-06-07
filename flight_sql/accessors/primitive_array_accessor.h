@@ -41,6 +41,8 @@ public:
   size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
                               ColumnBinding *binding, int64_t &value_offset,
                               bool update_value_offset, odbcabstraction::Diagnostics &diagnostics);
+
+  size_t GetCellLength_impl(ColumnBinding *binding) const;
 };
 
 } // namespace flight_sql

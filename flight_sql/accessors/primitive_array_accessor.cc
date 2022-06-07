@@ -38,6 +38,11 @@ PrimitiveArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::GetColumnarData_impl(
   return CopyFromArrayValuesToBinding<ARROW_ARRAY>(sliced_array, binding);
 }
 
+template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
+size_t PrimitiveArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+  return sizeof(typename ARROW_ARRAY::TypeClass::c_type);
+}
+
 template class PrimitiveArrayFlightSqlAccessor<
     Int64Array, odbcabstraction::CDataType_SBIGINT>;
 template class PrimitiveArrayFlightSqlAccessor<

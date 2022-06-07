@@ -81,8 +81,13 @@ TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding 
   buffer[cell_counter].fraction = value % divisor;
 
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(sizeof(TIMESTAMP_STRUCT));
+    binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+}
+
+template <CDataType TARGET_TYPE>
+size_t TimestampArrayFlightSqlAccessor<TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+  return sizeof(TIMESTAMP_STRUCT);
 }
 
 template class TimestampArrayFlightSqlAccessor<odbcabstraction::CDataType_TIMESTAMP>;

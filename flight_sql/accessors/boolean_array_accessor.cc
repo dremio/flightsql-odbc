@@ -40,8 +40,13 @@ void BooleanArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(
   buffer[i] = value ? 1 : 0;
 
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = static_cast<ssize_t>(sizeof(unsigned char));
+    binding->strlen_buffer[i] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+}
+
+template <CDataType TARGET_TYPE>
+size_t BooleanArrayFlightSqlAccessor<TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+  return sizeof(unsigned char);
 }
 
 template class BooleanArrayFlightSqlAccessor<odbcabstraction::CDataType_BIT>;

@@ -74,6 +74,11 @@ void BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
   MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, update_value_offset, diagnostics);
 }
 
+template <CDataType TARGET_TYPE>
+size_t BinaryArrayFlightSqlAccessor<TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+  return binding->buffer_length;
+}
+
 template class BinaryArrayFlightSqlAccessor<odbcabstraction::CDataType_BINARY>;
 
 } // namespace flight_sql

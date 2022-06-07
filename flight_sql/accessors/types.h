@@ -65,6 +65,8 @@ public:
   virtual size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
                                  size_t cells, int64_t &value_offset, bool update_value_offset,
                                  odbcabstraction::Diagnostics &diagnostics) = 0;
+
+  virtual size_t GetCellLength(ColumnBinding *binding) const = 0;
 };
 
 template <typename ARROW_ARRAY, CDataType TARGET_TYPE, typename DERIVED>
@@ -83,6 +85,10 @@ public:
     return GetColumnarData(
         arrow::internal::checked_pointer_cast<ARROW_ARRAY>(array), binding,
         value_offset, update_value_offset, diagnostics);
+  }
+
+  size_t GetCellLength(ColumnBinding *binding) const override {
+    return static_cast<const DERIVED *>(this)->GetCellLength_impl(binding);
   }
 
 private:

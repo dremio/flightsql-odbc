@@ -68,8 +68,13 @@ void TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
   buffer[cell_counter].second = time.tm_sec;
 
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(sizeof(TIME_STRUCT));
+    binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+}
+
+template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
+size_t TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::GetCellLength_impl(ColumnBinding *binding) const {
+  return sizeof(TIME_STRUCT);
 }
 
 template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,

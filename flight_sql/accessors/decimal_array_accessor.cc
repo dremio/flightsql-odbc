@@ -78,8 +78,13 @@ void DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::MoveSing
   }
 
   if (binding->strlen_buffer) {
-    binding->strlen_buffer[i] = static_cast<ssize_t>(sizeof(NUMERIC_STRUCT));
+    binding->strlen_buffer[i] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+}
+
+template <typename ARROW_ARRAY, CDataType TARGET_TYPE>
+size_t DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+  return sizeof(NUMERIC_STRUCT);
 }
 
 template class DecimalArrayFlightSqlAccessor<Decimal128Array, odbcabstraction::CDataType_NUMERIC>;

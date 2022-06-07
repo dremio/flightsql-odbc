@@ -105,16 +105,19 @@ size_t FlightSqlResultSet::Move(size_t rows) {
       continue;
     }
 
-    for (auto it = columns_.begin(); it != columns_.end(); ++it) {
-      auto &column = *it;
-
+    for (auto & column : columns_) {
       // There can be unbound columns.
       if (!column.is_bound)
         continue;
 
       int64_t value_offset = 0;
-      size_t accessor_rows = column.GetAccessorForBinding()->GetColumnarData(
-          &column.binding, current_row_, rows_to_fetch, value_offset, false, diagnostics_);
+
+      auto *accessor = column.GetAccessorForBinding();
+      ColumnBinding shifted_binding = column.binding;
+      shifted_binding.buffer = static_cast<uint8_t*>(shifted_binding.buffer) + accessor->GetCellLength(&shifted_binding) * fetched_rows;
+
+      size_t accessor_rows = accessor->GetColumnarData(
+          &shifted_binding, current_row_, rows_to_fetch, value_offset, false, diagnostics_);
 
       if (rows_to_fetch != accessor_rows) {
         throw DriverException(

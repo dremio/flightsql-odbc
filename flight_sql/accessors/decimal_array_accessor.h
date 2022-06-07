@@ -40,6 +40,8 @@ public:
                            int64_t i, int64_t &value_offset, bool update_value_offset,
                            odbcabstraction::Diagnostics &diagnostics);
 
+  size_t GetCellLength_impl(ColumnBinding *binding) const;
+
 private:
   std::shared_ptr<Decimal128Type> data_type_;
 };
