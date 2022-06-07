@@ -36,6 +36,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee0b839_9e1260e0",
+        "filename": "flight_sql/accessors/timestamp_array_accessor.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-07T17:18:02Z",
+      "side": 1,
+      "message": "It doesn\u0027t compile, it would require all other implementations to be constexpr",
+      "parentUuid": "695601da_cd29ed7b",
+      "revId": "f328acbb46b2ec6af4c0964f8877e46b88220323",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ff94883_cfa42aa8",
@@ -49,6 +67,24 @@
       "writtenOn": "2022-06-07T16:20:48Z",
       "side": 1,
       "message": "This function should be marked const, and same with its derived functions.",
+      "revId": "f328acbb46b2ec6af4c0964f8877e46b88220323",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d257d156_fc87010f",
+        "filename": "flight_sql/accessors/types.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-07T17:18:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff94883_cfa42aa8",
       "revId": "f328acbb46b2ec6af4c0964f8877e46b88220323",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
