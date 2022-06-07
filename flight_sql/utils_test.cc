@@ -60,5 +60,15 @@ TEST(Utils, ConvertSqlPatternToRegexString) {
   ASSERT_EQ(std::string("X_Y"), ConvertSqlPatternToRegexString("X\\_Y"));
 }
 
+TEST(Utils, ConvertToDBMSVer) {
+  ASSERT_EQ(std::string("01.02.0003"), ConvertToDBMSVer("1.2.3"));
+  ASSERT_EQ(std::string("01.02.0003.0"), ConvertToDBMSVer("1.2.3.0"));
+  ASSERT_EQ(std::string("01.02.0000"), ConvertToDBMSVer("1.2"));
+  ASSERT_EQ(std::string("01.00.0000"), ConvertToDBMSVer("1"));
+  ASSERT_EQ(std::string("01.02.0000-foo"), ConvertToDBMSVer("1.2-foo"));
+  ASSERT_EQ(std::string("01.00.0000-foo"), ConvertToDBMSVer("1-foo"));
+  ASSERT_EQ(std::string("10.11.0001-foo"), ConvertToDBMSVer("10.11.1-foo"));
+}
+
 } // namespace flight_sql
 } // namespace driver
