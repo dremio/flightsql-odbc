@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5d31a6_75477a48",
+        "filename": "flight_sql/accessors/timestamp_array_accessor.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-07T16:20:48Z",
+      "side": 1,
+      "message": "Does constexpr work here?",
+      "revId": "f328acbb46b2ec6af4c0964f8877e46b88220323",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff94883_cfa42aa8",
+        "filename": "flight_sql/accessors/types.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-07T16:20:48Z",
+      "side": 1,
+      "message": "This function should be marked const, and same with its derived functions.",
+      "revId": "f328acbb46b2ec6af4c0964f8877e46b88220323",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf41fe86_3ada090e",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-07T16:20:48Z",
+      "side": 1,
+      "message": "Alternate implementation is to just use binding-\u003ebuffer_length and when you have fixed length C types, calculate it with a switch statement. This seems less complex since it doesn\u0027t use CRTP, though it might be a bit slower within the accessors itself since you aren\u0027t setting strlen_or_indicator to a compile-time constant anymore.\n\nWhat do you think?",
+      "revId": "f328acbb46b2ec6af4c0964f8877e46b88220323",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
