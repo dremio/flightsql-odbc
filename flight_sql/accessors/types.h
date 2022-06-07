@@ -53,7 +53,7 @@ public:
   /// \brief Populates next cells
   virtual size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
                                  size_t cells, int64_t &value_offset, bool update_value_offset,
-                                 odbcabstraction::Diagnostics &diagnostics) = 0;
+                                 odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) = 0;
 
   virtual size_t GetCellLength(ColumnBinding *binding) const = 0;
 };
@@ -67,13 +67,13 @@ public:
 
   size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
                          size_t cells, int64_t &value_offset, bool update_value_offset,
-                         odbcabstraction::Diagnostics &diagnostics) override {
+                         odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) override {
     const std::shared_ptr<Array> &array =
         array_->Slice(starting_row, static_cast<int64_t>(cells));
 
     return GetColumnarData(
         arrow::internal::checked_pointer_cast<ARROW_ARRAY>(array), binding,
-        value_offset, update_value_offset, diagnostics);
+        value_offset, update_value_offset, diagnostics, row_status_array);
   }
 
   size_t GetCellLength(ColumnBinding *binding) const override {
@@ -85,14 +85,14 @@ private:
 
   size_t GetColumnarData(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
                          ColumnBinding *binding, int64_t &value_offset, bool update_value_offset,
-                         odbcabstraction::Diagnostics &diagnostics) {
+                         odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) {
     return static_cast<DERIVED *>(this)->GetColumnarData_impl(
-        sliced_array, binding, value_offset, update_value_offset, diagnostics);
+        sliced_array, binding, value_offset, update_value_offset, diagnostics, row_status_array);
   }
 
   size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
                               ColumnBinding *binding, int64_t &value_offset, bool update_value_offset,
-                              odbcabstraction::Diagnostics &diagnostics) {
+                              odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) {
     int64_t length = sliced_array->length();
     for (int64_t i = 0; i < length; ++i) {
       if (sliced_array->IsNull(i)) {
@@ -104,8 +104,14 @@ private:
       } else {
         // TODO: Optimize this by creating different versions of MoveSingleCell
         // depending on if strlen_buffer is null.
-        MoveSingleCell(binding, sliced_array.get(), i, value_offset, update_value_offset,
-                       diagnostics);
+        try {
+          MoveSingleCell(binding, sliced_array.get(), i, value_offset, update_value_offset,
+                         diagnostics);
+          row_status_array[i] = 0;
+        } catch (...) {
+          // TODO: Should we throw?
+          row_status_array[i] = 5;
+        }
       }
     }
 

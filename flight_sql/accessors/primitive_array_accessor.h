@@ -29,7 +29,8 @@ public:
 
   size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
                               ColumnBinding *binding, int64_t &value_offset,
-                              bool update_value_offset, odbcabstraction::Diagnostics &diagnostics);
+                              bool update_value_offset, odbcabstraction::Diagnostics &diagnostics,
+                              uint16_t* row_status_array);
 
   size_t GetCellLength_impl(ColumnBinding *binding) const;
 };
