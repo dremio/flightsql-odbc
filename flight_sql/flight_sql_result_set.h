@@ -71,7 +71,7 @@ public:
                void *buffer, size_t buffer_length,
                ssize_t *strlen_buffer) override;
 
-  size_t Move(size_t rows) override;
+  size_t Move(size_t rows, uint16_t *row_status_array) override;
 
   std::shared_ptr<arrow::Array> GetArrayForColumn(int column);
 
