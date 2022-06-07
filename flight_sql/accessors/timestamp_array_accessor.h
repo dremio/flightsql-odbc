@@ -24,7 +24,7 @@ class TimestampArrayFlightSqlAccessor
 public:
   explicit TimestampArrayFlightSqlAccessor(Array *array);
 
-  void MoveSingleCell_impl(ColumnBinding *binding, TimestampArray *array, int64_t cell_counter,
+  RowStatus MoveSingleCell_impl(ColumnBinding *binding, TimestampArray *array, int64_t cell_counter,
                            int64_t &value_offset, bool update_value_offset,
                            odbcabstraction::Diagnostics &diagnostics);
 
