@@ -35,7 +35,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
   ColumnBinding binding(CDataType_TIMESTAMP, 0, 0, buffer.data(), 0, strlen_buffer.data());
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
@@ -75,7 +75,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_SECONDS) {
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
 
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
@@ -113,7 +113,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MICRO) {
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
 
     ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);
@@ -152,7 +152,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_NANO) {
 
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(TIMESTAMP_STRUCT), strlen_buffer[i]);

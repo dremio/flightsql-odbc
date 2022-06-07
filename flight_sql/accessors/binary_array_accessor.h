@@ -23,8 +23,9 @@ class BinaryArrayFlightSqlAccessor
 public:
   explicit BinaryArrayFlightSqlAccessor(Array *array);
 
-  void MoveSingleCell_impl(ColumnBinding *binding, BinaryArray *array,
-                           int64_t i, int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics);
+  RowStatus MoveSingleCell_impl(ColumnBinding *binding, BinaryArray *array,
+                                int64_t i, int64_t &value_offset, bool update_value_offset,
+                                odbcabstraction::Diagnostics &diagnostics);
 
   size_t GetCellLength_impl(ColumnBinding *binding) const;
 };

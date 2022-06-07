@@ -33,7 +33,7 @@ TEST(DateArrayAccessor, Test_Date32Array_CDataType_DATE) {
   int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(DATE_STRUCT), strlen_buffer[i]);
@@ -65,7 +65,7 @@ TEST(DateArrayAccessor, Test_Date64Array_CDataType_DATE) {
   int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+          accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (size_t i = 0; i < values.size(); ++i) {
     ASSERT_EQ(sizeof(DATE_STRUCT), strlen_buffer[i]);

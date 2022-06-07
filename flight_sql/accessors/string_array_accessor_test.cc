@@ -31,7 +31,7 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Basic) {
   int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length(), strlen_buffer[i]);
@@ -63,7 +63,7 @@ TEST(StringArrayAccessor, Test_CDataType_CHAR_Truncation) {
   do {
     diagnostics.Clear();
     int64_t original_value_offset = value_offset;
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics));
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics, nullptr));
     ASSERT_EQ(values[0].length() - original_value_offset, strlen_buffer[0]);
 
     ss << buffer.data();
@@ -89,7 +89,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Basic) {
   int64_t value_offset = 0;
   odbcabstraction::Diagnostics diagnostics("Foo", "Foo", OdbcVersion::V_3);
   ASSERT_EQ(values.size(),
-            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics));
+            accessor.GetColumnarData(&binding, 0, values.size(), value_offset, false, diagnostics, nullptr));
 
   for (int i = 0; i < values.size(); ++i) {
     ASSERT_EQ(values[i].length() * sizeof(SqlWChar), strlen_buffer[i]);
@@ -123,7 +123,7 @@ TEST(StringArrayAccessor, Test_CDataType_WCHAR_Truncation) {
   driver::odbcabstraction::Diagnostics diagnostics("Dummy", "Dummy", odbcabstraction::V_3);
   do {
     int64_t original_value_offset = value_offset;
-    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics));
+    ASSERT_EQ(1, accessor.GetColumnarData(&binding, 0, 1, value_offset, true, diagnostics, nullptr));
     ASSERT_EQ(values[0].length() * sizeof(SqlWChar) - original_value_offset, strlen_buffer[0]);
 
     finalStr += std::basic_string<SqlWChar>(buffer.data());
