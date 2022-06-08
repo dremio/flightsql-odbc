@@ -73,7 +73,7 @@ class ODBCStatement : public ODBCHandle<ODBCStatement> {
 
     void RevertAppDescriptor(bool isApd);
 
-    inline const ODBCDescriptor* GetIRD() const {
+    inline ODBCDescriptor* GetIRD() {
       return m_ird.get();
     }
 
