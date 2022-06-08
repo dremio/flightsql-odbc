@@ -136,6 +136,13 @@ std::unique_ptr<FlightSqlAuthMethod> FlightSqlAuthMethod::FromProperties(
 
   // Check if should use user-password authentication
   auto it_user = properties.find(FlightSqlConnection::USER);
+  if (it_user == properties.end()) {
+    // The Microsoft OLE DB to ODBC bridge provider (MSDASQL) will write
+    // "User ID" and "Password" properties instead of mapping
+    // to ODBC compliant UID/PWD keys.
+    it_user = properties.find(FlightSqlConnection::USER_ID);
+  }
+
   auto it_password = properties.find(FlightSqlConnection::PASSWORD);
   auto it_token = properties.find(FlightSqlConnection::TOKEN);
 

@@ -57,6 +57,7 @@ public:
   static const std::string PORT;
   static const std::string USER;
   static const std::string UID;
+  static const std::string USER_ID;
   static const std::string PASSWORD;
   static const std::string PWD;
   static const std::string TOKEN;

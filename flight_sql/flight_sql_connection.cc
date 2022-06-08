@@ -60,6 +60,7 @@ const std::string FlightSqlConnection::DRIVER = "driver";
 const std::string FlightSqlConnection::HOST = "host";
 const std::string FlightSqlConnection::PORT = "port";
 const std::string FlightSqlConnection::USER = "user";
+const std::string FlightSqlConnection::USER_ID = "user id";
 const std::string FlightSqlConnection::UID = "uid";
 const std::string FlightSqlConnection::PASSWORD = "password";
 const std::string FlightSqlConnection::PWD = "pwd";
@@ -70,8 +71,8 @@ const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
-    FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT, 
-    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::PWD, FlightSqlConnection::USE_ENCRYPTION,
+    FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
+    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD, FlightSqlConnection::USE_ENCRYPTION,
     FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE, FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION };
 
 namespace {
@@ -116,6 +117,7 @@ const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROP
     FlightSqlConnection::HOST,
     FlightSqlConnection::PORT,
     FlightSqlConnection::USER,
+    FlightSqlConnection::USER_ID,
     FlightSqlConnection::UID,
     FlightSqlConnection::PASSWORD,
     FlightSqlConnection::PWD,
@@ -130,7 +132,7 @@ Connection::ConnPropertyMap::const_iterator
 TrackMissingRequiredProperty(const std::string &property,
                              const Connection::ConnPropertyMap &properties,
                              std::vector<std::string> &missing_attr) {
-  Connection::ConnPropertyMap::const_iterator prop_iter =
+  auto prop_iter =
       properties.find(property);
   if (properties.end() == prop_iter) {
     missing_attr.push_back(property);
@@ -209,7 +211,19 @@ FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
       continue;
     }
 
+    if (prop.first.find(' ') != std::string::npos) {
+      // Connection properties containing spaces will crash gRPC, but some tools
+      // such as the OLE DB to ODBC bridge generate unused properties containing spaces.
+      diagnostics_.AddWarning(
+          std::string("Ignoring connection option " + prop.first) +
+              ". Server-specific options must be valid HTTP header names and " +
+              "cannot contain spaces.",
+          "01000", odbcabstraction::ODBCErrorCodes_GENERAL_WARNING);
+      continue;
+    }
+
     // Note: header names must be lower case for gRPC.
+    // gRPC will crash if they are not lower-case.
     std::string key_lc = boost::algorithm::to_lower_copy(prop.first);
     call_options_.headers.emplace_back(std::make_pair(key_lc, prop.second));
   }

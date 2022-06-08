@@ -208,11 +208,11 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     const char* val = config.Get(FlightSqlConnection::USE_ENCRYPTION).c_str();
 
-    const bool enableEncrption = !boost::iequals(val, "false");
+    const bool enableEncryption = !boost::iequals(val, "false");
     labels.push_back(CreateLabel(labelPosX, rowPos, LABEL_WIDTH, ROW_HEIGHT, "Use Encryption:",
         ChildId::ENABLE_ENCRYPTION_LABEL));
     enableEncryptionCheckBox = CreateCheckBox(editPosX, rowPos - 2, editSizeX, ROW_HEIGHT, "",
-        ChildId::ENABLE_ENCRYPTION_CHECKBOX, enableEncrption);
+        ChildId::ENABLE_ENCRYPTION_CHECKBOX, enableEncryption);
 
     rowPos += INTERVAL + ROW_HEIGHT;
 

@@ -137,5 +137,34 @@ TEST(PopulateCallOptionsTest, ConnectionTimeout) {
             connection.PopulateCallOptions(Connection::ConnPropertyMap()).timeout);
 }
 
+TEST(PopulateCallOptionsTest, GenericOption) {
+  FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.SetClosed(false);
+
+  Connection::ConnPropertyMap properties;
+  properties["Foo"] = "Bar";
+  auto options = connection.PopulateCallOptions(properties);
+  auto headers = options.headers;
+  ASSERT_EQ(1, headers.size());
+
+  // Header name must be lower-case because gRPC will crash if it is not lower-case.
+  ASSERT_EQ("foo", headers[0].first);
+
+  // Header value should preserve case.
+  ASSERT_EQ("Bar", headers[0].second);
+}
+
+TEST(PopulateCallOptionsTest, GenericOptionWithSpaces) {
+  FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.SetClosed(false);
+
+  Connection::ConnPropertyMap properties;
+  properties["Persist Security Info"] = "False";
+  auto options = connection.PopulateCallOptions(properties);
+  auto headers = options.headers;
+  // Header names with spaces must be omitted or gRPC will crash.
+  ASSERT_TRUE(headers.empty());
+}
+
 } // namespace flight_sql
 } // namespace driver
