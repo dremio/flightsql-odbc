@@ -695,12 +695,47 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
       return CheckConversion(arrow::compute::CallFunction(
         "cast", {first_converted_array}, &cast_options));
     };
+  } else if (original_type_id == arrow::Type::TIME32 &&
+             target_type == odbcabstraction::CDataType_TIMESTAMP) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = arrow::int32();
+
+      auto first_converted_array = CheckConversion(
+        arrow::compute::Cast(original_array, cast_options));
+
+      cast_options.to_type = arrow::int64();
+
+      auto second_converted_array = CheckConversion(
+        arrow::compute::Cast(first_converted_array, cast_options));
+
+      arrow::compute::CastOptions cast_options_2;
+      cast_options_2.to_type = arrow::timestamp(arrow::TimeUnit::MILLI);
+
+      return CheckConversion(
+        arrow::compute::Cast(second_converted_array, cast_options_2));
+    };
+  } else if (original_type_id == arrow::Type::TIME64 &&
+             target_type == odbcabstraction::CDataType_TIMESTAMP) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = arrow::int64();
+
+      auto first_converted_array = CheckConversion(
+        arrow::compute::Cast(original_array, cast_options));
+
+      arrow::compute::CastOptions cast_options_2;
+      cast_options_2.to_type = arrow::timestamp(arrow::TimeUnit::NANO);
+
+      return CheckConversion(
+        arrow::compute::Cast(first_converted_array, cast_options_2));
+    };
   } else if (original_type_id == arrow::Type::STRING &&
              target_type == odbcabstraction::CDataType_DATE) {
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
       // The Strptime requires a date format. Using the ISO 8601 format
-      arrow::compute::StrptimeOptions options("%Y-%m-%d", arrow::TimeUnit::SECOND,
-                                              false);
+      arrow::compute::StrptimeOptions options("%Y-%m-%d",
+                                              arrow::TimeUnit::SECOND, false);
 
       auto converted_result =
         arrow::compute::Strptime({original_array}, options);
@@ -733,7 +768,7 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
 
       return finish.ValueOrDie();
     };
-  } else if (IsComplexType(original_type_id)  &&
+  } else if (IsComplexType(original_type_id) &&
              (target_type == odbcabstraction::CDataType_CHAR ||
               target_type == odbcabstraction::CDataType_WCHAR)) {
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
