@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2961f4f7_c9cef477",
+        "filename": "NOTICE",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "772a35ce_64d27d5a",
+      "revId": "edf93c602b5583f8718b5e05e17a2cf5475430a2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d20f075_598cdc54",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-08T20:48:07Z",
       "side": 1,
       "message": "Remove this line.",
+      "revId": "edf93c602b5583f8718b5e05e17a2cf5475430a2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59f3ada2_f38bc980",
+        "filename": "NOTICE",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d20f075_598cdc54",
       "revId": "edf93c602b5583f8718b5e05e17a2cf5475430a2",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
