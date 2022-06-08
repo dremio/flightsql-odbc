@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f37ba9d0_ff420d6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-08T20:12:53Z",
+      "side": 1,
+      "message": "This patch is trivial and needed for getting OLE DB to work.",
+      "revId": "441388553095c51e1d00e3cf3942ad102729280b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
