@@ -11,6 +11,8 @@
 
 namespace driver {
 namespace odbcabstraction {
+  int64_t GetTodayTimeFromEpoch();
+
   void GetTimeForMillisSinceEpoch(tm& date, int64_t value);
 } // namespace flight_sql
 } // namespace driver

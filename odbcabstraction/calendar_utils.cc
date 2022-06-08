@@ -4,11 +4,26 @@
  * See "LICENSE" for license information.
  */
 
+#include "odbcabstraction/calendar_utils.h"
+
 #include <cstdint>
 #include <ctime>
 
 namespace driver {
 namespace odbcabstraction {
+  int64_t GetTodayTimeFromEpoch() {
+    tm date{};
+    int64_t t = std::time(0);
+
+    GetTimeForMillisSinceEpoch(date, t);
+
+    date.tm_hour =0;
+    date.tm_min =0;
+    date.tm_sec =0;
+
+    return std::mktime(&date);
+}
+
 void GetTimeForMillisSinceEpoch(tm& date, int64_t value) {
   #if defined(_WIN32)
     gmtime_s(&date, &value);

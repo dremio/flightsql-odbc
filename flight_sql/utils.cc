@@ -5,20 +5,40 @@
  */
 
 #include "utils.h"
-#include <arrow/builder.h>
-#include <arrow/type_fwd.h>
-#include <odbcabstraction/platform.h>
-#include <arrow/type.h>
-#include <arrow/compute/api.h>
-#include <boost/tokenizer.hpp>
+
+#include <odbcabstraction/calendar_utils.h>
 #include <odbcabstraction/types.h>
-#include <sstream>
+#include <odbcabstraction/platform.h>
+
+#include <arrow/builder.h>
+#include <arrow/type.h>
+#include <arrow/type_fwd.h>
+#include <arrow/compute/api.h>
+
 #include "json_converter.h"
+
+#include <boost/tokenizer.hpp>
+
+#include <sstream>
+#include <ctime>
 
 namespace driver {
 namespace flight_sql {
 
 namespace {
+int64_t GetTodayTimeFromEpoch() {
+  tm date{};
+  int64_t t = std::time(0);
+
+  odbcabstraction::GetTimeForMillisSinceEpoch(date, t);
+
+  date.tm_hour =0;
+  date.tm_min =0;
+  date.tm_sec =0;
+
+  return std::mktime(&date);
+}
+
 bool IsComplexType(arrow::Type::type type_id) {
   switch (type_id) {
     case arrow::Type::LIST:
@@ -774,12 +794,58 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
       return CheckConversion(arrow::compute::CallFunction(
         "cast", {first_converted_array}, &cast_options));
     };
+  } else if (original_type_id == arrow::Type::TIME32 &&
+             target_type == odbcabstraction::CDataType_TIMESTAMP) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = arrow::int32();
+
+      auto first_converted_array = CheckConversion(
+        arrow::compute::Cast(original_array, cast_options));
+
+      cast_options.to_type = arrow::int64();
+
+      auto second_converted_array = CheckConversion(
+        arrow::compute::Cast(first_converted_array, cast_options));
+
+      auto seconds_from_epoch = GetTodayTimeFromEpoch();
+
+      auto third_converted_array = CheckConversion(
+        arrow::compute::Add(second_converted_array, std::make_shared<arrow::Int64Scalar>(seconds_from_epoch * 1000)));
+
+      arrow::compute::CastOptions cast_options_2;
+      cast_options_2.to_type = arrow::timestamp(arrow::TimeUnit::MILLI);
+
+      return CheckConversion(
+        arrow::compute::Cast(third_converted_array, cast_options_2));
+    };
+  } else if (original_type_id == arrow::Type::TIME64 &&
+             target_type == odbcabstraction::CDataType_TIMESTAMP) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::compute::CastOptions cast_options;
+      cast_options.to_type = arrow::int64();
+
+      auto first_converted_array = CheckConversion(
+        arrow::compute::Cast(original_array, cast_options));
+
+      auto seconds_from_epoch = GetTodayTimeFromEpoch();
+
+      auto second_converted_array = CheckConversion(
+        arrow::compute::Add(first_converted_array,
+                            std::make_shared<arrow::Int64Scalar>(seconds_from_epoch * 1000000000)));
+
+      arrow::compute::CastOptions cast_options_2;
+      cast_options_2.to_type = arrow::timestamp(arrow::TimeUnit::NANO);
+
+      return CheckConversion(
+        arrow::compute::Cast(second_converted_array, cast_options_2));
+    };
   } else if (original_type_id == arrow::Type::STRING &&
              target_type == odbcabstraction::CDataType_DATE) {
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
       // The Strptime requires a date format. Using the ISO 8601 format
-      arrow::compute::StrptimeOptions options("%Y-%m-%d", arrow::TimeUnit::SECOND,
-                                              false);
+      arrow::compute::StrptimeOptions options("%Y-%m-%d",
+                                              arrow::TimeUnit::SECOND, false);
 
       auto converted_result =
         arrow::compute::Strptime({original_array}, options);
@@ -812,7 +878,7 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
 
       return finish.ValueOrDie();
     };
-  } else if (IsComplexType(original_type_id)  &&
+  } else if (IsComplexType(original_type_id) &&
              (target_type == odbcabstraction::CDataType_CHAR ||
               target_type == odbcabstraction::CDataType_WCHAR)) {
     return [=](const std::shared_ptr<arrow::Array> &original_array) {
