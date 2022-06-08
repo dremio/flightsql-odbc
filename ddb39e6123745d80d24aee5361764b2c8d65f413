@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cac4332_d0847d92",
+        "filename": "NOTICE",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f23d4689_ced55859",
+      "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed5af9c4_0509ba93",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-08T20:35:03Z",
       "side": 1,
       "message": "Move these two lines to between Line 2 and 4.",
+      "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ed77ebb_8c05f7a4",
+        "filename": "NOTICE",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed5af9c4_0509ba93",
       "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "342ce5af_89db238f",
+        "filename": "build_win32.bat",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c52bbd3_0b7a4301",
+      "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdacdd67_34310cb7",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-06-08T20:35:03Z",
       "side": 1,
       "message": "Need to keep @rem Copyright 2015 the original author or authors.",
+      "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f2345d_d4340469",
+        "filename": "build_win64.bat",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdacdd67_34310cb7",
       "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -86,6 +158,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c98ad6d7_51d6e522",
+        "filename": "flight_sql/system_trust_store.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efad7461_ad3bdb88",
+      "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "519734ca_24bd3177",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-06-08T20:35:03Z",
       "side": 1,
       "message": "Can remove the License stuff below.",
+      "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe82ba0_d7cae6f8",
+        "filename": "flight_sql/system_trust_store.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-08T20:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "519734ca_24bd3177",
       "revId": "ddb39e6123745d80d24aee5361764b2c8d65f413",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
