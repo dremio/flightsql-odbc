@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22d6b4d5_d0dd0320",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-09T14:24:46Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we also handle conversion from DATE to TIMESTAMP?\n(All time fields should be set to zero in that scenario).",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "261640e2_edb0b04e",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-09T14:24:46Z",
+      "side": 1,
+      "message": "Conversion from time -\u003e timestamp is supposed to set the date portion to the current date.",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
