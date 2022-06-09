@@ -33,6 +33,57 @@
       "message": "Conversion from time -\u003e timestamp is supposed to set the date portion to the current date.",
       "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18fac6a6_9aecb792",
+        "filename": "flight_sql/utils_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-09T14:29:46Z",
+      "side": 1,
+      "message": "We don\u0027t have to do this now, but we should probably move conversions out of utils and into a separate class as well as separate tests fro other utils functions.",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0b7e0d_c910ef3a",
+        "filename": "flight_sql/utils_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-09T14:29:46Z",
+      "side": 1,
+      "message": "Don\u0027t write to stdout. We should write code that actually validates the array content. This just checks types and length but the converter itself can break.",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3fb6949_194053f5",
+        "filename": "flight_sql/utils_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-09T14:29:46Z",
+      "side": 1,
+      "message": "Conversions?",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
