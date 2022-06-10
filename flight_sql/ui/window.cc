@@ -278,7 +278,7 @@ std::vector<std::vector<std::string> > Window::ListGetAll()
     for (int i = 0; i < numItems; ++i) {
         std::vector<std::string> row;
         for (int j = 0; j < numColumns; ++j) {
-            ListView_GetItemText(handle, j, i, buf, BUF_LEN);
+            ListView_GetItemText(handle, i, j, buf, BUF_LEN);
             row.emplace_back(buf);
         }
         values.push_back(row);
