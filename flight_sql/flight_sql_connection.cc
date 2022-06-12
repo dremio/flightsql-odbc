@@ -321,7 +321,7 @@ FlightSqlConnection::GetAttribute(Connection::AttributeId attribute) {
 
 Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
   auto result = info_.GetInfo(info_type);
-  if (info_type == SQL_DBMS_NAME) {
+  if (info_type == SQL_DBMS_NAME || info_type == SQL_SERVER_NAME) {
     // Update the database component reported in error messages.
     // We do this lazily for performance reasons.
     diagnostics_.SetDataSourceComponent(boost::get<std::string>(result));

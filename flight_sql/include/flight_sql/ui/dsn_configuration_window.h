@@ -55,6 +55,7 @@ class DsnConfigurationWindow : public CustomWindow
             ADD_BUTTON,
             DELETE_BUTTON,
             TAB_CONTROL,
+            TEST_CONNECTION_BUTTON,
             OK_BUTTON,
             CANCEL_BUTTON
         };
@@ -135,7 +136,7 @@ private:
 
     void CheckAuthType();
 
-    void SaveParameters();
+    void SaveParameters(Configuration& targetConfig);
 
     /** Window width. */
     int width;
@@ -159,6 +160,9 @@ private:
     std::unique_ptr<Window> encryptionSettingsGroupBox;
 
     std::vector<std::unique_ptr<Window> > labels;
+
+    /** Test button. */
+    std::unique_ptr<Window> testButton;
 
     /** Ok button. */
     std::unique_ptr<Window> okButton;
