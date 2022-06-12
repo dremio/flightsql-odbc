@@ -606,6 +606,10 @@ void ODBCConnection::GetConnectAttr(SQLINTEGER attribute, SQLPOINTER value,
 
 void ODBCConnection::disconnect() {
   if (m_isConnected) {
+    // Ensure that all statements (and corresponding SPI statements) get cleaned
+    // up before terminating the SPI connection in case they need to be de-allocated in
+    // the reverse of the allocation order.
+    m_statements.clear();
     m_spiConnection->Close();
     m_isConnected = false;
   }
