@@ -12,11 +12,30 @@
 #include <sstream>
 #include <commctrl.h>
 #include <commdlg.h>
+#include <sql.h>
+#include <odbcabstraction/utils.h>
 
 #include "ui/add_property_window.h"
 
 #define COMMON_TAB 0
 #define ADVANCED_TAB 1
+
+namespace {
+    std::string TestConnection(const driver::flight_sql::config::Configuration& config) {
+        std::unique_ptr<driver::flight_sql::FlightSqlConnection> flightSqlConn(
+            new driver::flight_sql::FlightSqlConnection(driver::odbcabstraction::V_3));
+
+        std::vector<std::string> missingProperties;
+        flightSqlConn->Connect(config.GetProperties(), missingProperties);
+
+        // This should have been checked before enabling the Test button.
+        assert(missingProperties.empty());
+        std::string serverName = boost::get<std::string>(flightSqlConn->GetInfo(SQL_SERVER_NAME));
+        std::string serverVersion = boost::get<std::string>(flightSqlConn->GetInfo(SQL_DBMS_VER));
+        return "Server Name: " + serverName + "\n" +
+            "Server Version: " + serverVersion;
+    }
+}
 
 namespace driver {
 namespace flight_sql {
@@ -79,10 +98,12 @@ void DsnConfigurationWindow::OnCreate()
     advancedGroupPosY += INTERVAL + CreateEncryptionSettingsGroup(MARGIN, advancedGroupPosY, groupSizeY);
     advancedGroupPosY += INTERVAL + CreatePropertiesGroup(MARGIN, advancedGroupPosY, groupSizeY);
 
+    int testPosX = MARGIN;
     int cancelPosX = width - MARGIN - BUTTON_WIDTH;
     int okPosX = cancelPosX - INTERVAL - BUTTON_WIDTH;
 
     int buttonPosY = std::max(commonGroupPosY, advancedGroupPosY);
+    testButton = CreateButton(testPosX, buttonPosY, BUTTON_WIDTH + 20, BUTTON_HEIGHT, "Test Connection", ChildId::TEST_CONNECTION_BUTTON);
     okButton = CreateButton(okPosX, buttonPosY, BUTTON_WIDTH, BUTTON_HEIGHT, "Ok", ChildId::OK_BUTTON);
     cancelButton = CreateButton(cancelPosX, buttonPosY, BUTTON_WIDTH, BUTTON_HEIGHT,
         "Cancel", ChildId::CANCEL_BUTTON);
@@ -197,7 +218,7 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     const char* val = config.Get(FlightSqlConnection::USE_ENCRYPTION).c_str();
 
-    const bool enableEncryption = !boost::iequals(val, "false");
+    const bool enableEncryption = driver::odbcabstraction::AsBool(val, true);
     labels.push_back(CreateLabel(labelPosX, rowPos, LABEL_WIDTH, ROW_HEIGHT, "Use Encryption:",
         ChildId::ENABLE_ENCRYPTION_LABEL));
     enableEncryptionCheckBox = CreateCheckBox(editPosX, rowPos - 2, editSizeX, ROW_HEIGHT, "",
@@ -216,7 +237,7 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     val = config.Get(FlightSqlConnection::USE_SYSTEM_TRUST_STORE).c_str();
 
-    const bool useSystemCertStore = !boost::iequals(val, "false");
+    const bool useSystemCertStore = driver::odbcabstraction::AsBool(val, true);
     labels.push_back(CreateLabel(labelPosX, rowPos, LABEL_WIDTH, 2 * ROW_HEIGHT, "Use System Certificate Store:",
         ChildId::USE_SYSTEM_CERT_STORE_LABEL));
     useSystemCertStoreCheckBox = CreateCheckBox(editPosX, rowPos - 2, 20, 2 * ROW_HEIGHT, "",
@@ -227,7 +248,7 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     const int rightPosX = labelPosX + (sizeX - (2 * INTERVAL)) / 2;
     const int rightCheckPosX = rightPosX + (editPosX - labelPosX);
-    const bool disableCertVerification = !boost::iequals(val, "false");
+    const bool disableCertVerification = driver::odbcabstraction::AsBool(val, false);
     labels.push_back(CreateLabel(rightPosX, rowPos, LABEL_WIDTH, 2 * ROW_HEIGHT, "Disable Certificate Verification:",
         ChildId::DISABLE_CERT_VERIFICATION_LABEL));
     disableCertVerificationCheckBox = CreateCheckBox(rightCheckPosX, rowPos - 2, 20, 2 * ROW_HEIGHT, "",
@@ -330,18 +351,19 @@ void DsnConfigurationWindow::CheckEnableOk() {
         enableOk = enableOk && !passwordEdit->IsTextEmpty();
     }
 
+    testButton->SetEnabled(enableOk);
     okButton->SetEnabled(enableOk);
 }
 
-void DsnConfigurationWindow::SaveParameters()
+void DsnConfigurationWindow::SaveParameters(Configuration& targetConfig)
 {
-    config.Clear();
+    targetConfig.Clear();
 
     std::string text;
     nameEdit->GetText(text);
-    config.Set(FlightSqlConnection::DSN, text);
+    targetConfig.Set(FlightSqlConnection::DSN, text);
     serverEdit->GetText(text);
-    config.Set(FlightSqlConnection::HOST, text);
+    targetConfig.Set(FlightSqlConnection::HOST, text);
     portEdit->GetText(text);
     try {
         const int portInt = std::stoi(text);
@@ -349,7 +371,7 @@ void DsnConfigurationWindow::SaveParameters()
         {
             throw odbcabstraction::DriverException("Invalid port value.");
         }
-        config.Set(FlightSqlConnection::PORT, text);
+        targetConfig.Set(FlightSqlConnection::PORT, text);
     }
     catch (odbcabstraction::DriverException&) {
         throw;
@@ -361,33 +383,33 @@ void DsnConfigurationWindow::SaveParameters()
     if (0 == authTypeComboBox->GetSelection())
     {
         userEdit->GetText(text);
-        config.Set(FlightSqlConnection::UID, text);
+        targetConfig.Set(FlightSqlConnection::UID, text);
         passwordEdit->GetText(text);
-        config.Set(FlightSqlConnection::PWD, text);
+        targetConfig.Set(FlightSqlConnection::PWD, text);
     }
     else
     {
         authTokenEdit->GetText(text);
-        config.Set(FlightSqlConnection::TOKEN, text);
+        targetConfig.Set(FlightSqlConnection::TOKEN, text);
     }
 
     if (enableEncryptionCheckBox->IsChecked())
     {
-        config.Set(FlightSqlConnection::USE_ENCRYPTION, TRUE_STR);
+        targetConfig.Set(FlightSqlConnection::USE_ENCRYPTION, TRUE_STR);
         certificateEdit->GetText(text);
-        config.Set(FlightSqlConnection::TRUSTED_CERTS, text);
-        config.Set(FlightSqlConnection::USE_SYSTEM_TRUST_STORE, useSystemCertStoreCheckBox->IsChecked() ? TRUE_STR : FALSE_STR);
-        config.Set(FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, disableCertVerificationCheckBox->IsChecked() ? TRUE_STR : FALSE_STR);
+        targetConfig.Set(FlightSqlConnection::TRUSTED_CERTS, text);
+        targetConfig.Set(FlightSqlConnection::USE_SYSTEM_TRUST_STORE, useSystemCertStoreCheckBox->IsChecked() ? TRUE_STR : FALSE_STR);
+        targetConfig.Set(FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, disableCertVerificationCheckBox->IsChecked() ? TRUE_STR : FALSE_STR);
     }
     else
     {
-        config.Set(FlightSqlConnection::USE_ENCRYPTION, FALSE_STR);
+        targetConfig.Set(FlightSqlConnection::USE_ENCRYPTION, FALSE_STR);
     }
 
     // Get all the list properties.
     const auto properties = propertyList->ListGetAll();
     for (const auto& property : properties) {
-        config.Set(property[0], property[1]);
+        targetConfig.Set(property[0], property[1]);
     }
 }
 
@@ -425,11 +447,28 @@ bool DsnConfigurationWindow::OnMessage(UINT msg, WPARAM wParam, LPARAM lParam)
         {
             switch (LOWORD(wParam))
             {
+                case ChildId::TEST_CONNECTION_BUTTON:
+                {
+                    try
+                    {
+                        Configuration testConfig;
+                        SaveParameters(testConfig);
+                        std::string testMessage = TestConnection(testConfig);
+
+                        MessageBox(NULL, testMessage.c_str(), "Test Connection Success", MB_OK);
+                    }
+                    catch (odbcabstraction::DriverException& err)
+                    {
+                        MessageBox(NULL, err.GetMessageText().c_str(), "Error!", MB_ICONEXCLAMATION | MB_OK);
+                    }
+
+                    break;
+                }
                 case ChildId::OK_BUTTON:
                 {
                     try
                     {
-                        SaveParameters();
+                        SaveParameters(config);
                         accepted = true;
                         PostMessage(GetHandle(), WM_CLOSE, 0, 0);
                     }
