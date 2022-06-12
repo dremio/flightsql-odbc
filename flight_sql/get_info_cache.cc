@@ -262,7 +262,7 @@ Connection::Info GetInfoCache::GetInfo(uint16_t info_type) {
 }
 
 bool GetInfoCache::LoadInfoFromServer() {
-  if (has_server_info_.exchange(true)) {
+  if (sql_client_ && !has_server_info_.exchange(true)) {
     std::unique_lock<std::mutex> lock(mutex_);
     arrow::Result<std::shared_ptr<FlightInfo>> result =
         sql_client_->GetSqlInfo(call_options_, {});
