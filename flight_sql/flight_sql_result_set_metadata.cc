@@ -10,6 +10,7 @@
 #include <arrow/util/key_value_metadata.h>
 #include "utils.h"
 
+#include <odbcabstraction/types.h>
 #include <odbcabstraction/exceptions.h>
 #include <utility>
 
@@ -112,7 +113,48 @@ std::string FlightSqlResultSetMetadata::GetBaseTableName(int column_position) {
 
 std::string FlightSqlResultSetMetadata::GetConciseType(int column_position) {
   // TODO Implement after the PR from column metadata is merged
-  return "";
+  const std::shared_ptr<Field> &field = schema_->field(column_position -1);
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
+
+  const SqlDataType sqlColumnType= GetDataTypeFromArrowField_V3(field);
+  switch (sqlColumnType)
+  {
+  case SqlDataType_TYPE_DATE:
+    return "SQL_TYPE_DATE";
+  case SqlDataType_TYPE_TIME:
+    return "SQL_TYPE_TIME";
+  case SqlDataType_TYPE_TIMESTAMP:
+    return "SQL_TYPE_TIMESTAMP";
+  case SqlDataType_INTERVAL_MONTH:
+    return "SQL_INTERVAL_MONTH";
+  case SqlDataType_INTERVAL_YEAR:
+    return "SQL_INTERVAL_YEAR";
+  case SqlDataType_INTERVAL_YEAR_TO_MONTH:
+    return "SQL_INTERVAL_YEAR_TO_MONTH";
+  case SqlDataType_INTERVAL_DAY:
+    return "SQL_INTERVAL_DAY";
+  case SqlDataType_INTERVAL_HOUR:
+    return "SQL_INTERVAL_HOUR";
+  case SqlDataType_INTERVAL_MINUTE:
+    return "SQL_INTERVAL_MINUTE";
+  case SqlDataType_INTERVAL_SECOND:
+    return "SQL_INTERVAL_SECOND";
+  case SqlDataType_INTERVAL_DAY_TO_HOUR:
+    return "SQL_INTERVAL_DAY_TO_HOUR";
+  case SqlDataType_INTERVAL_DAY_TO_MINUTE:
+    return "SQL_INTERVAL_DAY_TO_MINUTE";
+  case SqlDataType_INTERVAL_DAY_TO_SECOND:
+    return "SQL_INTERVAL_DAY_TO_SECOND";
+  case SqlDataType_INTERVAL_HOUR_TO_MINUTE:
+    return "SQL_INTERVAL_HOUR_TO_MINUTE";
+  case SqlDataType_INTERVAL_HOUR_TO_SECOND:
+    return "SQL_INTERVAL_HOUR_TO_SECOND";
+  case SqlDataType_INTERVAL_MINUTE_TO_SECOND:
+    return "SQL_INTERVAL_MINUTE_TO_SECOND";
+
+  default:
+    return metadata.GetTypeName().ValueOrElse([] { return ""; });
+  }
 }
 
 size_t FlightSqlResultSetMetadata::GetLength(int column_position) {

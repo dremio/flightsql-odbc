@@ -305,6 +305,8 @@ optional<int16_t> GetSqlDateTimeSubCode(SqlDataType data_type) {
 
 optional<int32_t> GetCharOctetLength(SqlDataType data_type,
                                      const optional<int32_t>& column_size) {
+  // TODO: Replace NO_TOTAL with the correct default values
+  // TODO: Get correct default values from connection settings
   switch (data_type) {
   case SqlDataType_CHAR:
   case SqlDataType_VARCHAR:
