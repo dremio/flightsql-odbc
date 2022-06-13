@@ -458,6 +458,7 @@ void ODBCDescriptor::PopulateFromResultSetMetadata(ResultSetMetadata* rsmd) {
     m_records[i].m_schemaName = rsmd->GetSchemaName(oneBasedIndex);
     m_records[i].m_tableName = rsmd->GetTableName(oneBasedIndex);
     m_records[i].m_typeName = rsmd->GetTypeName(oneBasedIndex);
+    m_records[i].m_conciseType = rsmd->GetConciseType(oneBasedIndex);
     m_records[i].m_dataPtr = nullptr;
     m_records[i].m_indicatorPtr = nullptr;
     m_records[i].m_displaySize = rsmd->GetColumnDisplaySize(oneBasedIndex);
@@ -467,7 +468,6 @@ void ODBCDescriptor::PopulateFromResultSetMetadata(ResultSetMetadata* rsmd) {
     m_records[i].m_caseSensitive = rsmd->IsCaseSensitive(oneBasedIndex)? SQL_TRUE : SQL_FALSE;
     m_records[i].m_datetimeIntervalPrecision; // TODO - update when rsmd adds this
     m_records[i].m_numPrecRadix = rsmd->GetNumPrecRadix(oneBasedIndex);
-    m_records[i].m_conciseType = GetSqlTypeForODBCVersion(rsmd->GetDataType(oneBasedIndex), m_is2xConnection); // TODO: Check if this needs to be different than datatype.
     m_records[i].m_datetimeIntervalCode; // TODO
     m_records[i].m_fixedPrecScale = rsmd->IsFixedPrecScale(oneBasedIndex) ? SQL_TRUE : SQL_FALSE;
     m_records[i].m_nullable = rsmd->IsNullable(oneBasedIndex);
@@ -476,7 +476,7 @@ void ODBCDescriptor::PopulateFromResultSetMetadata(ResultSetMetadata* rsmd) {
     m_records[i].m_rowVer = SQL_FALSE;
     m_records[i].m_scale = rsmd->GetScale(oneBasedIndex);
     m_records[i].m_searchable = rsmd->IsSearchable(oneBasedIndex);
-    m_records[i].m_type = GetSqlTypeForODBCVersion(rsmd->GetDataType(oneBasedIndex), m_is2xConnection);
+    m_records[i].m_type = GetSqlTypeForODBCVersion(rsmd->GetConciseType(oneBasedIndex), m_is2xConnection);
     m_records[i].m_unnamed = m_records[i].m_name.empty() ? SQL_TRUE : SQL_FALSE;
     m_records[i].m_unsigned = rsmd->IsUnsigned(oneBasedIndex) ? SQL_TRUE : SQL_FALSE;
     m_records[i].m_updatable = rsmd->GetUpdatable(oneBasedIndex);
