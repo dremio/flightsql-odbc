@@ -458,6 +458,7 @@ void ODBCDescriptor::PopulateFromResultSetMetadata(ResultSetMetadata* rsmd) {
     m_records[i].m_schemaName = rsmd->GetSchemaName(oneBasedIndex);
     m_records[i].m_tableName = rsmd->GetTableName(oneBasedIndex);
     m_records[i].m_typeName = rsmd->GetTypeName(oneBasedIndex);
+    m_records[i].m_conciseType = rsmd->GetConciseType(oneBasedIndex);
     m_records[i].m_dataPtr = nullptr;
     m_records[i].m_indicatorPtr = nullptr;
     m_records[i].m_displaySize = rsmd->GetColumnDisplaySize(oneBasedIndex);
