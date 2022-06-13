@@ -42,7 +42,7 @@ public:
   /// \brief It retrieves the SQL_DATA_TYPE of the column.
   /// \param column_position[in] the position of the column, starting from 1.
   /// \return the SQL_DATA_TYPE
-  virtual SqlDataType GetDataType(int column_position) = 0;
+  virtual uint16_t GetDataType(int column_position) = 0;
 
   /// \brief It returns a boolean value indicating if the column can have
   ///        null values.
@@ -86,10 +86,10 @@ public:
   /// \return the base table name.
   virtual std::string GetBaseTableName(int column_position) = 0;
 
-  /// \brief It retrieves the concise data type.
+  /// \brief It retrieves the concise data type (SQL_DESC_CONCISE_TYPE).
   /// \param column_position[in] the position of the column, starting from 1.
   /// \return the concise data type.
-  virtual std::string GetConciseType(int column_position) = 0;
+  virtual uint16_t GetConciseType(int column_position) = 0;
 
   /// \brief It retrieves the maximum or the actual character length
   ///        of a character string or binary data type.

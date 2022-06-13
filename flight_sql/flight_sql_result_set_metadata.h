@@ -30,7 +30,7 @@ public:
 
   size_t GetScale(int column_position) override;
 
-  odbcabstraction::SqlDataType GetDataType(int column_position) override;
+  uint16_t GetDataType(int column_position) override;
 
   odbcabstraction::Nullability IsNullable(int column_position) override;
 
@@ -48,7 +48,7 @@ public:
 
   std::string GetBaseTableName(int column_position) override;
 
-  std::string GetConciseType(int column_position) override;
+  uint16_t GetConciseType(int column_position) override;
 
   size_t GetLength(int column_position) override;
 
