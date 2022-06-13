@@ -48,7 +48,7 @@ public:
 
   std::string GetBaseTableName(int column_position) override;
 
-  std::string GetConciseType(int column_position) override;
+  uint16_t GetConciseType(int column_position) override;
 
   size_t GetLength(int column_position) override;
 

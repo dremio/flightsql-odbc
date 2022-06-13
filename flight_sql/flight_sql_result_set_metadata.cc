@@ -10,6 +10,7 @@
 #include <arrow/util/key_value_metadata.h>
 #include "utils.h"
 
+#include <odbcabstraction/types.h>
 #include <odbcabstraction/exceptions.h>
 #include <utility>
 
@@ -110,9 +111,13 @@ std::string FlightSqlResultSetMetadata::GetBaseTableName(int column_position) {
   return metadata.GetTableName().ValueOrElse([] { return ""; });
 }
 
-std::string FlightSqlResultSetMetadata::GetConciseType(int column_position) {
+uint16_t FlightSqlResultSetMetadata::GetConciseType(int column_position) {
   // TODO Implement after the PR from column metadata is merged
-  return "";
+  const std::shared_ptr<Field> &field = schema_->field(column_position -1);
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
+
+  const SqlDataType sqlColumnType = GetDataTypeFromArrowField_V3(field);
+  return sqlColumnType; 
 }
 
 size_t FlightSqlResultSetMetadata::GetLength(int column_position) {
