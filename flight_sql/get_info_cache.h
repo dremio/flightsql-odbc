@@ -8,7 +8,7 @@
 
 #include <arrow/flight/api.h>
 #include <atomic>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <mutex>
 #include <odbcabstraction/spi/connection.h>
@@ -27,7 +27,7 @@ namespace flight_sql {
 class GetInfoCache {
 
 private:
-  std::map<uint16_t, driver::odbcabstraction::Connection::Info> info_;
+  std::unordered_map<uint16_t, driver::odbcabstraction::Connection::Info> info_;
   arrow::flight::FlightCallOptions &call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> &sql_client_;
   std::mutex mutex_;
@@ -42,6 +42,7 @@ public:
 
 private:
   bool LoadInfoFromServer();
+  void LoadDefaultsForMissingEntries();
 };
 } // namespace flight_sql
 } // namespace driver

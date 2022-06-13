@@ -128,7 +128,7 @@ uint32_t GetCvtBitForArrowConvertEntry(int32_t convert_entry) {
   case ARROW_CONVERT_BIT:
     return SQL_CVT_BIT;
   case ARROW_CONVERT_CHAR:
-    return SQL_CVT_CHAR;
+    return SQL_CVT_CHAR | SQL_CVT_WCHAR;
   case ARROW_CONVERT_DATE:
     return SQL_CVT_DATE;
   case ARROW_CONVERT_DECIMAL:
@@ -144,7 +144,7 @@ uint32_t GetCvtBitForArrowConvertEntry(int32_t convert_entry) {
   case ARROW_CONVERT_LONGVARBINARY:
     return SQL_CVT_LONGVARBINARY;
   case ARROW_CONVERT_LONGVARCHAR:
-    return SQL_CVT_LONGVARCHAR;
+    return SQL_CVT_LONGVARCHAR | SQL_CVT_WLONGVARCHAR;
   case ARROW_CONVERT_NUMERIC:
     return SQL_CVT_NUMERIC;
   case ARROW_CONVERT_REAL:
@@ -160,22 +160,29 @@ uint32_t GetCvtBitForArrowConvertEntry(int32_t convert_entry) {
   case ARROW_CONVERT_VARBINARY:
     return SQL_CVT_VARBINARY;
   case ARROW_CONVERT_VARCHAR:
-    return SQL_CVT_VARCHAR;
+    return SQL_CVT_VARCHAR | SQL_CVT_WLONGVARCHAR;
   }
+  // Note: GUID not supported by GetSqlInfo.
   // Return zero, which has no bits set.
   return 0;
 }
 
 inline int32_t ScalarToInt32(arrow::UnionScalar *scalar) {
-  return reinterpret_cast<arrow::Int32Scalar *>(scalar)->value;
+  return reinterpret_cast<arrow::Int32Scalar *>(scalar->value.get())->value;
 }
 
 inline int64_t ScalarToInt64(arrow::UnionScalar *scalar) {
-  return reinterpret_cast<arrow::Int64Scalar *>(scalar)->value;
+  return reinterpret_cast<arrow::Int64Scalar *>(scalar->value.get())->value;
 }
 
 inline std::string ScalarToBoolString(arrow::UnionScalar *scalar) {
-  return reinterpret_cast<arrow::BooleanScalar *>(scalar)->value ? "Y" : "N";
+  return reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value ? "Y" : "N";
+}
+
+inline void SetDefaultIfMissing(std::unordered_map<uint16_t, driver::odbcabstraction::Connection::Info>& cache,
+                                uint16_t info_type, driver::odbcabstraction::Connection::Info default_value) {
+  // Note: emplace() only writes if the key isn't found.
+  cache.emplace(info_type, std::move(default_value));
 }
 
 } // namespace
@@ -191,7 +198,7 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
     : call_options_(call_options), sql_client_(client),
       has_server_info_(false) {
   info_[SQL_DRIVER_NAME] = "Arrow Flight ODBC Driver";
-  info_[SQL_DRIVER_VER] = "1.0.0";
+  info_[SQL_DRIVER_VER] = "01.00.0000"; // This should be generated dynamically.
 
   info_[SQL_GETDATA_EXTENSIONS] =
       static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
@@ -201,7 +208,9 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
   // should.
   info_[SQL_ACCESSIBLE_PROCEDURES] = "N";
   info_[SQL_COLLATION_SEQ] = "";
+  info_[SQL_ALTER_DOMAIN] = static_cast<uint32_t>(0);
   info_[SQL_ALTER_TABLE] = static_cast<uint32_t>(0);
+  info_[SQL_COLUMN_ALIAS] = "Y";
   info_[SQL_DATETIME_LITERALS] = static_cast<uint32_t>(
       SQL_DL_SQL92_DATE | SQL_DL_SQL92_TIME | SQL_DL_SQL92_TIMESTAMP);
   info_[SQL_CREATE_ASSERTION] = static_cast<uint32_t>(0);
@@ -225,6 +234,8 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
   info_[SQL_DROP_CHARACTER_SET] = static_cast<uint32_t>(0);
   info_[SQL_DROP_COLLATION] = static_cast<uint32_t>(0);
   info_[SQL_DROP_DOMAIN] = static_cast<uint32_t>(0);
+  info_[SQL_DROP_SCHEMA] = static_cast<uint32_t>(0);
+  info_[SQL_DROP_TABLE] = static_cast<uint32_t>(0);
   info_[SQL_DROP_TRANSLATION] = static_cast<uint32_t>(0);
   info_[SQL_DROP_VIEW] = static_cast<uint32_t>(0);
   info_[SQL_MAX_IDENTIFIER_LEN] = static_cast<uint16_t>(65535); // arbitrary
@@ -239,6 +250,7 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
   info_[SQL_CATALOG_TERM] = "";
   info_[SQL_CATALOG_NAME] = "N";
   info_[SQL_CATALOG_NAME_SEPARATOR] = "";
+  info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(0);
 }
 
 void GetInfoCache::SetProperty(
@@ -345,9 +357,11 @@ bool GetInfoCache::LoadInfoFromServer() {
             if (catalog_term.empty()) {
               info_[SQL_CATALOG_NAME] = "N";
               info_[SQL_CATALOG_NAME_SEPARATOR] = "";
+              info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(0);
             } else {
               info_[SQL_CATALOG_NAME] = "Y";
               info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+              info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
             }
             info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
 
@@ -370,7 +384,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           case SqlInfoOptions::SQL_DDL_SCHEMA: {
             bool supports_schema_ddl =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             // Note: this is a bitmask and we can't describe cascade or restrict
             // flags.
             info_[SQL_DROP_SCHEMA] = static_cast<uint32_t>(SQL_DS_DROP_SCHEMA);
@@ -383,7 +397,7 @@ bool GetInfoCache::LoadInfoFromServer() {
           }
           case SqlInfoOptions::SQL_DDL_TABLE: {
             bool supports_table_ddl =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             // This is a bitmask and we cannot describe all clauses.
             info_[SQL_CREATE_TABLE] =
                 static_cast<uint32_t>(SQL_CT_CREATE_TABLE);
@@ -400,7 +414,7 @@ bool GetInfoCache::LoadInfoFromServer() {
           }
           case SqlInfoOptions::SQL_NULL_PLUS_NULL_IS_NULL: {
             info_[SQL_CONCAT_NULL_BEHAVIOR] = static_cast<uint16_t>(
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value
                     ? SQL_CB_NULL
                     : SQL_CB_NON_NULL);
             break;
@@ -410,7 +424,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             // SQL_SUPPORTS_DIFFERENT_TABLE_CORRELATION_NAMES since we need both
             // properties to determine the value for SQL_CORRELATION_NAME.
             supports_correlation_name =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTS_DIFFERENT_TABLE_CORRELATION_NAMES: {
@@ -418,7 +432,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             // SQL_SUPPORTS_DIFFERENT_TABLE_CORRELATION_NAMES since we need both
             // properties to determine the value for SQL_CORRELATION_NAME.
             requires_different_correlation_name =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTS_EXPRESSIONS_IN_ORDER_BY: {
@@ -428,7 +442,7 @@ bool GetInfoCache::LoadInfoFromServer() {
           case SqlInfoOptions::SQL_SUPPORTS_ORDER_BY_UNRELATED: {
             // Note: this is the negation of the Flight SQL property.
             info_[SQL_ORDER_BY_COLUMNS_IN_SELECT] =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value ? "N"
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value ? "N"
                                                                         : "Y";
             break;
           }
@@ -438,7 +452,7 @@ bool GetInfoCache::LoadInfoFromServer() {
           }
           case SqlInfoOptions::SQL_SUPPORTS_NON_NULLABLE_COLUMNS: {
             info_[SQL_NON_NULLABLE_COLUMNS] = static_cast<uint16_t>(
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value
                     ? SQL_NNC_NON_NULL
                     : SQL_NNC_NULL);
             break;
@@ -449,7 +463,7 @@ bool GetInfoCache::LoadInfoFromServer() {
           }
           case SqlInfoOptions::SQL_CATALOG_AT_START: {
             info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value
                     ? SQL_CL_START
                     : SQL_CL_END);
             break;
@@ -467,22 +481,22 @@ bool GetInfoCache::LoadInfoFromServer() {
           }
           case SqlInfoOptions::SQL_TRANSACTIONS_SUPPORTED: {
             transactions_supported =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             break;
           }
           case SqlInfoOptions::SQL_DATA_DEFINITION_CAUSES_TRANSACTION_COMMIT: {
             transaction_ddl_commit =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             break;
           }
           case SqlInfoOptions::SQL_DATA_DEFINITIONS_IN_TRANSACTIONS_IGNORED: {
             transaction_ddl_ignore =
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value;
             break;
           }
           case SqlInfoOptions::SQL_BATCH_UPDATES_SUPPORTED: {
             info_[SQL_BATCH_SUPPORT] = static_cast<uint32_t>(
-                reinterpret_cast<arrow::BooleanScalar *>(scalar)->value
+                reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value
                     ? SQL_BS_ROW_COUNT_EXPLICIT
                     : 0);
             break;
@@ -636,7 +650,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case SqlInfoOptions::SQL_MAX_PROCEDURE_NAME_LENGTH: {
-            info_[SQL_MAX_SCHEMA_NAME_LEN] =
+            info_[SQL_MAX_PROCEDURE_NAME_LEN] =
                 static_cast<uint16_t>(ScalarToInt64(scalar));
             break;
           }
@@ -682,17 +696,17 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t REPEATABLE_READ = 3;
             constexpr int32_t SERIALIZABLE = 4;
             int64_t scalar_value = static_cast<uint64_t>(ScalarToInt64(scalar));
-            uint32_t result = 0;
+            uint32_t result_val = 0;
             if ((scalar_value & (1 << READ_UNCOMMITTED)) != 0) {
-              result = SQL_TXN_READ_UNCOMMITTED;
+              result_val = SQL_TXN_READ_UNCOMMITTED;
             } else if ((scalar_value & (1 << READ_COMMITTED)) != 0) {
-              result = SQL_TXN_READ_COMMITTED;
+              result_val = SQL_TXN_READ_COMMITTED;
             } else if ((scalar_value & (1 << REPEATABLE_READ)) != 0) {
-              result = SQL_TXN_REPEATABLE_READ;
+              result_val = SQL_TXN_REPEATABLE_READ;
             } else if ((scalar_value & (1 << SERIALIZABLE)) != 0) {
-              result = SQL_TXN_SERIALIZABLE;
+              result_val = SQL_TXN_SERIALIZABLE;
             }
-            info_[SQL_DEFAULT_TXN_ISOLATION] = result;
+            info_[SQL_DEFAULT_TXN_ISOLATION] = result_val;
             break;
           }
 
@@ -702,14 +716,14 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t UNRELATED = 0;
             constexpr int32_t BEYOND_SELECT = 1;
             int32_t scalar_value = static_cast<int32_t>(ScalarToInt32(scalar));
-            uint16_t result = SQL_GB_NOT_SUPPORTED;
+            uint16_t result_val = SQL_GB_NOT_SUPPORTED;
             if ((scalar_value & (1 << UNRELATED)) != 0) {
-              result = SQL_GB_NO_RELATION;
+              result_val = SQL_GB_NO_RELATION;
             } else if ((scalar_value & (1 << BEYOND_SELECT)) != 0) {
-              result = SQL_GB_GROUP_BY_CONTAINS_SELECT;
+              result_val = SQL_GB_GROUP_BY_CONTAINS_SELECT;
             }
             // Note GROUP_BY_EQUALS_SELECT and COLLATE cannot be described.
-            info_[SQL_GROUP_BY] = result;
+            info_[SQL_GROUP_BY] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTED_GRAMMAR: {
@@ -719,15 +733,15 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t CORE = 1;
             constexpr int32_t EXTENDED = 2;
             int32_t scalar_value = static_cast<int32_t>(ScalarToInt32(scalar));
-            uint32_t result = SQL_OIC_CORE;
+            uint32_t result_val = SQL_OIC_CORE;
             if ((scalar_value & (1 << MINIMUM)) != 0) {
-              result = SQL_OIC_CORE;
+              result_val = SQL_OIC_CORE;
             } else if ((scalar_value & (1 << CORE)) != 0) {
-              result = SQL_OIC_LEVEL1;
+              result_val = SQL_OIC_LEVEL1;
             } else if ((scalar_value & (1 << EXTENDED)) != 0) {
-              result = SQL_OIC_LEVEL2;
+              result_val = SQL_OIC_LEVEL2;
             }
-            info_[SQL_ODBC_API_CONFORMANCE] = result;
+            info_[SQL_ODBC_API_CONFORMANCE] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_ANSI92_SUPPORTED_LEVEL: {
@@ -737,18 +751,18 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t INTERMEDIATE = 1;
             constexpr int32_t FULL = 2;
             int32_t scalar_value = static_cast<int32_t>(ScalarToInt32(scalar));
-            uint32_t result = SQL_SC_SQL92_ENTRY;
+            uint32_t result_val = SQL_SC_SQL92_ENTRY;
             uint16_t odbc_sql_conformance = SQL_OSC_MINIMUM;
             if ((scalar_value & (1 << ENTRY)) != 0) {
-              result = SQL_SC_SQL92_ENTRY;
+              result_val = SQL_SC_SQL92_ENTRY;
             } else if ((scalar_value & (1 << INTERMEDIATE)) != 0) {
-              result = SQL_SC_SQL92_INTERMEDIATE;
+              result_val = SQL_SC_SQL92_INTERMEDIATE;
               odbc_sql_conformance = SQL_OSC_CORE;
             } else if ((scalar_value & (1 << FULL)) != 0) {
-              result = SQL_SC_SQL92_FULL;
+              result_val = SQL_SC_SQL92_FULL;
               odbc_sql_conformance = SQL_OSC_EXTENDED;
             }
-            info_[SQL_SQL_CONFORMANCE] = result;
+            info_[SQL_SQL_CONFORMANCE] = result_val;
             info_[SQL_ODBC_SQL_CONFORMANCE] = odbc_sql_conformance;
             break;
           }
@@ -762,23 +776,23 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t UNSUPPORTED = 0;
             constexpr int32_t LIMITED = 1;
             constexpr int32_t FULL = 2;
-            uint32_t result = 0;
+            uint32_t result_val = 0;
             // Assume inner and cross joins are supported. Flight SQL can't
             // report this currently.
             uint32_t relational_operators =
                 SQL_SRJO_CROSS_JOIN | SQL_SRJO_INNER_JOIN;
             if ((scalar_value & (1 << FULL)) != 0) {
-              result = SQL_OJ_LEFT | SQL_OJ_RIGHT | SQL_OJ_FULL | SQL_OJ_NESTED;
+              result_val = SQL_OJ_LEFT | SQL_OJ_RIGHT | SQL_OJ_FULL | SQL_OJ_NESTED;
               relational_operators |= SQL_SRJO_FULL_OUTER_JOIN |
                                       SQL_SRJO_LEFT_OUTER_JOIN |
                                       SQL_SRJO_RIGHT_OUTER_JOIN;
             } else if ((scalar_value & (1 << LIMITED)) != 0) {
-              result = SQL_SC_SQL92_INTERMEDIATE;
+              result_val = SQL_SC_SQL92_INTERMEDIATE;
             } else if ((scalar_value & (1 << UNSUPPORTED)) != 0) {
-              result = 0;
+              result_val = 0;
             }
-            info_[SQL_OJ_CAPABILITIES] = result;
-            info_[SQL_OUTER_JOINS] = result != 0 ? "Y" : "N";
+            info_[SQL_OJ_CAPABILITIES] = result_val;
+            info_[SQL_OUTER_JOINS] = result_val != 0 ? "Y" : "N";
             info_[SQL_SQL92_RELATIONAL_JOIN_OPERATORS] = relational_operators;
             break;
           }
@@ -791,17 +805,17 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t INDEX = 1;
             constexpr int32_t PRIVILEGE = 2;
             // Assume schemas are supported in DML and Table manipulation.
-            uint32_t result = SQL_SU_DML_STATEMENTS | SQL_SU_TABLE_DEFINITION;
+            uint32_t result_val = SQL_SU_DML_STATEMENTS | SQL_SU_TABLE_DEFINITION;
             if ((scalar_value & (1 << PROCEDURE)) != 0) {
-              result |= SQL_SU_PROCEDURE_INVOCATION;
+              result_val |= SQL_SU_PROCEDURE_INVOCATION;
             }
             if ((scalar_value & (1 << INDEX)) != 0) {
-              result |= SQL_SU_INDEX_DEFINITION;
+              result_val |= SQL_SU_INDEX_DEFINITION;
             }
             if ((scalar_value & (1 << PRIVILEGE)) != 0) {
-              result |= SQL_SU_PRIVILEGE_DEFINITION;
+              result_val |= SQL_SU_PRIVILEGE_DEFINITION;
             }
-            info_[SQL_SCHEMA_USAGE] = result;
+            info_[SQL_SCHEMA_USAGE] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_CATALOGS_SUPPORTED_ACTIONS: {
@@ -813,17 +827,17 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t INDEX = 1;
             constexpr int32_t PRIVILEGE = 2;
             // Assume catalogs are supported in DML and Table manipulation.
-            uint32_t result = SQL_CU_DML_STATEMENTS | SQL_CU_TABLE_DEFINITION;
+            uint32_t result_val = SQL_CU_DML_STATEMENTS | SQL_CU_TABLE_DEFINITION;
             if ((scalar_value & (1 << PROCEDURE)) != 0) {
-              result |= SQL_CU_PROCEDURE_INVOCATION;
+              result_val |= SQL_CU_PROCEDURE_INVOCATION;
             }
             if ((scalar_value & (1 << INDEX)) != 0) {
-              result |= SQL_CU_INDEX_DEFINITION;
+              result_val |= SQL_CU_INDEX_DEFINITION;
             }
             if ((scalar_value & (1 << PRIVILEGE)) != 0) {
-              result |= SQL_CU_PRIVILEGE_DEFINITION;
+              result_val |= SQL_CU_PRIVILEGE_DEFINITION;
             }
-            info_[SQL_CATALOG_USAGE] = result;
+            info_[SQL_CATALOG_USAGE] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTED_POSITIONED_COMMANDS: {
@@ -839,20 +853,20 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t EXISTS = 1;
             constexpr int32_t INN = 2;
             constexpr int32_t QUANTIFIEDS = 3;
-            uint32_t result = 0;
+            uint32_t result_val = 0;
             if ((scalar_value & (1 << COMPARISONS)) != 0) {
-              result |= SQL_SQ_COMPARISON;
+              result_val |= SQL_SQ_COMPARISON;
             }
             if ((scalar_value & (1 << EXISTS)) != 0) {
-              result |= SQL_SQ_EXISTS;
+              result_val |= SQL_SQ_EXISTS;
             }
             if ((scalar_value & (1 << INN)) != 0) {
-              result |= SQL_SQ_IN;
+              result_val |= SQL_SQ_IN;
             }
             if ((scalar_value & (1 << QUANTIFIEDS)) != 0) {
-              result |= SQL_SQ_QUANTIFIED;
+              result_val |= SQL_SQ_QUANTIFIED;
             }
-            info_[SQL_SUBQUERIES] = result;
+            info_[SQL_SUBQUERIES] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTED_UNIONS: {
@@ -861,14 +875,14 @@ bool GetInfoCache::LoadInfoFromServer() {
             // Missing enum in C++. Values taken from java.
             constexpr int32_t UNION = 0;
             constexpr int32_t UNION_ALL = 1;
-            uint32_t result = 0;
+            uint32_t result_val = 0;
             if ((scalar_value & (1 << UNION)) != 0) {
-              result |= SQL_U_UNION;
+              result_val |= SQL_U_UNION;
             }
             if ((scalar_value & (1 << UNION_ALL)) != 0) {
-              result |= SQL_U_UNION_ALL;
+              result_val |= SQL_U_UNION_ALL;
             }
-            info_[SQL_UNION] = result;
+            info_[SQL_UNION] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTED_TRANSACTIONS_ISOLATION_LEVELS: {
@@ -880,23 +894,23 @@ bool GetInfoCache::LoadInfoFromServer() {
             constexpr int32_t READ_COMMITTED = 2;
             constexpr int32_t REPEATABLE_READ = 3;
             constexpr int32_t SERIALIZABLE = 4;
-            uint32_t result = 0;
+            uint32_t result_val = 0;
             if ((scalar_value & (1 << NONE)) != 0) {
-              result = 0;
+              result_val = 0;
             }
             if ((scalar_value & (1 << READ_UNCOMMITTED)) != 0) {
-              result |= SQL_TXN_READ_UNCOMMITTED;
+              result_val |= SQL_TXN_READ_UNCOMMITTED;
             }
             if ((scalar_value & (1 << READ_COMMITTED)) != 0) {
-              result |= SQL_TXN_READ_COMMITTED;
+              result_val |= SQL_TXN_READ_COMMITTED;
             }
             if ((scalar_value & (1 << REPEATABLE_READ)) != 0) {
-              result |= SQL_TXN_REPEATABLE_READ;
+              result_val |= SQL_TXN_REPEATABLE_READ;
             }
             if ((scalar_value & (1 << SERIALIZABLE)) != 0) {
-              result |= SQL_TXN_SERIALIZABLE;
+              result_val |= SQL_TXN_SERIALIZABLE;
             }
-            info_[SQL_TXN_ISOLATION_OPTION] = result;
+            info_[SQL_TXN_ISOLATION_OPTION] = result_val;
             break;
           }
           case SqlInfoOptions::SQL_SUPPORTED_RESULT_SET_TYPES:
@@ -922,40 +936,40 @@ bool GetInfoCache::LoadInfoFromServer() {
           // List<string> properties
           case ARROW_SQL_NUMERIC_FUNCTIONS: {
             std::shared_ptr<arrow::Array> list_value =
-                reinterpret_cast<arrow::BaseListScalar *>(scalar)->value;
-            uint32_t result = 0;
+                reinterpret_cast<arrow::BaseListScalar*>(scalar->value.get())->value;
+            uint32_t result_val = 0;
             for (int64_t list_index = 0; list_index < list_value->length();
                  ++list_index) {
               if (!list_value->IsNull(list_index)) {
                 ReportNumericFunction(
                     reinterpret_cast<arrow::StringArray *>(list_value.get())
                         ->GetString(list_index),
-                    result);
+                    result_val);
               }
             }
-            info_[SQL_NUMERIC_FUNCTIONS] = result;
+            info_[SQL_NUMERIC_FUNCTIONS] = result_val;
             break;
           }
 
           case ARROW_SQL_STRING_FUNCTIONS: {
             std::shared_ptr<arrow::Array> list_value =
-                reinterpret_cast<arrow::BaseListScalar *>(scalar)->value;
-            uint32_t result = 0;
+                reinterpret_cast<arrow::BaseListScalar*>(scalar->value.get())->value;
+            uint32_t result_val = 0;
             for (int64_t list_index = 0; list_index < list_value->length();
                  ++list_index) {
               if (!list_value->IsNull(list_index)) {
                 ReportStringFunction(
                     reinterpret_cast<arrow::StringArray *>(list_value.get())
                         ->GetString(list_index),
-                    result);
+                    result_val);
               }
             }
-            info_[SQL_STRING_FUNCTIONS] = result;
+            info_[SQL_STRING_FUNCTIONS] = result_val;
             break;
           }
           case ARROW_SQL_SYSTEM_FUNCTIONS: {
             std::shared_ptr<arrow::Array> list_value =
-                reinterpret_cast<arrow::BaseListScalar *>(scalar)->value;
+                reinterpret_cast<arrow::BaseListScalar*>(scalar->value.get())->value;
             uint32_t sys_result = 0;
             uint32_t convert_result = 0;
             for (int64_t list_index = 0; list_index < list_value->length();
@@ -973,38 +987,38 @@ bool GetInfoCache::LoadInfoFromServer() {
           }
           case SqlInfoOptions::SQL_DATETIME_FUNCTIONS: {
             std::shared_ptr<arrow::Array> list_value =
-                reinterpret_cast<arrow::BaseListScalar *>(scalar)->value;
-            uint32_t result = 0;
+                reinterpret_cast<arrow::BaseListScalar*>(scalar->value.get())->value;
+            uint32_t result_val = 0;
             for (int64_t list_index = 0; list_index < list_value->length();
                  ++list_index) {
               if (!list_value->IsNull(list_index)) {
                 ReportDatetimeFunction(
                     reinterpret_cast<arrow::StringArray *>(list_value.get())
                         ->GetString(list_index),
-                    result);
+                    result_val);
               }
             }
-            info_[SQL_TIMEDATE_FUNCTIONS] = result;
+            info_[SQL_TIMEDATE_FUNCTIONS] = result_val;
             break;
           }
 
           case ARROW_SQL_KEYWORDS: {
-              std::shared_ptr<arrow::Array> list_value =
-                  reinterpret_cast<arrow::BaseListScalar*>(scalar)->value;
-              std::string result;
-              for (int64_t list_index = 0; list_index < list_value->length();
-                ++list_index) {
-                if (!list_value->IsNull(list_index)) {
-                  if (list_index != 0) {
-                    result += ", ";
-                  }
-
-                  result += reinterpret_cast<arrow::StringArray*>(list_value.get())
-                      ->GetString(list_index);
+            std::shared_ptr<arrow::Array> list_value =
+              reinterpret_cast<arrow::BaseListScalar*>(scalar->value.get())->value;
+            std::string result_str;
+            for (int64_t list_index = 0; list_index < list_value->length();
+              ++list_index) {
+              if (!list_value->IsNull(list_index)) {
+                if (list_index != 0) {
+                  result_str += ", ";
                 }
+
+                result_str += reinterpret_cast<arrow::StringArray*>(list_value.get())
+                    ->GetString(list_index);
               }
-              info_[SQL_KEYWORDS] = std::move(result);
-              break;
+            }
+            info_[SQL_KEYWORDS] = std::move(result_str);
+            break;
           }
 
           // Map<int32, list<int32> properties
@@ -1031,12 +1045,12 @@ bool GetInfoCache::LoadInfoFromServer() {
                         map_value_scalar_ptr.get())
                         ->value;
 
-                int32_t info_type =
+                int32_t get_info_type =
                     GetInfoTypeForArrowConvertEntry(map_key_scalar);
-                if (info_type < 0) {
+                if (get_info_type < 0) {
                   continue;
                 }
-                uint32_t info_to_write = 0;
+                uint32_t info_bitmask_value_to_write = 0;
                 for (int64_t map_value_array_index = 0;
                      map_value_array_index < map_value_scalar->length();
                      ++map_value_array_index) {
@@ -1044,13 +1058,13 @@ bool GetInfoCache::LoadInfoFromServer() {
                     auto list_entry_scalar =
                         map_value_scalar->GetScalar(map_value_array_index)
                             .ValueOrDie();
-                    info_to_write |= GetCvtBitForArrowConvertEntry(
+                    info_bitmask_value_to_write |= GetCvtBitForArrowConvertEntry(
                         reinterpret_cast<arrow::Int32Scalar *>(
                             list_entry_scalar.get())
                             ->value);
                   }
                 }
-                info_[info_type] = info_to_write;
+                info_[get_info_type] = info_bitmask_value_to_write;
               }
             }
             break;
@@ -1087,11 +1101,250 @@ bool GetInfoCache::LoadInfoFromServer() {
         info_[SQL_CORRELATION_NAME] = static_cast<uint16_t>(SQL_CN_NONE);
       }
     }
+    LoadDefaultsForMissingEntries();
     return true;
   }
 
   return false;
 }
+
+void GetInfoCache::LoadDefaultsForMissingEntries() {
+  // For safety's sake, this function does not discriminate between driver and hard-coded values.
+  SetDefaultIfMissing(info_, SQL_ACCESSIBLE_PROCEDURES, "N");
+  SetDefaultIfMissing(info_, SQL_ACCESSIBLE_TABLES, "Y");
+  SetDefaultIfMissing(info_, SQL_ACTIVE_ENVIRONMENTS, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_AGGREGATE_FUNCTIONS,
+                      static_cast<uint32_t>(SQL_AF_ALL | SQL_AF_AVG |
+                                            SQL_AF_COUNT | SQL_AF_DISTINCT |
+                                            SQL_AF_MAX | SQL_AF_MIN |
+                                            SQL_AF_SUM));
+  SetDefaultIfMissing(info_, SQL_ALTER_DOMAIN, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_ALTER_TABLE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_ASYNC_MODE,
+                      static_cast<uint32_t>(SQL_AM_NONE));
+  SetDefaultIfMissing(info_, SQL_BATCH_ROW_COUNT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_BATCH_SUPPORT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_BOOKMARK_PERSISTENCE,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CATALOG_LOCATION, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_CATALOG_NAME, "N");
+  SetDefaultIfMissing(info_, SQL_CATALOG_NAME_SEPARATOR, "");
+  SetDefaultIfMissing(info_, SQL_CATALOG_TERM, "");
+  SetDefaultIfMissing(info_, SQL_CATALOG_USAGE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_COLLATION_SEQ, "");
+  SetDefaultIfMissing(info_, SQL_COLUMN_ALIAS, "Y");
+  SetDefaultIfMissing(info_, SQL_CONCAT_NULL_BEHAVIOR,
+                      static_cast<uint16_t>(SQL_CB_NULL));
+  SetDefaultIfMissing(info_, SQL_CONVERT_BIGINT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_BINARY, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_BIT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_CHAR, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_DATE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_DECIMAL, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_DOUBLE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_FLOAT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_GUID, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_INTEGER,static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_INTERVAL_YEAR_MONTH,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_INTERVAL_DAY_TIME,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_LONGVARBINARY,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_LONGVARCHAR, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_NUMERIC, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_REAL, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_SMALLINT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_TIME, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_TIMESTAMP, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_TINYINT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_VARBINARY, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_VARCHAR, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_WCHAR, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_WVARCHAR, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_WLONGVARCHAR,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CONVERT_WLONGVARCHAR,
+                      static_cast<uint32_t>(SQL_FN_CVT_CAST));
+  SetDefaultIfMissing(info_, SQL_CORRELATION_NAME,
+                      static_cast<uint32_t>(SQL_CN_NONE));
+  SetDefaultIfMissing(info_, SQL_CREATE_ASSERTION, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CREATE_CHARACTER_SET,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CREATE_DOMAIN, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CREATE_SCHEMA, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CREATE_TABLE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CREATE_TRANSLATION, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CREATE_VIEW, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_CURSOR_COMMIT_BEHAVIOR,
+                      static_cast<uint16_t>(SQL_CB_CLOSE));
+  SetDefaultIfMissing(info_, SQL_CURSOR_ROLLBACK_BEHAVIOR,
+                      static_cast<uint16_t>(SQL_CB_CLOSE));
+  SetDefaultIfMissing(info_, SQL_CURSOR_SENSITIVITY,
+                      static_cast<uint32_t>(SQL_UNSPECIFIED));
+  SetDefaultIfMissing(info_, SQL_DATA_SOURCE_READ_ONLY, "N");
+  SetDefaultIfMissing(info_, SQL_DBMS_NAME, "Arrow Flight SQL Server");
+  SetDefaultIfMissing(info_, SQL_DBMS_VER, "00.01.0000");
+  SetDefaultIfMissing(info_, SQL_DDL_INDEX, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DEFAULT_TXN_ISOLATION,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DESCRIBE_PARAMETER, "N");
+  SetDefaultIfMissing(info_, SQL_DRIVER_NAME, "Arrow Flight SQL Driver");
+  SetDefaultIfMissing(info_, SQL_DRIVER_ODBC_VER, "03.80");
+  SetDefaultIfMissing(info_, SQL_DRIVER_VER, "01.00.0000");
+  SetDefaultIfMissing(info_, SQL_DROP_ASSERTION, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_CHARACTER_SET, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_COLLATION, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_DOMAIN, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_SCHEMA, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_TABLE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_TRANSLATION, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_DROP_VIEW, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_EXPRESSIONS_IN_ORDERBY, "N");
+  SetDefaultIfMissing(
+      info_, SQL_GETDATA_EXTENSIONS,
+      static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER));
+  SetDefaultIfMissing(info_, SQL_GROUP_BY,
+                      static_cast<uint16_t>(SQL_GB_GROUP_BY_CONTAINS_SELECT));
+  SetDefaultIfMissing(info_, SQL_IDENTIFIER_CASE,
+                      static_cast<uint16_t>(SQL_IC_MIXED));
+  SetDefaultIfMissing(info_, SQL_IDENTIFIER_QUOTE_CHAR, "\"");
+  SetDefaultIfMissing(info_, SQL_INDEX_KEYWORDS,
+                      static_cast<uint32_t>(SQL_IK_NONE));
+  SetDefaultIfMissing(
+      info_, SQL_INFO_SCHEMA_VIEWS,
+      static_cast<uint32_t>(SQL_ISV_TABLES | SQL_ISV_COLUMNS | SQL_ISV_VIEWS));
+  SetDefaultIfMissing(info_, SQL_INSERT_STATEMENT,
+                      static_cast<uint32_t>(SQL_IS_INSERT_LITERALS |
+                                            SQL_IS_INSERT_SEARCHED |
+                                            SQL_IS_SELECT_INTO));
+  SetDefaultIfMissing(info_, SQL_INTEGRITY, "N");
+  SetDefaultIfMissing(info_, SQL_KEYWORDS, "");
+  SetDefaultIfMissing(info_, SQL_LIKE_ESCAPE_CLAUSE, "Y");
+  SetDefaultIfMissing(info_, SQL_MAX_ASYNC_CONCURRENT_STATEMENTS,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_BINARY_LITERAL_LEN,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_CATALOG_NAME_LEN,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_CHAR_LITERAL_LEN,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_COLUMN_NAME_LEN, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_COLUMNS_IN_GROUP_BY,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_COLUMNS_IN_INDEX,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_COLUMNS_IN_ORDER_BY,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_COLUMNS_IN_SELECT,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_COLUMNS_IN_TABLE,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_CURSOR_NAME_LEN, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_DRIVER_CONNECTIONS,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_IDENTIFIER_LEN,
+                      static_cast<uint16_t>(65535));
+  SetDefaultIfMissing(info_, SQL_MAX_INDEX_SIZE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_PROCEDURE_NAME_LEN,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_ROW_SIZE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_ROW_SIZE_INCLUDES_LONG, "N");
+  SetDefaultIfMissing(info_, SQL_MAX_SCHEMA_NAME_LEN, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_STATEMENT_LEN, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_TABLE_NAME_LEN, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_TABLES_IN_SELECT,
+                      static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_MAX_USER_NAME_LEN, static_cast<uint16_t>(0));
+  SetDefaultIfMissing(info_, SQL_NON_NULLABLE_COLUMNS,
+                      static_cast<uint16_t>(SQL_NNC_NULL));
+  SetDefaultIfMissing(info_, SQL_NULL_COLLATION,
+                      static_cast<uint16_t>(SQL_NC_END));
+  SetDefaultIfMissing(info_, SQL_NUMERIC_FUNCTIONS, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(
+      info_, SQL_OJ_CAPABILITIES,
+      static_cast<uint32_t>(SQL_OJ_LEFT | SQL_OJ_RIGHT | SQL_OJ_FULL));
+  SetDefaultIfMissing(info_, SQL_ORDER_BY_COLUMNS_IN_SELECT, "Y");
+  SetDefaultIfMissing(info_, SQL_PROCEDURE_TERM, "");
+  SetDefaultIfMissing(info_, SQL_PROCEDURES, "N");
+  SetDefaultIfMissing(info_, SQL_QUOTED_IDENTIFIER_CASE,
+                      static_cast<uint16_t>(SQL_IC_SENSITIVE));
+  SetDefaultIfMissing(info_, SQL_SCHEMA_TERM, "schema");
+  SetDefaultIfMissing(info_, SQL_SCHEMA_USAGE,
+                      static_cast<uint32_t>(SQL_SU_DML_STATEMENTS));
+  SetDefaultIfMissing(info_, SQL_SEARCH_PATTERN_ESCAPE, "\\");
+  SetDefaultIfMissing(info_, SQL_SERVER_NAME,
+                      "Arrow Flight SQL Server"); // This might actually need to be the hostname.
+  SetDefaultIfMissing(info_, SQL_SQL_CONFORMANCE,
+                      static_cast<uint32_t>(SQL_SC_SQL92_ENTRY));
+  SetDefaultIfMissing(info_, SQL_SQL92_DATETIME_FUNCTIONS,
+                      static_cast<uint32_t>(SQL_SDF_CURRENT_DATE |
+                                            SQL_SDF_CURRENT_TIME |
+                                            SQL_SDF_CURRENT_TIMESTAMP));
+  SetDefaultIfMissing(info_, SQL_SQL92_FOREIGN_KEY_DELETE_RULE,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_SQL92_FOREIGN_KEY_UPDATE_RULE,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_SQL92_GRANT, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_SQL92_NUMERIC_VALUE_FUNCTIONS,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(info_, SQL_SQL92_PREDICATES,
+                      static_cast<uint32_t>(SQL_SP_BETWEEN | SQL_SP_COMPARISON |
+                                            SQL_SP_EXISTS | SQL_SP_IN |
+                                            SQL_SP_ISNOTNULL | SQL_SP_ISNULL |
+                                            SQL_SP_LIKE));
+  SetDefaultIfMissing(info_, SQL_SQL92_RELATIONAL_JOIN_OPERATORS,
+                      static_cast<uint32_t>(
+                          SQL_SRJO_INNER_JOIN | SQL_SRJO_CROSS_JOIN |
+                          SQL_SRJO_LEFT_OUTER_JOIN | SQL_SRJO_FULL_OUTER_JOIN |
+                          SQL_SRJO_RIGHT_OUTER_JOIN));
+  SetDefaultIfMissing(info_, SQL_SQL92_REVOKE, static_cast<uint32_t>(0));
+  SetDefaultIfMissing(
+      info_, SQL_SQL92_ROW_VALUE_CONSTRUCTOR,
+      static_cast<uint32_t>(SQL_SRVC_VALUE_EXPRESSION | SQL_SRVC_NULL));
+  SetDefaultIfMissing(
+      info_, SQL_SQL92_STRING_FUNCTIONS,
+      static_cast<uint32_t>(SQL_SSF_CONVERT | SQL_SSF_LOWER | SQL_SSF_UPPER |
+                            SQL_SSF_SUBSTRING | SQL_SSF_TRIM_BOTH |
+                            SQL_SSF_TRIM_LEADING | SQL_SSF_TRIM_TRAILING));
+  SetDefaultIfMissing(info_, SQL_SQL92_VALUE_EXPRESSIONS,
+                      static_cast<uint32_t>(SQL_SVE_CASE | SQL_SVE_CAST |
+                                            SQL_SVE_COALESCE | SQL_SVE_NULLIF));
+  SetDefaultIfMissing(info_, SQL_STANDARD_CLI_CONFORMANCE,
+                      static_cast<uint32_t>(0));
+  SetDefaultIfMissing(
+      info_, SQL_STRING_FUNCTIONS,
+      static_cast<uint32_t>(SQL_FN_STR_CONCAT | SQL_FN_STR_LCASE |
+                            SQL_FN_STR_LENGTH | SQL_FN_STR_LTRIM |
+                            SQL_FN_STR_RTRIM | SQL_FN_STR_SPACE |
+                            SQL_FN_STR_SUBSTRING | SQL_FN_STR_UCASE));
+  SetDefaultIfMissing(info_, SQL_SUBQUERIES,
+                      static_cast<uint32_t>(SQL_SQ_CORRELATED_SUBQUERIES |
+                                            SQL_SQ_COMPARISON | SQL_SQ_EXISTS |
+                                            SQL_SQ_IN | SQL_SQ_QUANTIFIED));
+  SetDefaultIfMissing(
+      info_, SQL_SYSTEM_FUNCTIONS,
+      static_cast<uint32_t>(SQL_FN_SYS_IFNULL | SQL_FN_SYS_USERNAME));
+  SetDefaultIfMissing(info_, SQL_TIMEDATE_ADD_INTERVALS,
+                      static_cast<uint32_t>(
+                          SQL_FN_TSI_FRAC_SECOND | SQL_FN_TSI_SECOND |
+                          SQL_FN_TSI_MINUTE | SQL_FN_TSI_HOUR | SQL_FN_TSI_DAY |
+                          SQL_FN_TSI_WEEK | SQL_FN_TSI_MONTH |
+                          SQL_FN_TSI_QUARTER | SQL_FN_TSI_YEAR));
+  SetDefaultIfMissing(info_, SQL_TIMEDATE_DIFF_INTERVALS,
+                      static_cast<uint32_t>(
+                          SQL_FN_TSI_FRAC_SECOND | SQL_FN_TSI_SECOND |
+                          SQL_FN_TSI_MINUTE | SQL_FN_TSI_HOUR | SQL_FN_TSI_DAY |
+                          SQL_FN_TSI_WEEK | SQL_FN_TSI_MONTH |
+                          SQL_FN_TSI_QUARTER | SQL_FN_TSI_YEAR));
+  SetDefaultIfMissing(info_, SQL_UNION,
+                      static_cast<uint32_t>(SQL_U_UNION | SQL_U_UNION_ALL));
+  SetDefaultIfMissing(info_, SQL_XOPEN_CLI_YEAR, "1995");
+  SetDefaultIfMissing(info_, SQL_ODBC_SQL_CONFORMANCE,
+                      static_cast<uint16_t>(SQL_OSC_MINIMUM));
+  SetDefaultIfMissing(info_, SQL_ODBC_SAG_CLI_CONFORMANCE,
+                      static_cast<uint16_t>(SQL_OSCC_COMPLIANT));
+  }
 
 } // namespace flight_sql
 } // namespace driver

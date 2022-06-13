@@ -137,6 +137,12 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
       GetAttribute(static_cast<SQLUINTEGER>(SQL_ASYNC_NOTIFICATION_NOT_CAPABLE), value, bufferLength, outputLength);
       break;
     #endif
+    case SQL_BATCH_ROW_COUNT:
+      GetAttribute(static_cast<SQLUINTEGER>(0), value, bufferLength, outputLength);
+      break;
+    case SQL_BATCH_SUPPORT:
+      GetAttribute(static_cast<SQLUINTEGER>(0), value, bufferLength, outputLength);
+      break;
     case SQL_DATA_SOURCE_NAME:
       GetStringAttribute(isUnicode, m_dsn, true, value, bufferLength, outputLength, GetDiagnostics());
       break;
@@ -214,9 +220,6 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_TABLE_TERM:
       GetStringAttribute(isUnicode, "table", true, value, bufferLength, outputLength, GetDiagnostics());
       break;
-    case SQL_COLUMN_ALIAS:
-      GetStringAttribute(isUnicode, "Y", true, value, bufferLength, outputLength, GetDiagnostics());
-      break;
     // Deprecated ODBC 2.x fields required for backwards compatibility.
     case SQL_ODBC_API_CONFORMANCE:
       GetAttribute(static_cast<SQLUSMALLINT>(SQL_OAC_LEVEL1), value, bufferLength, outputLength);
@@ -242,9 +245,10 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
 
     // Driver-level string properties.
     case SQL_USER_NAME:
+    case SQL_COLUMN_ALIAS:
     case SQL_DBMS_NAME:
     case SQL_DBMS_VER:
-    case SQL_DRIVER_NAME:
+    case SQL_DRIVER_NAME: // TODO: This should be the driver's filename and shouldn't come from the SPI.
     case SQL_DRIVER_VER:
     case SQL_SEARCH_PATTERN_ESCAPE:
     case SQL_SERVER_NAME:
@@ -260,10 +264,14 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_IDENTIFIER_QUOTE_CHAR:
     case SQL_INTEGRITY:
     case SQL_KEYWORDS:
+    case SQL_LIKE_ESCAPE_CLAUSE:
+    case SQL_MAX_ROW_SIZE_INCLUDES_LONG:
+    case SQL_ORDER_BY_COLUMNS_IN_SELECT:
     case SQL_OUTER_JOINS: // Not documented in SQLGetInfo, but other drivers return Y/N strings
+    case SQL_PROCEDURE_TERM:
     case SQL_PROCEDURES:
     case SQL_SPECIAL_CHARACTERS:
-    case SQL_MAX_ROW_SIZE_INCLUDES_LONG:
+    case SQL_XOPEN_CLI_YEAR:
     {
       const auto& info = m_spiConnection->GetInfo(infoType);
       const std::string& infoValue = boost::get<std::string>(info);
@@ -271,7 +279,7 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
       break;
     }
 
-    // Driver-level 32-bit integer propreties.
+    // Driver-level 32-bit integer properties.
     case SQL_GETDATA_EXTENSIONS:
     case SQL_INFO_SCHEMA_VIEWS:
     case SQL_CURSOR_SENSITIVITY:
@@ -288,11 +296,11 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_CREATE_DOMAIN:
     case SQL_CREATE_SCHEMA:
     case SQL_CREATE_TABLE:
+    case SQL_CREATE_TRANSLATION:
+    case SQL_CREATE_VIEW:
     case SQL_INDEX_KEYWORDS:
     case SQL_INSERT_STATEMENT:
-    case SQL_LIKE_ESCAPE_CLAUSE:
     case SQL_OJ_CAPABILITIES:
-    case SQL_ORDER_BY_COLUMNS_IN_SELECT:
     case SQL_SCHEMA_USAGE:
     case SQL_SQL_CONFORMANCE:
     case SQL_SUBQUERIES:
@@ -316,6 +324,7 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_CONVERT_DECIMAL:
     case SQL_CONVERT_DOUBLE:
     case SQL_CONVERT_FLOAT:
+    case SQL_CONVERT_GUID:
     case SQL_CONVERT_INTEGER:
     case SQL_CONVERT_INTERVAL_DAY_TIME:
     case SQL_CONVERT_INTERVAL_YEAR_MONTH:
@@ -329,6 +338,31 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_CONVERT_TINYINT:
     case SQL_CONVERT_VARBINARY:
     case SQL_CONVERT_VARCHAR:
+    case SQL_CONVERT_WCHAR:
+    case SQL_CONVERT_WVARCHAR:
+    case SQL_CONVERT_WLONGVARCHAR:
+    case SQL_DDL_INDEX:
+    case SQL_DROP_ASSERTION:
+    case SQL_DROP_CHARACTER_SET:
+    case SQL_DROP_COLLATION:
+    case SQL_DROP_DOMAIN:
+    case SQL_DROP_SCHEMA:
+    case SQL_DROP_TABLE:
+    case SQL_DROP_TRANSLATION:
+    case SQL_DROP_VIEW:
+    case SQL_MAX_INDEX_SIZE:
+    case SQL_SQL92_DATETIME_FUNCTIONS:
+    case SQL_SQL92_FOREIGN_KEY_DELETE_RULE:
+    case SQL_SQL92_FOREIGN_KEY_UPDATE_RULE:
+    case SQL_SQL92_GRANT:
+    case SQL_SQL92_NUMERIC_VALUE_FUNCTIONS:
+    case SQL_SQL92_PREDICATES:
+    case SQL_SQL92_RELATIONAL_JOIN_OPERATORS:
+    case SQL_SQL92_REVOKE:
+    case SQL_SQL92_ROW_VALUE_CONSTRUCTOR:
+    case SQL_SQL92_STRING_FUNCTIONS:
+    case SQL_SQL92_VALUE_EXPRESSIONS:
+    case SQL_STANDARD_CLI_CONFORMANCE:
     {
       const auto& info = m_spiConnection->GetInfo(infoType);
       uint32_t infoValue = boost::get<uint32_t>(info);
@@ -345,16 +379,6 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_NULL_COLLATION:
     case SQL_CATALOG_LOCATION:
     case SQL_CORRELATION_NAME:
-    case SQL_CREATE_TRANSLATION:
-    case SQL_DDL_INDEX:
-    case SQL_DROP_ASSERTION:
-    case SQL_DROP_CHARACTER_SET:
-    case SQL_DROP_COLLATION:
-    case SQL_DROP_DOMAIN:
-    case SQL_DROP_SCHEMA:
-    case SQL_DROP_TABLE:
-    case SQL_DROP_TRANSLATION:
-    case SQL_DROP_VIEW:
     case SQL_GROUP_BY:
     case SQL_IDENTIFIER_CASE:
     case SQL_NON_NULLABLE_COLUMNS:
@@ -371,7 +395,10 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_MAX_SCHEMA_NAME_LEN:
     case SQL_MAX_TABLE_NAME_LEN:
     case SQL_MAX_TABLES_IN_SELECT:
+    case SQL_MAX_PROCEDURE_NAME_LEN:
     case SQL_MAX_USER_NAME_LEN:
+    case SQL_ODBC_SQL_CONFORMANCE:
+    case SQL_ODBC_SAG_CLI_CONFORMANCE:
     {
       const auto& info = m_spiConnection->GetInfo(infoType);
       uint16_t infoValue = boost::get<uint16_t>(info);
