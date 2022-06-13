@@ -37,6 +37,11 @@ using namespace odbcabstraction;
 using arrow::util::make_optional;
 using arrow::util::nullopt;
 
+/// \brief Returns the mapping from Arrow type to SqlDataType
+/// \param field the field to return the SqlDataType for
+/// \return the concise SqlDataType for the field.
+/// \note use GetNonConciseDataType on the output to get the verbose type
+/// \note the concise and verbose types are the same for all but types relating to times and intervals
 SqlDataType
 GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
   const std::shared_ptr<arrow::DataType> &type = field->type();
@@ -78,10 +83,12 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
   case arrow::Type::TIME32:
   case arrow::Type::TIME64:
     return odbcabstraction::SqlDataType_TYPE_TIME;
-
-    // TODO: Handle remaining types.
   case arrow::Type::INTERVAL_MONTHS:
+    return odbcabstraction::SqlDataType_INTERVAL_MONTH; // TODO: maybe SqlDataType_INTERVAL_YEAR_TO_MONTH
   case arrow::Type::INTERVAL_DAY_TIME:
+    return odbcabstraction::SqlDataType_INTERVAL_DAY;
+
+  // TODO: Handle remaining types.
   case arrow::Type::INTERVAL_MONTH_DAY_NANO:
   case arrow::Type::LIST:
   case arrow::Type::STRUCT:
@@ -305,6 +312,8 @@ optional<int16_t> GetSqlDateTimeSubCode(SqlDataType data_type) {
 
 optional<int32_t> GetCharOctetLength(SqlDataType data_type,
                                      const optional<int32_t>& column_size) {
+  // TODO: Replace NO_TOTAL with the correct default values
+  // TODO: Get correct default values from connection settings
   switch (data_type) {
   case SqlDataType_CHAR:
   case SqlDataType_VARCHAR:
