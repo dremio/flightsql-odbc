@@ -51,6 +51,24 @@
       "message": "This function is based on the SqlDataType, but now rsmd-\u003eGetDataType() doesn\u0027t return this enum. Can you check over this?",
       "revId": "23708aa9eaf76854d4a029a8c1456347b94bfa2e",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc5366e0_7dcdb17c",
+        "filename": "odbcabstraction/odbc_impl/ODBCDescriptor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000291
+      },
+      "writtenOn": "2022-06-14T19:00:45Z",
+      "side": 1,
+      "message": "The function takes in SQLSMALLINT and returns SQLSMALLINT. However it looks like it wants the concise type not the non-concise type as input as it uses SQL_TYPE_DATE which is SQL_DATETIME non-concise.",
+      "parentUuid": "e59bdac7_de377dcf",
+      "revId": "23708aa9eaf76854d4a029a8c1456347b94bfa2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
