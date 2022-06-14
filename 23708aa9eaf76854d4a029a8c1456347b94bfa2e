@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e45e4f17_59d2e559",
+        "filename": "odbcabstraction/odbc_impl/ODBCDescriptor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-14T18:13:50Z",
+      "side": 1,
+      "message": "concise_type is getting overwritten here so your changes aren\u0027t taking an effect.",
+      "revId": "23708aa9eaf76854d4a029a8c1456347b94bfa2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e59bdac7_de377dcf",
+        "filename": "odbcabstraction/odbc_impl/ODBCDescriptor.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-14T18:13:50Z",
+      "side": 1,
+      "message": "This function is based on the SqlDataType, but now rsmd-\u003eGetDataType() doesn\u0027t return this enum. Can you check over this?",
+      "revId": "23708aa9eaf76854d4a029a8c1456347b94bfa2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
