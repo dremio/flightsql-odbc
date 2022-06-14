@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6009015e_e66bdcab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-14T12:32:38Z",
+      "side": 1,
+      "message": "Self +2 due to urgency. This change is needed to fix crashes that are happening in applications.",
+      "revId": "bb6e91566713866e81291a21d5385252cb5bf35a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
