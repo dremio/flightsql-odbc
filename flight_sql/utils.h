@@ -79,6 +79,12 @@ optional<int32_t> GetCharOctetLength(odbcabstraction::SqlDataType data_type,
 optional<int32_t> GetBufferLength(odbcabstraction::SqlDataType data_type,
                                   const optional<int32_t>& column_size);
 
+optional<int32_t> GetTypeScale(odbcabstraction::SqlDataType data_type,
+                                  const optional<int32_t>& type_scale);
+
+optional<int32_t> GetColumnSize(odbcabstraction::SqlDataType data_type,
+                                  const optional<int32_t>& column_size);
+
 optional<int32_t> GetDisplaySize(odbcabstraction::SqlDataType data_type,
                                  const optional<int32_t>& column_size);
 

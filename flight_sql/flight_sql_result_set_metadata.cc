@@ -49,13 +49,23 @@ std::string FlightSqlResultSetMetadata::GetName(int column_position) {
 }
 
 size_t FlightSqlResultSetMetadata::GetPrecision(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
-  return metadata.GetPrecision().ValueOrElse([] { return 0; });
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
+
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return 0; });
+  SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
+
+  return GetColumnSize(data_type_v3, column_size).value_or(0);
 }
 
 size_t FlightSqlResultSetMetadata::GetScale(int column_position) {
-  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
-  return metadata.GetScale().ValueOrElse([] { return 0; });
+  const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
+  arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
+
+  int32_t type_scale = metadata.GetScale().ValueOrElse([] { return 0; });
+  SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
+
+  return GetTypeScale(data_type_v3, type_scale).value_or(0);
 }
 
 uint16_t FlightSqlResultSetMetadata::GetDataType(int column_position) {
