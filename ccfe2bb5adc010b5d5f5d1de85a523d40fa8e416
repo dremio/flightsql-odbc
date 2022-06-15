@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bccb1b25_e1c614c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-15T17:13:53Z",
+      "side": 1,
+      "message": "One minor comment.",
+      "revId": "ccfe2bb5adc010b5d5f5d1de85a523d40fa8e416",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2181f903_d5857e5a",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-15T17:13:53Z",
+      "side": 1,
+      "message": "We should add a TODO here.",
+      "revId": "ccfe2bb5adc010b5d5f5d1de85a523d40fa8e416",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
