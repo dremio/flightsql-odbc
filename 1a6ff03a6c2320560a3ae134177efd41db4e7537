@@ -22,6 +22,30 @@
       },
       "revId": "1a6ff03a6c2320560a3ae134177efd41db4e7537",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73522cbc_a89b4077",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-15T19:23:48Z",
+      "side": 1,
+      "message": "I think these are fine. Dremio doesn\u0027t support intervals anyway so don\u0027t worry too much about this.",
+      "parentUuid": "2bb71580_01c67dc5",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 53
+      },
+      "revId": "1a6ff03a6c2320560a3ae134177efd41db4e7537",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
