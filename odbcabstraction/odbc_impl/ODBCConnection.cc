@@ -566,7 +566,7 @@ void ODBCConnection::GetConnectAttr(SQLINTEGER attribute, SQLPOINTER value,
     GetAttribute(static_cast<SQLUINTEGER>(SQL_FALSE), value, bufferLength, outputLength);
     return;
   case SQL_ATTR_AUTOCOMMIT:
-    GetAttribute(static_cast<SQLULEN>(SQL_AUTOCOMMIT_ON), value, bufferLength, outputLength);
+    GetAttribute(static_cast<SQLUINTEGER>(SQL_AUTOCOMMIT_ON), value, bufferLength, outputLength);
     return;
 #ifdef SQL_ATTR_DBC_INFO_TOKEN
   case SQL_ATTR_DBC_INFO_TOKEN:
