@@ -198,7 +198,7 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
     : call_options_(call_options), sql_client_(client),
       has_server_info_(false) {
   info_[SQL_DRIVER_NAME] = "Arrow Flight ODBC Driver";
-  info_[SQL_DRIVER_VER] = "01.00.0000"; // This should be generated dynamically.
+  info_[SQL_DRIVER_VER] = ConvertToDBMSVer("0.9.0.0"); // This should be generated dynamically.
 
   info_[SQL_GETDATA_EXTENSIONS] =
       static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
