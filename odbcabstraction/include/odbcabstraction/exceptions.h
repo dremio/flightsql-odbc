@@ -35,7 +35,7 @@ private:
 /// \brief Authentication specific exception
 class AuthenticationException : public DriverException {
 public:
-  explicit AuthenticationException(std::string message, std::string sql_state = "28000",
+  explicit AuthenticationException(std::string message, std::string sql_state = "08S01",
                                    int32_t native_error = ODBCErrorCodes_AUTH);
 };
 
