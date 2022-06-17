@@ -1,0 +1,7 @@
+Code-Review+2: Alex McRae (CW) <alex.mcrae@dremio.com>
+Verified+1: jenkins (via gerrit) <jenkins@dremio.com>
+Submitted-by: Rafael Telles (CW) <rafael.telles@dremio.com>
+Submitted-at: Fri, 17 Jun 2022 19:32:11 +0000
+Reviewed-on: https://gerrit.drem.io/gerrit/c/flightsql-odbc/+/39234
+Project: flightsql-odbc
+Branch: refs/heads/master
