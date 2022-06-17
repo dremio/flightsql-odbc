@@ -45,7 +45,8 @@ FlightSqlResultSetColumn::GetAccessorForTargetType(CDataType target_type) {
   const std::shared_ptr<arrow::Array> &original_array =
       result_set_->GetArrayForColumn(column_n_);
 
-  if (target_type == odbcabstraction::CDataType_DEFAULT) {
+  // When retrieving data as binary, its bytes should be the same as it's default type
+  if (target_type == odbcabstraction::CDataType_DEFAULT || target_type == odbcabstraction::CDataType_BINARY) {
     target_type = ConvertArrowTypeToC(original_array->type_id());
   }
 
