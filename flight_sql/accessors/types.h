@@ -103,7 +103,7 @@ private:
         }
       } else {
         // TODO: Optimize this by creating different versions of MoveSingleCell
-        // depending on if strlen_buffer is null.
+        // depending on if strlen_buffer is null. :)
         MoveSingleCell(binding, sliced_array.get(), i, value_offset, update_value_offset,
                        diagnostics);
       }
