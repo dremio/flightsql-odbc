@@ -100,8 +100,6 @@ size_t FlightSqlResultSet::Move(size_t rows, uint16_t *row_status_array) {
       if (!column.is_bound)
         continue;
 
-      int64_t value_offset = 0;
-
       auto *accessor = column.GetAccessorForBinding();
       ColumnBinding shifted_binding = column.binding;
       shifted_binding.buffer = static_cast<uint8_t*>(shifted_binding.buffer) + accessor->GetCellLength(&shifted_binding) * fetched_rows;
@@ -113,13 +111,14 @@ size_t FlightSqlResultSet::Move(size_t rows, uint16_t *row_status_array) {
 
       size_t accessor_rows;
       try {
+        int64_t value_offset = 0;
         accessor_rows = accessor->GetColumnarData(&shifted_binding, current_row_, rows_to_fetch, value_offset, false,
                                                   diagnostics_, shifted_row_status_array);
-      } catch (std::exception &err) {
+      } catch (...) {
         if (shifted_row_status_array) {
           std::fill(shifted_row_status_array, &shifted_row_status_array[rows_to_fetch], odbcabstraction::RowStatus_ERROR);
         }
-        throw err;
+        throw;
       }
 
       if (rows_to_fetch != accessor_rows) {

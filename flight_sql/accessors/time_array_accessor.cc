@@ -59,6 +59,7 @@ RowStatus TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_i
   if (binding->strlen_buffer) {
     binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(GetCellLength_impl(binding));
   }
+  return odbcabstraction::RowStatus_SUCCESS;
 }
 
 template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
