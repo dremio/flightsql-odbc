@@ -633,6 +633,11 @@ void ODBCStatement::closeCursor(bool suppressErrors) {
     m_currenResult->Close();
     m_currenResult = nullptr;
   }
+
+  // Reset the fetching state of this statement.
+  m_currentArd->NotifyBindingsHaveChanged();
+  m_rowNumber = 0;
+  m_hasReachedEndOfResult = false;
 }
 
 bool ODBCStatement::GetData(SQLSMALLINT recordNumber, SQLSMALLINT cType, SQLPOINTER dataPtr, SQLLEN bufferLength, SQLLEN* indicatorPtr) {

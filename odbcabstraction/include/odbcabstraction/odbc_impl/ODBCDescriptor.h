@@ -126,6 +126,10 @@ namespace ODBC
         m_hasBindingsChanged = false;
       }
 
+      void NotifyBindingsHaveChanged() {
+        m_hasBindingsChanged = true;
+      }
+
     private:
       driver::odbcabstraction::Diagnostics m_diagnostics;
       std::vector<ODBCStatement*> m_registeredOnStatementsAsApd;
