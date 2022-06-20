@@ -53,7 +53,7 @@ FlightSqlResultSet::FlightSqlResultSet(
   ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema_));
 }
 
-size_t FlightSqlResultSet::Move(size_t rows, uint16_t *row_status_array) {
+size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, uint16_t *row_status_array) {
   // Consider it might be the first call to Move() and current_chunk is not
   // populated yet
   assert(rows > 0);
@@ -102,7 +102,19 @@ size_t FlightSqlResultSet::Move(size_t rows, uint16_t *row_status_array) {
 
       auto *accessor = column.GetAccessorForBinding();
       ColumnBinding shifted_binding = column.binding;
-      shifted_binding.buffer = static_cast<uint8_t*>(shifted_binding.buffer) + accessor->GetCellLength(&shifted_binding) * fetched_rows;
+      if (shifted_binding.buffer) {
+        shifted_binding.buffer =
+            static_cast<uint8_t *>(shifted_binding.buffer) +
+            accessor->GetCellLength(&shifted_binding) * fetched_rows +
+            bind_offset;
+      }
+
+      if (shifted_binding.strlen_buffer) {
+        shifted_binding.strlen_buffer = reinterpret_cast<ssize_t *>(
+            reinterpret_cast<uint8_t *>(
+                &shifted_binding.strlen_buffer[fetched_rows]) +
+            bind_offset);
+      }
       uint16_t *shifted_row_status_array = row_status_array ? &row_status_array[fetched_rows] : nullptr;
 
       if (shifted_row_status_array) {
@@ -131,6 +143,9 @@ size_t FlightSqlResultSet::Move(size_t rows, uint16_t *row_status_array) {
     fetched_rows += rows_to_fetch;
   }
 
+  if (rows > fetched_rows && row_status_array) {
+    std::fill(&row_status_array[fetched_rows], &row_status_array[rows], odbcabstraction::RowStatus_NOROW);
+  }
   return fetched_rows;
 }
 
