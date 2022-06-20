@@ -62,9 +62,9 @@ inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
     // NUL-terminator.
     if (chars_written > 0) {
       char_buffer[(chars_written - 1)] = '\0';
-    }
-    if (update_value_offset) {
-      value_offset += binding->buffer_length - sizeof(CHAR_TYPE);
+      if (update_value_offset) {
+        value_offset += binding->buffer_length - sizeof(CHAR_TYPE);
+      }
     }
   }
 
