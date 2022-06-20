@@ -298,10 +298,9 @@ bool ODBCStatement::Fetch(size_t rows) {
       if (i < m_currentArd->GetRecords().size() && m_currentArd->GetRecords()[i].m_isBound) {
         const DescriptorRecord& ardRecord = m_currentArd->GetRecords()[i];
         m_currenResult->BindColumn(i+1, ardRecord.m_type, ardRecord.m_precision,
-          ardRecord.m_scale, reinterpret_cast<char*>(ardRecord.m_dataPtr) + bindOffset,
+          ardRecord.m_scale, ardRecord.m_dataPtr,
           GetLength(ardRecord),
-          reinterpret_cast<ssize_t*>(
-            ardRecord.m_indicatorPtr ? reinterpret_cast<char*>(ardRecord.m_indicatorPtr) + bindOffset : nullptr));
+          ardRecord.m_indicatorPtr);
       } else {
         m_currenResult->BindColumn(i+1, CDataType_CHAR /* arbitrary type, not used */, 0, 0, nullptr, 0, nullptr);
       }
@@ -309,7 +308,7 @@ bool ODBCStatement::Fetch(size_t rows) {
     m_currentArd->NotifyBindingsHavePropagated();
   }
 
-  size_t rowsFetched = m_currenResult->Move(rows, m_ird->GetArrayStatusPtr());
+  size_t rowsFetched = m_currenResult->Move(rows, m_currentArd->GetBindOffset(), m_ird->GetArrayStatusPtr());
   m_ird->SetRowsProcessed(static_cast<SQLULEN>(rowsFetched));
 
   m_rowNumber += rowsFetched;
