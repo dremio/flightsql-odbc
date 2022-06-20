@@ -711,6 +711,17 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
       return CheckConversion(arrow::compute::CallFunction(
         "cast", {first_converted_array}, &cast_options));
     };
+  } else if ((original_type_id == arrow::Type::TIME32 ||
+  original_type_id == arrow::Type::TIME64) && (target_type == odbcabstraction::CDataType_CHAR ||
+                                               target_type == odbcabstraction::CDataType_WCHAR)) {
+    return [=](const std::shared_ptr<arrow::Array> &original_array) {
+      arrow::compute::StrftimeOptions options("%H:%M:%OS");
+
+      auto converted_result =
+        arrow::compute::Strftime({original_array}, options);
+
+      return CheckConversion(converted_result);
+    };
   } else if (original_type_id == arrow::Type::DECIMAL128 &&
              (target_type == odbcabstraction::CDataType_CHAR ||
               target_type == odbcabstraction::CDataType_WCHAR)) {
