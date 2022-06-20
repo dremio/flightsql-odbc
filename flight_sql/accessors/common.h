@@ -44,10 +44,11 @@ inline size_t CopyFromArrayValuesToBinding(const std::shared_ptr<Array> &array,
     }
   }
 
+  // Copy the entire array to the bound ODBC buffers.
+  // Note that the array should already have been sliced down to the same number
+  // of elements in the ODBC data array by the point in which this function is called.
   const auto *values = typed_array->raw_values();
-  size_t value_length =
-      std::min(static_cast<size_t>(length), binding->buffer_length);
-  memcpy(binding->buffer, values, element_size * value_length);
+  memcpy(binding->buffer, values, element_size * length);
 
   return length;
 }
