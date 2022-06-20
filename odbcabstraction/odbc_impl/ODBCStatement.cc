@@ -301,7 +301,7 @@ bool ODBCStatement::Fetch(size_t rows) {
           ardRecord.m_scale, reinterpret_cast<char*>(ardRecord.m_dataPtr) + bindOffset,
           GetLength(ardRecord),
           reinterpret_cast<ssize_t*>(
-            reinterpret_cast<char*>(ardRecord.m_indicatorPtr) + bindOffset));
+            ardRecord.m_indicatorPtr ? reinterpret_cast<char*>(ardRecord.m_indicatorPtr) + bindOffset : nullptr));
       } else {
         m_currenResult->BindColumn(i+1, CDataType_CHAR /* arbitrary type, not used */, 0, 0, nullptr, 0, nullptr);
       }

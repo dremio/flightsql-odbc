@@ -138,7 +138,7 @@ namespace ODBC
       ODBCConnection* m_owningConnection;
       ODBCStatement* m_parentStatement;
       SQLUSMALLINT* m_arrayStatusPtr;
-      SQLLEN* m_bindOffsetPtr;
+      SQLULEN* m_bindOffsetPtr;
       SQLULEN* m_rowsProccessedPtr;
       SQLULEN m_arraySize;
       SQLINTEGER m_bindType;
