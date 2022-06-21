@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10226a88_fbe4c2ca",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-21T10:54:33Z",
+      "side": 1,
+      "message": "It is already being handled. And they are passing in warpdrive tests",
+      "parentUuid": "22d6b4d5_d0dd0320",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "261640e2_edb0b04e",
         "filename": "flight_sql/utils.cc",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-09T14:24:46Z",
       "side": 1,
       "message": "Conversion from time -\u003e timestamp is supposed to set the date portion to the current date.",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee681d4_b04825fd",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-21T10:54:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "261640e2_edb0b04e",
       "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2022-06-14T20:23:15Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "18fac6a6_9aecb792",
+      "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa75b067_b94c6e0b",
+        "filename": "flight_sql/utils_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-21T10:54:33Z",
+      "side": 1,
+      "message": "It makes seems, I will create a ticket for this",
       "parentUuid": "18fac6a6_9aecb792",
       "revId": "82d0bd7c978d953c45b362af35c7b0708e35e756",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
