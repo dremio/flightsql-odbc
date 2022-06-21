@@ -47,7 +47,7 @@ FlightSqlResultSetColumn::GetAccessorForTargetType(CDataType target_type) {
 
   // When retrieving data as binary, its bytes should be the same as it's default type
   if (target_type == odbcabstraction::CDataType_DEFAULT || target_type == odbcabstraction::CDataType_BINARY) {
-    target_type = ConvertArrowTypeToC(original_array->type_id());
+    target_type = ConvertArrowTypeToC(original_array->type_id(), result_set_->UseWideChar());
   }
 
   // TODO: Figure out if that's the best way of caching
