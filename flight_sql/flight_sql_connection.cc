@@ -59,12 +59,14 @@ const std::string FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION = "disab
 const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
 const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLength";
+const std::string FlightSqlConnection::USE_WIDE_CHAR = "UseWideChar";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
     FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD,
     FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
-    FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH };
+    FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
+    FlightSqlConnection::USE_WIDE_CHAR};
 
 namespace {
 
@@ -117,7 +119,8 @@ const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROP
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION,
     FlightSqlConnection::TRUSTED_CERTS,
     FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
-    FlightSqlConnection::STRING_COLUMN_LENGTH
+    FlightSqlConnection::STRING_COLUMN_LENGTH,
+    FlightSqlConnection::USE_WIDE_CHAR
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -190,6 +193,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
 
 void FlightSqlConnection::PopulateMetadataSettings(const Connection::ConnPropertyMap &conn_property_map) {
   metadata_settings_.string_column_length_ = GetStringColumnLength(conn_property_map);
+  metadata_settings_.use_wide_char_ = GetUseWideChar(conn_property_map);
 }
 
 int32_t FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropertyMap &conn_property_map) {
@@ -214,6 +218,17 @@ int32_t FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropert
   }
 
   return string_column_length;
+}
+
+bool FlightSqlConnection::GetUseWideChar(const ConnPropertyMap &connPropertyMap) {
+  #if defined _WIN32 || defined _WIN64
+  // Windows should use wide chars by default
+  bool default_value = true;
+  #else
+  // Mac and Linux should not use wide chars by default
+  bool default_value = false;
+#endif
+  return AsBool(default_value, connPropertyMap, FlightSqlConnection::USE_WIDE_CHAR);
 }
 
 const FlightCallOptions &
