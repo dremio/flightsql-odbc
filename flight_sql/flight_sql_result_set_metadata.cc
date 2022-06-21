@@ -110,7 +110,7 @@ size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
-  return GetDisplaySize(data_type_v3, column_size).value_or(NO_TOTAL);
+  return GetDisplaySize(data_type_v3, column_size).value_or(StringColumnLength);
 }
 
 std::string FlightSqlResultSetMetadata::GetBaseColumnName(int column_position) {
@@ -136,7 +136,7 @@ size_t FlightSqlResultSetMetadata::GetLength(int column_position) {
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
-  return GetBufferLength(data_type_v3, column_size).value_or(NO_TOTAL);
+  return GetBufferLength(data_type_v3, column_size).value_or(StringColumnLength);
 }
 
 std::string FlightSqlResultSetMetadata::GetLiteralPrefix(int column_position) {
@@ -170,7 +170,7 @@ size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
-  return GetCharOctetLength(data_type_v3, column_size).value_or(NO_TOTAL);
+  return GetCharOctetLength(data_type_v3, column_size).value_or(StringColumnLength);
 }
 
 std::string FlightSqlResultSetMetadata::GetTypeName(int column_position) {

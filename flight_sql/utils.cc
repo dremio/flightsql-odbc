@@ -312,24 +312,56 @@ optional<int16_t> GetSqlDateTimeSubCode(SqlDataType data_type) {
 
 optional<int32_t> GetCharOctetLength(SqlDataType data_type,
                                      const optional<int32_t>& column_size) {
-  // TODO: Replace NO_TOTAL with the correct default values
-  // TODO: Get correct default values from connection settings
-  switch (data_type) {
-  case SqlDataType_CHAR:
-  case SqlDataType_VARCHAR:
-  case SqlDataType_LONGVARCHAR:
-    return column_size.has_value() ? column_size.value() : NO_TOTAL;
-  case SqlDataType_WCHAR:
-  case SqlDataType_WVARCHAR:
-  case SqlDataType_WLONGVARCHAR:
-    return column_size.has_value() ? (column_size.value() * sizeof(SqlWChar))
-                                   : NO_TOTAL;
-  case SqlDataType_BINARY:
-  case SqlDataType_VARBINARY:
-  case SqlDataType_LONGVARBINARY:
-    return column_size.has_value() ? column_size.value() : NO_TOTAL;
-  default:
+  if (!column_size.has_value()){
     return arrow::util::nullopt;
+  }
+  switch (data_type) {
+    case SqlDataType_CHAR:
+    case SqlDataType_VARCHAR:
+    case SqlDataType_LONGVARCHAR:
+      return column_size.value();
+    case SqlDataType_WCHAR:
+    case SqlDataType_WVARCHAR:
+    case SqlDataType_WLONGVARCHAR:
+      return column_size.value() * sizeof(SqlWChar);
+    case SqlDataType_BINARY:
+    case SqlDataType_VARBINARY:
+    case SqlDataType_LONGVARBINARY:
+      return column_size.value();
+    case SqlDataType_TINYINT:
+    case SqlDataType_BIT:
+      return 1;
+    case SqlDataType_SMALLINT:
+      return 2;
+    case SqlDataType_INTEGER:
+      return 4;
+    case SqlDataType_BIGINT:
+    case SqlDataType_FLOAT:
+    case SqlDataType_DOUBLE:
+      return 8;
+    case SqlDataType_TYPE_DATE:
+    case SqlDataType_TYPE_TIME:
+      return 6;
+    case SqlDataType_TYPE_TIMESTAMP:
+      return 16;
+    case SqlDataType_INTERVAL_MONTH:
+    case SqlDataType_INTERVAL_YEAR:
+    case SqlDataType_INTERVAL_YEAR_TO_MONTH:
+    case SqlDataType_INTERVAL_DAY:
+    case SqlDataType_INTERVAL_HOUR:
+    case SqlDataType_INTERVAL_MINUTE:
+    case SqlDataType_INTERVAL_SECOND:
+    case SqlDataType_INTERVAL_DAY_TO_HOUR:
+    case SqlDataType_INTERVAL_DAY_TO_MINUTE:
+    case SqlDataType_INTERVAL_DAY_TO_SECOND:
+    case SqlDataType_INTERVAL_HOUR_TO_MINUTE:
+    case SqlDataType_INTERVAL_HOUR_TO_SECOND:
+    case SqlDataType_INTERVAL_MINUTE_TO_SECOND:
+      return 34;
+    case SqlDataType_GUID:
+      return 16;
+    default:
+      return arrow::util::nullopt;
   }
 }
 optional<int32_t> GetTypeScale(SqlDataType data_type,
