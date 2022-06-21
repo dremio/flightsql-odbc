@@ -72,7 +72,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
   GetTypeInfoReader reader(original);
 
   while (reader.Next()) {
-    auto data_type_v3 = static_cast<int16_t>(reader.GetDataType());
+    auto data_type_v3 = EnsureRightSqlCharType(static_cast<odbcabstraction::SqlDataType>(reader.GetDataType()));
     int16_t data_type_v2 = ConvertSqlDataTypeFromV3ToV2(data_type_v3);
 
     if (data_type != odbcabstraction::ALL_TYPES && data_type_v3 != data_type && data_type_v2 != data_type) {

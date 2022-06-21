@@ -60,6 +60,8 @@ arrow::Status AppendToBuilder(BUILDER &builder, T value) {
 odbcabstraction::SqlDataType
 GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field);
 
+odbcabstraction::SqlDataType EnsureRightSqlCharType(odbcabstraction::SqlDataType data_type);
+
 int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3);
 
 odbcabstraction::CDataType ConvertCDataTypeFromV2ToV3(int16_t data_type_v2);
