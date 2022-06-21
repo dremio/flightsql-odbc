@@ -706,7 +706,7 @@ ConvertCToArrowType(odbcabstraction::CDataType data_type) {
 odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id) {
   switch (type_id) {
     case arrow::Type::STRING:
-      return odbcabstraction::CDataType_CHAR;
+      return odbcabstraction::CDataType_WCHAR;
     case arrow::Type::INT16:
       return odbcabstraction::CDataType_SSHORT;
     case arrow::Type::UINT16:
