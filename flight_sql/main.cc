@@ -200,10 +200,11 @@ int main() {
       driver.CreateConnection(driver::odbcabstraction::V_3);
 
   Connection::ConnPropertyMap properties = {
-      {FlightSqlConnection::HOST, std::string("0.0.0.0")},
+      {FlightSqlConnection::HOST, std::string("automaster.drem.io")},
       {FlightSqlConnection::PORT, std::string("32010")},
       {FlightSqlConnection::USER, std::string("dremio")},
       {FlightSqlConnection::PASSWORD, std::string("dremio123")},
+      {FlightSqlConnection::USE_ENCRYPTION, std::string("false")},
   };
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);

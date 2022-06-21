@@ -28,6 +28,7 @@ std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(
 
 struct MetadataSettings {
     int32_t string_column_length_{1024};
+    bool use_wide_char_;
 };
 
 class FlightSqlConnection : public odbcabstraction::Connection {
@@ -61,6 +62,7 @@ public:
   static const std::string TRUSTED_CERTS;
   static const std::string USE_SYSTEM_TRUST_STORE;
   static const std::string STRING_COLUMN_LENGTH;
+  static const std::string USE_WIDE_CHAR;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
@@ -102,6 +104,8 @@ public:
   void SetClosed(bool is_closed);
 
   int32_t GetStringColumnLength(const ConnPropertyMap &connPropertyMap);
+
+  bool GetUseWideChar(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver
