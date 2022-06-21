@@ -119,7 +119,7 @@ set(ARROW_GIT_TAG "b050bd0d31db6412256cec3362c0d57c9732e1f2" CACHE STRING "Tag f
 message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow
   GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
-  GIT_TAG ${ARROW_GIT_TAG}
+  GIT_TAG b050bd0d31db6412256cec3362c0d57c9732e1f2
   CMAKE_ARGS ${ARROW_CMAKE_ARGS})
 
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
