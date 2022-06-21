@@ -83,6 +83,10 @@ public:
   void BindColumn(int column_n, int16_t target_type, int precision, int scale,
                   void *buffer, size_t buffer_length,
                   ssize_t *strlen_buffer) override;
+
+  inline bool UseWideChar() {
+    return metadata_settings_.use_wide_char_;
+  }
 };
 
 } // namespace flight_sql

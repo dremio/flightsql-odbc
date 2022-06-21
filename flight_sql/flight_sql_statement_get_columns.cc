@@ -6,6 +6,7 @@
 
 #include "flight_sql_statement_get_columns.h"
 #include <odbcabstraction/platform.h>
+#include "flight_sql_connection.h"
 #include "flight_sql_get_tables_reader.h"
 #include "utils.h"
 #include <arrow/flight/sql/column_metadata.h>
@@ -68,7 +69,8 @@ std::shared_ptr<Schema> GetColumns_V2_Schema() {
 Result<std::shared_ptr<RecordBatch>>
 Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                 const std::shared_ptr<RecordBatch> &original,
-                const optional<std::string> &column_name_pattern) {
+                const optional<std::string> &column_name_pattern,
+                const MetadataSettings& metadata_settings) {
   GetColumns_RecordBatchBuilder builder(odbc_version);
   GetColumns_RecordBatchBuilder::Data data;
 
@@ -101,7 +103,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
       }
 
       odbcabstraction::SqlDataType data_type_v3 =
-          GetDataTypeFromArrowField_V3(field);
+          GetDataTypeFromArrowField_V3(field, metadata_settings.use_wide_char_);
 
       ColumnMetadata metadata(field->metadata());
 
@@ -227,9 +229,11 @@ Status GetColumns_RecordBatchBuilder::Append(
 }
 
 GetColumns_Transformer::GetColumns_Transformer(
+    const MetadataSettings& metadata_settings,
     const odbcabstraction::OdbcVersion odbc_version,
     const std::string *column_name_pattern)
-    : odbc_version_(odbc_version),
+    : metadata_settings_(metadata_settings),
+      odbc_version_(odbc_version),
       column_name_pattern_(
           column_name_pattern ? make_optional(*column_name_pattern) : nullopt) {
 }
@@ -237,7 +241,7 @@ GetColumns_Transformer::GetColumns_Transformer(
 std::shared_ptr<RecordBatch> GetColumns_Transformer::Transform(
     const std::shared_ptr<RecordBatch> &original) {
   const Result<std::shared_ptr<RecordBatch>> &result =
-      Transform_inner(odbc_version_, original, column_name_pattern_);
+      Transform_inner(odbc_version_, original, column_name_pattern_, metadata_settings_);
   ThrowIfNotOK(result.status());
 
   return result.ValueOrDie();
