@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26740c8_f44be78b",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-21T21:03:53Z",
+      "side": 1,
+      "message": "Rollback please (mainly to avoid adding a merge conflict)",
+      "revId": "320207aefa614797dd2c10e0b84abc08d52ba186",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f54a70ee_1554c268",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-21T21:03:53Z",
+      "side": 1,
+      "message": "Should we do this for GetLength() and GetDisplaySize() too?\n- Fixed length types should have fixed values defined by the ODBC spec.\n- Complex types should be set to StringColumnLength.",
+      "revId": "320207aefa614797dd2c10e0b84abc08d52ba186",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bb31c8f_50c2416e",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-21T21:03:53Z",
+      "side": 1,
+      "message": "OctetLength should be a constant for fixed length types coming from here:\nhttps://docs.microsoft.com/en-us/sql/odbc/reference/appendixes/transfer-octet-length?view\u003dsql-server-ver16",
+      "revId": "320207aefa614797dd2c10e0b84abc08d52ba186",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
