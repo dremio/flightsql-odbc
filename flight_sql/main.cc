@@ -53,7 +53,7 @@ void TestBindColumn(const std::shared_ptr<Connection> &connection) {
 
   size_t total = 0;
   while (true) {
-    size_t fetched_rows = result_set->Move(batch_size, 0, nullptr);
+    size_t fetched_rows = result_set->Move(batch_size, 0, 0, nullptr);
     std::cout << "Fetched " << fetched_rows << " rows." << std::endl;
 
     total += fetched_rows;
@@ -79,7 +79,7 @@ void TestGetData(const std::shared_ptr<Connection> &connection) {
 
   std::cout << metadata->GetDataType(1) << std::endl;
 
-  while (result_set->Move(1, 0, nullptr) == 1) {
+  while (result_set->Move(1, 0, 0, nullptr) == 1) {
     driver::odbcabstraction::NUMERIC_STRUCT result;
     ssize_t result_length;
     result_set->GetData(1, driver::odbcabstraction::CDataType_NUMERIC, 0, 0,
@@ -127,7 +127,7 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
 
   size_t total = 0;
   while (true) {
-    size_t fetched_rows = result_set->Move(batch_size, 0, nullptr);
+    size_t fetched_rows = result_set->Move(batch_size, 0, 0, nullptr);
     std::cout << "Fetched " << fetched_rows << " rows." << std::endl;
 
     total += fetched_rows;
@@ -153,7 +153,7 @@ void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
       result_set->GetMetadata();
   size_t column_count = metadata->GetColumnCount();
 
-  while (result_set->Move(1, 0, nullptr) == 1) {
+  while (result_set->Move(1, 0, 0, nullptr) == 1) {
     int buffer_length = 1024;
     std::vector<char> result(buffer_length);
     ssize_t result_length;
@@ -180,7 +180,7 @@ void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
   std::vector<char> result(buffer_length);
   ssize_t result_length;
 
-  while (result_set->Move(1, 0, nullptr) == 1) {
+  while (result_set->Move(1, 0, 0, nullptr) == 1) {
     for (int i = 0; i < column_count; ++i) {
       result_set->GetData(1 + i, driver::odbcabstraction::CDataType_CHAR, 0, 0,
                           result.data(), buffer_length, &result_length);

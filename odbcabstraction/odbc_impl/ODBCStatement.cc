@@ -308,7 +308,8 @@ bool ODBCStatement::Fetch(size_t rows) {
     m_currentArd->NotifyBindingsHavePropagated();
   }
 
-  size_t rowsFetched = m_currenResult->Move(rows, m_currentArd->GetBindOffset(), m_ird->GetArrayStatusPtr());
+  size_t rowsFetched = m_currenResult->Move(rows, m_currentArd->GetBindOffset(),
+                                            m_currentArd->GetBoundStructOffset(), m_ird->GetArrayStatusPtr());
   m_ird->SetRowsProcessed(static_cast<SQLULEN>(rowsFetched));
 
   m_rowNumber += rowsFetched;
