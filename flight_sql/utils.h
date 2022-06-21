@@ -74,7 +74,7 @@ int16_t GetNonConciseDataType(odbcabstraction::SqlDataType data_type);
 optional<int16_t> GetSqlDateTimeSubCode(odbcabstraction::SqlDataType data_type);
 
 optional<int32_t> GetCharOctetLength(odbcabstraction::SqlDataType data_type,
-                                     const optional<int32_t>& column_size);
+                                     const arrow::Result<int32_t>& column_size);
 
 optional<int32_t> GetBufferLength(odbcabstraction::SqlDataType data_type,
                                   const optional<int32_t>& column_size);
