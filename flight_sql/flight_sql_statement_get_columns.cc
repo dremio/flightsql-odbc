@@ -124,7 +124,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                              ? make_optional(precision_result.ValueOrDie())
                              : nullopt;
       data.char_octet_length =
-          GetCharOctetLength(data_type_v3, data.column_size);
+          GetCharOctetLength(data_type_v3, precision_result);
 
       data.buffer_length = GetBufferLength(data_type_v3, data.column_size);
 

@@ -74,7 +74,8 @@ int16_t GetNonConciseDataType(odbcabstraction::SqlDataType data_type);
 optional<int16_t> GetSqlDateTimeSubCode(odbcabstraction::SqlDataType data_type);
 
 optional<int32_t> GetCharOctetLength(odbcabstraction::SqlDataType data_type,
-                                     const optional<int32_t>& column_size);
+                                     const arrow::Result<int32_t>& column_size,
+                                     const int32_t decimal_precison=0);
 
 optional<int32_t> GetBufferLength(odbcabstraction::SqlDataType data_type,
                                   const optional<int32_t>& column_size);
@@ -107,6 +108,10 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
                               odbcabstraction::CDataType target_type);
 
 std::string ConvertToDBMSVer(const std::string& str);
+
+int32_t GetDecimalTypeScale(const std::shared_ptr<arrow::DataType>& decimalType);
+
+int32_t GetDecimalTypePrecision(const std::shared_ptr<arrow::DataType>& decimalType);
 
 } // namespace flight_sql
 } // namespace driver
