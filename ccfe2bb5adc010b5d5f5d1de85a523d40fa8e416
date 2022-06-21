@@ -33,6 +33,24 @@
       "message": "We should add a TODO here.",
       "revId": "ccfe2bb5adc010b5d5f5d1de85a523d40fa8e416",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e7be79_1f1df568",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-06-21T12:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2181f903_d5857e5a",
+      "revId": "ccfe2bb5adc010b5d5f5d1de85a523d40fa8e416",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
