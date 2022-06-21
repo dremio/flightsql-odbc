@@ -213,7 +213,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
   auto flight_info = result.ValueOrDie();
 
   auto transformer = std::make_shared<GetColumns_Transformer>(
-      odbcabstraction::V_2, column_name);
+      metadata_settings_, odbcabstraction::V_2, column_name);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
       sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
@@ -233,7 +233,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
   auto flight_info = result.ValueOrDie();
 
   auto transformer = std::make_shared<GetColumns_Transformer>(
-      odbcabstraction::V_3, column_name);
+      metadata_settings_, odbcabstraction::V_3, column_name);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
       sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
@@ -251,7 +251,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type)
   auto flight_info = result.ValueOrDie();
 
   auto transformer = std::make_shared<GetTypeInfo_Transformer>(
-          odbcabstraction::V_2, data_type);
+          metadata_settings_, odbcabstraction::V_2, data_type);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
       sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
@@ -269,7 +269,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type)
   auto flight_info = result.ValueOrDie();
 
   auto transformer = std::make_shared<GetTypeInfo_Transformer>(
-          odbcabstraction::V_3, data_type);
+          metadata_settings_, odbcabstraction::V_3, data_type);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
       sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
