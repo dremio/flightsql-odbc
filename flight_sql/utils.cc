@@ -312,22 +312,22 @@ optional<int16_t> GetSqlDateTimeSubCode(SqlDataType data_type) {
 
 optional<int32_t> GetCharOctetLength(SqlDataType data_type,
                                      const optional<int32_t>& column_size) {
-  // TODO: Replace NO_TOTAL with the correct default values
-  // TODO: Get correct default values from connection settings
+  if (!column_size.has_value()){
+    return arrow::util::nullopt;
+  }
   switch (data_type) {
   case SqlDataType_CHAR:
   case SqlDataType_VARCHAR:
   case SqlDataType_LONGVARCHAR:
-    return column_size.has_value() ? column_size.value() : NO_TOTAL;
+    return column_size.value();
   case SqlDataType_WCHAR:
   case SqlDataType_WVARCHAR:
   case SqlDataType_WLONGVARCHAR:
-    return column_size.has_value() ? (column_size.value() * sizeof(SqlWChar))
-                                   : NO_TOTAL;
+    return column_size.value() * sizeof(SqlWChar);
   case SqlDataType_BINARY:
   case SqlDataType_VARBINARY:
   case SqlDataType_LONGVARBINARY:
-    return column_size.has_value() ? column_size.value() : NO_TOTAL;
+    return column_size.value();
   default:
     return arrow::util::nullopt;
   }

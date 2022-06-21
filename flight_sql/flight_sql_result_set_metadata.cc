@@ -23,7 +23,8 @@ using arrow::Field;
 using arrow::util::make_optional;
 using arrow::util::nullopt;
 
-constexpr int32_t StringColumnLength = 1024; // TODO: Get from connection
+// TODO: Get correct default values from connection settings
+constexpr int32_t StringColumnLength = 1024;
 
 namespace {
 std::shared_ptr<const arrow::KeyValueMetadata> empty_metadata_map(new arrow::KeyValueMetadata);
@@ -170,7 +171,7 @@ size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
   int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
-  return GetCharOctetLength(data_type_v3, column_size).value_or(NO_TOTAL);
+  return GetCharOctetLength(data_type_v3, column_size).value_or(StringColumnLength);
 }
 
 std::string FlightSqlResultSetMetadata::GetTypeName(int column_position) {
