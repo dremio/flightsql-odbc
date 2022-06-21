@@ -25,6 +25,9 @@
 namespace driver {
 namespace flight_sql {
 
+constexpr odbcabstraction::SqlDataType DEFAULT_SQL_CHAR_TYPE = odbcabstraction::SqlDataType_WVARCHAR;
+constexpr odbcabstraction::CDataType DEFAULT_C_CHAR_TYPE = odbcabstraction::CDataType_WCHAR;
+
 namespace {
 int64_t GetTodayTimeFromEpoch() {
   tm date{};
@@ -92,7 +95,7 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
     return odbcabstraction::SqlDataType_BINARY;
   case arrow::Type::STRING:
   case arrow::Type::LARGE_STRING:
-    return odbcabstraction::SqlDataType_VARCHAR;
+    return DEFAULT_SQL_CHAR_TYPE;
   case arrow::Type::DATE32:
   case arrow::Type::DATE64:
     return odbcabstraction::SqlDataType_TYPE_DATE;
@@ -125,7 +128,7 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
     break;
   }
 
-  return odbcabstraction::SqlDataType_VARCHAR;
+  return DEFAULT_SQL_CHAR_TYPE;
 }
 
 int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3) {
@@ -726,7 +729,7 @@ ConvertCToArrowType(odbcabstraction::CDataType data_type) {
 odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id) {
   switch (type_id) {
     case arrow::Type::STRING:
-      return odbcabstraction::CDataType_CHAR;
+      return DEFAULT_C_CHAR_TYPE;
     case arrow::Type::INT16:
       return odbcabstraction::CDataType_SSHORT;
     case arrow::Type::UINT16:
