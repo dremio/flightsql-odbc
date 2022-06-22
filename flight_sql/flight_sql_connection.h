@@ -37,6 +37,7 @@ private:
   odbcabstraction::Diagnostics diagnostics_;
   odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
+  std::map<std::string, std::string> optionalClientPropertyMap_;
 
 public:
   static const std::vector<std::string> ALL_KEYS;
@@ -54,6 +55,7 @@ public:
   static const std::string DISABLE_CERTIFICATE_VERIFICATION;
   static const std::string TRUSTED_CERTS;
   static const std::string USE_SYSTEM_TRUST_STORE;
+  static const std::string STRING_COLUMN_LENGTH;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
