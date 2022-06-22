@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbd7cee8_201e6fd3",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-06-22T15:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3bd6fa_631c02ab",
+      "revId": "c5a85a638835a95811bcb07f26c42f483c73a90d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "693ae639_3ec1ef56",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-21T22:05:01Z",
       "side": 1,
       "message": "We should comment where these numbers come from (eg are they the sizeof() an ODBC structure?)",
+      "revId": "c5a85a638835a95811bcb07f26c42f483c73a90d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee088db_8a339092",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-06-22T15:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "693ae639_3ec1ef56",
       "revId": "c5a85a638835a95811bcb07f26c42f483c73a90d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
