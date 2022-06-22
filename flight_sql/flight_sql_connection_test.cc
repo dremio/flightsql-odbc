@@ -53,6 +53,26 @@ TEST(AttributeTests, GetAttributeWithoutSetting) {
   connection.Close();
 }
 
+TEST(MetadataSettingsTest, StringColumnLengthTest) {
+  FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.SetClosed(false);
+
+  const int32_t expected_string_column_length = 100000;
+
+  const Connection::ConnPropertyMap properties = {
+      {FlightSqlConnection::HOST, std::string("localhost")},  // expect not used
+      {FlightSqlConnection::PORT, std::string("32010")},  // expect not used
+      {FlightSqlConnection::USE_ENCRYPTION, std::string("false")},  // expect not used
+      {FlightSqlConnection::STRING_COLUMN_LENGTH, std::to_string(expected_string_column_length)},
+  };
+
+  const int32_t actual_string_column_length = connection.GetStringColumnLength(properties);
+
+  EXPECT_EQ(expected_string_column_length, actual_string_column_length);
+
+  connection.Close();
+}
+
 TEST(BuildLocationTests, ForTcp) {
   std::vector<std::string> missing_attr;
   Connection::ConnPropertyMap properties = {

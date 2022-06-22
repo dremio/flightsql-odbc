@@ -54,9 +54,10 @@ void ClosePreparedStatementIfAny(
 FlightSqlStatement::FlightSqlStatement(
     const odbcabstraction::Diagnostics& diagnostics,
     FlightSqlClient &sql_client,
-    FlightCallOptions call_options)
+    FlightCallOptions call_options,
+    const odbcabstraction::MetadataSettings& metadata_settings)
     : diagnostics_("Apache Arrow", diagnostics.GetDataSourceComponent(), diagnostics.GetOdbcVersion()),
-      sql_client_(sql_client), call_options_(std::move(call_options)) {
+      sql_client_(sql_client), call_options_(std::move(call_options)), metadata_settings_(metadata_settings) {
   attribute_[METADATA_ID] = static_cast<size_t>(SQL_FALSE);
   attribute_[MAX_LENGTH] = static_cast<size_t>(0);
   attribute_[NOSCAN] = static_cast<size_t>(SQL_NOSCAN_OFF);
@@ -105,7 +106,7 @@ FlightSqlStatement::Prepare(const std::string &query) {
 
   const auto &result_set_metadata =
       std::make_shared<FlightSqlResultSetMetadata>(
-          prepared_statement_->dataset_schema());
+          prepared_statement_->dataset_schema(), metadata_settings_);
   return boost::optional<std::shared_ptr<ResultSetMetadata>>(
       result_set_metadata);
 }
@@ -117,7 +118,7 @@ bool FlightSqlStatement::ExecutePrepared() {
   ThrowIfNotOK(result.status());
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, result.ValueOrDie(), nullptr, diagnostics_);
+      sql_client_, call_options_, result.ValueOrDie(), nullptr, diagnostics_, metadata_settings_);
 
   return true;
 }
@@ -130,7 +131,7 @@ bool FlightSqlStatement::Execute(const std::string &query) {
   ThrowIfNotOK(result.status());
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, result.ValueOrDie(), nullptr, diagnostics_);
+      sql_client_, call_options_, result.ValueOrDie(), nullptr, diagnostics_, metadata_settings_);
 
   return true;
 }
@@ -153,18 +154,20 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
       (schema_name && schema_name->empty()) &&
       (table_name && table_name->empty())) {
     current_result_set_ =
-        GetTablesForSQLAllCatalogs(column_names, call_options_, sql_client_, diagnostics_);
+        GetTablesForSQLAllCatalogs(
+                column_names, call_options_, sql_client_, diagnostics_, metadata_settings_);
   } else if ((catalog_name && catalog_name->empty()) &&
              (schema_name && *schema_name == "%") &&
              (table_name && table_name->empty())) {
     current_result_set_ = GetTablesForSQLAllDbSchemas(
-        column_names, call_options_, sql_client_, schema_name, diagnostics_);
+        column_names, call_options_, sql_client_, schema_name, diagnostics_, metadata_settings_);
   } else if ((catalog_name && catalog_name->empty()) &&
              (schema_name && schema_name->empty()) &&
              (table_name && table_name->empty()) &&
              (table_type && *table_type == "%")) {
     current_result_set_ =
-        GetTablesForSQLAllTableTypes(column_names, call_options_, sql_client_, diagnostics_);
+        GetTablesForSQLAllTableTypes(
+                column_names, call_options_, sql_client_, diagnostics_, metadata_settings_);
   } else {
     if (table_type) {
       ParseTableTypes(*table_type, table_types);
@@ -172,7 +175,7 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
 
     current_result_set_ = GetTablesForGenericUse(
         column_names, call_options_, sql_client_, catalog_name, schema_name,
-        table_name, table_types, diagnostics_);
+        table_name, table_types, diagnostics_, metadata_settings_);
   }
 
   return current_result_set_;
@@ -213,7 +216,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
       odbcabstraction::V_2, column_name);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, flight_info, transformer, diagnostics_);
+      sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
 
   return current_result_set_;
 }
@@ -233,7 +236,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
       odbcabstraction::V_3, column_name);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-      sql_client_, call_options_, flight_info, transformer, diagnostics_);
+      sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
 
   return current_result_set_;
 }
@@ -251,7 +254,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type)
           odbcabstraction::V_2, data_type);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-          sql_client_, call_options_, flight_info, transformer, diagnostics_);
+      sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
 
   return current_result_set_;
 }
@@ -269,7 +272,7 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type)
           odbcabstraction::V_3, data_type);
 
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
-          sql_client_, call_options_, flight_info, transformer, diagnostics_);
+      sql_client_, call_options_, flight_info, transformer, diagnostics_, metadata_settings_);
 
   return current_result_set_;
 }
