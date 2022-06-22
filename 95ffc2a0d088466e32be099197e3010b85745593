@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13d4f42d_3bd7ff66",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-22T12:19:14Z",
+      "side": 1,
+      "message": "Does timestamp -\u003e string use the ODBC format or a different format? The ODBC format should be YYYY-MM-DD HH:MM:SS[.ffffff]",
+      "revId": "95ffc2a0d088466e32be099197e3010b85745593",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03c7057f_418f8ced",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-22T12:19:14Z",
+      "side": 1,
+      "message": "Does this capture fractional seconds? Dremio supports milliseconds in time data.",
+      "revId": "95ffc2a0d088466e32be099197e3010b85745593",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
