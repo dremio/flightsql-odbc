@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "get_info_cache.h"
+#include "odbcabstraction/types.h"
 
 namespace driver {
 namespace flight_sql {
@@ -30,6 +31,7 @@ std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(
 class FlightSqlConnection : public odbcabstraction::Connection {
 
 private:
+  odbcabstraction::MetadataSettings metadata_settings_;
   std::map<AttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
@@ -37,6 +39,8 @@ private:
   odbcabstraction::Diagnostics diagnostics_;
   odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
+
+  void PopulateMetadataSettings(const Connection::ConnPropertyMap &connPropertyMap);
 
 public:
   static const std::vector<std::string> ALL_KEYS;
@@ -54,6 +58,7 @@ public:
   static const std::string DISABLE_CERTIFICATE_VERIFICATION;
   static const std::string TRUSTED_CERTS;
   static const std::string USE_SYSTEM_TRUST_STORE;
+  static const std::string STRING_COLUMN_LENGTH;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 
@@ -93,6 +98,8 @@ public:
   /// \brief A setter to the field closed_.
   /// \note Visible for testing
   void SetClosed(bool is_closed);
+
+  int32_t GetStringColumnLength(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver
