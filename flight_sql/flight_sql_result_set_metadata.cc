@@ -23,8 +23,6 @@ using arrow::Field;
 using arrow::util::make_optional;
 using arrow::util::nullopt;
 
-constexpr int32_t StringColumnLength = 1024; // TODO: Get from connection
-
 namespace {
 std::shared_ptr<const arrow::KeyValueMetadata> empty_metadata_map(new arrow::KeyValueMetadata);
 
@@ -107,7 +105,7 @@ size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
   arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
-  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([this] { return metadata_settings_.StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
   return GetDisplaySize(data_type_v3, column_size).value_or(NO_TOTAL);
@@ -133,7 +131,7 @@ size_t FlightSqlResultSetMetadata::GetLength(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
   arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
-  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([this] { return metadata_settings_.StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
   return GetBufferLength(data_type_v3, column_size).value_or(NO_TOTAL);
@@ -167,7 +165,7 @@ size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
   arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
-  int32_t column_size = metadata.GetPrecision().ValueOrElse([] { return StringColumnLength; });
+  int32_t column_size = metadata.GetPrecision().ValueOrElse([this] { return metadata_settings_.StringColumnLength; });
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field);
 
   return GetCharOctetLength(data_type_v3, column_size).value_or(NO_TOTAL);
@@ -225,11 +223,17 @@ bool FlightSqlResultSetMetadata::IsFixedPrecScale(int column_position) {
 }
 
 FlightSqlResultSetMetadata::FlightSqlResultSetMetadata(
-    std::shared_ptr<arrow::Schema> schema)
-    : schema_(std::move(schema)) {}
+    std::shared_ptr<arrow::Schema> schema,
+    const MetadataSettings& metadata_settings)
+    :
+    schema_(std::move(schema)),
+    metadata_settings_(metadata_settings) {}
 
 FlightSqlResultSetMetadata::FlightSqlResultSetMetadata(
-    const std::shared_ptr<arrow::flight::FlightInfo> &flight_info) {
+    const std::shared_ptr<arrow::flight::FlightInfo> &flight_info,
+    const MetadataSettings& metadata_settings)
+    :
+    metadata_settings_(metadata_settings){
   arrow::ipc::DictionaryMemo dict_memo;
 
   ThrowIfNotOK(flight_info->GetSchema(&dict_memo, &schema_));
