@@ -34,12 +34,14 @@ FlightSqlResultSet::FlightSqlResultSet(
     const arrow::flight::FlightCallOptions &call_options,
     const std::shared_ptr<FlightInfo> &flight_info,
     const std::shared_ptr<RecordBatchTransformer> &transformer,
-    odbcabstraction::Diagnostics& diagnostics)
+    odbcabstraction::Diagnostics& diagnostics,
+    const std::map<std::string, std::string>& optionalClientPropertyMap)
     : chunk_iterator_(flight_sql_client, call_options, flight_info),
       transformer_(transformer),
+      optionalClientPropertyMap_(optionalClientPropertyMap),
       metadata_(transformer ? new FlightSqlResultSetMetadata(
-                                  transformer->GetTransformedSchema())
-                            : new FlightSqlResultSetMetadata(flight_info)),
+                                  transformer->GetTransformedSchema(), optionalClientPropertyMap_)
+                            : new FlightSqlResultSetMetadata(flight_info, optionalClientPropertyMap_)),
       columns_(metadata_->GetColumnCount()),
       get_data_offsets_(metadata_->GetColumnCount(), 0),
       diagnostics_(diagnostics),

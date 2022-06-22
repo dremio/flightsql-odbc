@@ -15,12 +15,18 @@ namespace flight_sql {
 class FlightSqlResultSetMetadata : public odbcabstraction::ResultSetMetadata {
 private:
   std::shared_ptr<arrow::Schema> schema_;
+  const std::map<std::string, std::string>& optionalClientPropertyMap_;
+  int32_t propStringColumnLength = 1024;
+
+  void DefineStringColumnLengthIfPresent();
 
 public:
   explicit FlightSqlResultSetMetadata(
-      const std::shared_ptr<arrow::flight::FlightInfo> &flight_info);
+      const std::shared_ptr<arrow::flight::FlightInfo> &flight_info,
+      const std::map<std::string, std::string>& optionalClientPropertyMap);
 
-  explicit FlightSqlResultSetMetadata(std::shared_ptr<arrow::Schema> schema);
+  explicit FlightSqlResultSetMetadata(std::shared_ptr<arrow::Schema> schema,
+                                      const std::map<std::string, std::string>& optionalClientPropertyMap);
 
   size_t GetColumnCount() override;
 

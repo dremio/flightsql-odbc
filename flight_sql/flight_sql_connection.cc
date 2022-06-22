@@ -58,11 +58,13 @@ const std::string FlightSqlConnection::USE_ENCRYPTION = "useEncryption";
 const std::string FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION = "disableCertificateVerification";
 const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
+const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLength";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
-    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD, FlightSqlConnection::USE_ENCRYPTION,
-    FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE, FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION };
+    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD,
+    FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
+    FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH };
 
 namespace {
 
@@ -115,6 +117,10 @@ const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROP
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION,
     FlightSqlConnection::TRUSTED_CERTS,
     FlightSqlConnection::USE_SYSTEM_TRUST_STORE
+};
+
+const std::set<std::string, Connection::CaseInsensitiveComparator> OPTIONAL_CLIENT_PROPERTIES = {
+    FlightSqlConnection::STRING_COLUMN_LENGTH
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -197,6 +203,11 @@ FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
 
   for (auto prop : props) {
     if (BUILT_IN_PROPERTIES.count(prop.first) != 0) {
+      continue;
+    }
+
+    if (OPTIONAL_CLIENT_PROPERTIES.count(prop.first) != 0) {
+      optionalClientPropertyMap_.insert(prop);
       continue;
     }
 
@@ -288,7 +299,7 @@ void FlightSqlConnection::Close() {
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
   return std::shared_ptr<Statement>(
-      new FlightSqlStatement(diagnostics_, *sql_client_, call_options_));
+      new FlightSqlStatement(diagnostics_, *sql_client_, call_options_, optionalClientPropertyMap_));
 }
 
 bool FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,

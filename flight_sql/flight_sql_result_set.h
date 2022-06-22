@@ -46,6 +46,7 @@ private:
   std::shared_ptr<Schema> schema_;
   std::shared_ptr<RecordBatchTransformer> transformer_;
   std::shared_ptr<ResultSetMetadata> metadata_;
+  const std::map<std::string, std::string>& optionalClientPropertyMap_;
   std::vector<FlightSqlResultSetColumn> columns_;
   std::vector<int64_t> get_data_offsets_;
   odbcabstraction::Diagnostics &diagnostics_;
@@ -61,7 +62,8 @@ public:
       const arrow::flight::FlightCallOptions &call_options,
       const std::shared_ptr<FlightInfo> &flight_info,
       const std::shared_ptr<RecordBatchTransformer> &transformer,
-      odbcabstraction::Diagnostics& diagnostics);
+      odbcabstraction::Diagnostics& diagnostics,
+      const std::map<std::string, std::string>& optionalClientPropertyMap);
 
   void Close() override;
 
