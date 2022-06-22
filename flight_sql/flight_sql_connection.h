@@ -26,10 +26,14 @@ class FlightSqlSslConfig;
 std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(
   const odbcabstraction::Connection::ConnPropertyMap &connPropertyMap);
 
+struct OptionalClientProperties {
+    int32_t StringColumnLength{1024};
+};
 
 class FlightSqlConnection : public odbcabstraction::Connection {
 
 private:
+  OptionalClientProperties optionalClientProperties_;
   std::map<AttributeId, Attribute> attribute_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
@@ -37,6 +41,8 @@ private:
   odbcabstraction::Diagnostics diagnostics_;
   odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
+
+  void PopulateOptionalClientPropertiesIfValid(std::pair<std::string, std::string> prop);
 
 public:
   static const std::vector<std::string> ALL_KEYS;
@@ -54,6 +60,7 @@ public:
   static const std::string DISABLE_CERTIFICATE_VERIFICATION;
   static const std::string TRUSTED_CERTS;
   static const std::string USE_SYSTEM_TRUST_STORE;
+  static const std::string STRING_COLUMN_LENGTH;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
 

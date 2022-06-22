@@ -15,6 +15,7 @@
 #include "flight_sql_result_set_metadata.h"
 #include "utils.h"
 #include "odbcabstraction/types.h"
+#include "flight_sql_connection.h"
 
 namespace driver {
 namespace flight_sql {
@@ -34,12 +35,14 @@ FlightSqlResultSet::FlightSqlResultSet(
     const arrow::flight::FlightCallOptions &call_options,
     const std::shared_ptr<FlightInfo> &flight_info,
     const std::shared_ptr<RecordBatchTransformer> &transformer,
-    odbcabstraction::Diagnostics& diagnostics)
+    odbcabstraction::Diagnostics& diagnostics,
+    const OptionalClientProperties& optionalClientProperties)
     : chunk_iterator_(flight_sql_client, call_options, flight_info),
       transformer_(transformer),
-      metadata_(transformer ? new FlightSqlResultSetMetadata(
-                                  transformer->GetTransformedSchema())
-                            : new FlightSqlResultSetMetadata(flight_info)),
+      optionalClientProperties_(optionalClientProperties),
+      metadata_(transformer ? new FlightSqlResultSetMetadata(transformer->GetTransformedSchema(),
+                                                             optionalClientProperties_)
+                            : new FlightSqlResultSetMetadata(flight_info, optionalClientProperties_),
       columns_(metadata_->GetColumnCount()),
       get_data_offsets_(metadata_->GetColumnCount(), 0),
       diagnostics_(diagnostics),

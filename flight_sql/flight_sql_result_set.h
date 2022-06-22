@@ -41,6 +41,7 @@ class FlightSqlResultSetColumn;
 
 class FlightSqlResultSet : public ResultSet {
 private:
+  const OptionalClientProperties& optionalClientProperties_;
   FlightStreamChunkIterator chunk_iterator_;
   FlightStreamChunk current_chunk_;
   std::shared_ptr<Schema> schema_;
@@ -61,7 +62,8 @@ public:
       const arrow::flight::FlightCallOptions &call_options,
       const std::shared_ptr<FlightInfo> &flight_info,
       const std::shared_ptr<RecordBatchTransformer> &transformer,
-      odbcabstraction::Diagnostics& diagnostics);
+      odbcabstraction::Diagnostics& diagnostics,
+      const OptionalClientProperties& optionalClientProperties);
 
   void Close() override;
 

@@ -58,11 +58,13 @@ const std::string FlightSqlConnection::USE_ENCRYPTION = "useEncryption";
 const std::string FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION = "disableCertificateVerification";
 const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
+const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLength";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
-    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD, FlightSqlConnection::USE_ENCRYPTION,
-    FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE, FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION };
+    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD,
+    FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
+    FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH };
 
 namespace {
 
@@ -114,7 +116,8 @@ const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROP
     FlightSqlConnection::USE_ENCRYPTION,
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION,
     FlightSqlConnection::TRUSTED_CERTS,
-    FlightSqlConnection::USE_SYSTEM_TRUST_STORE
+    FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
+    FlightSqlConnection::STRING_COLUMN_LENGTH
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -184,6 +187,23 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
   }
 }
 
+void FlightSqlConnection::PopulateOptionalClientPropertiesIfValid(const std::pair<std::string, std::string> prop) {
+  if (prop.first == FlightSqlConnection::STRING_COLUMN_LENGTH) {
+    try {
+      const int32_t stringColumnLength = std::stoi(prop.second);
+      if (stringColumnLength >= 1 && stringColumnLength <= INT32_MAX) {
+        optionalClientProperties_.StringColumnLength = stringColumnLength;
+      }  // else keep current value
+    } catch (std::exception& e) {
+      diagnostics_.AddWarning(
+              std::string("Caught an exception while setting up " + prop.first +
+              ". Please specify a valid value. Expected numerics, got: " + prop.second +
+              ". Message: " + e.what()),
+              "01000", odbcabstraction::ODBCErrorCodes_GENERAL_WARNING);
+    }
+  }
+}
+
 const FlightCallOptions &
 FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
   // Set CONNECTION_TIMEOUT attribute or LOGIN_TIMEOUT depending on if this
@@ -197,6 +217,7 @@ FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
 
   for (auto prop : props) {
     if (BUILT_IN_PROPERTIES.count(prop.first) != 0) {
+      PopulateOptionalClientPropertiesIfValid(prop);
       continue;
     }
 
@@ -288,7 +309,13 @@ void FlightSqlConnection::Close() {
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
   return std::shared_ptr<Statement>(
-      new FlightSqlStatement(diagnostics_, *sql_client_, call_options_));
+      new FlightSqlStatement(
+              diagnostics_,
+              *sql_client_,
+              call_options_,
+              optionalClientProperties_
+              )
+      );
 }
 
 bool FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,

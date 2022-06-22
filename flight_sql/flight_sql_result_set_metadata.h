@@ -14,13 +14,18 @@ namespace driver {
 namespace flight_sql {
 class FlightSqlResultSetMetadata : public odbcabstraction::ResultSetMetadata {
 private:
+  const OptionalClientProperties& optionalClientProperties_;
   std::shared_ptr<arrow::Schema> schema_;
+  int32_t stringColumnLengthProperty = 1024;
 
 public:
-  explicit FlightSqlResultSetMetadata(
-      const std::shared_ptr<arrow::flight::FlightInfo> &flight_info);
+  FlightSqlResultSetMetadata(
+          const std::shared_ptr<arrow::flight::FlightInfo> &flight_info,
+          const OptionalClientProperties& optionalClientProperties);
 
-  explicit FlightSqlResultSetMetadata(std::shared_ptr<arrow::Schema> schema);
+  FlightSqlResultSetMetadata(
+          std::shared_ptr<arrow::Schema> schema,
+          const OptionalClientProperties& optionalClientProperties);
 
   size_t GetColumnCount() override;
 
