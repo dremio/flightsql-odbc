@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7c5e455_cfc750e7",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-22T13:47:58Z",
+      "side": 1,
+      "message": "Yes, the timestamp uses the ODBC format. But the time does not, it follows the odbc format (HH::MM::SS)",
+      "parentUuid": "13d4f42d_3bd7ff66",
+      "revId": "95ffc2a0d088466e32be099197e3010b85745593",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03c7057f_418f8ced",
         "filename": "flight_sql/utils.cc",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-22T12:19:14Z",
       "side": 1,
       "message": "Does this capture fractional seconds? Dremio supports milliseconds in time data.",
+      "revId": "95ffc2a0d088466e32be099197e3010b85745593",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0192d8_3d568ca0",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-22T13:47:58Z",
+      "side": 1,
+      "message": "This is the conversion from time to char, so it doesn\u0027t capture the miliseconds",
+      "parentUuid": "03c7057f_418f8ced",
       "revId": "95ffc2a0d088466e32be099197e3010b85745593",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
