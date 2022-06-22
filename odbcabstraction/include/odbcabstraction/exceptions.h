@@ -35,8 +35,15 @@ private:
 /// \brief Authentication specific exception
 class AuthenticationException : public DriverException {
 public:
-  explicit AuthenticationException(std::string message, std::string sql_state = "08S01",
+  explicit AuthenticationException(std::string message, std::string sql_state = "28000",
                                    int32_t native_error = ODBCErrorCodes_AUTH);
+};
+
+/// \brief Communication link specific exception
+class CommunicationException : public DriverException {
+public:
+  explicit CommunicationException(std::string message, std::string sql_state = "08S01",
+                                   int32_t native_error = ODBCErrorCodes_COMMUNICATION);
 };
 
 /// \brief Error when null is retrieved from the database but no indicator was supplied.

@@ -27,6 +27,7 @@ using arrow::flight::FlightCallOptions;
 using arrow::flight::FlightClient;
 using arrow::flight::TimeoutDuration;
 using driver::odbcabstraction::AuthenticationException;
+using driver::odbcabstraction::CommunicationException;
 using driver::odbcabstraction::Connection;
 
 namespace {
@@ -75,10 +76,19 @@ public:
 
     Result<std::pair<std::string, std::string>> bearer_result =
         client_.AuthenticateBasicToken(auth_call_options, user_, password_);
+
     if (!bearer_result.ok()) {
-      throw AuthenticationException(
-          "Failed to authenticate with user and password: " +
-          bearer_result.status().ToString());
+      const auto& flightStatus = arrow::flight::FlightStatusDetail::UnwrapStatus(bearer_result.status());
+      if (flightStatus != nullptr) {
+        if (flightStatus->code() == arrow::flight::FlightStatusCode::Unauthenticated) {
+          throw AuthenticationException("Failed to authenticate with user and password: " +
+                                        bearer_result.status().ToString());
+        } else if (flightStatus->code() == arrow::flight::FlightStatusCode::Unavailable) {
+          throw CommunicationException(bearer_result.status().message());
+        }
+      }
+
+      throw odbcabstraction::DriverException(bearer_result.status().message());
     }
 
     call_options.headers.push_back(bearer_result.ValueOrDie());
@@ -111,6 +121,8 @@ private:
                 if (flightStatus != nullptr) {
                     if (flightStatus->code() == arrow::flight::FlightStatusCode::Unauthenticated) {
                         throw AuthenticationException("Failed to authenticate with token: " + token_ + " Message: " + status.message());
+                    } else if (flightStatus->code() == arrow::flight::FlightStatusCode::Unavailable) {
+                      throw CommunicationException(status.message());
                     }
                 }
                 throw odbcabstraction::DriverException(status.message());
