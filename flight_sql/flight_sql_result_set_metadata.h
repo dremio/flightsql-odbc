@@ -9,18 +9,23 @@
 #include <arrow/flight/types.h>
 #include <arrow/type.h>
 #include <odbcabstraction/spi/result_set_metadata.h>
+#include "odbcabstraction/types.h"
 
 namespace driver {
 namespace flight_sql {
 class FlightSqlResultSetMetadata : public odbcabstraction::ResultSetMetadata {
 private:
+  const odbcabstraction::MetadataSettings& metadata_settings_;
   std::shared_ptr<arrow::Schema> schema_;
 
 public:
-  explicit FlightSqlResultSetMetadata(
-      const std::shared_ptr<arrow::flight::FlightInfo> &flight_info);
+  FlightSqlResultSetMetadata(
+      const std::shared_ptr<arrow::flight::FlightInfo> &flight_info,
+      const odbcabstraction::MetadataSettings& metadata_settings);
 
-  explicit FlightSqlResultSetMetadata(std::shared_ptr<arrow::Schema> schema);
+  FlightSqlResultSetMetadata(
+      std::shared_ptr<arrow::Schema> schema,
+      const odbcabstraction::MetadataSettings& metadata_settings);
 
   size_t GetColumnCount() override;
 
@@ -77,6 +82,8 @@ public:
   bool IsUnsigned(int column_position) override;
 
   bool IsFixedPrecScale(int column_position) override;
+
+  arrow::Result<int32_t> GetFieldPrecision(const std::shared_ptr<arrow::Field> &field);
 };
 } // namespace flight_sql
 } // namespace driver
