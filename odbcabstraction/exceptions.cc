@@ -26,6 +26,11 @@ AuthenticationException::AuthenticationException(std::string message, std::strin
                                                  int32_t native_error)
     : DriverException(message, sql_state, native_error) {}
 
+CommunicationException::CommunicationException(std::string message, std::string sql_state,
+                                               int32_t native_error)
+    : DriverException(message + ". Please ensure your encryption settings match the server.",
+                      sql_state, native_error) {}
+
 NullWithoutIndicatorException::NullWithoutIndicatorException(
     std::string message, std::string sql_state, int32_t native_error)
     : DriverException(message, sql_state, native_error) {}
