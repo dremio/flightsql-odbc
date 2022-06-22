@@ -75,10 +75,17 @@ public:
 
     Result<std::pair<std::string, std::string>> bearer_result =
         client_.AuthenticateBasicToken(auth_call_options, user_, password_);
+
     if (!bearer_result.ok()) {
-      throw AuthenticationException(
-          "Failed to authenticate with user and password: " +
-          bearer_result.status().ToString());
+      const auto& flightStatus = arrow::flight::FlightStatusDetail::UnwrapStatus(bearer_result.status());
+      if (flightStatus != nullptr) {
+        if (flightStatus->code() == arrow::flight::FlightStatusCode::Unauthenticated) {
+          throw AuthenticationException("Failed to authenticate with user and password: " +
+                                        bearer_result.status().ToString());
+        } else if (flightStatus->code() == arrow::flight::FlightStatusCode::Unavailable) {
+          throw AuthenticationException(bearer_result.status().message() + ". Please check your connection options.");
+        }
+      }
     }
 
     call_options.headers.push_back(bearer_result.ValueOrDie());
