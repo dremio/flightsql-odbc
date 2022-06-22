@@ -162,5 +162,9 @@ enum RowStatus: uint16_t {
   RowStatus_NOROW = 3 // Same as SQL_ROW_NOROW
 };
 
+struct MetadataSettings {
+    int32_t string_column_length_{1024};
+};
+
 } // namespace odbcabstraction
 } // namespace driver

@@ -58,11 +58,13 @@ const std::string FlightSqlConnection::USE_ENCRYPTION = "useEncryption";
 const std::string FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION = "disableCertificateVerification";
 const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
+const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLength";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
-    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD, FlightSqlConnection::USE_ENCRYPTION,
-    FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE, FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION };
+    FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD,
+    FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
+    FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH };
 
 namespace {
 
@@ -114,7 +116,8 @@ const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROP
     FlightSqlConnection::USE_ENCRYPTION,
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION,
     FlightSqlConnection::TRUSTED_CERTS,
-    FlightSqlConnection::USE_SYSTEM_TRUST_STORE
+    FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
+    FlightSqlConnection::STRING_COLUMN_LENGTH
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -175,6 +178,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_FALSE);
 
+    PopulateMetadataSettings(properties);
     PopulateCallOptions(properties);
   } catch (...) {
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
@@ -182,6 +186,34 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
 
     throw;
   }
+}
+
+void FlightSqlConnection::PopulateMetadataSettings(const Connection::ConnPropertyMap &conn_property_map) {
+  metadata_settings_.string_column_length_ = GetStringColumnLength(conn_property_map);
+}
+
+int32_t FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropertyMap &conn_property_map) {
+  const int32_t default_string_column_length = 1024;
+  const int32_t min_string_column_length = 1;
+  int32_t string_column_length;
+
+  try {
+    string_column_length = AsInt32(
+          default_string_column_length,
+          min_string_column_length,
+          conn_property_map,
+          FlightSqlConnection::STRING_COLUMN_LENGTH
+          );
+  } catch (const std::exception& e) {
+    diagnostics_.AddWarning(
+            std::string("Invalid value for connection property " + FlightSqlConnection::STRING_COLUMN_LENGTH +
+                        ". Please ensure it has a valid numeric value. Using default: " +
+                        std::to_string(default_string_column_length) + ". Message: " + e.what()),
+            "01000", odbcabstraction::ODBCErrorCodes_GENERAL_WARNING);
+    string_column_length = default_string_column_length;
+  }
+
+  return string_column_length;
 }
 
 const FlightCallOptions &
@@ -288,7 +320,13 @@ void FlightSqlConnection::Close() {
 
 std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
   return std::shared_ptr<Statement>(
-      new FlightSqlStatement(diagnostics_, *sql_client_, call_options_));
+      new FlightSqlStatement(
+              diagnostics_,
+              *sql_client_,
+              call_options_,
+              metadata_settings_
+              )
+      );
 }
 
 bool FlightSqlConnection::SetAttribute(Connection::AttributeId attribute,
