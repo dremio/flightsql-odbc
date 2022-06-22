@@ -26,6 +26,7 @@ private:
   arrow::flight::sql::FlightSqlClient &sql_client_;
   std::shared_ptr<odbcabstraction::ResultSet> current_result_set_;
   std::shared_ptr<arrow::flight::sql::PreparedStatement> prepared_statement_;
+  const MetadataSettings& metadata_settings_;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetTables(const std::string *catalog_name, const std::string *schema_name,
@@ -36,7 +37,8 @@ public:
   FlightSqlStatement(
       const odbcabstraction::Diagnostics &diagnostics,
       arrow::flight::sql::FlightSqlClient &sql_client,
-      arrow::flight::FlightCallOptions call_options);
+      arrow::flight::FlightCallOptions call_options,
+      const MetadataSettings& metadata_settings);
 
   bool SetAttribute(StatementAttributeId attribute, const Attribute &value) override;
 
