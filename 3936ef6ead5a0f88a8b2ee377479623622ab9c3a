@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75fdeb8_d42af9ac",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-22T21:52:13Z",
+      "side": 1,
+      "message": "Just treat this as a BUILT_IN_PROPERTY. There\u0027s no reason to treat this separately.",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1ddc6e_570ae47d",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-22T21:52:13Z",
+      "side": 1,
+      "message": "Fields should be declared largest in size to smallest to minimize structure padding.",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0ba2bd7_69635f67",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-22T21:52:13Z",
+      "side": 1,
+      "message": "I would avoid using a map here and define a struct with optional settings as fields. And initialize the string_column_length property. It\u0027s just unnecessarily complicated to have to do a map lookup to read this value.\n\nIn connect() you\u0027d assign the value. Should validate too (like define a minimum/maximum and throw exceptions of it\u0027s non-numeric).",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfe385ee_b902d26f",
+        "filename": "flight_sql/flight_sql_result_set_metadata.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-22T21:52:13Z",
+      "side": 1,
+      "message": "Explicit should only be used when a constructor has exactly one required parameter.",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
