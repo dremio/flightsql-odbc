@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "flight_sql_connection.h"
 #include "flight_sql_result_set_accessors.h"
 #include "flight_sql_stream_chunk_iterator.h"
 #include "record_batch_transformer.h"
@@ -41,6 +42,7 @@ class FlightSqlResultSetColumn;
 
 class FlightSqlResultSet : public ResultSet {
 private:
+  const OptionalClientProperties& optionalClientProperties_;
   FlightStreamChunkIterator chunk_iterator_;
   FlightStreamChunk current_chunk_;
   std::shared_ptr<Schema> schema_;
@@ -61,7 +63,8 @@ public:
       const arrow::flight::FlightCallOptions &call_options,
       const std::shared_ptr<FlightInfo> &flight_info,
       const std::shared_ptr<RecordBatchTransformer> &transformer,
-      odbcabstraction::Diagnostics& diagnostics);
+      odbcabstraction::Diagnostics& diagnostics,
+      const OptionalClientProperties& optionalClientProperties);
 
   void Close() override;
 
