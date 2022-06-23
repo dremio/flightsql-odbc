@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "116bcf54_6fcc85e8",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T14:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c75fdeb8_d42af9ac",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a1ddc6e_570ae47d",
@@ -52,6 +70,42 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6999d548_30436ff3",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T14:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1ddc6e_570ae47d",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdfa4bc9_bdc2fee2",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T14:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0ba2bd7_69635f67",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfe385ee_b902d26f",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-06-22T21:52:13Z",
       "side": 1,
       "message": "Explicit should only be used when a constructor has exactly one required parameter.",
+      "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ada27057_80b956e5",
+        "filename": "flight_sql/flight_sql_result_set_metadata.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T14:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfe385ee_b902d26f",
       "revId": "3936ef6ead5a0f88a8b2ee377479623622ab9c3a",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
