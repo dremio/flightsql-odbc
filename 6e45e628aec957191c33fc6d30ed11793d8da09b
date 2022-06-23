@@ -16,6 +16,24 @@
       "message": "Let\u0027s rename this to MetadataSettings. No need to mention this is optional, and these options don\u0027t actually apply to a client, they alter metadata reporting. (Same with the option Rafael is adding).",
       "revId": "6e45e628aec957191c33fc6d30ed11793d8da09b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae550c2e_9163c568",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T16:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd9ac068_ff22691e",
+      "revId": "6e45e628aec957191c33fc6d30ed11793d8da09b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }

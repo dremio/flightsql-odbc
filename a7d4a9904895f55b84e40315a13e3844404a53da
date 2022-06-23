@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "364d21d0_58ac1018",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T16:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03edd15e_4bfa8983",
+      "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e454100_febea976",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-23T15:15:55Z",
       "side": 1,
       "message": "The coding style has been to use lower case for field names, with underscores separating words, and a trailing underscore.\neg. optional_client_properties_.string_column_length_\n\nLocal variables are roughly the same, except no trailing underscore.",
+      "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7df3254b_176bee49",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T16:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e454100_febea976",
       "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540e5d84_1dfbc9aa",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T16:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7136543_48f1e200",
+      "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f24df417_fdafa21c",
@@ -69,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b2b0176_b92d1a86",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T16:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f24df417_fdafa21c",
+      "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd315ed8_be08be7e",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-06-23T15:15:55Z",
       "side": 1,
       "message": "No need for this. We can just always read from optionalClientProperties_.",
+      "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "285e65a0_4ae3951a",
+        "filename": "flight_sql/flight_sql_result_set_metadata.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T16:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd315ed8_be08be7e",
       "revId": "a7d4a9904895f55b84e40315a13e3844404a53da",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
