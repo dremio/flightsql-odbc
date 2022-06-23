@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1710e21c_e9ee8dac",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-23T23:03:34Z",
+      "side": 1,
+      "message": "This should definitely not be StringColumnLength when the type is decimal. I think What we should do is provide a default precision if it is not defined.",
+      "revId": "63a605705005ad9ce226d7a643a7aa66f4f20f75",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30f3b7be_f57000fe",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-23T23:03:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this just be column_size.ValueOrElse(nullopt)?",
+      "revId": "63a605705005ad9ce226d7a643a7aa66f4f20f75",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e46d2761_d9d821cd",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-23T23:03:34Z",
+      "side": 1,
+      "message": "I think you can use dynamic_pointer_cast to do this without the cost of dynamic_cast in release mode. We aren\u0027t really using the benefits of dynamic cast here anyway since we don\u0027t null check.",
+      "revId": "63a605705005ad9ce226d7a643a7aa66f4f20f75",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
