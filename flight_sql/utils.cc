@@ -26,19 +26,6 @@ namespace driver {
 namespace flight_sql {
 
 namespace {
-int64_t GetTodayTimeFromEpoch() {
-  tm date{};
-  int64_t t = std::time(0);
-
-  odbcabstraction::GetTimeForMillisSinceEpoch(date, t);
-
-  date.tm_hour =0;
-  date.tm_min =0;
-  date.tm_sec =0;
-
-  return std::mktime(&date);
-}
-
 bool IsComplexType(arrow::Type::type type_id) {
   switch (type_id) {
     case arrow::Type::LIST:

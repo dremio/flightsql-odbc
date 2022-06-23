@@ -11,17 +11,21 @@
 
 namespace driver {
 namespace odbcabstraction {
-  int64_t GetTodayTimeFromEpoch() {
-    tm date{};
-    int64_t t = std::time(0);
+int64_t GetTodayTimeFromEpoch() {
+  tm date{};
+  int64_t t = std::time(0);
 
-    GetTimeForMillisSinceEpoch(date, t);
+  GetTimeForMillisSinceEpoch(date, t);
 
-    date.tm_hour =0;
-    date.tm_min =0;
-    date.tm_sec =0;
+  date.tm_hour = 0;
+  date.tm_min = 0;
+  date.tm_sec = 0;
 
-    return std::mktime(&date);
+  #if defined(_WIN32)
+    return _mkgmtime(&date);
+  #else
+    return timegm(&date);
+  #endif
 }
 
 void GetTimeForMillisSinceEpoch(tm& date, int64_t value) {
