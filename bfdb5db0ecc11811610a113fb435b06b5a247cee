@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2dc7215_912cc7dc",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-23T17:36:24Z",
+      "side": 1,
+      "message": "This should be StringColumnLength consistent with other property key names. The field in code should be string_column_length_",
+      "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1706ad12_61a65f0d",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-23T17:36:24Z",
+      "side": 1,
+      "message": "connPropertyMap -\u003e conn_property_map (yes it\u0027s inconsistent with connect and should be fixed there really).",
+      "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b9b2a4_a3b6a148",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-23T17:36:24Z",
+      "side": 1,
+      "message": "connPropertyMap -\u003e conn_property_map",
+      "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
