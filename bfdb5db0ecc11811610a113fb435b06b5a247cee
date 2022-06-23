@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee311156_c9b02bdc",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T17:46:50Z",
+      "side": 1,
+      "message": "I don\u0027t know how this happened, I used Shift + F6 in CLion but it changed even this.",
+      "parentUuid": "d2dc7215_912cc7dc",
+      "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1706ad12_61a65f0d",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a60eb09_e11ea640",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T17:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1706ad12_61a65f0d",
+      "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96b9b2a4_a3b6a148",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-06-23T17:36:24Z",
       "side": 1,
       "message": "connPropertyMap -\u003e conn_property_map",
+      "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba073f4_c1ca285d",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-23T17:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96b9b2a4_a3b6a148",
       "revId": "bfdb5db0ecc11811610a113fb435b06b5a247cee",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
