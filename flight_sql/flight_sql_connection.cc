@@ -24,8 +24,14 @@
 
 #include <sql.h>
 #include <sqlext.h>
+#include <sys/types.h>
+#include <netdb.h>
 
 #include "system_trust_store.h"
+
+#ifndef NI_MAXHOST
+#define NI_MAXHOST 1025
+#endif
 
 namespace driver {
 namespace flight_sql {
@@ -41,6 +47,7 @@ using arrow::flight::sql::FlightSqlClient;
 using driver::odbcabstraction::AsBool;
 using driver::odbcabstraction::Connection;
 using driver::odbcabstraction::DriverException;
+using driver::odbcabstraction::CommunicationException;
 using driver::odbcabstraction::OdbcVersion;
 using driver::odbcabstraction::Statement;
 
@@ -269,7 +276,25 @@ FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
 
   Location location;
   if (ssl_config->useEncryption()) {
-    ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    struct addrinfo *result;
+    int error;
+
+    error = getaddrinfo(host.c_str(), NULL, NULL, &result);
+    if (error != 0) {
+      throw CommunicationException("Please check your connection options.");
+    }
+    char host_name_info[NI_MAXHOST] = "";
+
+    error = getnameinfo(result->ai_addr, result->ai_addrlen,
+                        host_name_info, 1025, NULL, 0, 0);
+
+    if (error != 0) {
+      throw CommunicationException("Please check your connection options.");
+    }
+
+    freeaddrinfo(result);
+
+    ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
   }
