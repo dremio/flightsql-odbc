@@ -695,6 +695,8 @@ GetDefaultDataTypeForTypeId(arrow::Type::type type_id) {
       return arrow::uint64();
     case arrow::Type::BINARY:
       return arrow::binary();
+  case arrow::Type::DECIMAL128:
+      return arrow::decimal128(arrow::Decimal128Type::kMaxPrecision,0);      
     case arrow::Type::DATE64:
       return arrow::date64();
     case arrow::Type::TIME64:
@@ -738,6 +740,8 @@ ConvertCToArrowType(odbcabstraction::CDataType data_type) {
       return arrow::Type::BINARY;
     case odbcabstraction::CDataType_NUMERIC:
       return arrow::Type::DECIMAL128;
+    case odbcabstraction::CDataType_NUMERIC:
+      return arrow::Type::DECIMAL128;
     case odbcabstraction::CDataType_TIMESTAMP:
       return arrow::Type::TIMESTAMP;
     case odbcabstraction::CDataType_TIME:
@@ -777,6 +781,8 @@ odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id) {
       return odbcabstraction::CDataType_UBIGINT;
     case arrow::Type::BINARY:
       return odbcabstraction::CDataType_BINARY;
+    case arrow::Type::DECIMAL128:
+      return odbcabstraction::CDataType_NUMERIC;
     case arrow::Type::DATE64:
     case arrow::Type::DATE32:
       return odbcabstraction::CDataType_DATE;
