@@ -11,6 +11,7 @@
 
 #include <arrow/flight/types.h>
 #include <arrow/flight/client_cookie_middleware.h>
+#include "address_info.h"
 #include "flight_sql_auth_method.h"
 #include "flight_sql_statement.h"
 #include "flight_sql_ssl_config.h"
@@ -27,6 +28,10 @@
 
 #include "system_trust_store.h"
 
+#ifndef NI_MAXHOST
+#define NI_MAXHOST 1025
+#endif
+
 namespace driver {
 namespace flight_sql {
 
@@ -41,6 +46,7 @@ using arrow::flight::sql::FlightSqlClient;
 using driver::odbcabstraction::AsBool;
 using driver::odbcabstraction::Connection;
 using driver::odbcabstraction::DriverException;
+using driver::odbcabstraction::CommunicationException;
 using driver::odbcabstraction::OdbcVersion;
 using driver::odbcabstraction::Statement;
 
@@ -316,7 +322,17 @@ FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
 
   Location location;
   if (ssl_config->useEncryption()) {
-    ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    AddressInfo address_info;
+
+    char host_name_info[NI_MAXHOST] = "";
+    bool operation_result = address_info.GetAddressInfo(host, host_name_info,
+                                                         NI_MAXHOST);
+
+    if (operation_result) {
+      ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
+    } else {
+      ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    }
   } else {
     ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
   }
