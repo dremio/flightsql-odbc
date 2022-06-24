@@ -62,7 +62,7 @@ RowStatus DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::Mov
   // If the most significant bit is set this number is negative (sign = 0).
   result->sign = (static_cast<int8_t>(result->val[15]) >> 7) == 0;
   result->precision = data_type_->precision();
-  if (result->sign == 0) {
+  if (result->sign == 1) {
     Negate(result->val);
   }
 

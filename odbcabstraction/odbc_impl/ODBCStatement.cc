@@ -650,7 +650,7 @@ bool ODBCStatement::GetData(SQLSMALLINT recordNumber, SQLSMALLINT cType, SQLPOIN
   SQLSMALLINT evaluatedCType = cType;
 
   // TODO: Get proper default precision and scale from abstraction.
-  int precision = 0;
+  int precision = 38;
   int scale = 0;
 
   if (cType == SQL_ARD_TYPE) {
