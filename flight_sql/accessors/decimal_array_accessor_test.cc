@@ -42,7 +42,7 @@ std::string ConvertNumericToString(NUMERIC_STRUCT &numeric) {
   auto decimal = Decimal128(v[1], v[0]);
   const std::string &string = decimal.ToString(numeric.scale);
 
-  return (numeric.sign ? "" : "-") + string;
+  return string;
 }
 }
 

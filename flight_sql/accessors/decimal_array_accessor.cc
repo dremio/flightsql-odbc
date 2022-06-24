@@ -9,17 +9,6 @@
 #include <arrow/array.h>
 #include <arrow/scalar.h>
 
-namespace {
-void Negate(uint8_t* values) {
-  uint8_t carry = 1;
-  for (size_t i = 0; i < 16; ++i) {
-    uint8_t& elem = values[i];
-    elem = ~elem + carry;
-    carry &= (elem == 0);
-  }
-}
-} // namespace
-
 namespace driver {
 namespace flight_sql {
 
@@ -59,12 +48,9 @@ RowStatus DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::Mov
   result->precision = static_cast<uint8_t>(binding->precision);
   result->scale = static_cast<int8_t>(binding->scale);
 
-  // If the most significant bit is set this number is negative (sign = 0).
-  result->sign = (static_cast<int8_t>(result->val[15]) >> 7) == 0;
+  // If the most significant bit is set this number is negative (sign = 1).
+  result->sign = (static_cast<int8_t>(result->val[15]) >> 7) == 1;
   result->precision = data_type_->precision();
-  if (result->sign == 0) {
-    Negate(result->val);
-  }
 
   if (binding->strlen_buffer) {
     binding->strlen_buffer[i] = static_cast<ssize_t>(GetCellLength_impl(binding));
