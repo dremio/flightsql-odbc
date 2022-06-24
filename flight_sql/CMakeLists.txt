@@ -157,6 +157,8 @@ set(ARROW_ODBC_SPI_SOURCES
   accessors/time_array_accessor.h
   accessors/timestamp_array_accessor.cc
   accessors/timestamp_array_accessor.h
+  address_info.cc
+  address_info.h
   flight_sql_auth_method.cc
   flight_sql_auth_method.h
   flight_sql_connection.cc
