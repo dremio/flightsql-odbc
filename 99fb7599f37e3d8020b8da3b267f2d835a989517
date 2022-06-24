@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a41e6a06_db3804a0",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-24T23:27:53Z",
+      "side": 1,
+      "message": "The result is not OK here, so if flightStatus-\u003ecode() is any other code we won\u0027t report an error. We also won\u0027t report an error if flightStatus is null, but perhaps that\u0027s not possible.",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d5a8af6_f25540fa",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-24T23:27:53Z",
+      "side": 1,
+      "message": "consistency -\u003e consistent.\nPerhaps we check with product on a friendly way to report this message? @rlum",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e629886b_3dc938db",
+        "filename": "odbcabstraction/include/odbcabstraction/exceptions.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-24T23:27:53Z",
+      "side": 1,
+      "message": "This should not use ODBCErrorCodes_AUTH. Create a new native error code for this.",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
