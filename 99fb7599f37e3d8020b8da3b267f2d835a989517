@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24cd3dd0_74ddf7aa",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000132
+      },
+      "writtenOn": "2022-06-25T01:36:03Z",
+      "side": 1,
+      "message": "Rapinder is on vacation right now. Perhaps:\n\n\"Please ensure your encryption settings match the server.\"",
+      "parentUuid": "4d5a8af6_f25540fa",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e629886b_3dc938db",
         "filename": "odbcabstraction/include/odbcabstraction/exceptions.h",
         "patchSetId": 3
