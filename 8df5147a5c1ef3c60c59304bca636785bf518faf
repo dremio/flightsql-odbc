@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e317e4_02986d5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-25T14:09:49Z",
+      "side": 1,
+      "message": "Nit: capitalize Fix",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa4f12e4_021a4b7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-25T14:09:49Z",
+      "side": 1,
+      "message": "This commit message needs to be alot more detailed. Does this mean conversion to SQL_C_NUMERIC from any type now works? It looks like this really just fixed Decimal128 -\u003e SQL_C_NUMERIC.\n\nIt should also describe what the actual fixes are? I see incorrect handling of the sign primarily, and setting a default output precision.",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a75eb7d_72b804f8",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-25T14:09:49Z",
+      "side": 1,
+      "message": "This is probably where the bug Mamatha raised in TurboODBC (DX-52683) is happening, though I don\u0027t know the solution. (no action needed).",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a39617_d5592c9b",
+        "filename": "odbcabstraction/odbc_impl/ODBCStatement.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-25T14:09:49Z",
+      "side": 1,
+      "message": "Probably need to sync with Joao on this.",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
