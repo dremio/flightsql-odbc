@@ -16,6 +16,24 @@
       "message": "Duplicated the case above",
       "revId": "d23eb77ee80ffce614c8162de722c6895e619d16",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c482fd_118bdb97",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-06-25T05:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02fa9ad9_a2ab3bca",
+      "revId": "d23eb77ee80ffce614c8162de722c6895e619d16",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
