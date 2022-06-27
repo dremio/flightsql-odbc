@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58704519_b31efe1b",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-27T13:43:58Z",
+      "side": 1,
+      "message": "I think this may happen if we do not set binding-\u003escale, shouldn\u0027t it default to the column\u0027s scale? Or pyODBC is setting a different scale for some reason",
+      "parentUuid": "f0bfd3f2_c1f876c9",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c7abe39_ef5c9c30",
         "filename": "flight_sql/accessors/decimal_array_accessor.cc",
         "patchSetId": 5
