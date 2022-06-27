@@ -142,6 +142,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e4bae5_0de48747",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-06-27T17:37:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58704519_b31efe1b",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c7abe39_ef5c9c30",
