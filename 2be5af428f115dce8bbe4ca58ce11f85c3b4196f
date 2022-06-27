@@ -16,6 +16,24 @@
       "message": "This appends the same text as in the basic token case. Why not make this part of the constructor to avoid duplicating the text?",
       "revId": "2be5af428f115dce8bbe4ca58ce11f85c3b4196f",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1c7b26a_b0337f5e",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T17:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39b83f51_babf8dae",
+      "revId": "2be5af428f115dce8bbe4ca58ce11f85c3b4196f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
