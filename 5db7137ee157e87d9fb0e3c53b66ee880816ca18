@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecdf58c1_ebbdef37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-27T16:17:28Z",
+      "side": 1,
+      "message": "This commit message is still unclear on what conversions now are supported. It should state exactly which are allowed. Please note that the first line of the commit should be more precise than just repeating what is in the DX name.",
+      "revId": "5db7137ee157e87d9fb0e3c53b66ee880816ca18",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
