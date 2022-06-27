@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52aa8f27_7a658f39",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T11:46:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a41e6a06_db3804a0",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d5a8af6_f25540fa",
@@ -53,6 +71,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6171c5e6_3e517795",
+        "filename": "flight_sql/flight_sql_auth_method.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T11:46:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24cd3dd0_74ddf7aa",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e629886b_3dc938db",
@@ -66,6 +102,24 @@
       "writtenOn": "2022-06-24T23:27:53Z",
       "side": 1,
       "message": "This should not use ODBCErrorCodes_AUTH. Create a new native error code for this.",
+      "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "251eaf9a_1d439b3c",
+        "filename": "odbcabstraction/include/odbcabstraction/exceptions.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T11:46:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e629886b_3dc938db",
       "revId": "99fb7599f37e3d8020b8da3b267f2d835a989517",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
