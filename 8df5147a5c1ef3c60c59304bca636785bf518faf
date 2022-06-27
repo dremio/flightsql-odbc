@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0bfd3f2_c1f876c9",
+        "filename": "flight_sql/accessors/decimal_array_accessor.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-27T13:40:31Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to throw and interrupt fetch. The other converters are designed this way IIRC, and the spec permits the driver to stop processing rows on the first error.\n\nMy point is that there might be a logic error in this rescaling, or the old driver has a bug and we don\u0027t understand it yet (since the old driver doesn\u0027t report an error in the same TurboODBC test).",
+      "parentUuid": "4def340d_6ec04135",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c7abe39_ef5c9c30",
         "filename": "flight_sql/accessors/decimal_array_accessor.cc",
         "patchSetId": 5
