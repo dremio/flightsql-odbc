@@ -227,6 +227,24 @@
       "message": "Probably need to sync with Joao on this.",
       "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36722022_24ab70f2",
+        "filename": "odbcabstraction/odbc_impl/ODBCStatement.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-06-27T17:13:00Z",
+      "side": 1,
+      "message": "I\u0027m ok, with the default values, I set the same value on this patch: https://gerrit.drem.io/gerrit/c/flightsql-odbc/+/39356/9/flight_sql/flight_sql_result_set_metadata.cc#120",
+      "parentUuid": "56a39617_d5592c9b",
+      "revId": "8df5147a5c1ef3c60c59304bca636785bf518faf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
