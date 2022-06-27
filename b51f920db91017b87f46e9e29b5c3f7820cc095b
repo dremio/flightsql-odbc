@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd36f5e_8d2b95d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T19:45:42Z",
+      "side": 1,
+      "message": "Improve the commit message by adding what problem this change solves and what was actually changed",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7870225_fdac4d6c",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T19:45:42Z",
+      "side": 1,
+      "message": "I think we should move this to types.h",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d615d07d_f2c15041",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-27T19:45:42Z",
+      "side": 1,
+      "message": "Can we move this GetMetadata and GetPrecision to a method? It is being duplicated in the code",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
