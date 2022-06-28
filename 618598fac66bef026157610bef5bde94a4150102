@@ -33,6 +33,24 @@
       "message": "If this test fails this will throw before Close() is called.",
       "revId": "618598fac66bef026157610bef5bde94a4150102",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121333cb_d6172fd9",
+        "filename": "flight_sql/flight_sql_connection_test.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-28T18:03:27Z",
+      "side": 1,
+      "message": "EXCEPT still executes the rest of the code. It would throw if it was ASSERT though.",
+      "parentUuid": "813ca3c3_7888c60b",
+      "revId": "618598fac66bef026157610bef5bde94a4150102",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
