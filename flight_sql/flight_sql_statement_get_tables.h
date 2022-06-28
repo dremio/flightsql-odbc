@@ -21,6 +21,7 @@ namespace flight_sql {
 using arrow::flight::FlightCallOptions;
 using arrow::flight::sql::FlightSqlClient;
 using odbcabstraction::ResultSet;
+using odbcabstraction::MetadataSettings;
 
 typedef struct {
   std::string catalog_column;

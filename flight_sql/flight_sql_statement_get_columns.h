@@ -14,6 +14,7 @@
 namespace driver {
 namespace flight_sql {
 
+using odbcabstraction::MetadataSettings;
 using arrow::util::optional;
 
 class GetColumns_RecordBatchBuilder {
@@ -72,11 +73,13 @@ public:
 
 class GetColumns_Transformer : public RecordBatchTransformer {
 private:
+  const MetadataSettings& metadata_settings_;
   odbcabstraction::OdbcVersion odbc_version_;
   optional<std::string> column_name_pattern_;
 
 public:
-  explicit GetColumns_Transformer(odbcabstraction::OdbcVersion odbc_version_,
+  explicit GetColumns_Transformer(const MetadataSettings& metadata_settings,
+                                  odbcabstraction::OdbcVersion odbc_version,
                                   const std::string *column_name_pattern);
 
   std::shared_ptr<RecordBatch>
