@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf61772_1b40be92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T17:44:40Z",
+      "side": 1,
+      "message": "There\u0027s a small bug in the test case. I\u0027m OK with merging this now then fixing this in another commit.",
+      "revId": "618598fac66bef026157610bef5bde94a4150102",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "813ca3c3_7888c60b",
+        "filename": "flight_sql/flight_sql_connection_test.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T17:44:40Z",
+      "side": 1,
+      "message": "If this test fails this will throw before Close() is called.",
+      "revId": "618598fac66bef026157610bef5bde94a4150102",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
