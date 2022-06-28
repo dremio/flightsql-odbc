@@ -135,6 +135,9 @@ if (MSVC)
   add_compile_definitions(ARROW_STATIC ARROW_FLIGHT_STATIC)
 endif()
 
+set(WARPDRIVE_VERSION "0.9.0.0" CACHE STRING "Warpdrive version")
+add_compile_definitions(WARPDRIVE_VERSION="${WARPDRIVE_VERSION}")
+
 enable_testing()
 
 set(ARROW_ODBC_SPI_SOURCES
