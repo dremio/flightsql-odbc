@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5151534e_331b529e",
+        "filename": "flight_sql/CMakeLists.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T20:26:49Z",
+      "side": 1,
+      "message": "Flightsql-odbc code cannot reference warpdrive for legal reasons.",
+      "revId": "8dc7b137bf7897054d791007abd181c355c0b71e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
