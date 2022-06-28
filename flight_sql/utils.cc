@@ -38,6 +38,17 @@ bool IsComplexType(arrow::Type::type type_id) {
       return false;
   }
 }
+
+odbcabstraction::SqlDataType GetDefaultSqlCharType(bool useWideChar) {
+  return useWideChar ? odbcabstraction::SqlDataType_WCHAR : odbcabstraction::SqlDataType_CHAR;
+}
+odbcabstraction::SqlDataType GetDefaultSqlVarcharType(bool useWideChar) {
+  return useWideChar ? odbcabstraction::SqlDataType_WVARCHAR : odbcabstraction::SqlDataType_VARCHAR;
+}
+odbcabstraction::CDataType GetDefaultCCharType(bool useWideChar) {
+  return useWideChar ? odbcabstraction::CDataType_WCHAR : odbcabstraction::CDataType_CHAR;
+}
+
 }
 
 using namespace odbcabstraction;
@@ -50,7 +61,7 @@ using arrow::util::nullopt;
 /// \note use GetNonConciseDataType on the output to get the verbose type
 /// \note the concise and verbose types are the same for all but types relating to times and intervals
 SqlDataType
-GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
+GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field, bool useWideChar) {
   const std::shared_ptr<arrow::DataType> &type = field->type();
 
   switch (type->id()) {
@@ -79,7 +90,7 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
     return odbcabstraction::SqlDataType_BINARY;
   case arrow::Type::STRING:
   case arrow::Type::LARGE_STRING:
-    return odbcabstraction::SqlDataType_VARCHAR;
+    return GetDefaultSqlCharType(useWideChar);
   case arrow::Type::DATE32:
   case arrow::Type::DATE64:
     return odbcabstraction::SqlDataType_TYPE_DATE;
@@ -112,7 +123,20 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field) {
     break;
   }
 
-  return odbcabstraction::SqlDataType_VARCHAR;
+  return GetDefaultSqlCharType(useWideChar);
+}
+
+SqlDataType EnsureRightSqlCharType(SqlDataType data_type, bool useWideChar) {
+  switch (data_type) {
+    case SqlDataType_CHAR:
+    case SqlDataType_WCHAR:
+      return GetDefaultSqlCharType(useWideChar);
+    case SqlDataType_VARCHAR:
+    case SqlDataType_WVARCHAR:
+      return GetDefaultSqlVarcharType(useWideChar);
+    default:
+      return data_type;
+  }
 }
 
 int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3) {
@@ -751,10 +775,10 @@ ConvertCToArrowType(odbcabstraction::CDataType data_type) {
   }
 }
 
-odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id) {
+odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id, bool useWideChar) {
   switch (type_id) {
     case arrow::Type::STRING:
-      return odbcabstraction::CDataType_CHAR;
+      return GetDefaultCCharType(useWideChar);
     case arrow::Type::INT16:
       return odbcabstraction::CDataType_SSHORT;
     case arrow::Type::UINT16:

@@ -14,6 +14,7 @@
 namespace driver {
 namespace flight_sql {
 
+using odbcabstraction::MetadataSettings;
 using arrow::util::optional;
 
 class GetTypeInfo_RecordBatchBuilder {
@@ -74,12 +75,14 @@ public:
 
 class GetTypeInfo_Transformer : public RecordBatchTransformer {
 private:
+  const MetadataSettings& metadata_settings_;
   odbcabstraction::OdbcVersion odbc_version_;
   int data_type_;
 
 public:
-  explicit GetTypeInfo_Transformer(odbcabstraction::OdbcVersion odbc_version_,
-                                   int data_type_);
+  explicit GetTypeInfo_Transformer(const MetadataSettings& metadata_settings,
+                                   odbcabstraction::OdbcVersion odbc_version,
+                                   int data_type);
 
   std::shared_ptr<RecordBatch>
   Transform(const std::shared_ptr<RecordBatch> &original) override;
