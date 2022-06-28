@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9110638b_90452427",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-28T18:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3a9fa74_2413e032",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "339cfc93_4dfde691",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-28T14:02:31Z",
       "side": 1,
       "message": "Use NI_MAXHOST here.",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bbd396f_ffcb72fe",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-28T18:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "339cfc93_4dfde691",
       "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1658986e_6e2567dc",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-28T18:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "211ac944_316b1441",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "395685f5_322c76bd",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-06-28T14:02:31Z",
       "side": 1,
       "message": "This leaks if you throw a communication exception above.\nPlease create a wrapper class to auto-free the addrinfo in its destructor.",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e035bced_d436e574",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-28T18:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "395685f5_322c76bd",
       "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
