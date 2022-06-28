@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e315add4_c20eced9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-28T16:17:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd36f5e_8d2b95d7",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3c2807d8_cac78f1e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 16
@@ -52,6 +70,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d53c9c6_fc58a01f",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-28T16:17:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2674b8_14cf0aca",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6319cac_e3921439",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-06-27T19:55:13Z",
       "side": 1,
       "message": "I would rephrase this message to be \"Invalid value for connection property \" STRING_COLUMN_LENGTH + \". Please ensure...\"",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81e95a33_97aec965",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-28T16:17:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6319cac_e3921439",
       "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -86,6 +140,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc845936_fb01bac6",
+        "filename": "flight_sql/flight_sql_connection.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-28T16:17:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7870225_fdac4d6c",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d615d07d_f2c15041",
@@ -99,6 +171,24 @@
       "writtenOn": "2022-06-27T19:45:42Z",
       "side": 1,
       "message": "Can we move this GetMetadata and GetPrecision to a method? It is being duplicated in the code",
+      "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "929cf327_7ad9bcad",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-28T16:17:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d615d07d_f2c15041",
       "revId": "b51f920db91017b87f46e9e29b5c3f7820cc095b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
