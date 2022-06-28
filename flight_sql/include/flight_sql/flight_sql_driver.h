@@ -15,6 +15,7 @@ namespace flight_sql {
 class FlightSqlDriver : public odbcabstraction::Driver {
 private:
   odbcabstraction::Diagnostics diagnostics_;
+  std::string version_;
 
 public:
   FlightSqlDriver();
@@ -23,6 +24,8 @@ public:
   CreateConnection(odbcabstraction::OdbcVersion odbc_version) override;
 
   odbcabstraction::Diagnostics &GetDiagnostics() override;
+
+  void SetVersion(std::string version) override;
 };
 
 }; // namespace flight_sql

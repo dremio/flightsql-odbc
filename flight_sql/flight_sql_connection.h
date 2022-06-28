@@ -61,7 +61,7 @@ public:
   static const std::string STRING_COLUMN_LENGTH;
   static const std::string USE_WIDE_CHAR;
 
-  explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
+  explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version, const std::string &driver_version = "0.9.0.0");
 
   void Connect(const ConnPropertyMap &properties,
                std::vector<std::string> &missing_attr) override;

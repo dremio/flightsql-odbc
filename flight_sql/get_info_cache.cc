@@ -194,11 +194,11 @@ using namespace arrow::flight;
 using namespace driver::odbcabstraction;
 
 GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
-                           std::unique_ptr<FlightSqlClient> &client)
+                           std::unique_ptr<FlightSqlClient> &client, const std::string &driver_version)
     : call_options_(call_options), sql_client_(client),
       has_server_info_(false) {
   info_[SQL_DRIVER_NAME] = "Arrow Flight ODBC Driver";
-  info_[SQL_DRIVER_VER] = ConvertToDBMSVer("0.9.0.0"); // This should be generated dynamically.
+  info_[SQL_DRIVER_VER] = ConvertToDBMSVer(driver_version);
 
   info_[SQL_GETDATA_EXTENSIONS] =
       static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
@@ -1191,7 +1191,7 @@ void GetInfoCache::LoadDefaultsForMissingEntries() {
   SetDefaultIfMissing(info_, SQL_DESCRIBE_PARAMETER, "N");
   SetDefaultIfMissing(info_, SQL_DRIVER_NAME, "Arrow Flight SQL Driver");
   SetDefaultIfMissing(info_, SQL_DRIVER_ODBC_VER, "03.80");
-  SetDefaultIfMissing(info_, SQL_DRIVER_VER, "01.00.0000");
+  SetDefaultIfMissing(info_, SQL_DRIVER_VER, "00.09.0000");
   SetDefaultIfMissing(info_, SQL_DROP_ASSERTION, static_cast<uint32_t>(0));
   SetDefaultIfMissing(info_, SQL_DROP_CHARACTER_SET, static_cast<uint32_t>(0));
   SetDefaultIfMissing(info_, SQL_DROP_COLLATION, static_cast<uint32_t>(0));
