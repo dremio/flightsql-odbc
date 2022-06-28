@@ -36,6 +36,7 @@ private:
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
   GetInfoCache info_;
+  std::string driver_version_;
   odbcabstraction::Diagnostics diagnostics_;
   odbcabstraction::OdbcVersion odbc_version_;
   bool closed_;
@@ -61,7 +62,7 @@ public:
   static const std::string STRING_COLUMN_LENGTH;
   static const std::string USE_WIDE_CHAR;
 
-  explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version);
+  explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version, const std::string &driver_version = "0.9.0.0");
 
   void Connect(const ConnPropertyMap &properties,
                std::vector<std::string> &missing_attr) override;

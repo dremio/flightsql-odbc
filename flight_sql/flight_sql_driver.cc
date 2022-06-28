@@ -15,16 +15,21 @@ using odbcabstraction::Connection;
 using odbcabstraction::OdbcVersion;
 
 FlightSqlDriver::FlightSqlDriver()
-    : diagnostics_("Apache Arrow", "Flight SQL", OdbcVersion::V_3)
+    : diagnostics_("Apache Arrow", "Flight SQL", OdbcVersion::V_3),
+      version_("0.9.0.0")
 {}
 
 std::shared_ptr<Connection>
 FlightSqlDriver::CreateConnection(OdbcVersion odbc_version) {
-  return std::make_shared<FlightSqlConnection>(odbc_version);
+  return std::make_shared<FlightSqlConnection>(odbc_version, version_);
 }
 
 odbcabstraction::Diagnostics &FlightSqlDriver::GetDiagnostics() {
   return diagnostics_;
+}
+
+void FlightSqlDriver::SetVersion(std::string version) {
+  version_ = std::move(version);
 }
 } // namespace flight_sql
 } // namespace driver
