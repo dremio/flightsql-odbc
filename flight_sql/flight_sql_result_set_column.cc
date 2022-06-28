@@ -46,7 +46,7 @@ FlightSqlResultSetColumn::GetAccessorForTargetType(CDataType target_type) {
       result_set_->GetArrayForColumn(column_n_);
 
   if (target_type == odbcabstraction::CDataType_DEFAULT) {
-    target_type = ConvertArrowTypeToC(original_array->type_id());
+    target_type = ConvertArrowTypeToC(original_array->type_id(), result_set_->UseWideChar());
   }
 
   // TODO: Figure out if that's the best way of caching

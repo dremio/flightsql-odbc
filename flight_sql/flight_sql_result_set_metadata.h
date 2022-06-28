@@ -82,8 +82,6 @@ public:
   bool IsUnsigned(int column_position) override;
 
   bool IsFixedPrecScale(int column_position) override;
-
-    static Result <int32_t> GetFieldPrecision(const std::shared_ptr<Field> &field) ;
 };
 } // namespace flight_sql
 } // namespace driver
