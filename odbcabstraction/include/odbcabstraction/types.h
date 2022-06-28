@@ -164,6 +164,7 @@ enum RowStatus: uint16_t {
 
 struct MetadataSettings {
     int32_t string_column_length_{1024};
+    bool use_wide_char_;
 };
 
 } // namespace odbcabstraction
