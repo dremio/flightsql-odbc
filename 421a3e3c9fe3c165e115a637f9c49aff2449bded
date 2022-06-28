@@ -33,6 +33,24 @@
       "message": "Nit: Let\u0027s not all caps these functions since they are not macros.",
       "revId": "421a3e3c9fe3c165e115a637f9c49aff2449bded",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "020e657d_88cdd311",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-28T18:08:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d880270_05cf8712",
+      "revId": "421a3e3c9fe3c165e115a637f9c49aff2449bded",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
