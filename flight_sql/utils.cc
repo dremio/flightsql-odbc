@@ -90,7 +90,7 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field, bool us
     return odbcabstraction::SqlDataType_BINARY;
   case arrow::Type::STRING:
   case arrow::Type::LARGE_STRING:
-    return GetDefaultSqlCharType(useWideChar);
+    return GetDefaultSqlVarcharType(useWideChar);
   case arrow::Type::DATE32:
   case arrow::Type::DATE64:
     return odbcabstraction::SqlDataType_TYPE_DATE;
@@ -123,7 +123,7 @@ GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field, bool us
     break;
   }
 
-  return GetDefaultSqlCharType(useWideChar);
+  return GetDefaultSqlVarcharType(useWideChar);
 }
 
 SqlDataType EnsureRightSqlCharType(SqlDataType data_type, bool useWideChar) {
