@@ -35,7 +35,8 @@ private:
 
 public:
   GetInfoCache(arrow::flight::FlightCallOptions &call_options,
-               std::unique_ptr<arrow::flight::sql::FlightSqlClient> &client);
+               std::unique_ptr<arrow::flight::sql::FlightSqlClient> &client,
+               const std::string &driver_version);
   void SetProperty(uint16_t property,
                    driver::odbcabstraction::Connection::Info value);
   driver::odbcabstraction::Connection::Info GetInfo(uint16_t info_type);

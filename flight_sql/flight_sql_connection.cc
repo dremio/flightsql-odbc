@@ -398,9 +398,9 @@ Connection::Info FlightSqlConnection::GetInfo(uint16_t info_type) {
   return result;
 }
 
-FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version)
+FlightSqlConnection::FlightSqlConnection(OdbcVersion odbc_version, const std::string &driver_version)
     : diagnostics_("Apache Arrow", "Flight SQL", odbc_version),
-      odbc_version_(odbc_version), info_(call_options_, sql_client_),
+      odbc_version_(odbc_version), info_(call_options_, sql_client_, driver_version),
       closed_(true) {
   attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
   attribute_[LOGIN_TIMEOUT] = static_cast<uint32_t>(0);
@@ -414,5 +414,6 @@ odbcabstraction::Diagnostics &FlightSqlConnection::GetDiagnostics() {
 void FlightSqlConnection::SetClosed(bool is_closed) {
   closed_ = is_closed;
 }
+
 } // namespace flight_sql
 } // namespace driver
