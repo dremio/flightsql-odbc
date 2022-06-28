@@ -73,6 +73,23 @@ TEST(MetadataSettingsTest, StringColumnLengthTest) {
   connection.Close();
 }
 
+TEST(MetadataSettingsTest, UseWideCharTest) {
+  FlightSqlConnection connection(odbcabstraction::V_3);
+  connection.SetClosed(false);
+
+  const Connection::ConnPropertyMap properties1 = {
+          {FlightSqlConnection::USE_WIDE_CHAR, std::string("true")},
+  };
+  const Connection::ConnPropertyMap properties2 = {
+          {FlightSqlConnection::USE_WIDE_CHAR, std::string("false")},
+  };
+
+  EXPECT_EQ(true, connection.GetUseWideChar(properties1));
+  EXPECT_EQ(false, connection.GetUseWideChar(properties2));
+
+  connection.Close();
+}
+
 TEST(BuildLocationTests, ForTcp) {
   std::vector<std::string> missing_attr;
   Connection::ConnPropertyMap properties = {

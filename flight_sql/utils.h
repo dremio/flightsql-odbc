@@ -58,7 +58,9 @@ arrow::Status AppendToBuilder(BUILDER &builder, T value) {
 }
 
 odbcabstraction::SqlDataType
-GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field);
+GetDataTypeFromArrowField_V3(const std::shared_ptr<arrow::Field> &field, bool useWideChar);
+
+odbcabstraction::SqlDataType EnsureRightSqlCharType(odbcabstraction::SqlDataType data_type, bool useWideChar);
 
 int16_t ConvertSqlDataTypeFromV3ToV2(int16_t data_type_v3);
 
@@ -100,7 +102,7 @@ std::shared_ptr<arrow::DataType> GetDefaultDataTypeForTypeId(arrow::Type::type t
 
 arrow::Type::type ConvertCToArrowType(odbcabstraction::CDataType data_type);
 
-odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id);
+odbcabstraction::CDataType ConvertArrowTypeToC(arrow::Type::type type_id, bool useWideChar);
 
 std::shared_ptr<arrow::Array> CheckConversion(const arrow::Result<arrow::Datum> &result);
 

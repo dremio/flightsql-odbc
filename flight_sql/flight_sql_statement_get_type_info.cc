@@ -7,6 +7,7 @@
 #include "flight_sql_statement_get_type_info.h"
 #include <odbcabstraction/platform.h>
 #include "flight_sql_get_type_info_reader.h"
+#include "flight_sql_connection.h"
 #include "utils.h"
 #include <boost/algorithm/string/join.hpp>
 
@@ -65,14 +66,15 @@ std::shared_ptr<Schema> GetTypeInfo_V2_Schema() {
 Result<std::shared_ptr<RecordBatch>>
 Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                 const std::shared_ptr<RecordBatch> &original,
-                int data_type) {
+                int data_type,
+                const MetadataSettings& metadata_settings_) {
   GetTypeInfo_RecordBatchBuilder builder(odbc_version);
   GetTypeInfo_RecordBatchBuilder::Data data;
 
   GetTypeInfoReader reader(original);
 
   while (reader.Next()) {
-    auto data_type_v3 = static_cast<int16_t>(reader.GetDataType());
+    auto data_type_v3 = EnsureRightSqlCharType(static_cast<odbcabstraction::SqlDataType>(reader.GetDataType()), metadata_settings_.use_wide_char_);
     int16_t data_type_v2 = ConvertSqlDataTypeFromV3ToV2(data_type_v3);
 
     if (data_type != odbcabstraction::ALL_TYPES && data_type_v3 != data_type && data_type_v2 != data_type) {
@@ -103,7 +105,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
     data.local_type_name = reader.GetLocalTypeName();
     data.minimum_scale = reader.GetMinimumScale();
     data.maximum_scale = reader.GetMaximumScale();
-    data.sql_data_type = static_cast<int16_t>(reader.GetSqlDataType());
+    data.sql_data_type = EnsureRightSqlCharType(static_cast<odbcabstraction::SqlDataType>(reader.GetSqlDataType()), metadata_settings_.use_wide_char_);
     data.sql_datetime_sub = GetSqlDateTimeSubCode(static_cast<odbcabstraction::SqlDataType>(data.data_type));
     data.num_prec_radix = reader.GetNumPrecRadix();
     data.interval_precision = reader.GetIntervalPrecision();
@@ -196,16 +198,18 @@ Status GetTypeInfo_RecordBatchBuilder::Append(
 }
 
 GetTypeInfo_Transformer::GetTypeInfo_Transformer(
+    const MetadataSettings& metadata_settings,
     const odbcabstraction::OdbcVersion odbc_version,
     int data_type)
-    : odbc_version_(odbc_version),
+    : metadata_settings_(metadata_settings),
+      odbc_version_(odbc_version),
       data_type_(data_type) {
 }
 
 std::shared_ptr<RecordBatch> GetTypeInfo_Transformer::Transform(
     const std::shared_ptr<RecordBatch> &original) {
   const Result<std::shared_ptr<RecordBatch>> &result =
-      Transform_inner(odbc_version_, original, data_type_);
+      Transform_inner(odbc_version_, original, data_type_, metadata_settings_);
   ThrowIfNotOK(result.status());
 
   return result.ValueOrDie();
