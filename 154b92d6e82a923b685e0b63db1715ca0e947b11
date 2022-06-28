@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a9fa74_2413e032",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T14:02:31Z",
+      "side": 1,
+      "message": "Should this really fail? Perhaps we should try to connect with the original host value?",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "339cfc93_4dfde691",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T14:02:31Z",
+      "side": 1,
+      "message": "Use NI_MAXHOST here.",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "211ac944_316b1441",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T14:02:31Z",
+      "side": 1,
+      "message": "Should this really fail? Perhaps we should try to connect with the original host value.",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "395685f5_322c76bd",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T14:02:31Z",
+      "side": 1,
+      "message": "This leaks if you throw a communication exception above.\nPlease create a wrapper class to auto-free the addrinfo in its destructor.",
+      "revId": "154b92d6e82a923b685e0b63db1715ca0e947b11",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
