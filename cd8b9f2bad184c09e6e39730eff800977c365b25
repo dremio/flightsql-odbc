@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99d422ba_ebe9d635",
+        "filename": "flight_sql/address_info.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T19:14:44Z",
+      "side": 1,
+      "message": "result needs to be reset to a nullptr after freeing it since you can \n1. GetAddressInfo and get a valid result\n2. Call GetAddressInfo and have it fail, which doesn\u0027t reallocate result.\n3. Call GetAddressInfo again. result is still the already free\u0027d pointer from 1.",
+      "revId": "cd8b9f2bad184c09e6e39730eff800977c365b25",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9126980_04cc484e",
+        "filename": "flight_sql/address_info.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T19:14:44Z",
+      "side": 1,
+      "message": "This should be result_. It\u0027s also sort of vague. It\u0027s more like the most recently retrieved addr_info.",
+      "revId": "cd8b9f2bad184c09e6e39730eff800977c365b25",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
