@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e06c20a5_30ff45b0",
+        "filename": "flight_sql/address_info.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-28T19:03:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54e14dc8_324f2f6c",
+      "revId": "3dfd607ab86bea22344dc11526b2beabd35ee228",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5bcd673_3ec92999",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-28T18:47:41Z",
       "side": 1,
       "message": "You can just allocate AddressInfo on the stack rather than make a shared_ptr.",
+      "revId": "3dfd607ab86bea22344dc11526b2beabd35ee228",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a4e4658_ac76b833",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-06-28T19:03:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5bcd673_3ec92999",
       "revId": "3dfd607ab86bea22344dc11526b2beabd35ee228",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
