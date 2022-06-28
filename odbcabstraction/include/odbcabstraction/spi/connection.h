@@ -83,6 +83,10 @@ public:
   /// \brief Gets the diagnostics for this connection.
   /// \return the diagnostics
   virtual Diagnostics& GetDiagnostics() = 0;
+
+  virtual void SetDriverVersion(const std::string &version) = 0;
+
+  virtual std::string GetDriverVersion() const = 0;
 };
 
 } // namespace odbcabstraction

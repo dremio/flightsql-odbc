@@ -32,6 +32,13 @@ public:
   /// \brief Gets the diagnostics for this connection.
   /// \return the diagnostics
   virtual Diagnostics& GetDiagnostics() = 0;
+
+  /// \brief Sets the driver version.
+  virtual void SetVersion(const std::string& version) = 0;
+
+  /// \brief Gets the driver version.
+  /// \return the driver version
+  virtual std::string GetVersion() const = 0;
 };
 
 } // namespace odbcabstraction

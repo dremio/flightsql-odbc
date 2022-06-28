@@ -187,6 +187,9 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_FALSE);
 
+    // Updates GetInfoCache with the right driver version.
+    info_.SetProperty(SQL_DRIVER_VER, ConvertToDBMSVer(driver_version_));
+
     PopulateMetadataSettings(properties);
     PopulateCallOptions(properties);
   } catch (...) {
@@ -414,5 +417,14 @@ odbcabstraction::Diagnostics &FlightSqlConnection::GetDiagnostics() {
 void FlightSqlConnection::SetClosed(bool is_closed) {
   closed_ = is_closed;
 }
+
+void FlightSqlConnection::SetDriverVersion(const std::string &version) {
+  driver_version_ = version;
+}
+
+std::string FlightSqlConnection::GetDriverVersion() const {
+  return driver_version_;
+}
+
 } // namespace flight_sql
 } // namespace driver
