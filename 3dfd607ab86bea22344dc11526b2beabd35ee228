@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e14dc8_324f2f6c",
+        "filename": "flight_sql/address_info.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T18:47:41Z",
+      "side": 1,
+      "message": "This method is problematic if you call it multiple times. It\u0027ll overwrite result each time.\n\nBased on the current API what you should do is call freeaddrinfo() at the start of this function if it\u0027s not nullptr.\n\nCould try to be smart and cache the result if the same host is used multiple times but I don\u0027t think it\u0027s worth it.",
+      "revId": "3dfd607ab86bea22344dc11526b2beabd35ee228",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bcd673_3ec92999",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-06-28T18:47:41Z",
+      "side": 1,
+      "message": "You can just allocate AddressInfo on the stack rather than make a shared_ptr.",
+      "revId": "3dfd607ab86bea22344dc11526b2beabd35ee228",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
