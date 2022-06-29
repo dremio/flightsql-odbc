@@ -15,7 +15,7 @@ int64_t GetTodayTimeFromEpoch() {
   tm date{};
   int64_t t = std::time(0);
 
-  GetTimeForMillisSinceEpoch(date, t);
+  GetTimeForSecondsSinceEpoch(date, t);
 
   date.tm_hour = 0;
   date.tm_min = 0;
@@ -28,7 +28,7 @@ int64_t GetTodayTimeFromEpoch() {
   #endif
 }
 
-void GetTimeForMillisSinceEpoch(tm& date, int64_t value) {
+void GetTimeForSecondsSinceEpoch(tm& date, int64_t value) {
   #if defined(_WIN32)
     gmtime_s(&date, &value);
   #else
