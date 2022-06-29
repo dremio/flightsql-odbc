@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f27442dd_892da0a4",
+        "filename": "flight_sql/accessors/timestamp_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-06-29T23:21:02Z",
+      "side": 1,
+      "message": "Is this intentional?",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "7c8b93661c8685fabd630ee467a20ba6ccabc249",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
