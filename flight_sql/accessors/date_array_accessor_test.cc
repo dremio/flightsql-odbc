@@ -40,7 +40,7 @@ TEST(DateArrayAccessor, Test_Date32Array_CDataType_DATE) {
     tm date{};
 
     int64_t converted_time = values[i] * 86400;
-    GetTimeForMillisSinceEpoch(date, converted_time);
+    GetTimeForSecondsSinceEpoch(date, converted_time);
     ASSERT_EQ((date.tm_year + 1900), buffer[i].year);
     ASSERT_EQ(date.tm_mon + 1, buffer[i].month);
     ASSERT_EQ(date.tm_mday, buffer[i].day);
@@ -72,7 +72,7 @@ TEST(DateArrayAccessor, Test_Date64Array_CDataType_DATE) {
     tm date{};
 
     int64_t converted_time = values[i] / 1000;
-    GetTimeForMillisSinceEpoch(date, converted_time);
+    GetTimeForSecondsSinceEpoch(date, converted_time);
     ASSERT_EQ((date.tm_year + 1900), buffer[i].year);
     ASSERT_EQ(date.tm_mon + 1, buffer[i].month);
     ASSERT_EQ(date.tm_mday, buffer[i].day);

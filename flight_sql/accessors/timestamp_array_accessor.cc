@@ -10,23 +10,49 @@
 using namespace arrow;
 
 namespace {
-int64_t convertTimeStampBasedOnUnit(TimeUnit::type unit) {
-  int64_t converted_result;
+int64_t GetConversionToSecondsDivisor(TimeUnit::type unit) {
+  int64_t divisor = 1;
   switch (unit) {
     case TimeUnit::SECOND:
-      converted_result = 1;
+      divisor = 1;
       break;
     case TimeUnit::MILLI:
-      converted_result = driver::flight_sql::MILLI_TO_SECONDS_DIVISOR;
+      divisor = driver::flight_sql::MILLI_TO_SECONDS_DIVISOR;
       break;
     case TimeUnit::MICRO:
-      converted_result = driver::flight_sql::MICRO_TO_SECONDS_DIVISOR;
+      divisor = driver::flight_sql::MICRO_TO_SECONDS_DIVISOR;
       break;
     case TimeUnit::NANO:
-      converted_result = driver::flight_sql::NANO_TO_SECONDS_DIVISOR;
+      divisor = driver::flight_sql::NANO_TO_SECONDS_DIVISOR;
       break;
+    default:
+      assert(false);
+      throw driver::odbcabstraction::DriverException("Unrecognized time unit value: " + std::to_string(unit));
   }
-  return converted_result;
+  return divisor;
+}
+
+uint32_t CalculateFraction(TimeUnit::type unit, uint64_t units_since_epoch) {
+  // Convert the given remainder and time unit to nanoseconds
+  // since the fraction field on TIMESTAMP_STRUCT is in nanoseconds.
+  switch (unit) {
+  case TimeUnit::SECOND:
+    return 0;
+  case TimeUnit::MILLI:
+    // 1000000 nanoseconds = 1 millisecond.
+    return (units_since_epoch %
+            driver::odbcabstraction::MILLI_TO_SECONDS_DIVISOR) *
+           1000000;
+  case TimeUnit::MICRO:
+    // 1000 nanoseconds = 1 microsecond.
+    return (units_since_epoch %
+           driver::odbcabstraction::MICRO_TO_SECONDS_DIVISOR) * 1000;
+  case TimeUnit::NANO:
+    // 1000 nanoseconds = 1 microsecond.
+    return (units_since_epoch %
+            driver::odbcabstraction::NANO_TO_SECONDS_DIVISOR);
+  }
+  return 0;
 }
 } // namespace
 
@@ -55,11 +81,11 @@ TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding 
   auto *buffer = static_cast<TIMESTAMP_STRUCT *>(binding->buffer);
 
   int64_t value = array->Value(cell_counter);
-  const auto divisor = convertTimeStampBasedOnUnit(timestamp_type_->unit());
-  const auto converted_result = value / divisor;
-  tm timestamp{};
+  const auto divisor = GetConversionToSecondsDivisor(timestamp_type_->unit());
+  const auto converted_result_seconds = value / divisor;
+  tm timestamp = {0};
 
-  GetTimeForMillisSinceEpoch(timestamp, converted_result);
+  GetTimeForSecondsSinceEpoch(timestamp, converted_result_seconds);
 
   buffer[cell_counter].year = 1900 + (timestamp.tm_year);
   buffer[cell_counter].month = timestamp.tm_mon + 1;
@@ -67,7 +93,7 @@ TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding 
   buffer[cell_counter].hour = timestamp.tm_hour;
   buffer[cell_counter].minute = timestamp.tm_min;
   buffer[cell_counter].second = timestamp.tm_sec;
-  buffer[cell_counter].fraction = value % divisor;
+  buffer[cell_counter].fraction = CalculateFraction(timestamp_type_->unit(), value);
 
   if (binding->strlen_buffer) {
     binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(GetCellLength_impl(binding));

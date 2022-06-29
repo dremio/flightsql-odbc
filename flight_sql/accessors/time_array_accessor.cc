@@ -47,10 +47,10 @@ RowStatus TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_i
 
   tm time{};
 
-  auto converted_value =
+  auto converted_value_seconds =
       ConvertTimeValue<ARROW_ARRAY>(array->Value(cell_counter), time_unit);
 
-  GetTimeForMillisSinceEpoch(time, converted_value);
+  GetTimeForSecondsSinceEpoch(time, converted_value_seconds);
 
   buffer[cell_counter].hour = time.tm_hour;
   buffer[cell_counter].minute = time.tm_min;

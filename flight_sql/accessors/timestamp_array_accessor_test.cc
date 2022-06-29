@@ -16,7 +16,7 @@ namespace flight_sql {
 using namespace arrow;
 using namespace odbcabstraction;
 
-TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
+TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILLI) {
   std::vector<int64_t> values = {86400370,  172800000, 259200000, 1649793238110LL,
                                  345600000, 432000000, 518400000};
 
@@ -43,7 +43,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
     tm date{};
 
     auto converted_time = values[i] / MILLI_TO_SECONDS_DIVISOR;
-    GetTimeForMillisSinceEpoch(date, converted_time);
+    GetTimeForSecondsSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
     ASSERT_EQ(buffer[i].month, date.tm_mon + 1);
@@ -51,7 +51,9 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MILI) {
     ASSERT_EQ(buffer[i].hour, date.tm_hour);
     ASSERT_EQ(buffer[i].minute, date.tm_min);
     ASSERT_EQ(buffer[i].second, date.tm_sec);
-    ASSERT_EQ(buffer[i].fraction, values[i] % MILLI_TO_SECONDS_DIVISOR);
+
+    constexpr uint32_t NANOSECONDS_PER_MILLI = 1000000;
+    ASSERT_EQ(buffer[i].fraction, (values[i] % MILLI_TO_SECONDS_DIVISOR) * NANOSECONDS_PER_MILLI);
   }
 }
 
@@ -82,7 +84,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_SECONDS) {
     tm date{};
 
     auto converted_time = values[i];
-    GetTimeForMillisSinceEpoch(date, converted_time);
+    GetTimeForSecondsSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
     ASSERT_EQ(buffer[i].month, date.tm_mon + 1);
@@ -90,7 +92,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_SECONDS) {
     ASSERT_EQ(buffer[i].hour, date.tm_hour);
     ASSERT_EQ(buffer[i].minute, date.tm_min);
     ASSERT_EQ(buffer[i].second, date.tm_sec);
-    ASSERT_EQ(buffer[i].fraction, values[i] % 1);
+    ASSERT_EQ(buffer[i].fraction, 0);
   }
 }
 
@@ -121,7 +123,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MICRO) {
     tm date{};
 
     auto converted_time = values[i] / MICRO_TO_SECONDS_DIVISOR;
-    GetTimeForMillisSinceEpoch(date, converted_time);
+    GetTimeForSecondsSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
     ASSERT_EQ(buffer[i].month, date.tm_mon + 1);
@@ -129,7 +131,8 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_MICRO) {
     ASSERT_EQ(buffer[i].hour, date.tm_hour);
     ASSERT_EQ(buffer[i].minute, date.tm_min);
     ASSERT_EQ(buffer[i].second, date.tm_sec);
-    ASSERT_EQ(buffer[i].fraction, values[i] % MICRO_TO_SECONDS_DIVISOR);
+    constexpr uint32_t MICROS_PER_NANO = 1000;
+    ASSERT_EQ(buffer[i].fraction, (values[i] % MICRO_TO_SECONDS_DIVISOR) * MICROS_PER_NANO);
   }
 }
 
@@ -159,7 +162,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_NANO) {
     tm date{};
 
     auto converted_time = values[i] / NANO_TO_SECONDS_DIVISOR;
-    GetTimeForMillisSinceEpoch(date, converted_time);
+    GetTimeForSecondsSinceEpoch(date, converted_time);
 
     ASSERT_EQ(buffer[i].year, 1900 + (date.tm_year));
     ASSERT_EQ(buffer[i].month, date.tm_mon + 1);
@@ -167,7 +170,7 @@ TEST(TEST_TIMESTAMP, TIMESTAMP_WITH_NANO) {
     ASSERT_EQ(buffer[i].hour, date.tm_hour);
     ASSERT_EQ(buffer[i].minute, date.tm_min);
     ASSERT_EQ(buffer[i].second, date.tm_sec);
-    ASSERT_EQ(buffer[i].fraction, values[i] % NANO_TO_SECONDS_DIVISOR);
+    ASSERT_EQ(buffer[i].fraction, (values[i] % NANO_TO_SECONDS_DIVISOR));
   }
 }
 } // namespace flight_sql
