@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7402ac07_541e9890",
+        "filename": "flight_sql/flight_sql_result_set_column.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-06-29T20:09:45Z",
+      "side": 1,
+      "message": "Can we use arrow::Decimal128Type::kMaxPrecision?",
+      "revId": "bc858acd0259179394a3c00937f28fd7e2b5c588",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
