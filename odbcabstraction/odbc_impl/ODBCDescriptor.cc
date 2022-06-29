@@ -506,6 +506,12 @@ void ODBCDescriptor::BindCol(SQLSMALLINT recordNumber, SQLSMALLINT cType, SQLPOI
   record.m_type = cType;
   record.m_indicatorPtr = indicatorPtr;
   record.m_length = bufferLength;
+
+  // Initialize default precision and scale for SQL_C_NUMERIC.
+  if (record.m_type == SQL_C_NUMERIC) {
+    record.m_precision = 38;
+    record.m_scale = 0;
+  }
   SetDataPtrOnRecord(dataPtr, recordNumber);
 }
 

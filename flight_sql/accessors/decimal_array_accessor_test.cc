@@ -40,6 +40,9 @@ std::vector <Decimal128> MakeDecimalVector(const std::vector <std::string> &valu
 std::string ConvertNumericToString(NUMERIC_STRUCT &numeric) {
   auto v = reinterpret_cast<int64_t *>(numeric.val);
   auto decimal = Decimal128(v[1], v[0]);
+  if (numeric.sign == 0) {
+    decimal.Negate();
+  }
   const std::string &string = decimal.ToString(numeric.scale);
 
   return string;

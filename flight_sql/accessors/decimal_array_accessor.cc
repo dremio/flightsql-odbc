@@ -42,14 +42,15 @@ RowStatus DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::Mov
     throw DriverException("Decimal value doesn't fit in precision " + std::to_string(binding->precision));
   }
 
-  uint8_t bytes[16];
-  value.ToBytes(bytes);
-  memcpy(&result->val, bytes, 16);
+  result->sign = value.IsNegative() ? 0 : 1;
+
+  // Take the absolute value since the ODBC SQL_NUMERIC_STRUCT holds
+  // a positive-only number.
+  Decimal128 abs_value = Decimal128::Abs(value);
+  abs_value.ToBytes(result->val);
   result->precision = static_cast<uint8_t>(binding->precision);
   result->scale = static_cast<int8_t>(binding->scale);
 
-  // If the most significant bit is set this number is negative (sign = 1).
-  result->sign = (static_cast<int8_t>(result->val[15]) >> 7) == 1;
   result->precision = data_type_->precision();
 
   if (binding->strlen_buffer) {

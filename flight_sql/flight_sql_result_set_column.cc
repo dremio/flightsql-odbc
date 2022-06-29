@@ -81,6 +81,13 @@ void FlightSqlResultSetColumn::SetBinding(ColumnBinding new_binding) {
   binding = new_binding;
   is_bound = true;
 
+  // Overwrite the binding if the caller is using SQL_C_NUMERIC and has used zero
+  // precision if it is zero (this is precision unset and will always fail).
+  if (binding.precision == 0 &&
+      (binding.target_type == odbcabstraction::CDataType_NUMERIC) ||
+      (binding.target_type == odbcabstraction::CDataType_DEFAULT && cached_original_array_->type_id() == arrow::Type::type::DECIMAL128)) {
+    binding.precision = arrow::Decimal128Type::kMaxPrecision;
+  }
   ResetAccessor();
 }
 
