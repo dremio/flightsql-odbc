@@ -7,6 +7,7 @@
 #include "string_array_accessor.h"
 
 #include <arrow/array.h>
+#include <boost/locale.hpp>
 
 namespace driver {
 namespace flight_sql {
@@ -15,6 +16,14 @@ using namespace arrow;
 using namespace odbcabstraction;
 
 namespace {
+
+std::string utf8_to_clocale(const char *utf8str, int len)
+{
+  boost::locale::generator g;
+  g.locale_cache_enabled(true);
+  std::locale loc = g(boost::locale::util::get_system_locale());
+  return boost::locale::conv::from_utf<char>(utf8str, utf8str + len, loc);
+}
 
 template <typename CHAR_TYPE>
 inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
@@ -25,17 +34,31 @@ inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
                                        odbcabstraction::Diagnostics &diagnostics) {
   RowStatus result = odbcabstraction::RowStatus_SUCCESS;
 
+  // Arrow strings come as UTF-8
   const char *raw_value = array->Value(i).data();
+  const size_t raw_value_length = array->value_length(i);
   const void *value;
+
   size_t size_in_bytes;
   SqlWString wstr;
+  std::string clocale_str;
   if (sizeof(CHAR_TYPE) > sizeof(char)) {
-    wstr = converter->from_bytes(raw_value, raw_value + array->value_length(i));
+    wstr = converter->from_bytes(raw_value, raw_value + raw_value_length);
     value = wstr.data();
     size_in_bytes = wstr.size() * sizeof(CHAR_TYPE);
   } else {
+#if defined _WIN32 || defined _WIN64
+    // Convert to C locale string
+    clocale_str = utf8_to_clocale(raw_value, raw_value_length);
+    const char* clocale_data = clocale_str.data();
+    size_t clocale_length = clocale_str.size();
+
+    value = clocale_data;
+    size_in_bytes = clocale_length;
+#else
     value = raw_value;
-    size_in_bytes = array->value_length(i);
+    size_in_bytes = raw_value_length;
+#endif
   }
 
   size_t remaining_length = static_cast<size_t>(size_in_bytes - value_offset);
