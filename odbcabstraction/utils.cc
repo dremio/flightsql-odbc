@@ -11,52 +11,33 @@
 namespace driver {
 namespace odbcabstraction {
 
-bool AsBool(const std::string& value, bool default_value) {
-  if (boost::iequals(value, "true") || boost::iequals(value, "1")) {
-    return true;
-  } else if (boost::iequals(value, "false") || boost::iequals(value, "0")) {
-    return false;
-  } else {
-    return default_value;
-  }
-}
-
-bool AsBool(bool default_value, const Connection::ConnPropertyMap& connPropertyMap,
+boost::optional<bool> AsBool(const Connection::ConnPropertyMap& connPropertyMap,
             const std::string& property_name) {
-
-  auto extracted_property = connPropertyMap.find(
-    property_name);
+  auto extracted_property = connPropertyMap.find(property_name);
 
   if (extracted_property != connPropertyMap.end()) {
-    return AsBool(extracted_property->second, default_value);
+    if (boost::iequals(extracted_property->second, "true") || boost::iequals(extracted_property->second, "1")) {
+      return true;
+    } else if (boost::iequals(extracted_property->second, "false") || boost::iequals(extracted_property->second, "0")) {
+      return false;
+    }
   }
-  else {
-    return default_value;
-  }
+
+  return boost::none;
 }
 
-int32_t AsInt32(const std::string& value, int32_t default_value, int32_t min_value) {
-  const int32_t string_column_length = std::stoi(value);
-
-  if (string_column_length >= min_value && string_column_length <= INT32_MAX) {
-    return string_column_length;
-  } else {
-    return default_value;
-  }
-}
-
-int32_t AsInt32(int32_t default_value, int32_t min_value, const Connection::ConnPropertyMap& connPropertyMap,
-            const std::string& property_name) {
-
-  auto extracted_property = connPropertyMap.find(
-          property_name);
+boost::optional<int32_t> AsInt32(int32_t min_value, const Connection::ConnPropertyMap& connPropertyMap, const std::string& property_name) {
+  auto extracted_property = connPropertyMap.find(property_name);
 
   if (extracted_property != connPropertyMap.end()) {
-    return AsInt32(extracted_property->second, default_value, min_value);
+    const int32_t stringColumnLength = std::stoi(extracted_property->second);
+
+    if (stringColumnLength >= min_value && stringColumnLength <= INT32_MAX) {
+      return stringColumnLength;
+    }
   }
-  else {
-    return default_value;
-  }
+  return boost::none;
 }
+
 } // namespace odbcabstraction
 } // namespace driver
