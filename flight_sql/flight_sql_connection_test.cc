@@ -66,9 +66,10 @@ TEST(MetadataSettingsTest, StringColumnLengthTest) {
       {FlightSqlConnection::STRING_COLUMN_LENGTH, std::to_string(expected_string_column_length)},
   };
 
-  const int32_t actual_string_column_length = connection.GetStringColumnLength(properties);
+  const boost::optional<int32_t> actual_string_column_length = connection.GetStringColumnLength(properties);
 
-  EXPECT_EQ(expected_string_column_length, actual_string_column_length);
+  EXPECT_TRUE(actual_string_column_length);
+  EXPECT_EQ(expected_string_column_length, *actual_string_column_length);
 
   connection.Close();
 }

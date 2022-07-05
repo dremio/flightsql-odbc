@@ -25,6 +25,10 @@ using arrow::util::nullopt;
 
 constexpr int32_t DefaultDecimalPrecision = 38;
 
+// This indicates the column length used when the both property StringColumnLength is not specified and
+// the server does not provide a length on column metadata.
+constexpr int32_t DefaultLengthForVariableLengthColumns = 1024;
+
 namespace {
 std::shared_ptr<const arrow::KeyValueMetadata> empty_metadata_map(new arrow::KeyValueMetadata);
 
@@ -109,7 +113,7 @@ size_t FlightSqlResultSetMetadata::GetColumnDisplaySize(
     int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
 
-  int32_t column_size = GetFieldPrecision(field).ValueOrElse([this] { return metadata_settings_.string_column_length_; });
+  int32_t column_size = metadata_settings_.string_column_length_.value_or(GetFieldPrecision(field).ValueOr(DefaultLengthForVariableLengthColumns));
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field, metadata_settings_.use_wide_char_);
 
   return GetDisplaySize(data_type_v3, column_size).value_or(NO_TOTAL);
@@ -134,10 +138,10 @@ uint16_t FlightSqlResultSetMetadata::GetConciseType(int column_position) {
 size_t FlightSqlResultSetMetadata::GetLength(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
 
-  int32_t column_size = GetFieldPrecision(field).ValueOrElse([this] { return metadata_settings_.string_column_length_; });
+  int32_t column_size = metadata_settings_.string_column_length_.value_or(GetFieldPrecision(field).ValueOr(DefaultLengthForVariableLengthColumns));
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field, metadata_settings_.use_wide_char_);
 
-  return GetBufferLength(data_type_v3, column_size).value_or(metadata_settings_.string_column_length_);
+  return flight_sql::GetLength(data_type_v3, column_size).value_or(DefaultLengthForVariableLengthColumns);
 }
 
 std::string FlightSqlResultSetMetadata::GetLiteralPrefix(int column_position) {
@@ -168,7 +172,7 @@ size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
   const std::shared_ptr<Field> &field = schema_->field(column_position - 1);
   arrow::flight::sql::ColumnMetadata metadata = GetMetadata(field);
 
-  arrow::Result<int32_t> column_size = GetFieldPrecision(field);
+  int32_t column_size = metadata_settings_.string_column_length_.value_or(GetFieldPrecision(field).ValueOr(DefaultLengthForVariableLengthColumns));
   SqlDataType data_type_v3 = GetDataTypeFromArrowField_V3(field, metadata_settings_.use_wide_char_);
 
   // Workaround to get the precision for Decimal and Numeric types, since server doesn't return it currently.
@@ -179,7 +183,7 @@ size_t FlightSqlResultSetMetadata::GetOctetLength(int column_position) {
     return GetCharOctetLength(data_type_v3, column_size, precision).value_or(DefaultDecimalPrecision+2);
   }
 
-  return GetCharOctetLength(data_type_v3, column_size).value_or(metadata_settings_.string_column_length_);
+  return GetCharOctetLength(data_type_v3, column_size).value_or(DefaultLengthForVariableLengthColumns);
 }
 
 std::string FlightSqlResultSetMetadata::GetTypeName(int column_position) {
