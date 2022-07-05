@@ -499,7 +499,6 @@ optional<int32_t> GetBufferLength(SqlDataType data_type,
   case SqlDataType_LONGVARBINARY:
     return column_size;
   case SqlDataType_DECIMAL:
-    return 19; // The same as sizeof(SQL_NUMERIC_STRUCT)
   case SqlDataType_NUMERIC:
     return 19; // The same as sizeof(SQL_NUMERIC_STRUCT)
   case SqlDataType_BIT:
@@ -540,6 +539,62 @@ optional<int32_t> GetBufferLength(SqlDataType data_type,
     return 16;
   default:
     return arrow::util::nullopt;
+  }
+}
+
+optional<int32_t> GetLength(SqlDataType data_type, const optional<int32_t>& column_size) {
+  switch (data_type) {
+    case SqlDataType_CHAR:
+    case SqlDataType_VARCHAR:
+    case SqlDataType_LONGVARCHAR:
+    case SqlDataType_WCHAR:
+    case SqlDataType_WVARCHAR:
+    case SqlDataType_WLONGVARCHAR:
+    case SqlDataType_BINARY:
+    case SqlDataType_VARBINARY:
+    case SqlDataType_LONGVARBINARY:
+      return column_size;
+    case SqlDataType_DECIMAL:
+    case SqlDataType_NUMERIC:
+      return 19; // The same as sizeof(SQL_NUMERIC_STRUCT)
+    case SqlDataType_BIT:
+    case SqlDataType_TINYINT:
+      return 1;
+    case SqlDataType_SMALLINT:
+      return 2;
+    case SqlDataType_INTEGER:
+      return 4;
+    case SqlDataType_BIGINT:
+      return 8;
+    case SqlDataType_REAL:
+      return 4;
+    case SqlDataType_FLOAT:
+    case SqlDataType_DOUBLE:
+      return 8;
+    case SqlDataType_TYPE_DATE:
+      return 10; // The same as sizeof(SQL_DATE_STRUCT)
+    case SqlDataType_TYPE_TIME:
+      return 12; // The same as sizeof(SQL_TIME_STRUCT)
+    case SqlDataType_TYPE_TIMESTAMP:
+      return 23; // The same as sizeof(SQL_TIME_STRUCT)
+    case SqlDataType_INTERVAL_MONTH:
+    case SqlDataType_INTERVAL_YEAR:
+    case SqlDataType_INTERVAL_YEAR_TO_MONTH:
+    case SqlDataType_INTERVAL_DAY:
+    case SqlDataType_INTERVAL_HOUR:
+    case SqlDataType_INTERVAL_MINUTE:
+    case SqlDataType_INTERVAL_SECOND:
+    case SqlDataType_INTERVAL_DAY_TO_HOUR:
+    case SqlDataType_INTERVAL_DAY_TO_MINUTE:
+    case SqlDataType_INTERVAL_DAY_TO_SECOND:
+    case SqlDataType_INTERVAL_HOUR_TO_MINUTE:
+    case SqlDataType_INTERVAL_HOUR_TO_SECOND:
+    case SqlDataType_INTERVAL_MINUTE_TO_SECOND:
+      return 28; // The same as sizeof(SQL_INTERVAL_STRUCT)
+    case SqlDataType_GUID:
+      return 16;
+    default:
+      return arrow::util::nullopt;
   }
 }
 

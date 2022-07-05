@@ -100,7 +100,7 @@ public:
   /// \note Visible for testing
   void SetClosed(bool is_closed);
 
-  int32_t GetStringColumnLength(const ConnPropertyMap &connPropertyMap);
+  boost::optional<int32_t> GetStringColumnLength(const ConnPropertyMap &connPropertyMap);
 
   bool GetUseWideChar(const ConnPropertyMap &connPropertyMap);
 };
