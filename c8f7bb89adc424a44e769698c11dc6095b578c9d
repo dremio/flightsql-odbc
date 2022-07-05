@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "958cca98_b08bda6e",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-05T19:41:00Z",
+      "side": 1,
+      "message": "This code is not very clear.\n- Make string_column_length and int32_t instead of a boost::optional\u003cint32_t\u003e\n- if string_column_length \u003d\u003d \u003ca named constant\u003e then return boost none else return boost::optional::of(string_column_length).\n\nThe reason for this is confusing is that it makes it look like AsInt32 can return a boost::optional directly and we\u0027re ignoring when the optional is missing.",
+      "revId": "c8f7bb89adc424a44e769698c11dc6095b578c9d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22010c6d_74310cbd",
+        "filename": "flight_sql/flight_sql_result_set_metadata.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-05T19:41:00Z",
+      "side": 1,
+      "message": "Can we name this more explicitly to indicate it\u0027s the column length used when the both StringColumnLength is not specified and the server does not provide a length?\n\nThis should affect the length reported for complex types (and also VARBINARY?)",
+      "revId": "c8f7bb89adc424a44e769698c11dc6095b578c9d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85fc7859_f93b2ec4",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-05T19:41:00Z",
+      "side": 1,
+      "message": "If this method really returns the BufferLength, I think that is supposed to be length in bytes (so it should get multiplied). If this method actually returns the length in characters, it should _not_ multiply. It seems like these concepts are being conflated incorrectly. It may make sense to just create a separate function.",
+      "revId": "c8f7bb89adc424a44e769698c11dc6095b578c9d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
