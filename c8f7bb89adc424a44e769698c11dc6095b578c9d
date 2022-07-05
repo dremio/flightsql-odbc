@@ -68,6 +68,24 @@
       "message": "If this method really returns the BufferLength, I think that is supposed to be length in bytes (so it should get multiplied). If this method actually returns the length in characters, it should _not_ multiply. It seems like these concepts are being conflated incorrectly. It may make sense to just create a separate function.",
       "revId": "c8f7bb89adc424a44e769698c11dc6095b578c9d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "401d041d_4530c6bb",
+        "filename": "flight_sql/utils.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-05T20:01:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85fc7859_f93b2ec4",
+      "revId": "c8f7bb89adc424a44e769698c11dc6095b578c9d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
