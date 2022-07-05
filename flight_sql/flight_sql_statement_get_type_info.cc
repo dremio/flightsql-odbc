@@ -60,6 +60,10 @@ std::shared_ptr<Schema> GetTypeInfo_V2_Schema() {
       field("LOCAL_TYPE_NAME", utf8()),
       field("MINIMUM_SCALE", int16()),
       field("MAXIMUM_SCALE", int16()),
+      field("SQL_DATA_TYPE", int16(), false),
+      field("SQL_DATETIME_SUB", int16()),
+      field("NUM_PREC_RADIX", int32()),
+      field("INTERVAL_PRECISION", int16()),
   });
 }
 
