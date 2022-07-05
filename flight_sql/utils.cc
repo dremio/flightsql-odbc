@@ -488,18 +488,14 @@ optional<int32_t> GetBufferLength(SqlDataType data_type,
   case SqlDataType_CHAR:
   case SqlDataType_VARCHAR:
   case SqlDataType_LONGVARCHAR:
-    return column_size;
   case SqlDataType_WCHAR:
   case SqlDataType_WVARCHAR:
   case SqlDataType_WLONGVARCHAR:
-    return column_size.has_value() ? arrow::util::make_optional(column_size.value() * sizeof(SqlWChar))
-                                   : arrow::util::nullopt;
   case SqlDataType_BINARY:
   case SqlDataType_VARBINARY:
   case SqlDataType_LONGVARBINARY:
     return column_size;
   case SqlDataType_DECIMAL:
-    return 19; // The same as sizeof(SQL_NUMERIC_STRUCT)
   case SqlDataType_NUMERIC:
     return 19; // The same as sizeof(SQL_NUMERIC_STRUCT)
   case SqlDataType_BIT:

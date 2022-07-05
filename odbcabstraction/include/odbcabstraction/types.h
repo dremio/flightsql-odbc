@@ -7,6 +7,7 @@
 #pragma once
 
 #include <odbcabstraction/platform.h>
+#include <boost/optional.hpp>
 
 namespace driver {
 namespace odbcabstraction {
@@ -163,7 +164,7 @@ enum RowStatus: uint16_t {
 };
 
 struct MetadataSettings {
-    int32_t string_column_length_{1024};
+    boost::optional<int32_t> string_column_length_{boost::none};
     bool use_wide_char_;
 };
 

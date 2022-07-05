@@ -202,28 +202,28 @@ void FlightSqlConnection::PopulateMetadataSettings(const Connection::ConnPropert
   metadata_settings_.use_wide_char_ = GetUseWideChar(conn_property_map);
 }
 
-int32_t FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropertyMap &conn_property_map) {
-  const int32_t default_string_column_length = 1024;
+boost::optional<int32_t> FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropertyMap &conn_property_map) {
   const int32_t min_string_column_length = 1;
-  int32_t string_column_length;
 
   try {
-    string_column_length = AsInt32(
-          default_string_column_length,
+    boost::optional<int32_t> string_column_length = AsInt32(
+          -1,
           min_string_column_length,
           conn_property_map,
           FlightSqlConnection::STRING_COLUMN_LENGTH
           );
+    if (*string_column_length == -1) {
+      return boost::none;
+    }
+    return string_column_length;
   } catch (const std::exception& e) {
     diagnostics_.AddWarning(
             std::string("Invalid value for connection property " + FlightSqlConnection::STRING_COLUMN_LENGTH +
-                        ". Please ensure it has a valid numeric value. Using default: " +
-                        std::to_string(default_string_column_length) + ". Message: " + e.what()),
+                        ". Please ensure it has a valid numeric value. Message: " + e.what()),
             "01000", odbcabstraction::ODBCErrorCodes_GENERAL_WARNING);
-    string_column_length = default_string_column_length;
   }
 
-  return string_column_length;
+  return boost::none;
 }
 
 bool FlightSqlConnection::GetUseWideChar(const ConnPropertyMap &connPropertyMap) {
