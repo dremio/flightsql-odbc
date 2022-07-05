@@ -16,6 +16,24 @@
       "message": "We should use the commit message to say why we are making this change.",
       "revId": "94ca8eb5c91cb9b101674155edf1d724666939bf",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d294cc52_c0a61920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-05T20:52:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a28b17a7_20d57776",
+      "revId": "94ca8eb5c91cb9b101674155edf1d724666939bf",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
