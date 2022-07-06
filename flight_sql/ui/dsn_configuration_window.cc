@@ -218,7 +218,7 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     const char* val = config.Get(FlightSqlConnection::USE_ENCRYPTION).c_str();
 
-    const bool enableEncryption = driver::odbcabstraction::AsBool(val, true);
+    const bool enableEncryption = driver::odbcabstraction::AsBool(val).value_or(true);
     labels.push_back(CreateLabel(labelPosX, rowPos, LABEL_WIDTH, ROW_HEIGHT, "Use Encryption:",
         ChildId::ENABLE_ENCRYPTION_LABEL));
     enableEncryptionCheckBox = CreateCheckBox(editPosX, rowPos - 2, editSizeX, ROW_HEIGHT, "",
@@ -237,7 +237,7 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     val = config.Get(FlightSqlConnection::USE_SYSTEM_TRUST_STORE).c_str();
 
-    const bool useSystemCertStore = driver::odbcabstraction::AsBool(val, true);
+    const bool useSystemCertStore = driver::odbcabstraction::AsBool(val).value_or(true);
     labels.push_back(CreateLabel(labelPosX, rowPos, LABEL_WIDTH, 2 * ROW_HEIGHT, "Use System Certificate Store:",
         ChildId::USE_SYSTEM_CERT_STORE_LABEL));
     useSystemCertStoreCheckBox = CreateCheckBox(editPosX, rowPos - 2, 20, 2 * ROW_HEIGHT, "",
@@ -248,7 +248,7 @@ int DsnConfigurationWindow::CreateEncryptionSettingsGroup(int posX, int posY, in
 
     const int rightPosX = labelPosX + (sizeX - (2 * INTERVAL)) / 2;
     const int rightCheckPosX = rightPosX + (editPosX - labelPosX);
-    const bool disableCertVerification = driver::odbcabstraction::AsBool(val, false);
+    const bool disableCertVerification = driver::odbcabstraction::AsBool(val).value_or(false);
     labels.push_back(CreateLabel(rightPosX, rowPos, LABEL_WIDTH, 2 * ROW_HEIGHT, "Disable Certificate Verification:",
         ChildId::DISABLE_CERT_VERIFICATION_LABEL));
     disableCertVerificationCheckBox = CreateCheckBox(rightCheckPosX, rowPos - 2, 20, 2 * ROW_HEIGHT, "",

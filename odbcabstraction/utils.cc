@@ -11,16 +11,22 @@
 namespace driver {
 namespace odbcabstraction {
 
+boost::optional<bool> AsBool(const std::string& value) {
+  if (boost::iequals(value, "true") || boost::iequals(value, "1")) {
+    return true;
+  } else if (boost::iequals(value, "false") || boost::iequals(value, "0")) {
+    return false;
+  } else {
+    return boost::none;
+  }
+}
+
 boost::optional<bool> AsBool(const Connection::ConnPropertyMap& connPropertyMap,
             const std::string& property_name) {
   auto extracted_property = connPropertyMap.find(property_name);
 
   if (extracted_property != connPropertyMap.end()) {
-    if (boost::iequals(extracted_property->second, "true") || boost::iequals(extracted_property->second, "1")) {
-      return true;
-    } else if (boost::iequals(extracted_property->second, "false") || boost::iequals(extracted_property->second, "0")) {
-      return false;
-    }
+    return AsBool(extracted_property->second);
   }
 
   return boost::none;

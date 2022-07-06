@@ -14,6 +14,11 @@ namespace odbcabstraction {
 
 using driver::odbcabstraction::Connection;
 
+/// Parse a string value to a boolean.
+/// \param value            the value to be parsed.
+/// \return                 the parsed valued.
+boost::optional<bool> AsBool(const std::string& value);
+
 /// Looks up for a value inside the ConnPropertyMap and then try to parse it.
 /// In case it does not find or it cannot parse, the default value will be returned.
 /// \param connPropertyMap    the map with the connection properties.
