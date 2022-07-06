@@ -346,7 +346,8 @@ std::shared_ptr<Statement> FlightSqlConnection::CreateStatement() {
               diagnostics_,
               *sql_client_,
               call_options_,
-              metadata_settings_
+              metadata_settings_,
+              this
               )
       );
 }
