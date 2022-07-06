@@ -55,9 +55,11 @@ FlightSqlStatement::FlightSqlStatement(
     const odbcabstraction::Diagnostics& diagnostics,
     FlightSqlClient &sql_client,
     FlightCallOptions call_options,
-    const odbcabstraction::MetadataSettings& metadata_settings)
+    const odbcabstraction::MetadataSettings& metadata_settings,
+    FlightSqlConnection *connection)
     : diagnostics_("Apache Arrow", diagnostics.GetDataSourceComponent(), diagnostics.GetOdbcVersion()),
-      sql_client_(sql_client), call_options_(std::move(call_options)), metadata_settings_(metadata_settings) {
+      sql_client_(sql_client), call_options_(std::move(call_options)), metadata_settings_(metadata_settings),
+      connection_(connection) {
   attribute_[METADATA_ID] = static_cast<size_t>(SQL_FALSE);
   attribute_[MAX_LENGTH] = static_cast<size_t>(0);
   attribute_[NOSCAN] = static_cast<size_t>(SQL_NOSCAN_OFF);
@@ -153,6 +155,11 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
   if ((catalog_name && *catalog_name == "%") &&
       (schema_name && schema_name->empty()) &&
       (table_name && table_name->empty())) {
+    auto result = connection_->GetInfo(SQL_CATALOG_NAME);
+    std::string info = boost::get<std::string>(result);
+    if (info == "N"){
+      throw DriverException("Catalogs are not supported", "HYC00");
+    }
     current_result_set_ =
         GetTablesForSQLAllCatalogs(
                 column_names, call_options_, sql_client_, diagnostics_, metadata_settings_);
