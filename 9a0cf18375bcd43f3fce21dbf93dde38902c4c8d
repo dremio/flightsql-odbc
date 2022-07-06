@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25443e2f_958945bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-06T16:59:59Z",
+      "side": 1,
+      "message": "Please be more specific in your commit subject and provide a detailed description of what the bug is and why it is being fixed underneath.",
+      "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cdcda08_e256d230",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-06T16:59:59Z",
+      "side": 1,
+      "message": "No point to use std::move() on a raw pointer.",
+      "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a76be6_c9de57d0",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-06T16:59:59Z",
+      "side": 1,
+      "message": "This doesn\u0027t report state HYC00, it just reports an error message that embeds HYC00 in the message. The actual SQL state that would get used though is HY000 (the default).\n\nYou need to use the second argument to DriverException to report the SQL State.",
+      "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
