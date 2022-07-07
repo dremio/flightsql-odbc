@@ -19,6 +19,7 @@
 
 #include <boost/algorithm/string/join.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/asio/ip/address.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 #include <odbcabstraction/exceptions.h>
@@ -314,19 +315,33 @@ FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
   Location location;
   if (ssl_config->useEncryption()) {
     AddressInfo address_info;
-
     char host_name_info[NI_MAXHOST] = "";
-    bool operation_result = address_info.GetAddressInfo(host, host_name_info,
-                                                         NI_MAXHOST);
+    bool operation_result = false;
 
-    if (operation_result) {
-      ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
-    } else {
-      ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    try {
+      auto ip_address = boost::asio::ip::make_address(host);
+      // We should only attempt to resolve the hostname from the IP if the given
+      // HOST input is an IP address.
+      if (ip_address.is_v4() || ip_address.is_v6()) {
+        operation_result = address_info.GetAddressInfo(host, host_name_info,
+                                                           NI_MAXHOST);
+        if (operation_result) {
+          ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
+          return location;
+        }
+        // TODO: We should log that we could not convert an IP to hostname here.
+      }
     }
-  } else {
-    ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
+    catch (...) {
+      // This is expected. The Host attribute can be an IP or name, but make_address will throw
+      // if it is not an IP.
+    }
+
+    ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    return location;
   }
+
+  ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
   return location;
 }
 
