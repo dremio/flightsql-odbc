@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2020-2022 Dremio Corporation
  *
@@ -90,7 +91,7 @@ inline std::string GetCerts() {
 
   for (auto store : STORES) {
     std::shared_ptr<SystemTrustStore> cert_iterator = std::make_shared<SystemTrustStore>(store);
-
+ 
     if (!cert_iterator->SystemHasStore()) {
       // If the system does not have the specific store, we skip it using the continue.
       continue;
@@ -109,9 +110,7 @@ constexpr auto SYSTEM_TRUST_STORE_DEFAULT = false;
 inline std::string GetCerts() {
   return "";
 }
-
 #endif
-
 const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROPERTIES = {
     FlightSqlConnection::HOST,
     FlightSqlConnection::PORT,
@@ -133,6 +132,8 @@ Connection::ConnPropertyMap::const_iterator
 TrackMissingRequiredProperty(const std::string &property,
                              const Connection::ConnPropertyMap &properties,
                              std::vector<std::string> &missing_attr) {
+  
+  
   auto prop_iter =
       properties.find(property);
   if (properties.end() == prop_iter) {
@@ -146,12 +147,12 @@ std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(const Connection::ConnP
   bool use_encryption = AsBool(connPropertyMap, FlightSqlConnection::USE_ENCRYPTION).value_or(true);
   bool disable_cert = AsBool(connPropertyMap, FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION).value_or(false);
   bool use_system_trusted = AsBool(connPropertyMap, FlightSqlConnection::USE_SYSTEM_TRUST_STORE).value_or(SYSTEM_TRUST_STORE_DEFAULT);
-
+  
   auto trusted_certs_iterator = connPropertyMap.find(
     FlightSqlConnection::TRUSTED_CERTS);
   auto trusted_certs =
     trusted_certs_iterator != connPropertyMap.end() ? trusted_certs_iterator->second : "";
-
+  
   return std::make_shared<FlightSqlSslConfig>(disable_cert, trusted_certs,
                                               use_system_trusted, use_encryption);
 }
@@ -165,7 +166,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     FlightClientOptions client_options =
       BuildFlightClientOptions(properties, missing_attr,
                                flight_ssl_configs);
-
+  
     const std::shared_ptr<arrow::flight::ClientMiddlewareFactory>
         &cookie_factory = arrow::flight::GetCookieFactory();
     client_options.middleware.push_back(cookie_factory);
@@ -177,16 +178,16 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     std::unique_ptr<FlightSqlAuthMethod> auth_method =
       FlightSqlAuthMethod::FromProperties(flight_client, properties);
     auth_method->Authenticate(*this, call_options_);
-
+ 
     sql_client_.reset(new FlightSqlClient(std::move(flight_client)));
     closed_ = false;
-
+ 
     // Note: This should likely come from Flight instead of being from the
     // connection properties to allow reporting a user for other auth mechanisms
     // and also decouple the database user from user credentials.
     info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_FALSE);
-
+ 
     PopulateMetadataSettings(properties);
     PopulateCallOptions(properties);
   } catch (...) {
@@ -213,7 +214,7 @@ boost::optional<int32_t> FlightSqlConnection::GetStringColumnLength(const Connec
                         ". Please ensure it has a valid numeric value. Message: " + e.what()),
             "01000", odbcabstraction::ODBCErrorCodes_GENERAL_WARNING);
   }
-
+ 
   return boost::none;
 }
 
@@ -278,7 +279,6 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     } else {
       if (ssl_config->useSystemTrustStore()) {
         const std::string certs = GetCerts();
-
         options.tls_root_certs = certs;
       } else if (!ssl_config->getTrustedCerts().empty()) {
         flight::CertKeyPair cert_key_pair;
@@ -307,27 +307,44 @@ FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
         boost::algorithm::join(missing_attr, ", ");
     throw DriverException(missing_attr_str);
   }
-
+ 
   const std::string &host = host_iter->second;
   const int &port = boost::lexical_cast<int>(port_iter->second);
-
+ 
   Location location;
   if (ssl_config->useEncryption()) {
     AddressInfo address_info;
-
     char host_name_info[NI_MAXHOST] = "";
-    bool operation_result = address_info.GetAddressInfo(host, host_name_info,
-                                                         NI_MAXHOST);
+    bool operation_result = false;
 
-    if (operation_result) {
-      ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
-    } else {
-      ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    try
+    {
+      auto ip_address = boost::asio::ip::make_address(host);
+      // We should only attempt to resolve the hostname from the IP if the given
+      // HOST input is an IP address.
+      if (ip_address.is_v4() || ip_address.is_v6())
+      {
+        operation_result = address_info.GetAddressInfo(host, host_name_info,
+                                                           NI_MAXHOST);
+        if (operation_result)
+        {
+          ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
+          return location;
+        }
+        // TODO: We should log here  
+      }
     }
-  } else {
-    ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
+    catch (const std::exception &e)
+    {
+      // This is expected. host can be ip or name.
+    }
+
+    ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
+    return location;
   }
-  return location;
+
+    ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
+    return location;
 }
 
 void FlightSqlConnection::Close() {
