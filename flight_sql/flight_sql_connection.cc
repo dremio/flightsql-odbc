@@ -21,6 +21,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
+#include <boost/asio/ip/address.hpp>
 #include <odbcabstraction/exceptions.h>
 
 #include <sql.h>
@@ -162,17 +163,17 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     auto flight_ssl_configs = LoadFlightSslConfigs(properties);
 
     Location location = BuildLocation(properties, missing_attr, flight_ssl_configs);
-    FlightClientOptions client_options =
+    client_options_ =
       BuildFlightClientOptions(properties, missing_attr,
                                flight_ssl_configs);
 
     const std::shared_ptr<arrow::flight::ClientMiddlewareFactory>
         &cookie_factory = arrow::flight::GetCookieFactory();
-    client_options.middleware.push_back(cookie_factory);
+    client_options_.middleware.push_back(cookie_factory);
 
     std::unique_ptr<FlightClient> flight_client;
     ThrowIfNotOK(
-      FlightClient::Connect(location, client_options, &flight_client));
+      FlightClient::Connect(location, client_options_, &flight_client));
 
     std::unique_ptr<FlightSqlAuthMethod> auth_method =
       FlightSqlAuthMethod::FromProperties(flight_client, properties);
@@ -269,9 +270,6 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
                                               std::vector<std::string> &missing_attr,
                                               const std::shared_ptr<FlightSqlSslConfig>& ssl_config) {
   FlightClientOptions options;
-  // Persist state information using cookies if the FlightProducer supports it.
-  options.middleware.push_back(arrow::flight::GetCookieFactory());
-
   if (ssl_config->useEncryption()) {
     if (ssl_config->shouldDisableCertificateVerification()) {
       options.disable_server_verification = ssl_config->shouldDisableCertificateVerification();
@@ -314,19 +312,25 @@ FlightSqlConnection::BuildLocation(const ConnPropertyMap &properties,
   Location location;
   if (ssl_config->useEncryption()) {
     AddressInfo address_info;
-
+    auto ip_address = boost::asio::ip::make_address(host); 
     char host_name_info[NI_MAXHOST] = "";
-    bool operation_result = address_info.GetAddressInfo(host, host_name_info,
-                                                         NI_MAXHOST);
+    bool operation_result = false;
 
-    if (operation_result) {
-      ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
-    } else {
+    // We should only attempt to resolve the hostname from the IP if the given
+    // HOST input is an IP address.
+    if (ip_address.is_v4() || ip_address.is_v6()) {
+        operation_result = address_info.GetAddressInfo(host, host_name_info,
+                                                         NI_MAXHOST);  
+        if (operation_result) {
+            ThrowIfNotOK(Location::ForGrpcTls(host_name_info, port, &location));
+            return location;
+        }                                                 
+    } 
       ThrowIfNotOK(Location::ForGrpcTls(host, port, &location));
-    }
-  } else {
-    ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
+      return location;
   }
+  
+  ThrowIfNotOK(Location::ForGrpcTcp(host, port, &location));
   return location;
 }
 

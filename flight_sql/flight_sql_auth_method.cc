@@ -41,16 +41,17 @@ public:
 
 class NoOpClientAuthHandler : public arrow::flight::ClientAuthHandler {
 public:
-    NoOpClientAuthHandler() {}
+  NoOpClientAuthHandler() {}
 
-    arrow::Status Authenticate(arrow::flight::ClientAuthSender* outgoing, arrow::flight::ClientAuthReader* incoming) override {
-        return arrow::Status::OK();
-    }
+  arrow::Status Authenticate(arrow::flight::ClientAuthSender* outgoing, arrow::flight::ClientAuthReader* incoming) override {
+    // Write a blank string. The server should ignore this and just accept any Handshake request.
+    return outgoing->Write(std::string());
+  }
 
-    arrow::Status GetToken(std::string* token) override {
-        *token = "";
-        return arrow::Status::OK();
-    }
+  arrow::Status GetToken(std::string* token) override {
+    *token = std::string();
+    return arrow::Status::OK();
+  }
 };
 
 class UserPasswordAuthMethod : public FlightSqlAuthMethod {
