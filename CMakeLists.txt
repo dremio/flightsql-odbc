@@ -8,6 +8,11 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(flightsql_odbc)
 
+# Add debug opts
+SET(GCC_EXTRA_OPTS  "-O3 -g")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_EXTRA_OPTS}")
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_EXTRA_OPTS}")
+
 # Add Boost dependencies. Should be pre-installed (Brew on Mac).
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
