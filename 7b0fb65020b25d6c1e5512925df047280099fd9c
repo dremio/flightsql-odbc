@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c803ccb3_dc5bb90f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-07T16:43:03Z",
+      "side": 1,
+      "message": "Reword this to not mention Tableau, since you haven\u0027t verified Tableau. This is fixing error reporting when requesting catalogs when catalogs are unsupported by the source.",
+      "revId": "7b0fb65020b25d6c1e5512925df047280099fd9c",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ba23277_5206f01f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-07T16:43:03Z",
+      "side": 1,
+      "message": "The problem is more that the driver didn\u0027t report catalogs as unsupported using SQL State HYC00 when listing catalogs and the source doesn\u0027t support them.",
+      "revId": "7b0fb65020b25d6c1e5512925df047280099fd9c",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
