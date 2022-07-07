@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b937275_d03e2b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-07-07T18:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c803ccb3_dc5bb90f",
+      "revId": "7b0fb65020b25d6c1e5512925df047280099fd9c",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ba23277_5206f01f",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-07T16:43:03Z",
       "side": 1,
       "message": "The problem is more that the driver didn\u0027t report catalogs as unsupported using SQL State HYC00 when listing catalogs and the source doesn\u0027t support them.",
+      "revId": "7b0fb65020b25d6c1e5512925df047280099fd9c",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7239aa2e_a68d31c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-07-07T18:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ba23277_5206f01f",
       "revId": "7b0fb65020b25d6c1e5512925df047280099fd9c",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
