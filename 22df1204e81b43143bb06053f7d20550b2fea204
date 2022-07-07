@@ -36,6 +36,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f97852fb_dbef2e7f",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-07T19:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac2bf2a3_cdc32a3e",
+      "revId": "22df1204e81b43143bb06053f7d20550b2fea204",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8cb314d_39e464f3",
@@ -49,6 +67,24 @@
       "writtenOn": "2022-07-05T20:58:52Z",
       "side": 1,
       "message": "This is wrong isn\u0027t it? The converter goes from UTF-8 to SQL_C_WCHAR.",
+      "revId": "22df1204e81b43143bb06053f7d20550b2fea204",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ef79b5_4e4eb95d",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-07T19:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8cb314d_39e464f3",
       "revId": "22df1204e81b43143bb06053f7d20550b2fea204",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
