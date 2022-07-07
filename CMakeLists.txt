@@ -6,6 +6,10 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
 
+SET(GCC_EXTRA_OPTS  "-O2 -g -DNDEBUG -pg")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_EXTRA_OPTS}")
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
+
 project(flightsql_odbc)
 
 # Add Boost dependencies. Should be pre-installed (Brew on Mac).
