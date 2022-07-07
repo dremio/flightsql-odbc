@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "44b27490_263a533f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-07T19:29:44Z",
+      "side": 1,
+      "message": "When fetching data as SQL_C_WCHAR, this should use UTF-16, not the default locale.",
+      "revId": "0d4f58f7255e4dcef6fb4528f2dcb1db44e28e2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5721b94_266e6435",
         "filename": "flight_sql/accessors/string_array_accessor.cc",
         "patchSetId": 8
