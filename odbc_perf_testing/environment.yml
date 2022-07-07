@@ -1,0 +1,8 @@
+name: odbc_perf_testing
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9.*
+  - pyodbc=4.0.*
+  - turbodbc=4.5.*
