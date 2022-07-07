@@ -5,6 +5,11 @@
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Add debug opts
+SET(GCC_EXTRA_OPTS  "-O3 -DNDEBUG -g")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_EXTRA_OPTS}")
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_EXTRA_OPTS}")
+
 include_directories(include)
 
 add_library(odbcabstraction
