@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7b6d78_c4143cdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-07-07T16:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25443e2f_958945bc",
+      "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cdcda08_e256d230",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a147ce8_76101cd1",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-07-07T16:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cdcda08_e256d230",
+      "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3a76be6_c9de57d0",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-06T16:59:59Z",
       "side": 1,
       "message": "This doesn\u0027t report state HYC00, it just reports an error message that embeds HYC00 in the message. The actual SQL state that would get used though is HY000 (the default).\n\nYou need to use the second argument to DriverException to report the SQL State.",
+      "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "094ea933_9a8766a4",
+        "filename": "flight_sql/flight_sql_statement.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000302
+      },
+      "writtenOn": "2022-07-07T16:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3a76be6_c9de57d0",
       "revId": "9a0cf18375bcd43f3fce21dbf93dde38902c4c8d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
