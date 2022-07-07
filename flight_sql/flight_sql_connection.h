@@ -33,6 +33,7 @@ class FlightSqlConnection : public odbcabstraction::Connection {
 private:
   odbcabstraction::MetadataSettings metadata_settings_;
   std::map<AttributeId, Attribute> attribute_;
+  arrow::flight::FlightClientOptions client_options_;
   arrow::flight::FlightCallOptions call_options_;
   std::unique_ptr<arrow::flight::sql::FlightSqlClient> sql_client_;
   GetInfoCache info_;
