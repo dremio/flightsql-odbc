@@ -236,8 +236,6 @@ else()
   )
 endif()
 
-find_package(Boost REQUIRED COMPONENTS locale)
-
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   ${ARROW_LIBS}
   gRPC::grpc++
@@ -245,8 +243,12 @@ set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   ${Protobuf_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${RapidJSON_LIBRARIES}
-  ${Boost_LIBRARIES}
 )
+
+if (MSVC)
+  find_package(Boost REQUIRED COMPONENTS locale)
+  list(APPEND ARROW_ODBC_SPI_THIRDPARTY_LIBS ${Boost_LIBRARIES})
+endif()
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
 
