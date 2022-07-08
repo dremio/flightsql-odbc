@@ -17,6 +17,7 @@ using namespace odbcabstraction;
 
 namespace {
 
+#if defined _WIN32 || defined _WIN64
 std::string utf8_to_clocale(const char *utf8str, int len)
 {
   boost::locale::generator g;
@@ -24,6 +25,7 @@ std::string utf8_to_clocale(const char *utf8str, int len)
   std::locale loc = g(boost::locale::util::get_system_locale());
   return boost::locale::conv::from_utf<char>(utf8str, utf8str + len, loc);
 }
+#endif
 
 template <typename CHAR_TYPE>
 inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
