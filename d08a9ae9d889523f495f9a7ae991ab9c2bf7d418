@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "381ac1d6_718a69c0",
+        "filename": "odbc_perf_testing/main.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-11T17:34:29Z",
+      "side": 1,
+      "message": "Please add copyright headers to all files",
+      "revId": "d08a9ae9d889523f495f9a7ae991ab9c2bf7d418",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49fd94d0_d1d88a37",
+        "filename": "odbc_perf_testing/test_cases/test_all_sql_types.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-11T17:34:29Z",
+      "side": 1,
+      "message": "We don\u0027t really want to run more than 1 case per run.",
+      "revId": "d08a9ae9d889523f495f9a7ae991ab9c2bf7d418",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
