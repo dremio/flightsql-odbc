@@ -30,6 +30,7 @@ add_library(odbcabstraction
   include/odbcabstraction/spi/statement.h
   calendar_utils.cc
   diagnostics.cc
+  encoding.cc
   exceptions.cc
   utils.cc
   odbc_impl/ODBCConnection.cc
