@@ -13,12 +13,7 @@ find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Add ODBC dependencies.
-if (APPLE)
-    set(ODBC_INCLUDE_DIRS /usr/local/Cellar/libiodbc/3.52.15/include)
-    add_compile_definitions(HAVE_LONG_LONG SQLCOLATTRIBUTE_SQLLEN WITH_IODBC)
-else()
-    find_package(ODBC REQUIRED)
-endif()
+find_package(ODBC REQUIRED)
 include_directories(${ODBC_INCLUDE_DIRS})
 
 # Fetch and include GTest

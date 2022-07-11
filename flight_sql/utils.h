@@ -22,13 +22,8 @@ typedef std::function<
 
 using arrow::util::optional;
 
-#ifdef WITH_IODBC
-using SqlWChar = char32_t;
-using SqlWString = std::u32string;
-#else
 using SqlWChar = char16_t;
 using SqlWString = std::u16string;
-#endif
 using CharToWStrConverter =
     std::wstring_convert<std::codecvt_utf8<SqlWChar>, SqlWChar>;
 

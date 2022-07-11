@@ -19,15 +19,9 @@
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
 namespace ODBC {
-  #ifdef WITH_IODBC
-  typedef char32_t SqlWChar;
-  typedef std::u32string SqlWString;
-  typedef std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> CharToWStrConverter;
-  #else
   typedef char16_t SqlWChar;
   typedef std::u16string SqlWString;
   typedef std::wstring_convert<std::codecvt_utf8<char16_t>, char16_t> CharToWStrConverter;
-  #endif
 
   // Return the number of bytes required for the conversion.
   inline size_t ConvertToSqlWChar(const std::string& str, SQLWCHAR* buffer, SQLLEN bufferSizeInBytes) {
