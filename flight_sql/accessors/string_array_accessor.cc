@@ -8,6 +8,7 @@
 
 #include <arrow/array.h>
 #include <boost/locale.hpp>
+#include <odbcabstraction/encoding.h>
 
 namespace driver {
 namespace flight_sql {
@@ -28,12 +29,12 @@ std::string utf8_to_clocale(const char *utf8str, int len)
 #endif
 
 template <typename CHAR_TYPE>
-inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
-                                       ColumnBinding *binding,
-                                       StringArray *array, int64_t arrow_row, int64_t i,
-                                       int64_t &value_offset,
-                                       bool update_value_offset,
-                                       odbcabstraction::Diagnostics &diagnostics) {
+inline RowStatus MoveSingleCellToCharBuffer(std::vector<uint8_t> &buffer,
+                                            ColumnBinding *binding,
+                                            StringArray *array, int64_t arrow_row, int64_t i,
+                                            int64_t &value_offset,
+                                            bool update_value_offset,
+                                            odbcabstraction::Diagnostics &diagnostics) {
   RowStatus result = odbcabstraction::RowStatus_SUCCESS;
 
   // Arrow strings come as UTF-8
@@ -42,14 +43,13 @@ inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
   const void *value;
 
   size_t size_in_bytes;
-  SqlWString wstr;
 #if defined _WIN32 || defined _WIN64
   std::string clocale_str;
 #endif
   if (sizeof(CHAR_TYPE) > sizeof(char)) {
-    wstr = converter->from_bytes(raw_value, raw_value + raw_value_length);
-    value = wstr.data();
-    size_in_bytes = wstr.size() * sizeof(CHAR_TYPE);
+    Utf8ToWcs(raw_value, raw_value_length, &buffer);
+    value = buffer.data();
+    size_in_bytes = buffer.size();
   } else {
 #if defined _WIN32 || defined _WIN64
     // Convert to C locale string
@@ -104,38 +104,27 @@ inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
 
 } // namespace
 
-template <CDataType TARGET_TYPE>
-StringArrayFlightSqlAccessor<TARGET_TYPE>::StringArrayFlightSqlAccessor(
+template <CDataType TARGET_TYPE, typename CHAR_TYPE>
+StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>::StringArrayFlightSqlAccessor(
     Array *array)
     : FlightSqlAccessor<StringArray, TARGET_TYPE,
-                        StringArrayFlightSqlAccessor<TARGET_TYPE>>(array),
-      converter_() {}
+                        StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>>(array) {}
 
-template <>
-RowStatus StringArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
-    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
-    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  return MoveSingleCellToCharBuffer<char>(
-      &converter_, binding, this->GetArray(), arrow_row, i,
-      value_offset, update_value_offset, diagnostics);
+template <CDataType TARGET_TYPE, typename CHAR_TYPE>
+RowStatus StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>::MoveSingleCell_impl(
+        ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
+        bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    return MoveSingleCellToCharBuffer<CHAR_TYPE>(buffer_, binding, this->GetArray(), arrow_row, i, value_offset, update_value_offset, diagnostics);
 }
 
-template <>
-RowStatus StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
-    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
-    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  return MoveSingleCellToCharBuffer<SqlWChar>(
-      &converter_, binding, this->GetArray(), arrow_row, i,
-      value_offset, update_value_offset, diagnostics);
-}
-
-template <CDataType TARGET_TYPE>
-size_t StringArrayFlightSqlAccessor<TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+template <CDataType TARGET_TYPE, typename CHAR_TYPE>
+size_t StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
   return binding->buffer_length;
 }
 
-template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR>;
-template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_WCHAR>;
+template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_CHAR, char>;
+template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_WCHAR, char16_t>;
+template class StringArrayFlightSqlAccessor<odbcabstraction::CDataType_WCHAR, char32_t>;
 
 } // namespace flight_sql
 } // namespace driver
