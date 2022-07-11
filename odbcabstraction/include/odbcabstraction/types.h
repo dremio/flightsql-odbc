@@ -7,6 +7,7 @@
 #pragma once
 
 #include <odbcabstraction/platform.h>
+#include <odbcabstraction/encoding.h>
 #include <boost/optional.hpp>
 
 namespace driver {
