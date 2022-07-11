@@ -359,7 +359,7 @@ optional<int32_t> GetCharOctetLength(SqlDataType data_type,
     case SqlDataType_WVARCHAR:
     case SqlDataType_WLONGVARCHAR:
       if (column_size.ok()) {
-        return column_size.ValueOrDie() * sizeof(SqlWChar);
+        return column_size.ValueOrDie() * GetSqlWCharSize();
       } else {
         return arrow::util::nullopt;
       }
@@ -431,7 +431,7 @@ optional<int32_t> GetColumnSize(SqlDataType data_type,
     case SqlDataType_WCHAR:
     case SqlDataType_WVARCHAR:
     case SqlDataType_WLONGVARCHAR:
-      return column_size.has_value() ? arrow::util::make_optional(column_size.value() * sizeof(SqlWChar))
+      return column_size.has_value() ? arrow::util::make_optional(column_size.value() * GetSqlWCharSize())
                                      : arrow::util::nullopt;
     case SqlDataType_BINARY:
     case SqlDataType_VARBINARY:
@@ -492,7 +492,7 @@ optional<int32_t> GetBufferLength(SqlDataType data_type,
   case SqlDataType_WCHAR:
   case SqlDataType_WVARCHAR:
   case SqlDataType_WLONGVARCHAR:
-    return column_size.has_value() ? arrow::util::make_optional(column_size.value() * sizeof(SqlWChar))
+    return column_size.has_value() ? arrow::util::make_optional(column_size.value() * GetSqlWCharSize())
                                    : arrow::util::nullopt;
   case SqlDataType_BINARY:
   case SqlDataType_VARBINARY:
