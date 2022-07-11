@@ -66,13 +66,13 @@ inline SQLRETURN GetAttributeSQLWCHAR(const std::string &attributeValue, bool is
                                  SQLPOINTER output, O outputSize,
                                  O *outputLenPtr) {
   size_t result = ConvertToSqlWChar(
-      attributeValue, reinterpret_cast<SQLWCHAR *>(output), isLengthInBytes ? outputSize : outputSize * sizeof(SQLWCHAR));
+      attributeValue, reinterpret_cast<SQLWCHAR *>(output), isLengthInBytes ? outputSize : outputSize * GetSqlWCharSize());
 
   if (outputLenPtr) {
-    *outputLenPtr = static_cast<O>(isLengthInBytes ? result : result / sizeof(SQLWCHAR));
+    *outputLenPtr = static_cast<O>(isLengthInBytes ? result : result / GetSqlWCharSize());
   }
 
-  if (output && outputSize < result + (isLengthInBytes ? sizeof(SQLWCHAR) : 1)) {
+  if (output && outputSize < result + (isLengthInBytes ? GetSqlWCharSize() : 1)) {
     return SQL_SUCCESS_WITH_INFO;
   }
   return SQL_SUCCESS;
@@ -128,14 +128,13 @@ inline void SetAttributeUTF8(SQLPOINTER newValue, SQLINTEGER inputLength,
 inline void SetAttributeSQLWCHAR(SQLPOINTER newValue,
                                  SQLINTEGER inputLengthInBytes,
                                  std::string &attributeToWrite) {
-  SqlWString wstr;
+  thread_local std::vector<uint8_t> utf8_str;
   if (inputLengthInBytes == SQL_NTS) {
-    wstr.assign(reinterpret_cast<SqlWChar *>(newValue));
+    WcsToUtf8(newValue, &utf8_str);
   } else {
-    wstr.assign(reinterpret_cast<SqlWChar *>(newValue),
-                inputLengthInBytes / sizeof(SqlWChar));
+    WcsToUtf8(newValue, inputLengthInBytes / GetSqlWCharSize(), &utf8_str);
   }
-  attributeToWrite = CharToWStrConverter().to_bytes(wstr.c_str());
+  attributeToWrite.assign((char *) utf8_str.data());
 }
 
 template <typename T>

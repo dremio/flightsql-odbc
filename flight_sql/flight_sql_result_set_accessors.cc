@@ -24,12 +24,10 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
     ACCESSORS_CONSTRUCTORS = {
         {SourceAndTargetPair(arrow::Type::type::STRING, CDataType_CHAR),
          [](arrow::Array *array) {
-           return new StringArrayFlightSqlAccessor<CDataType_CHAR>(array);
+           return new StringArrayFlightSqlAccessor<CDataType_CHAR, char>(array);
          }},
         {SourceAndTargetPair(arrow::Type::type::STRING, CDataType_WCHAR),
-         [](arrow::Array *array) {
-           return new StringArrayFlightSqlAccessor<CDataType_WCHAR>(array);
-         }},
+                CreateWCharStringArrayAccessor},
         {SourceAndTargetPair(arrow::Type::type::DOUBLE, CDataType_DOUBLE),
          [](arrow::Array *array) {
            return new PrimitiveArrayFlightSqlAccessor<DoubleArray,
