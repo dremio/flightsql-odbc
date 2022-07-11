@@ -32,7 +32,7 @@ public:
   size_t GetCellLength_impl(ColumnBinding *binding) const;
 
 private:
-  CharToWStrConverter converter_;
+  std::vector<uint8_t> buffer_;
 };
 
 } // namespace flight_sql
