@@ -11,6 +11,7 @@
 #include "utils.h"
 #include <locale>
 #include <odbcabstraction/types.h>
+#include <odbcabstraction/encoding.h>
 
 namespace driver {
 namespace flight_sql {
@@ -30,9 +31,6 @@ public:
                            odbcabstraction::Diagnostics &diagnostics);
 
   size_t GetCellLength_impl(ColumnBinding *binding) const;
-
-private:
-  CharToWStrConverter converter_;
 };
 
 } // namespace flight_sql
