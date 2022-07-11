@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce068cd1_2195ddb8",
+        "filename": "odbc_perf_testing/main.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-07-11T18:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "381ac1d6_718a69c0",
+      "revId": "d08a9ae9d889523f495f9a7ae991ab9c2bf7d418",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49fd94d0_d1d88a37",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-11T17:34:29Z",
       "side": 1,
       "message": "We don\u0027t really want to run more than 1 case per run.",
+      "revId": "d08a9ae9d889523f495f9a7ae991ab9c2bf7d418",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31ba6349_77ef789f",
+        "filename": "odbc_perf_testing/test_cases/test_all_sql_types.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-07-11T18:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49fd94d0_d1d88a37",
       "revId": "d08a9ae9d889523f495f9a7ae991ab9c2bf7d418",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
