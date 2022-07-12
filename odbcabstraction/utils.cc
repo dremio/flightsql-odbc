@@ -5,8 +5,14 @@
  */
 
 #include <odbcabstraction/utils.h>
+#include "whereami.h"
+
+#include <fstream>
+#include <sstream>
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/token_functions.hpp>
 
 namespace driver {
 namespace odbcabstraction {
@@ -43,6 +49,44 @@ boost::optional<int32_t> AsInt32(int32_t min_value, const Connection::ConnProper
     }
   }
   return boost::none;
+}
+
+void ReadConfigLogFile(ConfigPropertyMap properties) {
+  std::vector<char> path;
+  int length, dirname_length;
+  length = wai_getExecutablePath(NULL, 0, &dirname_length);
+
+  if (length != 0) {
+    path.reserve(length);
+    wai_getExecutablePath(path.data(), length, &dirname_length);
+  } else {
+    throw DriverException("Could not read the driver config file.");
+  }
+
+  std::ifstream myfile;
+
+  std::string config_path(path.data()) ;
+  myfile.open(config_path + "/arrow-odbc.ini");
+
+  if (myfile.fail()) {
+    throw DriverException("Could not read the driver config file.");
+  }
+
+  std::string temp_config;
+  std::stringstream configString;
+
+  boost::char_separator<char> separator("=");
+  while(myfile.good()) {
+    myfile >> temp_config;
+    boost::tokenizer< boost::char_separator<char>> tokenizer(temp_config, separator);
+
+    auto iterator = tokenizer.begin();
+
+    std::string key = *iterator;
+    std::string value = *++iterator;
+
+    properties[key] = std::move(value);
+  }
 }
 
 } // namespace odbcabstraction
