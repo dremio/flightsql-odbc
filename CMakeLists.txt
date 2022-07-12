@@ -12,6 +12,8 @@ project(flightsql_odbc)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+find_package(spdlog CONFIG REQUIRED)
+
 # Add ODBC dependencies.
 if (APPLE)
     set(ODBC_INCLUDE_DIRS /usr/local/Cellar/libiodbc/3.52.15/include)
