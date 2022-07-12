@@ -5,8 +5,14 @@
  */
 
 #include <odbcabstraction/utils.h>
+#include <odbcabstraction/whereami.h>
+
+#include <fstream>
+#include <sstream>
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/token_functions.hpp>
 
 namespace driver {
 namespace odbcabstraction {
@@ -43,6 +49,39 @@ boost::optional<int32_t> AsInt32(int32_t min_value, const Connection::ConnProper
     }
   }
   return boost::none;
+}
+
+void ReadConfigLogFile(ConfigPropertyMap properties) {
+  char* path = NULL;
+  int length, dirname_length;
+  length = wai_getExecutablePath(NULL, 0, &dirname_length);
+
+  if (length > 0) {
+    path = (char*)malloc(length + 1);
+    wai_getExecutablePath(path, length, &dirname_length);
+  }
+
+  std::ifstream myfile;
+
+  std::string config_path(path) ;
+  myfile.open(config_path + "/config.ini");
+  free(path);
+
+  std::string temp_config;
+  std::stringstream configString;
+
+  boost::char_separator<char> separator("=");
+  while(myfile.good()) {
+    myfile >> temp_config;
+    boost::tokenizer< boost::char_separator<char>> tokenizer(temp_config, separator);
+
+    auto iterator = tokenizer.begin();
+
+    std::string key = *iterator;
+    std::string value = *++iterator;
+
+    properties[key] = std::move(value);
+  }
 }
 
 } // namespace odbcabstraction
