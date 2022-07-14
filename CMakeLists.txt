@@ -12,7 +12,7 @@ project(flightsql_odbc)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-find_package(spdlog CONFIG REQUIRED)
+find_package(spdlog REQUIRED)
 
 # Add ODBC dependencies.
 if (APPLE)
