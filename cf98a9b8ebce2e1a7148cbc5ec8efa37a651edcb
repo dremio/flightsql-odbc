@@ -16,6 +16,24 @@
       "message": "If this branch is reached the code will never try to calculate a Location since that only happens in the else if and else cases.",
       "revId": "cf98a9b8ebce2e1a7148cbc5ec8efa37a651edcb",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03908eb8_1ae85f9e",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T00:01:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f2eb78_3056d833",
+      "revId": "cf98a9b8ebce2e1a7148cbc5ec8efa37a651edcb",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
