@@ -76,17 +76,11 @@ public:
 
   size_t Move(size_t rows, size_t bind_offset, size_t bind_type, uint16_t *row_status_array) override;
 
-  std::shared_ptr<arrow::Array> GetArrayForColumn(int column);
-
   std::shared_ptr<ResultSetMetadata> GetMetadata() override;
 
   void BindColumn(int column_n, int16_t target_type, int precision, int scale,
                   void *buffer, size_t buffer_length,
                   ssize_t *strlen_buffer) override;
-
-  inline bool UseWideChar() {
-    return metadata_settings_.use_wide_char_;
-  }
 };
 
 } // namespace flight_sql

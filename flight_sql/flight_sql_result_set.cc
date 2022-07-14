@@ -48,12 +48,11 @@ FlightSqlResultSet::FlightSqlResultSet(
       diagnostics_(diagnostics),
       current_row_(0), num_binding_(0), reset_get_data_(false) {
   current_chunk_.data = nullptr;
-
-  for (int i = 0; i < columns_.size(); ++i) {
-    columns_[i] = FlightSqlResultSetColumn(this, i + 1);
-  }
-
   ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema_));
+
+  for (size_t i = 0; i < columns_.size(); ++i) {
+    columns_[i] = FlightSqlResultSetColumn(metadata_settings.use_wide_char_);
+  }
 }
 
 size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_type, uint16_t *row_status_array) {
@@ -91,8 +90,9 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
         current_chunk_.data = transformer_->Transform(current_chunk_.data);
       }
 
-      for (auto &column : columns_) {
-        column.ResetAccessor();
+      for (size_t column_num = 0; column_num < columns_.size(); ++column_num) {
+        columns_[column_num].SetArrowArray(current_chunk_.data->column(column_num));
+        columns_[column_num].ResetAccessor();
       }
       current_row_ = 0;
       continue;
@@ -231,19 +231,6 @@ bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
 
   // If there was truncation, the converter would have reported it to the diagnostics.
   return diagnostics_.HasWarning();
-}
-
-std::shared_ptr<arrow::Array>
-FlightSqlResultSet::GetArrayForColumn(int column) {
-  if (!current_chunk_.data) {
-    // This may happen if query is cancelled right after SQLFetch and before SQLGetData.
-    throw DriverException("No RecordBatch loaded.", "24000");
-  }
-
-  std::shared_ptr<Array> original_array =
-      current_chunk_.data->column(column - 1);
-
-  return original_array;
 }
 
 std::shared_ptr<ResultSetMetadata> FlightSqlResultSet::GetMetadata() {
