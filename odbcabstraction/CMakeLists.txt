@@ -7,6 +7,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include_directories(include)
 
+find_package(fmt)
+
 add_library(odbcabstraction
   include/odbcabstraction/calendar_utils.h
   include/odbcabstraction/diagnostics.h
@@ -49,4 +51,4 @@ set_target_properties(odbcabstraction
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     )
-target_link_libraries(odbcabstraction spdlog::spdlog_header_only)
+target_link_libraries(odbcabstraction fmt::fmt-header-only spdlog::spdlog_header_only)
