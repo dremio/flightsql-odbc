@@ -7,7 +7,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include_directories(include)
 
-find_package(fmt)
+FetchContent_Declare(fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG master
+        )
+FetchContent_MakeAvailable(fmt)
 
 add_library(odbcabstraction
   include/odbcabstraction/calendar_utils.h
