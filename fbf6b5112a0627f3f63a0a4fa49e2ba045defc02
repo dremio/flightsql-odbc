@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12530035_3ff0911d",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T19:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b0a9459_34fc589c",
+      "revId": "fbf6b5112a0627f3f63a0a4fa49e2ba045defc02",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5e28e6e_3ca413b2",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "I blame make_address() for throwing. but acording to docs it should not",
       "parentUuid": "a5e28e6e_3ca413b2",
+      "revId": "fbf6b5112a0627f3f63a0a4fa49e2ba045defc02",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5970ee76_817c156f",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T19:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84a379b_ffd6be1b",
       "revId": "fbf6b5112a0627f3f63a0a4fa49e2ba045defc02",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
