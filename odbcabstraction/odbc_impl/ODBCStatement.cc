@@ -192,6 +192,7 @@ ODBCStatement::ODBCStatement(ODBCConnection& connection,
   std::shared_ptr<driver::odbcabstraction::Statement> spiStatement) :
   m_connection(connection),
   m_spiStatement(std::move(spiStatement)),
+  m_diagnostics(&m_spiStatement->GetDiagnostics()),
   m_builtInArd(std::make_shared<ODBCDescriptor>(m_spiStatement->GetDiagnostics(), nullptr, this, true, true, connection.IsOdbc2Connection())),
   m_builtInApd(std::make_shared<ODBCDescriptor>(m_spiStatement->GetDiagnostics(), nullptr, this, true, true, connection.IsOdbc2Connection())),
   m_ipd(std::make_shared<ODBCDescriptor>(m_spiStatement->GetDiagnostics(), nullptr, this, false, true, connection.IsOdbc2Connection())),
@@ -203,10 +204,6 @@ ODBCStatement::ODBCStatement(ODBCConnection& connection,
   m_rowsetSize(1),
   m_isPrepared(false),
   m_hasReachedEndOfResult(false) {
-}
-
-Diagnostics &ODBCStatement::GetDiagnostics_Impl() {
-  return m_spiStatement->GetDiagnostics();
 }
 
 ODBCConnection &ODBCStatement::GetConnection() {
@@ -293,7 +290,6 @@ bool ODBCStatement::Fetch(size_t rows) {
     // Wipe out all bindings in the ResultSet.
     // Note that the number of ARD records can both be more or less
     // than the number of columns.
-    SQLULEN bindOffset = m_currentArd->GetBindOffset();
     for (size_t i = 0; i < m_ird->GetRecords().size(); i++) {
       if (i < m_currentArd->GetRecords().size() && m_currentArd->GetRecords()[i].m_isBound) {
         const DescriptorRecord& ardRecord = m_currentArd->GetRecords()[i];

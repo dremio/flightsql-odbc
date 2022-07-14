@@ -40,7 +40,9 @@ class ODBCStatement : public ODBCHandle<ODBCStatement> {
     
     ~ODBCStatement() = default;
 
-    driver::odbcabstraction::Diagnostics& GetDiagnostics_Impl();
+    inline driver::odbcabstraction::Diagnostics& GetDiagnostics_Impl() {
+      return *m_diagnostics;
+    }
 
     ODBCConnection &GetConnection();
 
@@ -96,6 +98,7 @@ class ODBCStatement : public ODBCHandle<ODBCStatement> {
     ODBCConnection& m_connection;
     std::shared_ptr<driver::odbcabstraction::Statement> m_spiStatement;
     std::shared_ptr<driver::odbcabstraction::ResultSet> m_currenResult;
+    driver::odbcabstraction::Diagnostics* m_diagnostics;
 
     std::shared_ptr<ODBCDescriptor> m_builtInArd;
     std::shared_ptr<ODBCDescriptor> m_builtInApd;

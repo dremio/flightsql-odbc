@@ -407,10 +407,6 @@ bool ODBCDescriptor::IsAppDescriptor() const {
   return m_isAppDescriptor;
 }
 
-bool ODBCDescriptor::HaveBindingsChanged() const {
-  return m_hasBindingsChanged;
-}
-
 void ODBCDescriptor::RegisterToStatement(ODBCStatement* statement, bool isApd) {
   if (isApd) {
     m_registeredOnStatementsAsApd.push_back(statement);

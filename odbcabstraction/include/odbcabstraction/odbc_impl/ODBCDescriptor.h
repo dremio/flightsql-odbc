@@ -85,7 +85,11 @@ namespace ODBC
       void GetField(SQLSMALLINT recordNumber, SQLSMALLINT fieldIdentifier, SQLPOINTER value, SQLINTEGER bufferLength, SQLINTEGER* outputLength);
       SQLSMALLINT getAllocType() const;
       bool IsAppDescriptor() const;
-      bool HaveBindingsChanged() const;
+
+      inline bool HaveBindingsChanged() const {
+        return m_hasBindingsChanged;
+      }
+
       void RegisterToStatement(ODBCStatement* statement, bool isApd);
       void DetachFromStatement(ODBCStatement* statement, bool isApd);
       void ReleaseDescriptor();
@@ -122,11 +126,11 @@ namespace ODBC
         }
       }
 
-      void NotifyBindingsHavePropagated() {
+      inline void NotifyBindingsHavePropagated() {
         m_hasBindingsChanged = false;
       }
 
-      void NotifyBindingsHaveChanged() {
+      inline void NotifyBindingsHaveChanged() {
         m_hasBindingsChanged = true;
       }
 
