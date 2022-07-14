@@ -33,6 +33,24 @@
       "message": "What is throwing here? And why? GetAddressInfo cannot throw so it must be something else.",
       "revId": "fbf6b5112a0627f3f63a0a4fa49e2ba045defc02",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84a379b_ffd6be1b",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T17:39:54Z",
+      "side": 1,
+      "message": "I blame make_address() for throwing. but acording to docs it should not",
+      "parentUuid": "a5e28e6e_3ca413b2",
+      "revId": "fbf6b5112a0627f3f63a0a4fa49e2ba045defc02",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
