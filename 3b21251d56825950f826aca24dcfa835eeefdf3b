@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b35aad83_aabd7723",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "-2 because this has a definite bug due to ignoring inputLengthInBytes in AttributeUtils.h",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "611b70f1_23120971",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "The accessor should cache a working buffer (and clear it at the start) to avoid excessive reallocations.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6206a50a_39af1694",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "This shouldn\u0027t rely on sizeof(CHAR_TYPE) right? Please correct this.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b799a2e_4d060bbd",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "Same for this. It shouldn\u0027t be based on CHAR_TYPE.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a40340be_ff8df60c",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "This should be part of creation of the accessor. This evaluates for every cell.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "618bc486_61366ad3",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "Can the SqlWCharSize constant be in the unnamed namespace?",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43082a1_2361a0ef",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "There are tabs in this code.\n\nAlso, avoid assigning a size_t to -1 since it is unsigned.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec854fec_b81a0c68",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "Do not mention warpdrive in flightsql-odbc code.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b9ad032_436dee07",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "On Windows and Linux, this function should be a constexpr and be inline in the header.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dbbff82_e8d94f4a",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "This isn\u0027t thread-safe.\nInstead, I think you can initialize SqlWCharSize the result of a function (like InitializeSqlWCharSize()).",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d0f0376_ecd623d6",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "These names are weird. I\u0027d suggest using just \"UTF-16\" and \"UTF-32\".\nShould probably be case insensitive too.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2618a52f_874f289d",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "The default should be UTF-32 on Mac. This environment variable should not do anything on Windows and Linux.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "165efc1e_2a4a4a8e",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "Can this be an assert(false) too? And throw a more useful error message, and throw a DriverException.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f62c2b5e_1cec45f9",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "This take an output vector instead of creating one and returning it. That way if the caller needs to convert several strings (such as the accessors) they can re-use the same vector to avoid reallocations.\n\nPerhaps do an overload that returns a new vector.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1dfae2_b79a9e08",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "There needs to be documentation to indicate whether this length is in bytes of code units. It is too unclear. The parameter name should also make this obvious.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8a36fa8_414babc1",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "No need to include most of these unless you make the implemenations inline?",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d755ce_eac9deca",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "It seems like these functions should be inline since they are used frequently and in performance-critical code.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f1fa4db_63140d40",
+        "filename": "odbcabstraction/include/odbcabstraction/odbc_impl/AttributeUtils.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "Why does this no longer factor in inputLengthInBytes? There\u0027s no guarantee that the input is NUL-terminated.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "428d71a0_70c84f90",
+        "filename": "odbcabstraction/include/odbcabstraction/odbc_impl/EncodingUtils.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T21:12:29Z",
+      "side": 1,
+      "message": "Similar comments as encoding.h.\nWhy even bother having this? Can\u0027t we just call the method from encoding.h?",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
