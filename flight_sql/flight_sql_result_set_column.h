@@ -8,21 +8,16 @@
 
 #include <accessors/types.h>
 #include <arrow/array.h>
+#include "utils.h"
 
 namespace driver {
 namespace flight_sql {
 
 using arrow::Array;
 
-class FlightSqlResultSet;
-
 class FlightSqlResultSetColumn {
 private:
-  FlightSqlResultSet *result_set_;
-  int column_n_;
-
-  // TODO: Figure out if that's the best way of caching
-  Array *cached_original_array_;
+  std::shared_ptr<Array> original_array_;
   std::shared_ptr<Array> cached_casted_array_;
   std::unique_ptr<Accessor> cached_accessor_;
 
@@ -31,22 +26,44 @@ private:
   Accessor *GetAccessorForTargetType(CDataType target_type);
 
 public:
-  FlightSqlResultSetColumn();
-
-  FlightSqlResultSetColumn(FlightSqlResultSet *result_set, int column_n);
+  FlightSqlResultSetColumn() = default;
+  explicit FlightSqlResultSetColumn(bool use_wide_char);
 
   ColumnBinding binding;
+  bool use_wide_char_;
   bool is_bound;
 
-  Accessor *GetAccessorForBinding();
+  inline Accessor *GetAccessorForBinding() {
+    return cached_accessor_.get();
+  }
 
-  Accessor *GetAccessorForGetData(CDataType target_type);
+  inline Accessor *GetAccessorForGetData(CDataType target_type) {
+    if (target_type == odbcabstraction::CDataType_DEFAULT) {
+      target_type = ConvertArrowTypeToC(original_array_->type_id(), use_wide_char_);
+    }
+
+    if (cached_accessor_ && cached_accessor_->target_type_ == target_type) {
+      return cached_accessor_.get();
+    }
+    return GetAccessorForTargetType(target_type);
+  }
 
   void SetBinding(ColumnBinding new_binding);
 
   void ResetBinding();
 
-  void ResetAccessor();
+  inline void ResetAccessor() {
+    if (cached_accessor_) {
+      cached_accessor_ = CreateAccessor(cached_accessor_->target_type_);
+    } else {
+      cached_casted_array_.reset();
+      cached_accessor_.reset();
+    }
+  }
+
+  inline void SetArrowArray(std::shared_ptr<Array> array) {
+    original_array_ = std::move(array);
+  }
 };
 } // namespace flight_sql
 } // namespace driver
