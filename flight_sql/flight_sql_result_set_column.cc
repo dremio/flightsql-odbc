@@ -6,7 +6,7 @@
 
 #include "flight_sql_result_set_column.h"
 #include <odbcabstraction/platform.h>
-#include "flight_sql_result_set.h"
+#include "flight_sql_result_set_accessors.h"
 #include "utils.h"
 #include <accessors/types.h>
 #include <memory>
@@ -32,74 +32,47 @@ CastArray(const std::shared_ptr<arrow::Array> &original_array,
 
 std::unique_ptr<Accessor>
 FlightSqlResultSetColumn::CreateAccessor(CDataType target_type) {
-  const std::shared_ptr<arrow::Array> &original_array =
-      result_set_->GetArrayForColumn(column_n_);
-  cached_original_array_ = original_array.get();
-  cached_casted_array_ = CastArray(original_array, target_type);
+  cached_casted_array_ = CastArray(original_array_, target_type);
 
   return flight_sql::CreateAccessor(cached_casted_array_.get(), target_type);
 }
 
 Accessor *
 FlightSqlResultSetColumn::GetAccessorForTargetType(CDataType target_type) {
-  const std::shared_ptr<arrow::Array> &original_array =
-      result_set_->GetArrayForColumn(column_n_);
-
+  // Cast the original array to a type matching the target_type.
   if (target_type == odbcabstraction::CDataType_DEFAULT) {
-    target_type = ConvertArrowTypeToC(original_array->type_id(), result_set_->UseWideChar());
-  }
-
-  // TODO: Figure out if that's the best way of caching
-  if (cached_accessor_ && original_array.get() == cached_original_array_ &&
-      cached_accessor_->target_type_ == target_type) {
-    return cached_accessor_.get();
+    target_type = ConvertArrowTypeToC(original_array_->type_id(), use_wide_char_);
   }
 
   cached_accessor_ = CreateAccessor(target_type);
-  cached_original_array_ = original_array.get();
   return cached_accessor_.get();
 }
 
-FlightSqlResultSetColumn::FlightSqlResultSetColumn()
-    : FlightSqlResultSetColumn(nullptr, 0) {}
-
-FlightSqlResultSetColumn::FlightSqlResultSetColumn(
-    FlightSqlResultSet *result_set, int column_n)
-    : result_set_(result_set), column_n_(column_n),
-      cached_original_array_(nullptr), is_bound(false) {}
-
-Accessor *FlightSqlResultSetColumn::GetAccessorForBinding() {
-  return GetAccessorForTargetType(binding.target_type);
-}
-
-Accessor *
-FlightSqlResultSetColumn::GetAccessorForGetData(CDataType target_type) {
-  return GetAccessorForTargetType(target_type);
-}
+FlightSqlResultSetColumn::FlightSqlResultSetColumn(bool use_wide_char)
+    : use_wide_char_(use_wide_char),
+      is_bound_(false) {}
 
 void FlightSqlResultSetColumn::SetBinding(ColumnBinding new_binding) {
-  binding = new_binding;
-  is_bound = true;
+  binding_ = new_binding;
+  is_bound_ = true;
 
   // Overwrite the binding if the caller is using SQL_C_NUMERIC and has used zero
   // precision if it is zero (this is precision unset and will always fail).
-  if (binding.precision == 0 &&
-      (binding.target_type == odbcabstraction::CDataType_NUMERIC) ||
-      (binding.target_type == odbcabstraction::CDataType_DEFAULT && cached_original_array_->type_id() == arrow::Type::type::DECIMAL128)) {
-    binding.precision = arrow::Decimal128Type::kMaxPrecision;
+  if (binding_.precision == 0 &&
+      (binding_.target_type == odbcabstraction::CDataType_NUMERIC) ||
+      (binding_.target_type == odbcabstraction::CDataType_DEFAULT && original_array_->type_id() == arrow::Type::type::DECIMAL128)) {
+    binding_.precision = arrow::Decimal128Type::kMaxPrecision;
   }
-  ResetAccessor();
+
+  // Rebuild the accessor and casted array if the target type changed.
+  if (!cached_casted_array_ || cached_accessor_->target_type_ != binding_.target_type) {
+    cached_accessor_ = CreateAccessor(binding_.target_type);
+  }
 }
 
 void FlightSqlResultSetColumn::ResetBinding() {
-  is_bound = false;
-  ResetAccessor();
-}
-
-void FlightSqlResultSetColumn::ResetAccessor() {
-  // An improvement would be to have ResetAccessor take in a newly acquired array.
-  // Then the accessor itself should switch to the new array and reset internal
-  // state, rather than deleting the accessor.
+  is_bound_ = false;
+  cached_casted_array_.reset();
   cached_accessor_.reset();
 }
 

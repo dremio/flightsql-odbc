@@ -6,14 +6,10 @@
 
 #pragma once
 
-#include "flight_sql_result_set_accessors.h"
 #include "flight_sql_stream_chunk_iterator.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
 #include "odbcabstraction/types.h"
-#include <accessors/types.h>
-#include <arrow/array.h>
-#include <arrow/datum.h>
 #include <arrow/flight/sql/client.h>
 #include <arrow/flight/types.h>
 #include <odbcabstraction/platform.h>
@@ -24,10 +20,7 @@
 namespace driver {
 namespace flight_sql {
 
-using arrow::Array;
-using arrow::RecordBatch;
 using arrow::Schema;
-using arrow::Status;
 using arrow::flight::FlightEndpoint;
 using arrow::flight::FlightInfo;
 using arrow::flight::FlightStreamChunk;
@@ -76,17 +69,11 @@ public:
 
   size_t Move(size_t rows, size_t bind_offset, size_t bind_type, uint16_t *row_status_array) override;
 
-  std::shared_ptr<arrow::Array> GetArrayForColumn(int column);
-
   std::shared_ptr<ResultSetMetadata> GetMetadata() override;
 
   void BindColumn(int column_n, int16_t target_type, int precision, int scale,
                   void *buffer, size_t buffer_length,
                   ssize_t *strlen_buffer) override;
-
-  inline bool UseWideChar() {
-    return metadata_settings_.use_wide_char_;
-  }
 };
 
 } // namespace flight_sql
