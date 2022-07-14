@@ -17,7 +17,7 @@ namespace driver {
 namespace flight_sql {
 
 typedef std::function<
-  std::shared_ptr<arrow::Array>(std::shared_ptr<arrow::Array>)>
+  std::shared_ptr<arrow::Array>(const std::shared_ptr<arrow::Array> &)>
   ArrayConvertTask;
 
 using arrow::util::optional;
