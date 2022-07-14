@@ -173,6 +173,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7dc83bbc_faf8d96f",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:34:07Z",
+      "side": 1,
+      "message": "This is not passing down the formatted parameters to spdlog.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73c85112_328f0852",
         "filename": "odbcabstraction/odbc_logger.h",
         "patchSetId": 4
