@@ -17,7 +17,6 @@ include(FetchContent)
 FetchContent_Declare(
         spdlog
         GIT_REPOSITORY https://github.com/gabime/spdlog.git
-        GIT_TAG        master
         GIT_TAG        v1.10.0
 )
 
@@ -26,8 +25,6 @@ if (NOT spdlog_POPULATED)
     FetchContent_Populate(spdlog)
     add_subdirectory(${spdlog_SOURCE_DIR} ${spdlog_BINARY_DIR})
 endif ()
-
-find_package(spdlog REQUIRED)
 
 # Add ODBC dependencies.
 if (APPLE)
