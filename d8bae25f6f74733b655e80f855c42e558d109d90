@@ -230,6 +230,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53457701_434d98eb",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "I don\u0027t think it should be configurable. I was just curious on if we chose one or the other.\n\nI think we should use async. There\u0027s a bit of extra work when using async to ensure that if there\u0027s a segfault, pending messages still get written.\nSee:\nhttps://github.com/gabime/spdlog/issues/1607#issuecomment-794657339",
+      "parentUuid": "f616fe43_bb17aacf",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ebb2a3c_d186bd67",
         "filename": "odbcabstraction/odbc_logger.cc",
         "patchSetId": 3

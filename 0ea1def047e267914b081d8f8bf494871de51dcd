@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fe1da32_98ca399d",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "Don\u0027t use relative paths like this. It breaks when used outside of the flightsql-odbc repo.\nExpose a public header.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3ccc50d_5b77b874",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "We should be consistent about how variable names are formatted. This should be separated by underscores instead of camel case.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d3bce52_56a94783",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "If logging is off we should just skip the rest of this function.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b8aed40_9d9e9375",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "Where is this from?",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd51a3f_651360aa",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "This should be in the odbcabstraction namespace?",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "460d45fe_2d5315d0",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "We already have this in connection.h. We should just re-use that class and make it more general.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d051439_4566ad25",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "Could make these static members of the class? I think you get linker errors if you do define static variables in a header in a common namespace.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b320d7a_855b14fa",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "This should use the typedef you made?\nAlso pass by const reference.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08e77418_37592402",
+        "filename": "odbcabstraction/include/odbcabstraction/whereami.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "We should make whereami internal (not expose it in public include headers) and just add a couple of helper functions that return the results as std::strings.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c45879_a6ee6f3a",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "Remove GetInstance() from this class. It makes it impossible to have multiple different Logger implementations.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c85112_328f0852",
+        "filename": "odbcabstraction/odbc_logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "This should be an SPDLogger, not ODBCLogger. (Every Logger is for ODBC...)",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f68dc5d6_2f678ec9",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "Don\u0027t use malloc/free. Just use a vector\u003cchar\u003e\n\nThis looks like it might leak memory if the config file does not exist (since myfile.open might throw?)",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28fc1fa0_764f07cb",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T18:19:28Z",
+      "side": 1,
+      "message": "Is this copy/pasted from elsewhere in the code? It looks similar to the DSN-reading code. If so, please refactor.\n\nAlso, should we use boost program_options? https://stackoverflow.com/questions/11451549/parsing-a-configuration-file-with-boostprogram-options",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
