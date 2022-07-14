@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49444725_53b1b92e",
+        "filename": "odbcabstraction/include/odbcabstraction/i_logger.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e53a8979_24734f1a",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba216356_d5af2156",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-12T20:46:56Z",
       "side": 1,
       "message": "This shouldn\u0027t be imposed on the interface.",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0aa22b_4a15cd17",
+        "filename": "odbcabstraction/include/odbcabstraction/i_logger.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba216356_d5af2156",
       "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -52,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d60085a1_0eb92b93",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "737bbda1_e90eb1ee",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bafbda5_318288a5",
@@ -69,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e8e2c6b_a2f02a8d",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bafbda5_318288a5",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93826f07_6823f120",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-07-12T20:46:56Z",
       "side": 1,
       "message": "This shouldn\u0027t be a virtual function. You may not even want to log to files. For example your logger might write to some service like the Windows event log.\n\nThe process of reading your logging configuration should set these on spdlog from within the ILogger implementation.",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d32e406_c13a846a",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93826f07_6823f120",
       "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -122,6 +212,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f616fe43_bb17aacf",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "I\u0027ve added a value on the config file to change between async and sync",
+      "parentUuid": "87621add_f4e38c57",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ebb2a3c_d186bd67",
         "filename": "odbcabstraction/odbc_logger.cc",
         "patchSetId": 3
@@ -139,6 +247,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c502dfde_eac009b1",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "I\u0027ve added a value on the config file to disable it",
+      "parentUuid": "7ebb2a3c_d186bd67",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8714adba_cf12854b",
         "filename": "odbcabstraction/odbc_logger.h",
         "patchSetId": 3
@@ -150,6 +276,24 @@
       "writtenOn": "2022-07-12T20:46:56Z",
       "side": 1,
       "message": "This could just be a unique_ptr.",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b15c924_979b8075",
+        "filename": "odbcabstraction/odbc_logger.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-14T16:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8714adba_cf12854b",
       "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
