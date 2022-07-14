@@ -34,6 +34,74 @@
       "parentUuid": "10e117d2_887f7f3b",
       "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a86e2e52_c8964c09",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T19:43:51Z",
+      "side": 1,
+      "message": "Let\u0027s clean up some of this newly added whitespace, including the blank lines with just spaces.",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2e2af0_42d92920",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T19:43:51Z",
+      "side": 1,
+      "message": "Can just use catch (...) here since you don\u0027t need to use the exception.",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "244e2181_bd67ca56",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T19:43:51Z",
+      "side": 1,
+      "message": "The indentation is wrong either here or at line 342. Can you check over this?",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7406942_27357c96",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-14T19:43:51Z",
+      "side": 1,
+      "message": "There should be a newline at the end of the file.",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
