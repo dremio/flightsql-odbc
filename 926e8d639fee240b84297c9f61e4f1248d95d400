@@ -53,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f0f104_643311e5",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T20:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a86e2e52_c8964c09",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d2e2af0_42d92920",
@@ -66,6 +84,24 @@
       "writtenOn": "2022-07-14T19:43:51Z",
       "side": 1,
       "message": "Can just use catch (...) here since you don\u0027t need to use the exception.",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cfd5b3b_d06ef0ca",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T20:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d2e2af0_42d92920",
       "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -87,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abd591a5_6f5c56e5",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T20:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244e2181_bd67ca56",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7406942_27357c96",
@@ -100,6 +154,24 @@
       "writtenOn": "2022-07-14T19:43:51Z",
       "side": 1,
       "message": "There should be a newline at the end of the file.",
+      "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4efa703c_53d6cb89",
+        "filename": "flight_sql/flight_sql_connection.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1000380
+      },
+      "writtenOn": "2022-07-14T20:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7406942_27357c96",
       "revId": "926e8d639fee240b84297c9f61e4f1248d95d400",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
