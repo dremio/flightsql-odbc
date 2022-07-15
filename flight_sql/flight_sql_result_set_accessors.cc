@@ -100,15 +100,36 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
           }},
         {SourceAndTargetPair(arrow::Type::type::TIMESTAMP, CDataType_TIMESTAMP),
             [](arrow::Array *array) {
-              return new TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP>(array);
+           auto time_type =
+               arrow::internal::checked_pointer_cast<TimeType>(array->type());
+           auto time_unit = time_type->unit();
+           Accessor* result;
+           switch (time_unit) {
+           case TimeUnit::SECOND:
+             result = new TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP, TimeUnit::SECOND>(array);
+             break;
+           case TimeUnit::MILLI:
+             result = new TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP, TimeUnit::MILLI>(array);
+             break;
+           case TimeUnit::MICRO:
+             result = new TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP, TimeUnit::MICRO>(array);
+             break;
+           case TimeUnit::NANO:
+             result = new TimestampArrayFlightSqlAccessor<CDataType_TIMESTAMP, TimeUnit::NANO>(array);
+             break;
+           default:
+             assert(false);
+             throw DriverException("Unrecognized time unit " + std::to_string(time_unit));
+           }
+           return result;
           }},
         {SourceAndTargetPair(arrow::Type::type::TIME32, CDataType_TIME),
           [](arrow::Array *array) {
-            return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array>(array);
+           return CreateTimeAccessor(array, arrow::Type::type::TIME32);
           }},
         {SourceAndTargetPair(arrow::Type::type::TIME64, CDataType_TIME),
           [](arrow::Array *array) {
-            return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array>(array);
+           return CreateTimeAccessor(array, arrow::Type::type::TIME64);
           }},
         {SourceAndTargetPair(arrow::Type::type::DECIMAL128, CDataType_NUMERIC),
           [](arrow::Array *array) {
