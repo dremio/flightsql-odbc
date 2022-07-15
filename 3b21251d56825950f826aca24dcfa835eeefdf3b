@@ -35,6 +35,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e9abcbb_8d5128b3",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T19:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "611b70f1_23120971",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6206a50a_39af1694",
@@ -82,6 +100,24 @@
       "writtenOn": "2022-07-14T21:12:29Z",
       "side": 1,
       "message": "This should be part of creation of the accessor. This evaluates for every cell.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8ff4a5e_1852f8f5",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T19:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a40340be_ff8df60c",
       "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -347,6 +383,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d089dbe2_4c4cb95e",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T19:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62c2b5e_1cec45f9",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e1dfae2_b79a9e08",
@@ -416,6 +470,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12c09717_114e50a2",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T19:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35d755ce_eac9deca",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f1fa4db_63140d40",
@@ -429,6 +501,24 @@
       "writtenOn": "2022-07-14T21:12:29Z",
       "side": 1,
       "message": "Why does this no longer factor in inputLengthInBytes? There\u0027s no guarantee that the input is NUL-terminated.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3922a9ba_9b3876e5",
+        "filename": "odbcabstraction/include/odbcabstraction/odbc_impl/AttributeUtils.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T19:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1fa4db_63140d40",
       "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
