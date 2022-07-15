@@ -62,9 +62,10 @@ BinaryArrayFlightSqlAccessor<TARGET_TYPE>::BinaryArrayFlightSqlAccessor(
 
 template <>
 RowStatus BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
-    ColumnBinding *binding, BinaryArray *array, int64_t i,
-    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  return MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, update_value_offset, diagnostics);
+    ColumnBinding *binding, int64_t i, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  return MoveSingleCellToBinaryBuffer(binding, this->GetArray(), i, value_offset,
+                                      update_value_offset, diagnostics);
 }
 
 template <CDataType TARGET_TYPE>

@@ -25,7 +25,7 @@ TEST(TEST_TIME32, TIME_WITH_SECONDS) {
   ArrayFromVector<Time32Type, int32_t>(value_field->type(),
                                        t32_values, &time32_array);
 
-  TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array> accessor(time32_array.get());
+  TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array, TimeUnit::SECOND> accessor(time32_array.get());
 
   std::vector<TIME_STRUCT> buffer(t32_values.size());
   std::vector<ssize_t> strlen_buffer(t32_values.size());
@@ -58,7 +58,7 @@ TEST(TEST_TIME32, TIME_WITH_MILLI) {
   ArrayFromVector<Time32Type, int32_t>(value_field->type(),
                                        t32_values, &time32_array);
 
-  TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array> accessor(time32_array.get());
+  TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array, TimeUnit::MILLI> accessor(time32_array.get());
 
   std::vector<TIME_STRUCT> buffer(t32_values.size());
   std::vector<ssize_t> strlen_buffer(t32_values.size());
@@ -94,7 +94,7 @@ TEST(TEST_TIME64, TIME_WITH_MICRO) {
   ArrayFromVector<Time64Type, int64_t>(value_field->type(),
                                        t64_values, &time64_array);
 
-  TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array> accessor(time64_array.get());
+  TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array, TimeUnit::MICRO> accessor(time64_array.get());
 
   std::vector<TIME_STRUCT> buffer(t64_values.size());
   std::vector<ssize_t> strlen_buffer(t64_values.size());
@@ -129,7 +129,7 @@ TEST(TEST_TIME64, TIME_WITH_NANO) {
   ArrayFromVector<Time64Type, int64_t>(value_field->type(),
                                        t64_values, &time64_array);
 
-  TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array> accessor(
+  TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array, TimeUnit::NANO> accessor(
       time64_array.get());
 
   std::vector<TIME_STRUCT> buffer(t64_values.size());
