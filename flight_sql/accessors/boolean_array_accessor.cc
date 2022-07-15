@@ -20,10 +20,10 @@ BooleanArrayFlightSqlAccessor<TARGET_TYPE>::BooleanArrayFlightSqlAccessor(
 
 template <CDataType TARGET_TYPE>
 RowStatus BooleanArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(
-    ColumnBinding *binding, BooleanArray *array, int64_t i,
-    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   typedef unsigned char c_type;
-  bool value = array->Value(i);
+  bool value = this->GetArray()->Value(arrow_row);
 
   auto *buffer = static_cast<c_type *>(binding->buffer);
   buffer[i] = value ? 1 : 0;

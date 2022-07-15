@@ -30,20 +30,22 @@ std::string utf8_to_clocale(const char *utf8str, int len)
 template <typename CHAR_TYPE>
 inline RowStatus MoveSingleCellToCharBuffer(CharToWStrConverter *converter,
                                        ColumnBinding *binding,
-                                       StringArray *array, int64_t i,
+                                       StringArray *array, int64_t arrow_row, int64_t i,
                                        int64_t &value_offset,
                                        bool update_value_offset,
                                        odbcabstraction::Diagnostics &diagnostics) {
   RowStatus result = odbcabstraction::RowStatus_SUCCESS;
 
   // Arrow strings come as UTF-8
-  const char *raw_value = array->Value(i).data();
-  const size_t raw_value_length = array->value_length(i);
+  const char *raw_value = array->Value(arrow_row).data();
+  const size_t raw_value_length = array->value_length(arrow_row);
   const void *value;
 
   size_t size_in_bytes;
   SqlWString wstr;
+#if defined _WIN32 || defined _WIN64
   std::string clocale_str;
+#endif
   if (sizeof(CHAR_TYPE) > sizeof(char)) {
     wstr = converter->from_bytes(raw_value, raw_value + raw_value_length);
     value = wstr.data();
@@ -111,18 +113,20 @@ StringArrayFlightSqlAccessor<TARGET_TYPE>::StringArrayFlightSqlAccessor(
 
 template <>
 RowStatus StringArrayFlightSqlAccessor<CDataType_CHAR>::MoveSingleCell_impl(
-    ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  return MoveSingleCellToCharBuffer<char>(&converter_, binding, array, i,
-                                   value_offset, update_value_offset, diagnostics);
+    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  return MoveSingleCellToCharBuffer<char>(
+      &converter_, binding, this->GetArray(), arrow_row, i,
+      value_offset, update_value_offset, diagnostics);
 }
 
 template <>
 RowStatus StringArrayFlightSqlAccessor<CDataType_WCHAR>::MoveSingleCell_impl(
-    ColumnBinding *binding, StringArray *array, int64_t i,
-    int64_t &value_offset,  bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  return MoveSingleCellToCharBuffer<SqlWChar>(&converter_, binding, array, i,
-                                       value_offset, update_value_offset, diagnostics);
+    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  return MoveSingleCellToCharBuffer<SqlWChar>(
+      &converter_, binding, this->GetArray(), arrow_row, i,
+      value_offset, update_value_offset, diagnostics);
 }
 
 template <CDataType TARGET_TYPE>

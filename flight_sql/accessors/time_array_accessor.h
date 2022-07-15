@@ -16,16 +16,18 @@ namespace flight_sql {
 using namespace arrow;
 using namespace odbcabstraction;
 
-template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
+Accessor* CreateTimeAccessor(arrow::Array *array, arrow::Type::type type);
+
+template <CDataType TARGET_TYPE, typename ARROW_ARRAY, arrow::TimeUnit::type UNIT>
 class TimeArrayFlightSqlAccessor
     : public FlightSqlAccessor<
           ARROW_ARRAY, TARGET_TYPE,
-          TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>> {
+          TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY, UNIT>> {
 
 public:
   explicit TimeArrayFlightSqlAccessor(Array *array);
 
-  RowStatus MoveSingleCell_impl(ColumnBinding *binding, ARROW_ARRAY *array, int64_t cell_counter,
+  RowStatus MoveSingleCell_impl(ColumnBinding *binding, int64_t arrow_row, int64_t cell_counter,
                            int64_t &value_offset, bool update_value_offset,
                            odbcabstraction::Diagnostics &diagnostic);
 

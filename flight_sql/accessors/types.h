@@ -69,34 +69,22 @@ public:
   size_t GetColumnarData(ColumnBinding *binding, int64_t starting_row,
                          size_t cells, int64_t &value_offset, bool update_value_offset,
                          odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) override {
-    const std::shared_ptr<Array> &array =
-        array_->Slice(starting_row, static_cast<int64_t>(cells));
-
-    return GetColumnarData(
-        arrow::internal::checked_pointer_cast<ARROW_ARRAY>(array), binding,
-        value_offset, update_value_offset, diagnostics, row_status_array);
+    return static_cast<DERIVED *>(this)->GetColumnarData_impl(
+        binding, starting_row, cells, value_offset, update_value_offset,
+        diagnostics, row_status_array);
   }
 
   size_t GetCellLength(ColumnBinding *binding) const override {
     return static_cast<const DERIVED *>(this)->GetCellLength_impl(binding);
   }
 
-private:
-  ARROW_ARRAY *array_;
-
-  size_t GetColumnarData(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
-                         ColumnBinding *binding, int64_t &value_offset, bool update_value_offset,
-                         odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) {
-    return static_cast<DERIVED *>(this)->GetColumnarData_impl(
-        sliced_array, binding, value_offset, update_value_offset, diagnostics, row_status_array);
-  }
-
-  size_t GetColumnarData_impl(const std::shared_ptr<ARROW_ARRAY> &sliced_array,
-                              ColumnBinding *binding, int64_t &value_offset, bool update_value_offset,
+protected:
+  size_t GetColumnarData_impl(ColumnBinding *binding, int64_t starting_row, int64_t cells,
+                              int64_t &value_offset, bool update_value_offset,
                               odbcabstraction::Diagnostics &diagnostics, uint16_t* row_status_array) {
-    int64_t length = sliced_array->length();
-    for (int64_t i = 0; i < length; ++i) {
-      if (sliced_array->IsNull(i)) {
+    for (int64_t i = 0; i < cells; ++i) {
+      int64_t current_arrow_row = starting_row + i;
+      if (array_->IsNull(current_arrow_row)) {
         if (binding->strlen_buffer) {
           binding->strlen_buffer[i] = odbcabstraction::NULL_DATA;
         } else {
@@ -105,25 +93,33 @@ private:
       } else {
         // TODO: Optimize this by creating different versions of MoveSingleCell
         // depending on if strlen_buffer is null.
-        auto row_status = MoveSingleCell(binding, sliced_array.get(), i, value_offset, update_value_offset,
-                                         diagnostics);
+        auto row_status = MoveSingleCell(
+            binding, current_arrow_row, i, value_offset, update_value_offset,
+            diagnostics);
         if (row_status_array) {
           row_status_array[i] = row_status;
         }
       }
     }
 
-    return length;
+    return static_cast<size_t>(cells);
   }
 
-  odbcabstraction::RowStatus MoveSingleCell(ColumnBinding *binding, ARROW_ARRAY *array, int64_t i,
+  inline ARROW_ARRAY *GetArray() {
+    return array_;
+  }
+
+private:
+  ARROW_ARRAY *array_;
+
+  odbcabstraction::RowStatus MoveSingleCell(ColumnBinding *binding, int64_t arrow_row, int64_t i,
                                             int64_t &value_offset, bool update_value_offset,
                                             odbcabstraction::Diagnostics &diagnostics) {
-    return static_cast<DERIVED *>(this)->MoveSingleCell_impl(binding, array, i,
+    return static_cast<DERIVED *>(this)->MoveSingleCell_impl(binding, arrow_row, i,
                                                              value_offset, update_value_offset, diagnostics);
   }
 
-  odbcabstraction::RowStatus MoveSingleCell_impl(ColumnBinding *binding, ARROW_ARRAY *array,
+  odbcabstraction::RowStatus MoveSingleCell_impl(ColumnBinding *binding, int64_t arrow_row,
                            int64_t i, int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
     std::stringstream ss;
     ss << "Unknown type conversion from StringArray to target C type "

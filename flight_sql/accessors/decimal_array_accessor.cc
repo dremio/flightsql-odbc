@@ -20,20 +20,18 @@ DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>::DecimalArrayFlightSqlAc
     Array *array)
     : FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE,
                         DecimalArrayFlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE>>(array),
-      data_type_(std::static_pointer_cast<Decimal128Type>(array->type())) {
+      data_type_(static_cast<Decimal128Type*>(array->type().get())) {
 }
 
 template <>
 RowStatus DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::MoveSingleCell_impl(
-    ColumnBinding *binding, Decimal128Array *array, int64_t i,
-    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   auto result = &(static_cast<NUMERIC_STRUCT *>(binding->buffer)[i]);
   int32_t original_scale = data_type_->scale();
 
-  std::shared_ptr<arrow::Scalar> scalar;
-  ThrowIfNotOK(array->GetScalar(i).Value(&scalar));
-  const auto &decimal_scalar = internal::checked_pointer_cast<Decimal128Scalar>(scalar);
-  Decimal128 value = decimal_scalar->value;
+  const uint8_t* bytes = this->GetArray()->Value(arrow_row);
+  Decimal128 value(bytes);
   if (original_scale != binding->scale) {
     const Status &status = value.Rescale(original_scale, binding->scale).Value(&value);
     ThrowIfNotOK(status);
@@ -46,8 +44,12 @@ RowStatus DecimalArrayFlightSqlAccessor<Decimal128Array, CDataType_NUMERIC>::Mov
 
   // Take the absolute value since the ODBC SQL_NUMERIC_STRUCT holds
   // a positive-only number.
-  Decimal128 abs_value = Decimal128::Abs(value);
-  abs_value.ToBytes(result->val);
+  if (value.IsNegative()) {
+    Decimal128 abs_value = Decimal128::Abs(value);
+    abs_value.ToBytes(result->val);
+  } else {
+    value.ToBytes(result->val);
+  }
   result->precision = static_cast<uint8_t>(binding->precision);
   result->scale = static_cast<int8_t>(binding->scale);
 

@@ -25,14 +25,14 @@ class DecimalArrayFlightSqlAccessor
 public:
   explicit DecimalArrayFlightSqlAccessor(Array *array);
 
-  RowStatus MoveSingleCell_impl(ColumnBinding *binding, ARROW_ARRAY *array,
-                                int64_t i, int64_t &value_offset, bool update_value_offset,
+  RowStatus MoveSingleCell_impl(ColumnBinding *binding, int64_t arrow_row, int64_t i,
+                                int64_t &value_offset, bool update_value_offset,
                                 odbcabstraction::Diagnostics &diagnostics);
 
   size_t GetCellLength_impl(ColumnBinding *binding) const;
 
 private:
-  std::shared_ptr<Decimal128Type> data_type_;
+  Decimal128Type *data_type_;
 };
 
 } // namespace flight_sql

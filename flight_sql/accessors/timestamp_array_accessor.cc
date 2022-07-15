@@ -61,27 +61,21 @@ namespace flight_sql {
 
 using namespace odbcabstraction;
 
-template <CDataType TARGET_TYPE>
-TimestampArrayFlightSqlAccessor<TARGET_TYPE>::TimestampArrayFlightSqlAccessor(Array *array)
+template <CDataType TARGET_TYPE, TimeUnit::type UNIT>
+TimestampArrayFlightSqlAccessor<TARGET_TYPE, UNIT>::TimestampArrayFlightSqlAccessor(Array *array)
     : FlightSqlAccessor<TimestampArray, TARGET_TYPE,
-                        TimestampArrayFlightSqlAccessor<TARGET_TYPE>>(array),
-                        timestamp_type_(
-                          arrow::internal::checked_pointer_cast<TimestampType>(
-                            array->type())) {}
+                        TimestampArrayFlightSqlAccessor<TARGET_TYPE, UNIT>>(array) {}
 
-template <CDataType TARGET_TYPE>
+template <CDataType TARGET_TYPE, TimeUnit::type UNIT>
 RowStatus
-TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding *binding,
-                                                                  TimestampArray *array,
-                                                                  int64_t cell_counter,
-                                                                  int64_t &value_offset,
-                                                                  bool update_value_offset,
-                                                                  odbcabstraction::Diagnostics &diagnostics) {
-  typedef unsigned char c_type;
+TimestampArrayFlightSqlAccessor<TARGET_TYPE, UNIT>::MoveSingleCell_impl(
+    ColumnBinding *binding, int64_t arrow_row, int64_t cell_counter,
+    int64_t &value_offset, bool update_value_offset,
+    odbcabstraction::Diagnostics &diagnostics) {
   auto *buffer = static_cast<TIMESTAMP_STRUCT *>(binding->buffer);
 
-  int64_t value = array->Value(cell_counter);
-  const auto divisor = GetConversionToSecondsDivisor(timestamp_type_->unit());
+  int64_t value = this->GetArray()->Value(arrow_row);
+  const auto divisor = GetConversionToSecondsDivisor(UNIT);
   const auto converted_result_seconds = value / divisor;
   tm timestamp = {0};
 
@@ -93,7 +87,7 @@ TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding 
   buffer[cell_counter].hour = timestamp.tm_hour;
   buffer[cell_counter].minute = timestamp.tm_min;
   buffer[cell_counter].second = timestamp.tm_sec;
-  buffer[cell_counter].fraction = CalculateFraction(timestamp_type_->unit(), value);
+  buffer[cell_counter].fraction = CalculateFraction(UNIT, value);
 
   if (binding->strlen_buffer) {
     binding->strlen_buffer[cell_counter] = static_cast<ssize_t>(GetCellLength_impl(binding));
@@ -102,12 +96,15 @@ TimestampArrayFlightSqlAccessor<TARGET_TYPE>::MoveSingleCell_impl(ColumnBinding 
   return odbcabstraction::RowStatus_SUCCESS;
 }
 
-template <CDataType TARGET_TYPE>
-size_t TimestampArrayFlightSqlAccessor<TARGET_TYPE>::GetCellLength_impl(ColumnBinding *binding) const {
+template <CDataType TARGET_TYPE, TimeUnit::type UNIT>
+size_t TimestampArrayFlightSqlAccessor<TARGET_TYPE, UNIT>::GetCellLength_impl(ColumnBinding *binding) const {
   return sizeof(TIMESTAMP_STRUCT);
 }
 
-template class TimestampArrayFlightSqlAccessor<odbcabstraction::CDataType_TIMESTAMP>;
+template class TimestampArrayFlightSqlAccessor<odbcabstraction::CDataType_TIMESTAMP, TimeUnit::SECOND>;
+template class TimestampArrayFlightSqlAccessor<odbcabstraction::CDataType_TIMESTAMP, TimeUnit::MILLI>;
+template class TimestampArrayFlightSqlAccessor<odbcabstraction::CDataType_TIMESTAMP, TimeUnit::MICRO>;
+template class TimestampArrayFlightSqlAccessor<odbcabstraction::CDataType_TIMESTAMP, TimeUnit::NANO>;
 
 } // namespace flight_sql
 } // namespace driver

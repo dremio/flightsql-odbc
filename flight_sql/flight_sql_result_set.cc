@@ -231,7 +231,6 @@ bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
   // Note: current_row_ is always positioned at the index _after_ the one we are
   // on after calling Move(). So if we want to get data from the _last_ row
   // fetched, we need to subtract one from the current row.
-  // TODO: Should GetData update row status array?
   accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, true, diagnostics_, nullptr);
 
   // If there was truncation, the converter would have reported it to the diagnostics.

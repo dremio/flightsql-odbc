@@ -19,12 +19,12 @@ using namespace odbcabstraction;
 namespace {
 
 inline RowStatus MoveSingleCellToBinaryBuffer(ColumnBinding *binding,
-                                         BinaryArray *array, int64_t i,
+                                         BinaryArray *array, int64_t arrow_row, int64_t i,
                                          int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
   RowStatus result = odbcabstraction::RowStatus_SUCCESS;
 
-  const char *value = array->Value(i).data();
-  size_t size_in_bytes = array->value_length(i);
+  const char *value = array->Value(arrow_row).data();
+  size_t size_in_bytes = array->value_length(arrow_row);
 
   size_t remaining_length = static_cast<size_t>(size_in_bytes - value_offset);
   size_t value_length =
@@ -62,9 +62,10 @@ BinaryArrayFlightSqlAccessor<TARGET_TYPE>::BinaryArrayFlightSqlAccessor(
 
 template <>
 RowStatus BinaryArrayFlightSqlAccessor<CDataType_BINARY>::MoveSingleCell_impl(
-    ColumnBinding *binding, BinaryArray *array, int64_t i,
-    int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-  return MoveSingleCellToBinaryBuffer(binding, array, i, value_offset, update_value_offset, diagnostics);
+    ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
+  return MoveSingleCellToBinaryBuffer(binding, this->GetArray(), arrow_row, i, value_offset,
+                                      update_value_offset, diagnostics);
 }
 
 template <CDataType TARGET_TYPE>

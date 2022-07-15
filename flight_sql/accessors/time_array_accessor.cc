@@ -9,6 +9,47 @@
 
 namespace driver {
 namespace flight_sql {
+
+Accessor* CreateTimeAccessor(arrow::Array *array, arrow::Type::type type) {
+  auto time_type =
+      arrow::internal::checked_pointer_cast<TimeType>(array->type());
+  auto time_unit = time_type->unit();
+
+  if (type == arrow::Type::TIME32) {
+    switch (time_unit) {
+    case TimeUnit::SECOND:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array,
+                                            TimeUnit::SECOND>(array);
+    case TimeUnit::MILLI:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array,
+                                            TimeUnit::MILLI>(array);
+    case TimeUnit::MICRO:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array,
+                                            TimeUnit::MICRO>(array);
+    case TimeUnit::NANO:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time32Array,
+                                            TimeUnit::NANO>(array);
+    }
+  } else if (type == arrow::Type::TIME64) {
+    switch (time_unit) {
+    case TimeUnit::SECOND:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array,
+                                            TimeUnit::SECOND>(array);
+    case TimeUnit::MILLI:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array,
+                                            TimeUnit::MILLI>(array);
+    case TimeUnit::MICRO:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array,
+                                            TimeUnit::MICRO>(array);
+    case TimeUnit::NANO:
+      return new TimeArrayFlightSqlAccessor<CDataType_TIME, Time64Array,
+                                            TimeUnit::NANO>(array);
+    }
+  }
+  assert(false);
+  throw DriverException("Unsupported input supplied to CreateTimeAccessor");
+}
+
 namespace {
 template <typename T>
 int64_t ConvertTimeValue(typename T::value_type value, TimeUnit::type unit) {
@@ -27,28 +68,23 @@ int64_t ConvertTimeValue<Time64Array>(int64_t value, TimeUnit::type unit) {
 }
 } // namespace
 
-template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
+template <CDataType TARGET_TYPE, typename ARROW_ARRAY, TimeUnit::type UNIT>
 TimeArrayFlightSqlAccessor<
-    TARGET_TYPE, ARROW_ARRAY>::TimeArrayFlightSqlAccessor(Array *array)
+    TARGET_TYPE, ARROW_ARRAY, UNIT>::TimeArrayFlightSqlAccessor(Array *array)
     : FlightSqlAccessor<ARROW_ARRAY, TARGET_TYPE,
-                        TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>>(
+                        TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY, UNIT>>(
           array) {}
 
-template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
-RowStatus TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_impl(
-  ColumnBinding *binding, ARROW_ARRAY *array, int64_t cell_counter,
-  int64_t &value_offset, bool update_value_offset, odbcabstraction::Diagnostics &diagnostic) {
-  typedef unsigned char c_type;
+template <CDataType TARGET_TYPE, typename ARROW_ARRAY, TimeUnit::type UNIT>
+RowStatus TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY, UNIT>::MoveSingleCell_impl(
+  ColumnBinding *binding, int64_t arrow_row, int64_t cell_counter, int64_t &value_offset,
+    bool update_value_offset, odbcabstraction::Diagnostics &diagnostic) {
   auto *buffer = static_cast<TIME_STRUCT *>(binding->buffer);
-
-  auto time_type =
-      arrow::internal::checked_pointer_cast<TimeType>(array->type());
-  auto time_unit = time_type->unit();
 
   tm time{};
 
   auto converted_value_seconds =
-      ConvertTimeValue<ARROW_ARRAY>(array->Value(cell_counter), time_unit);
+      ConvertTimeValue<ARROW_ARRAY>(this->GetArray()->Value(arrow_row), UNIT);
 
   GetTimeForSecondsSinceEpoch(time, converted_value_seconds);
 
@@ -62,15 +98,27 @@ RowStatus TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::MoveSingleCell_i
   return odbcabstraction::RowStatus_SUCCESS;
 }
 
-template <CDataType TARGET_TYPE, typename ARROW_ARRAY>
-size_t TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY>::GetCellLength_impl(ColumnBinding *binding) const {
+template <CDataType TARGET_TYPE, typename ARROW_ARRAY, TimeUnit::type UNIT>
+size_t TimeArrayFlightSqlAccessor<TARGET_TYPE, ARROW_ARRAY, UNIT>::GetCellLength_impl(ColumnBinding *binding) const {
   return sizeof(TIME_STRUCT);
 }
 
 template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
-                                          Time32Array>;
+                                          Time32Array, TimeUnit::SECOND>;
 template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
-                                          Time64Array>;
+                                          Time32Array, TimeUnit::MILLI>;
+template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
+                                          Time32Array, TimeUnit::MICRO>;
+template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
+                                          Time32Array, TimeUnit::NANO>;
+template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
+                                          Time64Array, TimeUnit::SECOND>;
+template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
+                                          Time64Array, TimeUnit::MILLI>;
+template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
+                                          Time64Array, TimeUnit::MICRO>;
+template class TimeArrayFlightSqlAccessor<odbcabstraction::CDataType_TIME,
+                                          Time64Array, TimeUnit::NANO>;
 
 } // namespace flight_sql
 } // namespace driver
