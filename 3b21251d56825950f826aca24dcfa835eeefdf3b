@@ -103,6 +103,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e9081fc_34d20b37",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "618bc486_61366ad3",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b43082a1_2361a0ef",
@@ -116,6 +134,24 @@
       "writtenOn": "2022-07-14T21:12:29Z",
       "side": 1,
       "message": "There are tabs in this code.\n\nAlso, avoid assigning a size_t to -1 since it is unsigned.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4417af54_b60a883e",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43082a1_2361a0ef",
       "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -154,6 +190,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f0e149_dfaee04f",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b9ad032_436dee07",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5dbbff82_e8d94f4a",
@@ -188,6 +242,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eef58ad_bb272d16",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0f0376_ecd623d6",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2618a52f_874f289d",
@@ -205,6 +277,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7969d107_d72ebccf",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2618a52f_874f289d",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "165efc1e_2a4a4a8e",
@@ -218,6 +308,24 @@
       "writtenOn": "2022-07-14T21:12:29Z",
       "side": 1,
       "message": "Can this be an assert(false) too? And throw a more useful error message, and throw a DriverException.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66586ae1_f06148c5",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165efc1e_2a4a4a8e",
       "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -269,6 +377,24 @@
       "writtenOn": "2022-07-14T21:12:29Z",
       "side": 1,
       "message": "No need to include most of these unless you make the implemenations inline?",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9437d93c_8612d9c6",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-15T17:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8a36fa8_414babc1",
       "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
