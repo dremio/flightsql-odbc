@@ -122,6 +122,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "176b5c3c_5c8a535e",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-16T14:10:09Z",
+      "side": 1,
+      "message": "This should be a pure virtual method.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71d15848_c1d95aee",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-16T14:10:09Z",
+      "side": 1,
+      "message": "The implementation of the Logger should do the formatting. The goal is to push the formatting down as far as possible.\n\nFor example, spdlog might do the formatting as part of writing the data to a file. Or it might do the formatting asynchronously.\n\nBy doing the formatting here, you are basically always creating an in-memory string even if the logger can do it more optimally.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b320d7a_855b14fa",
         "filename": "odbcabstraction/include/odbcabstraction/utils.h",
         "patchSetId": 4
@@ -173,6 +207,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2181f9c_7dd27313",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-16T14:10:09Z",
+      "side": 1,
+      "message": "I might have missed this, but how does disabling logging propagate to this spd logger?\n\nIs there a null sink that can be used when logging is off (like to writing to /dev/null), or a way to tell spd that logging is disabled?",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7dc83bbc_faf8d96f",
         "filename": "odbcabstraction/odbc_logger.cc",
         "patchSetId": 4
@@ -207,6 +258,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04965e8a_6c5d8a07",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-16T14:10:09Z",
+      "side": 1,
+      "message": "If length !\u003d 0 then path is never assigned and we\u0027ll crash. Probably want to log a warning if we couldn\u0027t retrieve the path and just open the name of the file on its own.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f68dc5d6_2f678ec9",
         "filename": "odbcabstraction/utils.cc",
         "patchSetId": 4
@@ -218,6 +286,23 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "Don\u0027t use malloc/free. Just use a vector\u003cchar\u003e\n\nThis looks like it might leak memory if the config file does not exist (since myfile.open might throw?)",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e296e464_edca95e9",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-16T14:10:09Z",
+      "side": 1,
+      "message": "This should take in the filename to use to make this more customizable.\nI\u0027d suggest for the arrow file we use a name similar to the name of the driver, but without the lib prefix.",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
