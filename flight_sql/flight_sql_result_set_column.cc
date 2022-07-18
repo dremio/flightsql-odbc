@@ -52,7 +52,7 @@ FlightSqlResultSetColumn::FlightSqlResultSetColumn(bool use_wide_char)
     : use_wide_char_(use_wide_char),
       is_bound_(false) {}
 
-void FlightSqlResultSetColumn::SetBinding(ColumnBinding new_binding) {
+void FlightSqlResultSetColumn::SetBinding(const ColumnBinding& new_binding) {
   binding_ = new_binding;
   is_bound_ = true;
 
@@ -65,7 +65,7 @@ void FlightSqlResultSetColumn::SetBinding(ColumnBinding new_binding) {
   }
 
   // Rebuild the accessor and casted array if the target type changed.
-  if (!cached_casted_array_ || cached_accessor_->target_type_ != binding_.target_type) {
+  if (original_array_ && (!cached_casted_array_ || cached_accessor_->target_type_ != binding_.target_type)) {
     cached_accessor_ = CreateAccessor(binding_.target_type);
   }
 }

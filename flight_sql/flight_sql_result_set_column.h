@@ -48,7 +48,7 @@ public:
     return GetAccessorForTargetType(target_type);
   }
 
-  void SetBinding(ColumnBinding new_binding);
+  void SetBinding(const ColumnBinding& new_binding);
 
   void ResetBinding();
 
