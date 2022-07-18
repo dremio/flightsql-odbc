@@ -35,6 +35,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c151ffae_0f04f9c8",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "200b311f_dd7fcc25",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4184b864_484100f7",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-07-16T13:53:25Z",
       "side": 1,
       "message": "This should actually be an atomic and paired with a lock.\nTake a look at how this pattern is used in get_info_cache.",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c9db224_238e260f",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Not sure if I got it right, can you check please?",
+      "parentUuid": "4184b864_484100f7",
       "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -69,6 +105,42 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c8e1025_7758dc69",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3ce7063_b1479b34",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc8e030_99598b98",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3ce7063_b1479b34",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "210da096_b85436e7",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-07-16T13:53:25Z",
       "side": 1,
       "message": "Slight correction. The problem is not that the SQLWCHAR size is unknown, it\u0027s that the encoding is unsupported.",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f21fd336_91ad2e3d",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "210da096_b85436e7",
       "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -103,6 +193,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45444931_9f8de319",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1279360_4659bf8e",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fdb79c0_b71c21a1",
@@ -120,6 +228,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "025517b3_0193b556",
+        "filename": "odbcabstraction/include/odbcabstraction/odbc_impl/AttributeUtils.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fdb79c0_b71c21a1",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf7e14dc_61f2b152",
@@ -133,6 +259,24 @@
       "writtenOn": "2022-07-16T13:53:25Z",
       "side": 1,
       "message": "thread_local",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aacd6090_d4f687af",
+        "filename": "odbcabstraction/include/odbcabstraction/odbc_impl/EncodingUtils.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf7e14dc_61f2b152",
       "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
