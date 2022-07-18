@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6353edab_1532abc8",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe1da32_98ca399d",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3ccc50d_5b77b874",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59fb92ac_867945d8",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3ccc50d_5b77b874",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d3bce52_56a94783",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "If logging is off we should just skip the rest of this function.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74e0b54_f53a8dc8",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d3bce52_56a94783",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -86,6 +140,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "affd98cb_0c4f88f6",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bd51a3f_651360aa",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "460d45fe_2d5315d0",
@@ -99,6 +171,24 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "We already have this in connection.h. We should just re-use that class and make it more general.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "768a60c8_da1b3f59",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "460d45fe_2d5315d0",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -120,6 +210,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa4042c8_b2108dfb",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d051439_4566ad25",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "176b5c3c_5c8a535e",
@@ -133,6 +241,24 @@
       "writtenOn": "2022-07-16T14:10:09Z",
       "side": 1,
       "message": "This should be a pure virtual method.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb95244_565638f5",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "I\u0027ve tried to do this, but since the spdlog log methos uses a template, I was getting some errors",
+      "parentUuid": "176b5c3c_5c8a535e",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -171,6 +297,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da5dfe1b_e6136058",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b320d7a_855b14fa",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08e77418_37592402",
@@ -188,6 +332,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30e683af_75e848d6",
+        "filename": "odbcabstraction/include/odbcabstraction/whereami.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08e77418_37592402",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64c45879_a6ee6f3a",
@@ -201,6 +363,24 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "Remove GetInstance() from this class. It makes it impossible to have multiple different Logger implementations.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71d7d821_b1a7c8c7",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64c45879_a6ee6f3a",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -224,6 +404,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9a2a411_267bc080",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "I am using a parameter in the config file, if the parameter is set to off, I don\u0027t register the log",
+      "parentUuid": "a2181f9c_7dd27313",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7dc83bbc_faf8d96f",
         "filename": "odbcabstraction/odbc_logger.cc",
         "patchSetId": 4
@@ -241,6 +439,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c13439b_da68c490",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "I am formating the string in the log method from the interface and then calling this method with the formated message\n\n\n```\ntemplate\u003ctypename... Args\u003e\n  void log(LogLevel level, fmt::format_string\u003cArgs...\u003e fmt, Args \u0026\u0026...args) {\n      log(level, fmt::format(fmt, args...));\n  };```",
+      "parentUuid": "7dc83bbc_faf8d96f",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73c85112_328f0852",
         "filename": "odbcabstraction/odbc_logger.h",
         "patchSetId": 4
@@ -252,6 +468,24 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "This should be an SPDLogger, not ODBCLogger. (Every Logger is for ODBC...)",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1037a438_0c77e20c",
+        "filename": "odbcabstraction/odbc_logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c85112_328f0852",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -275,6 +509,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bea44e6_8b394de0",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Does throwing an exception work also?",
+      "parentUuid": "04965e8a_6c5d8a07",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f68dc5d6_2f678ec9",
         "filename": "odbcabstraction/utils.cc",
         "patchSetId": 4
@@ -286,6 +538,24 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "Don\u0027t use malloc/free. Just use a vector\u003cchar\u003e\n\nThis looks like it might leak memory if the config file does not exist (since myfile.open might throw?)",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be75fb26_f4f816c6",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f68dc5d6_2f678ec9",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -307,6 +577,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d49152e_808c5ad0",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e296e464_edca95e9",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28fc1fa0_764f07cb",
@@ -320,6 +608,24 @@
       "writtenOn": "2022-07-14T18:19:28Z",
       "side": 1,
       "message": "Is this copy/pasted from elsewhere in the code? It looks similar to the DSN-reading code. If so, please refactor.\n\nAlso, should we use boost program_options? https://stackoverflow.com/questions/11451549/parsing-a-configuration-file-with-boostprogram-options",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9945fa11_7a960cbe",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-18T14:16:18Z",
+      "side": 1,
+      "message": "It\u0027s not copy/pasted. \n\nShould I still use boost program even though it is not header-only?",
+      "parentUuid": "28fc1fa0_764f07cb",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
