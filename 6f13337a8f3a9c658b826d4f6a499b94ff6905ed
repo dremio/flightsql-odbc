@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "170e08da_4b580eb8",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T17:01:39Z",
+      "side": 1,
+      "message": "It\u0027s mostly right, with one small change.",
+      "parentUuid": "4c9db224_238e260f",
+      "revId": "6f13337a8f3a9c658b826d4f6a499b94ff6905ed",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3ce7063_b1479b34",
         "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
         "patchSetId": 14

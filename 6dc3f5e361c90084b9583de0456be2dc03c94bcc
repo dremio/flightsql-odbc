@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3740ed7_946e9c30",
+        "filename": "flight_sql/flight_sql_result_set_accessors.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T17:01:39Z",
+      "side": 1,
+      "message": "This function can be passed directly to SourceAndTargetPair\u0027s constructor, instead of being wrapped in a lambda.",
+      "revId": "6dc3f5e361c90084b9583de0456be2dc03c94bcc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49283f20_fd6bab49",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T17:01:39Z",
+      "side": 1,
+      "message": "Need to re-check if (SqlWCharSize) is still zero after acquiring this lock (double-checked locking).",
+      "revId": "6dc3f5e361c90084b9583de0456be2dc03c94bcc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
