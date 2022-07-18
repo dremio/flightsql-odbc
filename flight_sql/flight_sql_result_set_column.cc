@@ -56,11 +56,14 @@ void FlightSqlResultSetColumn::SetBinding(const ColumnBinding& new_binding, arro
   binding_ = new_binding;
   is_bound_ = true;
 
+  if (binding_.target_type == odbcabstraction::CDataType_DEFAULT) {
+    binding_.target_type = ConvertArrowTypeToC(arrow_type, use_wide_char_);
+  }
+
   // Overwrite the binding if the caller is using SQL_C_NUMERIC and has used zero
   // precision if it is zero (this is precision unset and will always fail).
   if (binding_.precision == 0 &&
-      (binding_.target_type == odbcabstraction::CDataType_NUMERIC) ||
-      (binding_.target_type == odbcabstraction::CDataType_DEFAULT && arrow_type == arrow::Type::type::DECIMAL128)) {
+      binding_.target_type == odbcabstraction::CDataType_NUMERIC) {
     binding_.precision = arrow::Decimal128Type::kMaxPrecision;
   }
 

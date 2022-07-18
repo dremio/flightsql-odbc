@@ -650,8 +650,9 @@ bool ODBCStatement::GetData(SQLSMALLINT recordNumber, SQLSMALLINT cType, SQLPOIN
   int scale = 0;
 
   if (cType == SQL_ARD_TYPE) {
-    // DM should validate the ARD size.
-    assert(m_currentArd->GetRecords().size() <= recordNumber);
+    if (recordNumber > m_currentArd->GetRecords().size()) {
+      throw DriverException("Invalid column index: " + std::to_string(recordNumber), "07009");
+    }
     const DescriptorRecord& record = m_currentArd->GetRecords()[recordNumber-1];
     evaluatedCType = record.m_conciseType;
     precision = record.m_precision;
@@ -660,9 +661,12 @@ bool ODBCStatement::GetData(SQLSMALLINT recordNumber, SQLSMALLINT cType, SQLPOIN
 
   // Note: this is intentionally not an else if, since the type can be SQL_C_DEFAULT in the ARD.
   if (evaluatedCType == SQL_C_DEFAULT) {
-    const DescriptorRecord& ardRecord = m_currentArd->GetRecords()[recordNumber-1];
-    precision = ardRecord.m_precision;
-    scale = ardRecord.m_scale;
+    if (recordNumber <= m_currentArd->GetRecords().size()) {
+      const DescriptorRecord &ardRecord =
+          m_currentArd->GetRecords()[recordNumber - 1];
+      precision = ardRecord.m_precision;
+      scale = ardRecord.m_scale;
+    }
 
     const DescriptorRecord& irdRecord = m_ird->GetRecords()[recordNumber-1];
     evaluatedCType = getCTypeForSQLType(irdRecord);
