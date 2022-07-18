@@ -48,23 +48,20 @@ public:
     return GetAccessorForTargetType(target_type);
   }
 
-  void SetBinding(const ColumnBinding& new_binding);
+  void SetBinding(const ColumnBinding& new_binding, arrow::Type::type arrow_type);
 
   void ResetBinding();
 
-  inline void ResetAccessor() {
-    if (is_bound_) {
+  inline void ResetAccessor(std::shared_ptr<Array> array) {
+    original_array_ = std::move(array);
+    if (cached_accessor_) {
       cached_accessor_ = CreateAccessor(cached_accessor_->target_type_);
-    } else if (cached_accessor_) {
-      cached_accessor_ = CreateAccessor(cached_accessor_->target_type_);
+    } else if (is_bound_) {
+      cached_accessor_ = CreateAccessor(binding_.target_type);
     } else {
       cached_casted_array_.reset();
       cached_accessor_.reset();
     }
-  }
-
-  inline void SetArrowArray(std::shared_ptr<Array> array) {
-    original_array_ = std::move(array);
   }
 };
 } // namespace flight_sql

@@ -52,7 +52,7 @@ FlightSqlResultSetColumn::FlightSqlResultSetColumn(bool use_wide_char)
     : use_wide_char_(use_wide_char),
       is_bound_(false) {}
 
-void FlightSqlResultSetColumn::SetBinding(const ColumnBinding& new_binding) {
+void FlightSqlResultSetColumn::SetBinding(const ColumnBinding& new_binding, arrow::Type::type arrow_type) {
   binding_ = new_binding;
   is_bound_ = true;
 
@@ -60,7 +60,7 @@ void FlightSqlResultSetColumn::SetBinding(const ColumnBinding& new_binding) {
   // precision if it is zero (this is precision unset and will always fail).
   if (binding_.precision == 0 &&
       (binding_.target_type == odbcabstraction::CDataType_NUMERIC) ||
-      (binding_.target_type == odbcabstraction::CDataType_DEFAULT && original_array_->type_id() == arrow::Type::type::DECIMAL128)) {
+      (binding_.target_type == odbcabstraction::CDataType_DEFAULT && arrow_type == arrow::Type::type::DECIMAL128)) {
     binding_.precision = arrow::Decimal128Type::kMaxPrecision;
   }
 

@@ -69,8 +69,7 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
     }
 
     for (size_t column_num = 0; column_num < columns_.size(); ++column_num) {
-      columns_[column_num].SetArrowArray(current_chunk_.data->column(column_num));
-      columns_[column_num].ResetAccessor();
+      columns_[column_num].ResetAccessor(current_chunk_.data->column(column_num));
     }
   }
 
@@ -96,8 +95,7 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
       }
 
       for (size_t column_num = 0; column_num < columns_.size(); ++column_num) {
-        columns_[column_num].SetArrowArray(current_chunk_.data->column(column_num));
-        columns_[column_num].ResetAccessor();
+        columns_[column_num].ResetAccessor(current_chunk_.data->column(column_num));
       }
       current_row_ = 0;
       continue;
@@ -260,7 +258,7 @@ void FlightSqlResultSet::BindColumn(int column_n, int16_t target_type,
 
   ColumnBinding binding(ConvertCDataTypeFromV2ToV3(target_type), precision, scale, buffer, buffer_length,
                         strlen_buffer);
-  column.SetBinding(binding);
+  column.SetBinding(binding, schema_->field(column_n - 1)->type()->id());
 }
 
 FlightSqlResultSet::~FlightSqlResultSet() = default;
