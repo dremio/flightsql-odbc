@@ -19,6 +19,7 @@ private:
 
 public:
   FlightSqlDriver();
+  ~FlightSqlDriver() override;
 
   std::shared_ptr<odbcabstraction::Connection>
   CreateConnection(odbcabstraction::OdbcVersion odbc_version) override;

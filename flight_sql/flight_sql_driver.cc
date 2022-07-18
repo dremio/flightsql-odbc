@@ -8,6 +8,8 @@
 #include <odbcabstraction/platform.h>
 #include <flight_sql/flight_sql_driver.h>
 
+#include <grpc/grpc.h>
+
 namespace driver {
 namespace flight_sql {
 
@@ -16,8 +18,13 @@ using odbcabstraction::OdbcVersion;
 
 FlightSqlDriver::FlightSqlDriver()
     : diagnostics_("Apache Arrow", "Flight SQL", OdbcVersion::V_3),
-      version_("0.9.0.0")
-{}
+      version_("0.9.0.0") {
+  grpc_init();
+}
+
+FlightSqlDriver::~FlightSqlDriver() {
+  grpc_shutdown_blocking();
+}
 
 std::shared_ptr<Connection>
 FlightSqlDriver::CreateConnection(OdbcVersion odbc_version) {
