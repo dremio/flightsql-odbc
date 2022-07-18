@@ -422,6 +422,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be073aae_5c74cb79",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T14:33:24Z",
+      "side": 1,
+      "message": "I think we still have to register a (no-op) logger though right? Otherwise we have to check on every logger if the logger is null.",
+      "parentUuid": "f9a2a411_267bc080",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7dc83bbc_faf8d96f",
         "filename": "odbcabstraction/odbc_logger.cc",
         "patchSetId": 4
@@ -451,6 +469,24 @@
       "side": 1,
       "message": "I am formating the string in the log method from the interface and then calling this method with the formated message\n\n\n```\ntemplate\u003ctypename... Args\u003e\n  void log(LogLevel level, fmt::format_string\u003cArgs...\u003e fmt, Args \u0026\u0026...args) {\n      log(level, fmt::format(fmt, args...));\n  };```",
       "parentUuid": "7dc83bbc_faf8d96f",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d320224e_ecfe0f99",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T14:33:24Z",
+      "side": 1,
+      "message": "This needs to be reworked. This will cause the work in formatting the strings to always happen, even when the log level is lower than what is being logged (which can be costly because this includes number to string conversions).\n\nI saw spdlog supports printf-style formatting. You can expose this in the interface by adding a ... parameter. see: https://github.com/artemyv/cmake_spdlog_example/blob/99dbc49337b1aaae944330f028e704460a946fdd/src/logger.h#L4 and https://github.com/gabime/spdlog/issues/1843",
+      "parentUuid": "8c13439b_da68c490",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -521,6 +557,24 @@
       "side": 1,
       "message": "Does throwing an exception work also?",
       "parentUuid": "04965e8a_6c5d8a07",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51179ac0_4dedc722",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T14:33:24Z",
+      "side": 1,
+      "message": "I don\u0027t know if this should be treated as fatal.",
+      "parentUuid": "6bea44e6_8b394de0",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -626,6 +680,24 @@
       "side": 1,
       "message": "It\u0027s not copy/pasted. \n\nShould I still use boost program even though it is not header-only?",
       "parentUuid": "28fc1fa0_764f07cb",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "457a749e_afaa642c",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-18T14:33:24Z",
+      "side": 1,
+      "message": "Nah skip",
+      "parentUuid": "9945fa11_7a960cbe",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
