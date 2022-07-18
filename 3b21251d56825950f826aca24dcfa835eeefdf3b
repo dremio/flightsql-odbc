@@ -490,6 +490,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b4819d8_76b4f67a",
+        "filename": "odbcabstraction/encoding.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T17:26:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e1dfae2_b79a9e08",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8a36fa8_414babc1",
