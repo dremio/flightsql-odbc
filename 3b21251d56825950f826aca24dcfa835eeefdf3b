@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9099ff51_23a89c88",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T17:17:45Z",
+      "side": 1,
+      "message": "Yes, I left these to the end, I think this is the correct behaviour, it adds null terminator of 2 or 4 bytes depending on encoding",
+      "parentUuid": "e44a4a81_fb41acf9",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b799a2e_4d060bbd",
         "filename": "flight_sql/accessors/string_array_accessor.cc",
         "patchSetId": 7
@@ -101,6 +119,24 @@
       "writtenOn": "2022-07-14T21:12:29Z",
       "side": 1,
       "message": "Same for this. It shouldn\u0027t be based on CHAR_TYPE.",
+      "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2acb0230_1e9cfcda",
+        "filename": "flight_sql/accessors/string_array_accessor.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-18T17:17:45Z",
+      "side": 1,
+      "message": "It\u0027s converting remaining_length from bytes to # of code units",
+      "parentUuid": "2b799a2e_4d060bbd",
       "revId": "3b21251d56825950f826aca24dcfa835eeefdf3b",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
