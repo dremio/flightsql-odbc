@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f033d89_323ad149",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-19T22:43:31Z",
+      "side": 1,
+      "message": "Do we still need this header? Can it be moved to the .cc if it is still needed?",
+      "revId": "0a84d15857148fdbe6c2ac126615d2de4833a2e2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf07e471_295c3169",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-19T22:43:31Z",
+      "side": 1,
+      "message": "Move this and \u003cmutex\u003e to the .cc",
+      "revId": "0a84d15857148fdbe6c2ac126615d2de4833a2e2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deb99124_e01b994d",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-19T22:43:31Z",
+      "side": 1,
+      "message": "Let\u0027s have the lock and setting of SqlWcharSize happen within ComputeSqlWCharSize so that we don\u0027t need to expose the mutex and can put it in the .cc",
+      "revId": "0a84d15857148fdbe6c2ac126615d2de4833a2e2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
