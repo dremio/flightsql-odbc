@@ -48,7 +48,11 @@ FlightSqlResultSet::FlightSqlResultSet(
       diagnostics_(diagnostics),
       current_row_(0), num_binding_(0), reset_get_data_(false) {
   current_chunk_.data = nullptr;
-  ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema_));
+  if (transformer_) {
+    schema_ = transformer_->GetTransformedSchema();
+  } else {
+    ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema_));
+  }
 
   for (size_t i = 0; i < columns_.size(); ++i) {
     columns_[i] = FlightSqlResultSetColumn(metadata_settings.use_wide_char_);
