@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdadb479_fc82b8a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-19T18:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f093c3b9_7aeb5b51",
+      "revId": "577f4a084db85df0f77e033dd8231858fae51b9a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ac9c062_1b7e376b",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e45d413_b7e10e03",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-19T18:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ac9c062_1b7e376b",
+      "revId": "577f4a084db85df0f77e033dd8231858fae51b9a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "752fa2b7_737b69e2",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-19T18:18:59Z",
       "side": 1,
       "message": "Let\u0027s move this to the anonymous namespace. It doesn\u0027t need to be inline as well since it won\u0027t be called externally (in fact it only ever gets called once).",
+      "revId": "577f4a084db85df0f77e033dd8231858fae51b9a",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78ab3a96_086926b1",
+        "filename": "odbcabstraction/include/odbcabstraction/encoding.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-19T18:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752fa2b7_737b69e2",
       "revId": "577f4a084db85df0f77e033dd8231858fae51b9a",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
