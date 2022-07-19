@@ -99,7 +99,7 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
         {SourceAndTargetPair(arrow::Type::type::TIMESTAMP, CDataType_TIMESTAMP),
             [](arrow::Array *array) {
            auto time_type =
-               arrow::internal::checked_pointer_cast<TimeType>(array->type());
+               arrow::internal::checked_pointer_cast<TimestampType>(array->type());
            auto time_unit = time_type->unit();
            Accessor* result;
            switch (time_unit) {
