@@ -14,6 +14,7 @@
 #include <locale>
 #include <mutex>
 #include <vector>
+#include <dlfcn.h>
 
 namespace driver {
 namespace odbcabstraction {
@@ -24,24 +25,22 @@ static std::mutex SqlWCharSizeMutex;
 static std::atomic<size_t> SqlWCharSize{0};
 }
 
-// TODO: I think this should be set from warpdrive somehow
+inline bool IsUsingIODBC() {
+  // Detects iODBC by looking up by symbol iodbc_version
+  void* handle = dlsym(RTLD_DEFAULT, "iodbc_version");
+  bool using_iodbc = handle != nullptr;
+  dlclose(handle);
+
+  return using_iodbc;
+}
+
 inline size_t GetSqlWCharSize() {
   if (SqlWCharSize == 0) {
     std::unique_lock<std::mutex> lock(SqlWCharSizeMutex);
     if (SqlWCharSize == 0) { // double-checked locking
 
-      // TODO: Detect driver manager
-      const char *env_p = std::getenv("WCHAR_ENCODING");
-      if (env_p) {
-        if (boost::iequals(env_p, "UTF-16")) {
-          SqlWCharSize = sizeof(char16_t);
-        } else if (boost::iequals(env_p, "UTF-32")) {
-          SqlWCharSize = sizeof(char32_t);
-        }
-      } else {
-        // Default to UTF32 on Mac
-        SqlWCharSize = sizeof(char32_t);
-      }
+      bool using_iodbc = IsUsingIODBC();
+      SqlWCharSize = using_iodbc ? sizeof(char32_t) : sizeof(char16_t);
     }
   }
 
