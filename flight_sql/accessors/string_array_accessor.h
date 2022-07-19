@@ -34,6 +34,10 @@ public:
 
 private:
   std::vector<uint8_t> buffer_;
+#if defined _WIN32 || defined _WIN64
+  std::string clocale_str_;
+#endif
+  int64_t last_arrow_row_;
 };
 
 inline Accessor* CreateWCharStringArrayAccessor(arrow::Array *array) {
