@@ -21,7 +21,7 @@ namespace {
 #if defined _WIN32 || defined _WIN64
 std::string utf8_to_clocale(const char *utf8str, int len)
 {
-  boost::locale::generator g;
+  thread_local boost::locale::generator g;
   g.locale_cache_enabled(true);
   std::locale loc = g(boost::locale::util::get_system_locale());
   return boost::locale::conv::from_utf<char>(utf8str, utf8str + len, loc);
@@ -30,6 +30,10 @@ std::string utf8_to_clocale(const char *utf8str, int len)
 
 template <typename CHAR_TYPE>
 inline RowStatus MoveSingleCellToCharBuffer(std::vector<uint8_t> &buffer,
+                                            int64_t& last_retrieved_arrow_row,
+#if defined _WIN32 || defined _WIN64
+                                            std::string &clocale_string,
+#endif
                                             ColumnBinding *binding,
                                             StringArray *array, int64_t arrow_row, int64_t i,
                                             int64_t &value_offset,
@@ -43,17 +47,20 @@ inline RowStatus MoveSingleCellToCharBuffer(std::vector<uint8_t> &buffer,
   const void *value;
 
   size_t size_in_bytes;
-#if defined _WIN32 || defined _WIN64
-  std::string clocale_str;
-#endif
   if (sizeof(CHAR_TYPE) > sizeof(char)) {
-    Utf8ToWcs(raw_value, raw_value_length, &buffer);
+    if (last_retrieved_arrow_row != arrow_row) {
+      Utf8ToWcs(raw_value, raw_value_length, &buffer);
+      last_retrieved_arrow_row = arrow_row;
+    }
     value = buffer.data();
     size_in_bytes = buffer.size();
   } else {
 #if defined _WIN32 || defined _WIN64
     // Convert to C locale string
-    clocale_str = utf8_to_clocale(raw_value, raw_value_length);
+    if (last_retrieved_arrow_row != arrow_row) {
+      clocale_str = utf8_to_clocale(raw_value, raw_value_length);
+      last_retrieved_arrow_row = arrow_row;
+    }
     const char* clocale_data = clocale_str.data();
     size_t clocale_length = clocale_str.size();
 
@@ -77,8 +84,10 @@ inline RowStatus MoveSingleCellToCharBuffer(std::vector<uint8_t> &buffer,
 
   // Write a NUL terminator
   if (binding->buffer_length >= remaining_length + sizeof(CHAR_TYPE)) {
+    // The entire remainder of the data was consumed.
     char_buffer[remaining_length / sizeof(CHAR_TYPE)] = '\0';
     if (update_value_offset) {
+      // Mark that there's no data remaining.
       value_offset = -1;
     }
   } else {
@@ -108,13 +117,19 @@ template <CDataType TARGET_TYPE, typename CHAR_TYPE>
 StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>::StringArrayFlightSqlAccessor(
     Array *array)
     : FlightSqlAccessor<StringArray, TARGET_TYPE,
-                        StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>>(array) {}
+                        StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>>(array),
+      last_arrow_row_(-1){}
 
 template <CDataType TARGET_TYPE, typename CHAR_TYPE>
 RowStatus StringArrayFlightSqlAccessor<TARGET_TYPE, CHAR_TYPE>::MoveSingleCell_impl(
         ColumnBinding *binding, int64_t arrow_row, int64_t i, int64_t &value_offset,
         bool update_value_offset, odbcabstraction::Diagnostics &diagnostics) {
-    return MoveSingleCellToCharBuffer<CHAR_TYPE>(buffer_, binding, this->GetArray(), arrow_row, i, value_offset, update_value_offset, diagnostics);
+    return MoveSingleCellToCharBuffer<CHAR_TYPE>(buffer_, last_arrow_row_,
+#if defined _WIN32 || defined _WIN64
+                                               clocale_str_,
+#endif
+                                               binding,
+                                               this->GetArray(), arrow_row, i, value_offset, update_value_offset, diagnostics);
 }
 
 template <CDataType TARGET_TYPE, typename CHAR_TYPE>
