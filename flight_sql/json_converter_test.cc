@@ -9,6 +9,7 @@
 #include "gtest/gtest.h"
 #include "arrow/testing/builder.h"
 #include <arrow/scalar.h>
+#include <arrow/type.h>
 
 namespace driver {
 namespace flight_sql {
@@ -175,8 +176,11 @@ TEST(ConvertToJson, Struct) {
   auto i32 = MakeScalar(1);
   auto f64 = MakeScalar(2.5);
   auto str = MakeScalar("yo");
-  ASSERT_OK_AND_ASSIGN(auto scalar, StructScalar::Make({i32, f64, str}, {"i", "f", "s"}));
-  ASSERT_EQ("{\"i\":1,\"f\":2.5,\"s\":\"yo\"}", ConvertToJson(*scalar));
+  ASSERT_OK_AND_ASSIGN(auto scalar,
+                       StructScalar::Make({i32, f64, str,
+                                           MakeNullScalar(std::shared_ptr<DataType>(new arrow::Date32Type()))},
+                                          {"i", "f", "s", "null"}));
+  ASSERT_EQ("{\"i\":1,\"f\":2.5,\"s\":\"yo\",\"null\":null}", ConvertToJson(*scalar));
 }
 
 } // namespace flight_sql
