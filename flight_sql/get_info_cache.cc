@@ -17,7 +17,7 @@
 #include <sql.h>
 #include <sqlext.h>
 
-#include "flight_sql_stream_chunk_iterator.h"
+#include "flight_sql_stream_chunk_buffer.h"
 #include "scalar_function_reporter.h"
 #include "utils.h"
 
@@ -279,7 +279,7 @@ bool GetInfoCache::LoadInfoFromServer() {
     arrow::Result<std::shared_ptr<FlightInfo>> result =
         sql_client_->GetSqlInfo(call_options_, {});
     ThrowIfNotOK(result.status());
-    FlightStreamChunkIterator chunk_iter(*sql_client_, call_options_,
+    FlightStreamChunkBuffer chunk_iter(*sql_client_, call_options_,
                                          result.ValueOrDie());
 
     FlightStreamChunk chunk;
