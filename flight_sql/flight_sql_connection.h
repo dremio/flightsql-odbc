@@ -61,6 +61,7 @@ public:
   static const std::string USE_SYSTEM_TRUST_STORE;
   static const std::string STRING_COLUMN_LENGTH;
   static const std::string USE_WIDE_CHAR;
+  static const std::string CHUNK_BUFFER_CAPACITY;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version, const std::string &driver_version = "0.9.0.0");
 
@@ -104,6 +105,8 @@ public:
   boost::optional<int32_t> GetStringColumnLength(const ConnPropertyMap &connPropertyMap);
 
   bool GetUseWideChar(const ConnPropertyMap &connPropertyMap);
+
+  size_t GetChunkBufferCapacity(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver
