@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b54e17a1_f071b07c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-20T22:27:33Z",
+      "side": 1,
+      "message": "Propagate +2 for just fixing typos in the description.",
+      "revId": "b3570b52d618d38367a54cee8bf5e83ad4f54c67",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
