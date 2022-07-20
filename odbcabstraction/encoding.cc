@@ -15,6 +15,8 @@
 namespace driver {
 namespace odbcabstraction {
 
+std::atomic<size_t> SqlWCharSize{0};
+
 #if defined(__APPLE__)
 namespace {
 std::mutex SqlWCharSizeMutex;
