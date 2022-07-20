@@ -21,7 +21,7 @@ namespace driver {
 namespace odbcabstraction {
 
 #if defined(__APPLE__)
-static std::atomic<size_t> SqlWCharSize{0};
+extern std::atomic<size_t> SqlWCharSize;
 
 void ComputeSqlWCharSize();
 
