@@ -67,13 +67,14 @@ const std::string FlightSqlConnection::TRUSTED_CERTS = "trustedCerts";
 const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustStore";
 const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLength";
 const std::string FlightSqlConnection::USE_WIDE_CHAR = "UseWideChar";
+const std::string FlightSqlConnection::CHUNK_BUFFER_CAPACITY = "ChunkBufferCapacity";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
     FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD,
     FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
-    FlightSqlConnection::USE_WIDE_CHAR};
+    FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::CHUNK_BUFFER_CAPACITY};
 
 namespace {
 
@@ -201,6 +202,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
 void FlightSqlConnection::PopulateMetadataSettings(const Connection::ConnPropertyMap &conn_property_map) {
   metadata_settings_.string_column_length_ = GetStringColumnLength(conn_property_map);
   metadata_settings_.use_wide_char_ = GetUseWideChar(conn_property_map);
+  metadata_settings_.chunk_buffer_capacity_ = GetChunkBufferCapacity(conn_property_map);
 }
 
 boost::optional<int32_t> FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropertyMap &conn_property_map) {
@@ -227,6 +229,20 @@ bool FlightSqlConnection::GetUseWideChar(const ConnPropertyMap &connPropertyMap)
   bool default_value = false;
 #endif
   return AsBool(connPropertyMap, FlightSqlConnection::USE_WIDE_CHAR).value_or(default_value);
+}
+
+size_t FlightSqlConnection::GetChunkBufferCapacity(const ConnPropertyMap &connPropertyMap) {
+  size_t default_value = 5;
+  try {
+    return AsInt32(1, connPropertyMap, FlightSqlConnection::CHUNK_BUFFER_CAPACITY).value_or(default_value);
+  } catch (const std::exception& e) {
+    diagnostics_.AddWarning(
+            std::string("Invalid value for connection property " + FlightSqlConnection::CHUNK_BUFFER_CAPACITY +
+                        ". Please ensure it has a valid numeric value. Message: " + e.what()),
+            "01000", odbcabstraction::ODBCErrorCodes_GENERAL_WARNING);
+  }
+
+  return default_value;
 }
 
 const FlightCallOptions &
