@@ -72,22 +72,17 @@ void TestBindColumn(const std::shared_ptr<Connection> &connection) {
 void TestGetData(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
   statement->Execute(
-      "SELECT * FROM \"@dremio\".\"test_numeric\"");
+      "SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6");
 
   const std::shared_ptr<ResultSet> &result_set = statement->GetResultSet();
   const std::shared_ptr<ResultSetMetadata> &metadata = result_set->GetMetadata();
 
-  std::cout << metadata->GetDataType(1) << std::endl;
-
   while (result_set->Move(1, 0, 0, nullptr) == 1) {
-    driver::odbcabstraction::NUMERIC_STRUCT result;
+    char result[128];
     ssize_t result_length;
-    result_set->GetData(1, driver::odbcabstraction::CDataType_NUMERIC, 0, 0,
-                        &result, 0, &result_length);
-    std::cout << "precision:" << result.precision << std::endl;
-    std::cout << "scale:" << result.scale << std::endl;
-    std::cout << "sign:" << result.sign << std::endl;
-    std::cout << "val:" << result.val << std::endl;
+    result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0,
+                        &result, sizeof(result), &result_length);
+    std::cout << result << std::endl;
   }
 }
 

@@ -11,24 +11,8 @@
 namespace driver {
 namespace flight_sql {
 
-using arrow::flight::FlightEndpoint;
-
-FlightStreamChunkIterator::FlightStreamChunkIterator(
-    FlightSqlClient &flight_sql_client,
-    const arrow::flight::FlightCallOptions &call_options,
-    const std::shared_ptr<FlightInfo> &flight_info)
-    : closed_(false) {
-  const std::vector<FlightEndpoint> &endpoints = flight_info->endpoints();
-
-  stream_readers_.reserve(endpoints.size());
-  for (int i = 0; i < endpoints.size(); ++i) {
-    auto result = flight_sql_client.DoGet(call_options, endpoints[i].ticket);
-    ThrowIfNotOK(result.status());
-    stream_readers_.push_back(std::move(result.ValueOrDie()));
-  }
-
-  stream_readers_it_ = stream_readers_.begin();
-}
+FlightStreamChunkIterator::FlightStreamChunkIterator(std::unique_ptr<FlightStreamReader> stream_reader)
+    : stream_reader_(std::move(stream_reader)), closed_(false) {}
 
 FlightStreamChunkIterator::~FlightStreamChunkIterator() { Close(); }
 
@@ -36,25 +20,18 @@ bool FlightStreamChunkIterator::GetNext(FlightStreamChunk *chunk) {
   if (closed_) return false;
 
   chunk->data = nullptr;
-  while (stream_readers_it_ != stream_readers_.end()) {
-    const auto &chunk_result = (*stream_readers_it_)->Next();
-    ThrowIfNotOK(chunk_result.status());
-    chunk->data = chunk_result.ValueOrDie().data;
-    if (chunk->data != nullptr) {
-      return true;
-    }
-    ++stream_readers_it_;
-  }
-  return false;
+  const auto &chunk_result = stream_reader_->Next();
+  ThrowIfNotOK(chunk_result.status());
+  chunk->data = chunk_result.ValueOrDie().data;
+
+  return chunk->data != nullptr;
 }
 
 void FlightStreamChunkIterator::Close() {
   if (closed_) {
     return;
   }
-  for (const auto &item : stream_readers_) {
-    item->Cancel();
-  }
+  stream_reader_->Cancel();
   closed_ = true;
 }
 
