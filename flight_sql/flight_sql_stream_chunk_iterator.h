@@ -19,15 +19,11 @@ using arrow::flight::sql::FlightSqlClient;
 
 class FlightStreamChunkIterator {
 private:
-  std::vector<std::unique_ptr<FlightStreamReader>> stream_readers_;
-  std::vector<std::unique_ptr<FlightStreamReader>>::iterator stream_readers_it_;
+  std::unique_ptr<FlightStreamReader> stream_reader_;
   bool closed_;
 
 public:
-  FlightStreamChunkIterator(
-      FlightSqlClient &flight_sql_client,
-      const arrow::flight::FlightCallOptions &call_options,
-      const std::shared_ptr<FlightInfo> &flight_info);
+  FlightStreamChunkIterator(std::unique_ptr<FlightStreamReader> stream_reader);
 
   ~FlightStreamChunkIterator();
 
