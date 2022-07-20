@@ -186,8 +186,8 @@ set(ARROW_ODBC_SPI_SOURCES
   flight_sql_statement_get_tables.h
   flight_sql_statement_get_type_info.cc
   flight_sql_statement_get_type_info.h
-  flight_sql_stream_chunk_iterator.cc
-  flight_sql_stream_chunk_iterator.h
+  flight_sql_stream_chunk_buffer.cc
+  flight_sql_stream_chunk_buffer.h
   get_info_cache.cc
   get_info_cache.h
   json_converter.cc
