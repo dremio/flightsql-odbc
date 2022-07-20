@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "flight_sql_stream_chunk_iterator.h"
+#include "flight_sql_stream_chunk_buffer.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
 #include "odbcabstraction/types.h"
@@ -36,7 +36,7 @@ class FlightSqlResultSetColumn;
 class FlightSqlResultSet : public ResultSet {
 private:
   const odbcabstraction::MetadataSettings& metadata_settings_;
-  FlightStreamChunkIterator chunk_iterator_;
+  FlightStreamChunkBuffer chunk_buffer_;
   FlightStreamChunk current_chunk_;
   std::shared_ptr<Schema> schema_;
   std::shared_ptr<RecordBatchTransformer> transformer_;
