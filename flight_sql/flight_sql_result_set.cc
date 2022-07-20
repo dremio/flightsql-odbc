@@ -38,7 +38,7 @@ FlightSqlResultSet::FlightSqlResultSet(
     const odbcabstraction::MetadataSettings &metadata_settings)
     :
       metadata_settings_(metadata_settings),
-      chunk_iterator_(flight_sql_client, call_options, flight_info),
+      chunk_buffer_(flight_sql_client, call_options, flight_info, metadata_settings_.chunk_buffer_capacity_),
       transformer_(transformer),
       metadata_(transformer ? new FlightSqlResultSetMetadata(transformer->GetTransformedSchema(),
                                                              metadata_settings_)
@@ -64,7 +64,7 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
   // populated yet
   assert(rows > 0);
   if (current_chunk_.data == nullptr) {
-    if (!chunk_iterator_.GetNext(&current_chunk_)) {
+    if (!chunk_buffer_.GetNext(&current_chunk_)) {
       return 0;
     }
 
@@ -90,7 +90,7 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
                  static_cast<size_t>(batch_rows - current_row_));
 
     if (rows_to_fetch == 0) {
-      if (!chunk_iterator_.GetNext(&current_chunk_)) {
+      if (!chunk_buffer_.GetNext(&current_chunk_)) {
         break;
       }
 
@@ -204,12 +204,12 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
 }
 
 void FlightSqlResultSet::Close() {
-  chunk_iterator_.Close();
+  chunk_buffer_.Close();
   current_chunk_.data = nullptr;
 }
 
 void FlightSqlResultSet::Cancel() {
-  chunk_iterator_.Close();
+  chunk_buffer_.Close();
   current_chunk_.data = nullptr;
 }
 
