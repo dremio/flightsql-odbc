@@ -164,8 +164,9 @@ enum RowStatus: uint16_t {
 };
 
 struct MetadataSettings {
-    boost::optional<int32_t> string_column_length_{boost::none};
-    bool use_wide_char_;
+  boost::optional<int32_t> string_column_length_{boost::none};
+  bool use_wide_char_;
+  size_t chunk_buffer_capacity_;
 };
 
 } // namespace odbcabstraction
