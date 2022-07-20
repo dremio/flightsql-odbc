@@ -245,15 +245,18 @@ public:
 
     const std::shared_ptr<StructType> &data_type = std::static_pointer_cast<StructType>(scalar.type);
     for (int i = 0; i < data_type->num_fields(); ++i) {
-      writer_.Key(data_type->field(i)->name().c_str());
-
-      const auto &result = scalar.field(i);
+      const auto& result = scalar.field(i);
       ThrowIfNotOK(result.status());
-      ThrowIfNotOK(result.ValueOrDie()->Accept(this));
+      const auto& value = result.ValueOrDie();
+      writer_.Key(data_type->field(i)->name().c_str());
+      if (value->is_valid) {
+        ThrowIfNotOK(value->Accept(this));
+      }
+      else {
+        writer_.Null();
+      }
     }
-
     writer_.EndObject();
-
     return Status::OK();
   }
 

@@ -21,6 +21,10 @@ else()
 endif()
 include_directories(${ODBC_INCLUDE_DIRS})
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(NDEBUG)
+endif()
+
 # Fetch and include GTest
 # Adapted from Google's documentation: https://google.github.io/googletest/quickstart-cmake.html#set-up-a-project
 include(FetchContent)
