@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b779128_e61b2196",
+        "filename": "odbcabstraction/CMakeLists.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T19:49:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t appear to be used. Does add_dependencies use this?",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce8376d_e27abfab",
+        "filename": "odbcabstraction/CMakeLists.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T19:49:54Z",
+      "side": 1,
+      "message": "Please group includes together and sort alphabetically.",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40803c91_8e779298",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T19:49:54Z",
+      "side": 1,
+      "message": "Instead of defining this in code, can this be added to CMakeLists? It\u0027s error-prone.",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de3c8051_d32d66cb",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T19:49:54Z",
+      "side": 1,
+      "message": "This should check if this will actually be logged before calling log() to avoid formatting the arguments if the entry won\u0027t be logged.",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86787b29_188ed802",
+        "filename": "odbcabstraction/spd_logger.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T19:49:54Z",
+      "side": 1,
+      "message": "When the driver gets unloaded (eg the logger is destroyed) this should unregister these signal handlers.\nAdditionally, I think we should still raise the signal and chain any previously set signal handlers.\nAlso should probably do SIGKILL too.",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
