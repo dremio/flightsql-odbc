@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "533b4224_ed540c6b",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "This method seems off. By the time it\u0027s called, iterator.GetNext() already loaded the chunk into memory and this is just blocking on adding it to the array. What we actually want is if the queue is full, don\u0027t get the next chunk until a slot frees up.\n\nThe current implementation allows each thread to have one extra buffer in memory.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d665459_fa1b4efc",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "This method should check if it was woken up by a Close() call.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c271ec_4d4f3731",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "Our endpoint iteration doesn\u0027t actually work. (since we use the same flight_sql_client but the endpoints will probably be at different hosts).",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39faf88a_32dc3a78",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "I\u0027m not really clear how errors are reported across threads with C++11 threads.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aba872f0_093e3f2f",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "This will never detect that closed_ has changed since this is not within a lock.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b13d43_64e10967",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "Setting closed_ needs to be within a mutex.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b14737ae_44701f9b",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "This should wake up threads that are blocked on Produce() as well so that they don\u0027t try to get more data then they need to.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db718c04_fe8823b7",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "This class is too-specific to Flight. It should be architected so that there\u0027s a generic class for managing the buffers that calls into a polymorphic method to actually get the buffer. The buffer itself should be opaque.\n\nThis way the logic for doing the concurrency management can be reused in ODBC abstraction.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9479872a_01cc5eaf",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "This should be refactored into a higher-level structure like a blocking queue.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2986d9_8057a552",
+        "filename": "flight_sql/flight_sql_stream_chunk_iterator.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-21T22:03:43Z",
+      "side": 1,
+      "message": "explicit.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
