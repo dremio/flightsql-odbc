@@ -32,7 +32,7 @@ template <typename CHAR_TYPE>
 inline RowStatus MoveSingleCellToCharBuffer(std::vector<uint8_t> &buffer,
                                             int64_t& last_retrieved_arrow_row,
 #if defined _WIN32 || defined _WIN64
-                                            std::string &clocale_string,
+                                            std::string &clocale_str,
 #endif
                                             ColumnBinding *binding,
                                             StringArray *array, int64_t arrow_row, int64_t i,
