@@ -1,0 +1,7 @@
+Code-Review+2: James Duong (CW) <jduong@dremio.com>
+Verified+1: James Duong (CW) <jduong@dremio.com>
+Submitted-by: James Duong (CW) <jduong@dremio.com>
+Submitted-at: Thu, 21 Jul 2022 16:18:04 +0000
+Reviewed-on: https://gerrit.drem.io/gerrit/c/flightsql-odbc/+/40707
+Project: flightsql-odbc
+Branch: refs/heads/master
