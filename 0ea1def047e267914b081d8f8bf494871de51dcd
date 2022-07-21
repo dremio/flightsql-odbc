@@ -123,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68a44961_3fec9b88",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-21T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b8aed40_9d9e9375",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bd51a3f_651360aa",
@@ -263,6 +281,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf697728_e4e492e3",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-21T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbb95244_565638f5",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71d15848_c1d95aee",
@@ -276,6 +312,24 @@
       "writtenOn": "2022-07-16T14:10:09Z",
       "side": 1,
       "message": "The implementation of the Logger should do the formatting. The goal is to push the formatting down as far as possible.\n\nFor example, spdlog might do the formatting as part of writing the data to a file. Or it might do the formatting asynchronously.\n\nBy doing the formatting here, you are basically always creating an in-memory string even if the logger can do it more optimally.",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586b3291_7c22a2ed",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-21T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71d15848_c1d95aee",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -438,6 +492,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b3037cc_28413ec5",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-21T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be073aae_5c74cb79",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dc83bbc_faf8d96f",
@@ -487,6 +559,24 @@
       "side": 1,
       "message": "This needs to be reworked. This will cause the work in formatting the strings to always happen, even when the log level is lower than what is being logged (which can be costly because this includes number to string conversions).\n\nI saw spdlog supports printf-style formatting. You can expose this in the interface by adding a ... parameter. see: https://github.com/artemyv/cmake_spdlog_example/blob/99dbc49337b1aaae944330f028e704460a946fdd/src/logger.h#L4 and https://github.com/gabime/spdlog/issues/1843",
       "parentUuid": "8c13439b_da68c490",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e170501_cdedfa2f",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-21T19:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d320224e_ecfe0f99",
       "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
