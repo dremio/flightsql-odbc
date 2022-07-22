@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4277e3dc_1b36f342",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "533b4224_ed540c6b",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d665459_fa1b4efc",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b344d82_ff0673a6",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d665459_fa1b4efc",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7c271ec_4d4f3731",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-21T22:03:43Z",
       "side": 1,
       "message": "Our endpoint iteration doesn\u0027t actually work. (since we use the same flight_sql_client but the endpoints will probably be at different hosts).",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91681a3a_410abaac",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Added a comment to address this later",
+      "parentUuid": "b7c271ec_4d4f3731",
       "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -120,6 +174,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a48011_58da2426",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b14737ae_44701f9b",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db718c04_fe8823b7",
@@ -133,6 +205,24 @@
       "writtenOn": "2022-07-21T22:03:43Z",
       "side": 1,
       "message": "This class is too-specific to Flight. It should be architected so that there\u0027s a generic class for managing the buffers that calls into a polymorphic method to actually get the buffer. The buffer itself should be opaque.\n\nThis way the logic for doing the concurrency management can be reused in ODBC abstraction.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fe2a940_02a84742",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db718c04_fe8823b7",
       "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -154,6 +244,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7466172_9eafc5bb",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9479872a_01cc5eaf",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac2986d9_8057a552",
@@ -167,6 +275,24 @@
       "writtenOn": "2022-07-21T22:03:43Z",
       "side": 1,
       "message": "explicit.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6780da52_4fa00d15",
+        "filename": "flight_sql/flight_sql_stream_chunk_iterator.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac2986d9_8057a552",
       "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
