@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f134cc_e66430cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:57:11Z",
+      "side": 1,
+      "message": "-1 because of unresolved comments from James",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a780ce34_9cd8ea37",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:57:11Z",
+      "side": 1,
+      "message": "nit: blank space",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a60bcdf_59c879f2",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:57:11Z",
+      "side": 1,
+      "message": "Prefer `*log_enabled`, I think .get won\u0027t work on Windows",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9fd65d2_ef532721",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-22T18:57:11Z",
+      "side": 1,
+      "message": "Is this right? `(1, 1,`",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
