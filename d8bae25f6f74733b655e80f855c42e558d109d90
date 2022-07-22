@@ -335,6 +335,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "475be033_5f33ef44",
+        "filename": "odbcabstraction/odbc_logger.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f410b466_ef2d4bd3",
+      "revId": "d8bae25f6f74733b655e80f855c42e558d109d90",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8714adba_cf12854b",

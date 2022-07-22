@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ace0df0_403e186e",
+        "filename": "odbcabstraction/CMakeLists.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b779128_e61b2196",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce8376d_e27abfab",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-21T19:49:54Z",
       "side": 1,
       "message": "Please group includes together and sort alphabetically.",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff41b6f8_b135c4a4",
+        "filename": "odbcabstraction/CMakeLists.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ce8376d_e27abfab",
       "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -69,6 +105,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04365797_c34d667b",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de3c8051_d32d66cb",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86787b29_188ed802",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-07-21T19:49:54Z",
       "side": 1,
       "message": "When the driver gets unloaded (eg the logger is destroyed) this should unregister these signal handlers.\nAdditionally, I think we should still raise the signal and chain any previously set signal handlers.\nAlso should probably do SIGKILL too.",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "233ba532_ab9fa9b9",
+        "filename": "odbcabstraction/spd_logger.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86787b29_188ed802",
       "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }

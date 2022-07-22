@@ -35,6 +35,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c99c04df_dbd3a82c",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a780ce34_9cd8ea37",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a60bcdf_59c879f2",
@@ -52,6 +70,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ff812c7_47a7f0f3",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a60bcdf_59c879f2",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9fd65d2_ef532721",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-07-22T18:57:11Z",
       "side": 1,
       "message": "Is this right? `(1, 1,`",
+      "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ec7af68_5d2b267d",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:04:33Z",
+      "side": 1,
+      "message": "The amount does not matter cause the logger will be disabled",
+      "parentUuid": "d9fd65d2_ef532721",
       "revId": "1cadf90ab50a4b975efc25736d4c3a7bd6eb9ef8",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
