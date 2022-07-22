@@ -88,6 +88,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4bb344f_c72701d2",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-22T19:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40803c91_8e779298",
+      "revId": "9788e00e79302e3ad41ab9991dac57ea5e400e98",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de3c8051_d32d66cb",
