@@ -26,7 +26,7 @@ namespace ODBC {
   template<typename CHAR_TYPE>
   inline size_t ConvertToSqlWChar(const std::string& str, SQLWCHAR* buffer, SQLLEN bufferSizeInBytes) {
     thread_local std::vector<uint8_t> wstr;
-    Utf8ToWcs(str.data(), &wstr);
+    Utf8ToWcs<CHAR_TYPE>(str.data(), str.size(), &wstr);
     SQLLEN valueLengthInBytes = wstr.size();
 
     if (buffer) {
@@ -34,7 +34,7 @@ namespace ODBC {
 
       // Write a NUL terminator
       if (bufferSizeInBytes >= valueLengthInBytes + GetSqlWCharSize()) {
-        reinterpret_cast<CHAR_TYPE*>(buffer)[wstr.size()] = '\0';
+        reinterpret_cast<CHAR_TYPE*>(buffer)[valueLengthInBytes / GetSqlWCharSize()] = '\0';
       } else {
         SQLLEN numCharsWritten = bufferSizeInBytes / GetSqlWCharSize();
         // If we failed to even write one char, the buffer is too small to hold a NUL-terminator.
