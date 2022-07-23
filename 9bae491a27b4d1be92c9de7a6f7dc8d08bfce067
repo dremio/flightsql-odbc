@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4849e6_49d61ae9",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "This isn\u0027t right. You should use a Windows API call to figure out the temp directory.\nBut I\u0027m not sure if we should silently log to a default temp directory, fail if the user turns logging on but does not supply a path, or disable logging if the user turns logging on and does not supply a path. Check if Ray has some thoughts here. I lean towards treating it as a bad config and throwing an error (and printing to stderr, since this happens before diagnostics are usable).",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9112ac30_1c2aa54b",
+        "filename": "flight_sql/flight_sql_driver.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "This should be in a unique_ptr explicitly. This can leak if init() throws an exception (or if init() is changed so that it _can_ throw an exception..). Same with line 186.",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1440e1d4_f10b0fab",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "This typedef is unhelpful. A string is fine.",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf4dc044_bea3601a",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "These typedefs aren\u0027t used by this header.",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20bec265_4507af96",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "This is not right. You need to compare the LogLevel that the user has configured against the LogLevel that was passed into this function (which is controlled by the which macro was used) to determine if the line should be logged.",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef049b1f_9b742202",
+        "filename": "odbcabstraction/include/odbcabstraction/spd_logger.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "Let\u0027s use unique_ptr. There\u0027s less overhead and no need for any features from shared_ptr.",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8494b614_18f3d99a",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "Let\u0027s rename this to ReadConfigFile (to decouple its purpose from only configuring SPDLogger) and take in a filename (to make the function more reusable). The caller should choose the filename (perhaps add a bool to indicate if it should be read from the same dir as the driver).",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc85eff_98eb0ef8",
+        "filename": "odbcabstraction/spd_logger.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "Calling std::signal will overwrite the signals the application layer may have setup already.\n\nWe need to preserve the ones the application setup, and call them after ours run:\nhttps://stackoverflow.com/questions/10701713/signal-overwriting-other-signal-handlers\n\nAnd we need to restore them when the driver is done.",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5df14de_0c6bf745",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-23T13:53:33Z",
+      "side": 1,
+      "message": "Extract out use of wai_getModulePath() into a public utils function GetModulePath().",
+      "revId": "9bae491a27b4d1be92c9de7a6f7dc8d08bfce067",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
