@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d00a67_35a688ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "Is this still a WIP?",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6836660e_e8cae884",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "odbcabstraction rather than flight_sql",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "487693a0_f322b631",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "size_t",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf673e4_98bf7d09",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "How do we report errors if Produce() threw an exception? Or is it expected that the supplier can never throw?",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84e2f26d_7f5c32ef",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "Let\u0027s create a ticket to make the source of the threads pluggable. Ideally we get threads from a connection-level thread pool (and can re-use these threads for things like parallelized converter execution).",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f4b80aa_ac3fe10b",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "Newline at end of file.",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eaf41d8_69933513",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "Remove iostream dependency",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0017d9_f2be6c7f",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "Is this method exception-safe?\nLooking at GetNext() this can throw if there\u0027s an error. We need a way of reporting the error back to the main thread.\n\nInstead of having the blocking queue hold FlightStreamChunks directly we hold the Result\u003cFlightStreamChunk\u003e so that we can evaluate the status after it is read from the queue.\n\nAlso, if the Result\u003c\u003e was not ok(), we should Close() to prevent the producer from trying to read more from the stream.",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e38a12b_99ca1f72",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "This should come from a connection string option.",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa78ec16_5e015926",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "No need for explicit if there are multiple mandatory parameters.",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "197e9d0b_af82f876",
+        "filename": "flight_sql/flight_sql_stream_chunk_iterator.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-25T16:38:20Z",
+      "side": 1,
+      "message": "if this is not OK, should this Close() the iterator so that cleanup can start?",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
