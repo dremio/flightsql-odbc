@@ -52,6 +52,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fde24142_29e5da33",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "487693a0_f322b631",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cf673e4_98bf7d09",
@@ -103,6 +121,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6605344e_cccee855",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f4b80aa_ac3fe10b",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eaf41d8_69933513",
@@ -116,6 +152,24 @@
       "writtenOn": "2022-07-25T16:38:20Z",
       "side": 1,
       "message": "Remove iostream dependency",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d6754c3_7e0769f9",
+        "filename": "flight_sql/flight_sql_result_set.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eaf41d8_69933513",
       "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -167,6 +221,24 @@
       "writtenOn": "2022-07-25T16:38:20Z",
       "side": 1,
       "message": "No need for explicit if there are multiple mandatory parameters.",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ce175a_7fa42154",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa78ec16_5e015926",
       "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },

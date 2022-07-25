@@ -106,6 +106,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8303fbdd_3ec5068a",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91681a3a_410abaac",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39faf88a_32dc3a78",
