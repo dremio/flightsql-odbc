@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd89fc18_69dfe060",
+        "filename": "odbc_perf_testing/test_cases/test_data_types.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:17:38Z",
+      "side": 1,
+      "message": "Instead of having these test case files, can we simply have a --query argument where we can pass whatever query we want to profile?\n\nWhen using these scripts I found it hard to use and ended up hardcoding queries in just one place",
+      "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "094247e3_4a34779f",
+        "filename": "odbc_perf_testing/test_strategy/pyodbc_strategy.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:17:38Z",
+      "side": 1,
+      "message": "Can we have a way to pass the whole connection string?",
+      "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc564869_3ef34275",
+        "filename": "odbc_perf_testing/test_strategy/pyodbc_strategy.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-25T17:17:38Z",
+      "side": 1,
+      "message": "There is no trustStore or thustStorePassword on ODBC",
+      "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
