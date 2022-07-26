@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7768a6b_3dc2b733",
+        "filename": "odbc_perf_testing/test_cases/test_data_types.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-07-26T15:15:04Z",
+      "side": 1,
+      "message": "There\u0027s already --sql_query to be used with test-fetch-all for that.",
+      "parentUuid": "bd89fc18_69dfe060",
+      "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "094247e3_4a34779f",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beeb81b5_d98471e8",
+        "filename": "odbc_perf_testing/test_strategy/pyodbc_strategy.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-07-26T15:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "094247e3_4a34779f",
+      "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc564869_3ef34275",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-25T17:17:38Z",
       "side": 1,
       "message": "There is no trustStore or thustStorePassword on ODBC",
+      "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6569974_e4fff27a",
+        "filename": "odbc_perf_testing/test_strategy/pyodbc_strategy.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-07-26T15:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc564869_3ef34275",
       "revId": "bad244b0faad10f6ee53a03832475a52795ca7bc",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
