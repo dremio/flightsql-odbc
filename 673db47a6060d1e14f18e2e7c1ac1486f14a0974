@@ -123,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fda705b_9d48cfd5",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4fd904_6d3d29c9",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84e2f26d_7f5c32ef",
@@ -136,6 +154,24 @@
       "writtenOn": "2022-07-25T16:38:20Z",
       "side": 1,
       "message": "Let\u0027s create a ticket to make the source of the threads pluggable. Ideally we get threads from a connection-level thread pool (and can re-use these threads for things like parallelized converter execution).",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "435c2a27_5e50f570",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:25:31Z",
+      "side": 1,
+      "message": "Created https://dremio.atlassian.net/browse/DX-54065",
+      "parentUuid": "84e2f26d_7f5c32ef",
       "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -310,6 +346,24 @@
       "writtenOn": "2022-07-25T16:38:20Z",
       "side": 1,
       "message": "if this is not OK, should this Close() the iterator so that cleanup can start?",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2542a10e_6172779f",
+        "filename": "flight_sql/flight_sql_stream_chunk_iterator.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "197e9d0b_af82f876",
       "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
