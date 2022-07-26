@@ -176,6 +176,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab340042_e76716dc",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aba872f0_093e3f2f",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65b13d43_64e10967",
@@ -189,6 +207,24 @@
       "writtenOn": "2022-07-21T22:03:43Z",
       "side": 1,
       "message": "Setting closed_ needs to be within a mutex.",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e25a1b_059d4abd",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:56:19Z",
+      "side": 1,
+      "message": "I transformed it in an atomic\u003cbool\u003e.\nIf I use the mutex on Close() it causes a deadlock",
+      "parentUuid": "65b13d43_64e10967",
       "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
