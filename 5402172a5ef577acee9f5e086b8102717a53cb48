@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97d31bf7_6b8b4401",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T18:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "180f5571_b4f1b330",
+      "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4f11d9e_1d617ca3",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "174c347f_0c13277c",
+        "filename": "odbcabstraction/include/odbcabstraction/blocking_queue.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T18:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4f11d9e_1d617ca3",
+      "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5641fe90_bf849795",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-26T17:57:09Z",
       "side": 1,
       "message": "Don\u0027t need to unlock explicitly. Destructor does this.",
+      "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23e7cb94_42d23d58",
+        "filename": "odbcabstraction/include/odbcabstraction/blocking_queue.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T18:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5641fe90_bf849795",
       "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -86,6 +140,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc1a776_7c85caef",
+        "filename": "odbcabstraction/include/odbcabstraction/blocking_queue.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T18:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af0978c_af203464",
+      "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4627b7fc_e849622f",
@@ -99,6 +171,24 @@
       "writtenOn": "2022-07-26T17:57:09Z",
       "side": 1,
       "message": "This should also happen within the lock.",
+      "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25f08e74_662a50c0",
+        "filename": "odbcabstraction/include/odbcabstraction/blocking_queue.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T18:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4627b7fc_e849622f",
       "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
