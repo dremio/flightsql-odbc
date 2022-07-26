@@ -249,6 +249,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb0388f2_bac29e3a",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-26T15:30:49Z",
+      "side": 1,
+      "message": "You probably do not have a recursive mutex, so if you call Close() while already having the lock, there\u0027s a runtime issue.\n\nInstead you should have a private internal Close function that you can use when already having the lock, and a public Close() function that acquires the lock then calls the internal one.",
+      "parentUuid": "6eb391b0_dd58f11e",
+      "revId": "4fdebb04d84265f34770cf818b770089907ac17d",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b14737ae_44701f9b",
         "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
         "patchSetId": 4
