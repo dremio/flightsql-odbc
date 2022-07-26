@@ -35,6 +35,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a79d9946_80779825",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:15:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6836660e_e8cae884",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "487693a0_f322b631",
@@ -83,6 +101,24 @@
       "writtenOn": "2022-07-25T16:38:20Z",
       "side": 1,
       "message": "How do we report errors if Produce() threw an exception? Or is it expected that the supplier can never throw?",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b4fd904_6d3d29c9",
+        "filename": "flight_sql/blocking_queue.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:15:05Z",
+      "side": 1,
+      "message": "Now it\u0027s expected that it never throws",
+      "parentUuid": "5cf673e4_98bf7d09",
       "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
@@ -187,6 +223,24 @@
       "writtenOn": "2022-07-25T16:38:20Z",
       "side": 1,
       "message": "Is this method exception-safe?\nLooking at GetNext() this can throw if there\u0027s an error. We need a way of reporting the error back to the main thread.\n\nInstead of having the blocking queue hold FlightStreamChunks directly we hold the Result\u003cFlightStreamChunk\u003e so that we can evaluate the status after it is read from the queue.\n\nAlso, if the Result\u003c\u003e was not ok(), we should Close() to prevent the producer from trying to read more from the stream.",
+      "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "918e9ab4_156cbd1b",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T14:15:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0017d9_f2be6c7f",
       "revId": "673db47a6060d1e14f18e2e7c1ac1486f14a0974",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
