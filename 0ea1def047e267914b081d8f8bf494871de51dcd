@@ -669,6 +669,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b41c437a_941f1c4f",
+        "filename": "odbcabstraction/utils.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000319
+      },
+      "writtenOn": "2022-07-26T18:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51179ac0_4dedc722",
+      "revId": "0ea1def047e267914b081d8f8bf494871de51dcd",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f68dc5d6_2f678ec9",
