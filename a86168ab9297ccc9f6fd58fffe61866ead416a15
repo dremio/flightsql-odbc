@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eede7be_6724d115",
+        "filename": "odbcabstraction/include/odbcabstraction/blocking_queue.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T17:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0db43c91_dfe1e5ce",
+      "revId": "a86168ab9297ccc9f6fd58fffe61866ead416a15",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af4395e8_b2748ca1",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-26T15:30:49Z",
       "side": 1,
       "message": "Order by size to reduce field padding.",
+      "revId": "a86168ab9297ccc9f6fd58fffe61866ead416a15",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0b20536_e83d2cf9",
+        "filename": "odbcabstraction/include/odbcabstraction/types.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-26T17:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af4395e8_b2748ca1",
       "revId": "a86168ab9297ccc9f6fd58fffe61866ead416a15",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
