@@ -18,6 +18,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6caf7c16_b1f58eb1",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-27T19:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "566dc459_bed29173",
+      "revId": "af1e2e4f8dbe3f7322c8fa063247696fca3224f9",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e492495_f7634a3b",
@@ -35,6 +53,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56caaf6_bd95322d",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-27T19:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e492495_f7634a3b",
+      "revId": "af1e2e4f8dbe3f7322c8fa063247696fca3224f9",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92412e18_148babb3",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-27T19:15:23Z",
       "side": 1,
       "message": "These aren\u0027t really iterators.",
+      "revId": "af1e2e4f8dbe3f7322c8fa063247696fca3224f9",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "019ad36b_f9374b0c",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-27T19:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92412e18_148babb3",
       "revId": "af1e2e4f8dbe3f7322c8fa063247696fca3224f9",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }

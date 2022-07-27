@@ -16,6 +16,24 @@
       "message": "This comment is wrong. The default is 5.",
       "revId": "a0f15b1e973dc80a0489fa2ef5a06cbb13a036f7",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dd7d84f_57698500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-27T19:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91edf9cf_614ed905",
+      "revId": "a0f15b1e973dc80a0489fa2ef5a06cbb13a036f7",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
