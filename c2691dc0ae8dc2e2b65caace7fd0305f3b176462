@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b427ced_ae295e88",
+        "filename": "odbc_perf_testing/test_cases/test_data_types.py",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-27T18:16:20Z",
+      "side": 1,
+      "message": "Should decimal be covered? Interval too?",
+      "revId": "c2691dc0ae8dc2e2b65caace7fd0305f3b176462",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c57652e9_1b08e84a",
+        "filename": "odbc_perf_testing/test_strategy/pyodbc_strategy.py",
+        "patchSetId": 33
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-27T18:16:20Z",
+      "side": 1,
+      "message": "This key should be trustedCerts.",
+      "revId": "c2691dc0ae8dc2e2b65caace7fd0305f3b176462",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
