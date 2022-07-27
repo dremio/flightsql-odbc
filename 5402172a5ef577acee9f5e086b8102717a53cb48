@@ -123,6 +123,24 @@
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad6f3ade_63a399ab",
+        "filename": "odbcabstraction/include/odbcabstraction/blocking_queue.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-07-27T18:15:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4054d43_dc899915",
+      "revId": "5402172a5ef577acee9f5e086b8102717a53cb48",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9af0978c_af203464",
