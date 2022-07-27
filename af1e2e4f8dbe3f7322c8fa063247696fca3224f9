@@ -33,6 +33,23 @@
       "message": "We should clean up stream readers too.",
       "revId": "af1e2e4f8dbe3f7322c8fa063247696fca3224f9",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92412e18_148babb3",
+        "filename": "flight_sql/flight_sql_stream_chunk_buffer.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-07-27T19:15:23Z",
+      "side": 1,
+      "message": "These aren\u0027t really iterators.",
+      "revId": "af1e2e4f8dbe3f7322c8fa063247696fca3224f9",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
