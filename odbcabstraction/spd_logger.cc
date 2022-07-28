@@ -35,7 +35,9 @@ typedef void (*Handler)(int signum);
 Handler old_sigint_handler = SIG_IGN;
 Handler old_sigsegv_handler = SIG_IGN;
 Handler old_sigabrt_handler = SIG_IGN;
+#ifdef SIGKILL
 Handler old_sigkill_handler = SIG_IGN;
+#endif
 
 Handler GetHandlerFromSignal(int signum) {
   switch (signum) {
@@ -45,8 +47,10 @@ Handler GetHandlerFromSignal(int signum) {
       return old_sigsegv_handler;
     case(SIGABRT):
       return old_sigabrt_handler;
+#ifdef SIGKILL
     case(SIGKILL):
       return old_sigkill_handler;
+#endif
   }
 }
 
@@ -96,7 +100,9 @@ void SPDLogger::init(int64_t fileQuantity, int64_t maxFileSize,
     SetSignalHandler(SIGINT);
     SetSignalHandler(SIGSEGV);
     SetSignalHandler(SIGABRT);
+#ifdef SIGKILL
     SetSignalHandler(SIGKILL);
+#endif
     shutdown_handler = [&](int signal) {
       logger_->flush();
       spdlog::shutdown();
@@ -130,7 +136,9 @@ SPDLogger::~SPDLogger() {
   ResetSignalHandler(SIGINT);
   ResetSignalHandler(SIGSEGV);
   ResetSignalHandler(SIGABRT);
+#ifdef SIGKILL
   ResetSignalHandler(SIGKILL);
+#endif
 }
 
 bool SPDLogger::checkLogLevel(LogLevel called) {
