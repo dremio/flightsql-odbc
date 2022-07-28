@@ -13,18 +13,23 @@
 #include <boost/algorithm/string.hpp>
 #include <spdlog/fmt/bundled/format.h>
 
-#include <odbcabstraction/spi/connection.h>
-
-#define LOG_DEBUG(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::DEBUG, __VA_ARGS__);
-#define LOG_INFO(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::INFO, __VA_ARGS__);
-#define LOG_ERROR(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::ERROR, __VA_ARGS__);
-#define LOG_TRACE(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::TRACE, __VA_ARGS__);
-#define LOG_WARN(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::WARN, __VA_ARGS__);
+#define LOG_DEBUG(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::LogLevel_DEBUG, __VA_ARGS__);
+#define LOG_INFO(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::LogLevel_INFO, __VA_ARGS__);
+#define LOG_ERROR(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::LogLevel_ERROR, __VA_ARGS__);
+#define LOG_TRACE(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::LogLevel_TRACE, __VA_ARGS__);
+#define LOG_WARN(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::LogLevel_WARN, __VA_ARGS__);
 
 namespace driver {
 namespace odbcabstraction {
 
-enum LogLevel { TRACE, DEBUG, INFO, WARN, ERROR, OFF };
+enum LogLevel {
+  LogLevel_TRACE,
+  LogLevel_DEBUG,
+  LogLevel_INFO,
+  LogLevel_WARN,
+  LogLevel_ERROR,
+  LogLevel_OFF
+};
 
 class Logger {
 protected:

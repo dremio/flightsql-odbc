@@ -35,7 +35,9 @@ typedef void (*Handler)(int signum);
 Handler old_sigint_handler = SIG_IGN;
 Handler old_sigsegv_handler = SIG_IGN;
 Handler old_sigabrt_handler = SIG_IGN;
+#ifdef SIGKILL
 Handler old_sigkill_handler = SIG_IGN;
+#endif
 
 Handler GetHandlerFromSignal(int signum) {
   switch (signum) {
@@ -45,8 +47,10 @@ Handler GetHandlerFromSignal(int signum) {
       return old_sigsegv_handler;
     case(SIGABRT):
       return old_sigabrt_handler;
+#ifdef SIGKILL
     case(SIGKILL):
       return old_sigkill_handler;
+#endif
   }
 }
 
@@ -69,15 +73,15 @@ void ResetSignalHandler(int signum) {
 
 spdlog::level::level_enum ToSpdLogLevel(LogLevel level) {
   switch (level) {
-  case TRACE:
+  case LogLevel_TRACE:
     return spdlog::level::trace;
-  case DEBUG:
+  case LogLevel_DEBUG:
     return spdlog::level::debug;
-  case INFO:
+  case LogLevel_INFO:
     return spdlog::level::info;
-  case WARN:
+  case LogLevel_WARN:
     return spdlog::level::warn;
-  case ERROR:
+  case LogLevel_ERROR:
     return spdlog::level::err;
   default:
     return spdlog::level::off;
@@ -92,11 +96,13 @@ void SPDLogger::init(int64_t fileQuantity, int64_t maxFileSize,
 
   logger_->set_level(ToSpdLogLevel(level));
 
-  if (level != LogLevel::OFF) {
+  if (level != LogLevel::LogLevel_OFF) {
     SetSignalHandler(SIGINT);
     SetSignalHandler(SIGSEGV);
     SetSignalHandler(SIGABRT);
+#ifdef SIGKILL
     SetSignalHandler(SIGKILL);
+#endif
     shutdown_handler = [&](int signal) {
       logger_->flush();
       spdlog::shutdown();
@@ -108,19 +114,19 @@ void SPDLogger::init(int64_t fileQuantity, int64_t maxFileSize,
 
 void SPDLogger::log(LogLevel level, const std::string &message) {
   switch (level) {
-  case DEBUG:
+  case LogLevel_DEBUG:
     logger_->debug(message);
     break;
-  case TRACE:
+  case LogLevel_TRACE:
     logger_->trace(message);
     break;
-  case INFO:
+  case LogLevel_INFO:
     logger_->info(message);
     break;
-  case WARN:
+  case LogLevel_WARN:
     logger_->warn(message);
     break;
-  case ERROR:
+  case LogLevel_ERROR:
     logger_->error(message);
     break;
   }
@@ -130,7 +136,9 @@ SPDLogger::~SPDLogger() {
   ResetSignalHandler(SIGINT);
   ResetSignalHandler(SIGSEGV);
   ResetSignalHandler(SIGABRT);
+#ifdef SIGKILL
   ResetSignalHandler(SIGKILL);
+#endif
 }
 
 bool SPDLogger::checkLogLevel(LogLevel called) {
