@@ -7,14 +7,10 @@
 #pragma once
 
 #include <string>
-#include <odbcabstraction/logger.h>
 #include <odbcabstraction/spi/connection.h>
 
 namespace driver {
 namespace odbcabstraction {
-
-typedef std::map<std::string, std::string>
-  PropertyMap;
 
 using driver::odbcabstraction::Connection;
 
@@ -40,8 +36,5 @@ boost::optional<bool> AsBool(const Connection::ConnPropertyMap& connPropertyMap,
 /// \exception std::out_of_range        exception from \link std::stoi \endlink
 boost::optional<int32_t> AsInt32(int32_t min_value, const Connection::ConnPropertyMap& connPropertyMap,
                 const std::string& property_name);
-
-
-void ReadConfigFile(PropertyMap &properties, const std::string &configFileName);
 } // namespace odbcabstraction
 } // namespace driver

@@ -25,28 +25,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_definitions(NDEBUG)
 endif()
 
-add_compile_definitions(FMT_HEADER_ONLY)
-
-include(ExternalProject)
-
-message("Using spdlog from https://github.com/gabime/spdlog on tag v1.10.0")
-ExternalProject_Add(
-        dep_spdlog
-        GIT_REPOSITORY "https://github.com/gabime/spdlog"
-        GIT_TAG "v1.10.0"
-        GIT_SHALLOW 1
-        UPDATE_COMMAND ""
-        PATCH_COMMAND ""
-        CMAKE_ARGS
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/dep_spdlog-prefix/src/dep_spdlog-install
-        -DSPDLOG_BUILD_EXAMPLES=OFF
-        -DSPDLOG_BUILD_BENCH=OFF
-        -DSPDLOG_BUILD_TESTS=OFF
-        TEST_COMMAND ""
-)
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/dep_spdlog-prefix/src/dep_spdlog/include)
-
 # Fetch and include GTest
 # Adapted from Google's documentation: https://google.github.io/googletest/quickstart-cmake.html#set-up-a-project
 include(FetchContent)

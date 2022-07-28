@@ -20,7 +20,6 @@
     "protobuf",
     "zlib",
     "re2",
-    "spdlog",
     "grpc",
     "utf8proc",
     "zlib",
