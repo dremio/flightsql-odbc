@@ -13,8 +13,6 @@
 #include <boost/algorithm/string.hpp>
 #include <spdlog/fmt/bundled/format.h>
 
-#include <odbcabstraction/spi/connection.h>
-
 #define LOG_DEBUG(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::DEBUG, __VA_ARGS__);
 #define LOG_INFO(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::INFO, __VA_ARGS__);
 #define LOG_ERROR(...) driver::odbcabstraction::Logger::GetInstance()->log(driver::odbcabstraction::LogLevel::ERROR, __VA_ARGS__);
