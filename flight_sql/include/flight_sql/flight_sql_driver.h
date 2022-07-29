@@ -26,6 +26,8 @@ public:
   odbcabstraction::Diagnostics &GetDiagnostics() override;
 
   void SetVersion(std::string version) override;
+
+  void RegisterLog(const std::string &configFileName) override;
 };
 
 }; // namespace flight_sql
