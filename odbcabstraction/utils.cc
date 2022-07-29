@@ -5,8 +5,14 @@
  */
 
 #include <odbcabstraction/utils.h>
+#include "whereami.h"
+
+#include <fstream>
+#include <sstream>
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/token_functions.hpp>
 
 namespace driver {
 namespace odbcabstraction {
@@ -43,6 +49,49 @@ boost::optional<int32_t> AsInt32(int32_t min_value, const Connection::ConnProper
     }
   }
   return boost::none;
+}
+
+std::string GetModulePath() {
+  std::vector<char> path;
+  int length, dirname_length;
+  length = wai_getModulePath(NULL, 0, &dirname_length);
+
+  if (length != 0) {
+    path.resize(length);
+    wai_getModulePath(path.data(), length, &dirname_length);
+  } else {
+    throw DriverException("Could not find module path.");
+  }
+
+  return std::string(path.begin(), path.begin() + dirname_length);
+}
+
+bool ReadConfigFileIfExists(PropertyMap &properties, const std::string &configFileName) {
+  auto config_path = GetModulePath();
+
+  std::ifstream myfile;
+  myfile.open(config_path + "/" + configFileName);
+
+  if (myfile.fail()) {
+    return false;
+  }
+
+  std::string temp_config;
+
+  boost::char_separator<char> separator("=");
+  while(myfile.good()) {
+    myfile >> temp_config;
+    boost::tokenizer<boost::char_separator<char>> tokenizer(temp_config, separator);
+
+    auto iterator = tokenizer.begin();
+
+    std::string key = *iterator;
+    std::string value = *++iterator;
+
+    properties[key] = std::move(value);
+  }
+
+  return true;
 }
 
 } // namespace odbcabstraction
