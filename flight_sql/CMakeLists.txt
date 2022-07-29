@@ -11,7 +11,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include_directories(
     include
     include/flight_sql
-    ${CMAKE_SOURCE_DIR}/odbcabstraction/include)
+    ${CMAKE_SOURCE_DIR}/odbcabstraction/include
+    ${CMAKE_CURRENT_BINARY_DIR}/../dep_spdlog-prefix/src/dep_spdlog/include)
 
 if (DEFINED CMAKE_TOOLCHAIN_FILE)
   include(${CMAKE_TOOLCHAIN_FILE})

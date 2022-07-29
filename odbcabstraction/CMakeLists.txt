@@ -12,7 +12,9 @@ add_library(odbcabstraction
   include/odbcabstraction/diagnostics.h
   include/odbcabstraction/error_codes.h
   include/odbcabstraction/exceptions.h
+  include/odbcabstraction/logger.h
   include/odbcabstraction/platform.h
+  include/odbcabstraction/spd_logger.h
   include/odbcabstraction/types.h
   include/odbcabstraction/utils.h
   include/odbcabstraction/odbc_impl/AttributeUtils.h
@@ -32,7 +34,11 @@ add_library(odbcabstraction
   diagnostics.cc
   encoding.cc
   exceptions.cc
+  logger.cc
+  spd_logger.cc
   utils.cc
+  whereami.h
+  whereami.cc
   odbc_impl/ODBCConnection.cc
   odbc_impl/ODBCDescriptor.cc
   odbc_impl/ODBCEnvironment.cc
@@ -45,4 +51,27 @@ set_target_properties(odbcabstraction
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
     )
-target_link_libraries(odbcabstraction)
+
+add_compile_definitions(FMT_HEADER_ONLY)
+
+include(ExternalProject)
+
+message("Using spdlog from https://github.com/gabime/spdlog on commit 76fb40d95455f249bd70824ecfcae7a8f0930fa3 (v1.10.0)")
+ExternalProject_Add(spdlog
+        PREFIX spdlog
+        GIT_REPOSITORY "https://github.com/gabime/spdlog"
+        GIT_TAG "76fb40d95455f249bd70824ecfcae7a8f0930fa3"
+        BUILD_BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/spdlog-prefix/src/spdlog-install/include"
+        GIT_SHALLOW 1
+        UPDATE_COMMAND ""
+        PATCH_COMMAND ""
+        CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/spdlog-prefix/src/spdlog-install
+        -DSPDLOG_BUILD_EXAMPLES=OFF
+        -DSPDLOG_BUILD_BENCH=OFF
+        -DSPDLOG_BUILD_TESTS=OFF
+        TEST_COMMAND ""
+)
+
+add_dependencies(odbcabstraction spdlog)
+target_include_directories(odbcabstraction PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/spdlog-prefix/src/spdlog-install/include)
