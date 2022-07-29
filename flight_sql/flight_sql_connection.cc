@@ -114,7 +114,7 @@ inline std::string GetCerts() {
 
 #endif
 
-const std::set<std::string, Connection::CaseInsensitiveComparator> BUILT_IN_PROPERTIES = {
+const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN_PROPERTIES = {
     FlightSqlConnection::HOST,
     FlightSqlConnection::PORT,
     FlightSqlConnection::USER,

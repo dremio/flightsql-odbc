@@ -18,6 +18,17 @@
 namespace driver {
 namespace odbcabstraction {
 
+/// \brief Case insensitive comparator
+struct CaseInsensitiveComparator
+        : std::binary_function<std::string, std::string, bool> {
+  bool operator()(const std::string &s1, const std::string &s2) const {
+    return boost::lexicographical_compare(s1, s2, boost::is_iless());
+  }
+};
+
+// PropertyMap is case-insensitive for keys.
+typedef std::map<std::string, std::string, CaseInsensitiveComparator> PropertyMap;
+
 class Statement;
 
 /// \brief High-level representation of an ODBC connection.
@@ -38,20 +49,9 @@ public:
     PACKET_SIZE,        // uint32_t - The Packet Size
   };
 
-  /// \brief Case insensitive comparator
-  struct CaseInsensitiveComparator
-      : std::binary_function<std::string, std::string, bool> {
-    bool operator()(const std::string &s1, const std::string &s2) const {
-      return boost::lexicographical_compare(s1, s2, boost::is_iless());
-    }
-  };
-
   typedef boost::variant<std::string, void*, uint64_t, uint32_t>  Attribute;
-  typedef std::string Property;
   typedef boost::variant<std::string, uint32_t, uint16_t> Info;
-  // ConnPropertyMap is case-insensitive for keys.
-  typedef std::map<std::string, Property, CaseInsensitiveComparator>
-      ConnPropertyMap;
+  typedef PropertyMap ConnPropertyMap;
 
   /// \brief Establish the connection.
   /// \param properties[in] properties used to establish the connection.
