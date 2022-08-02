@@ -16,6 +16,24 @@
       "message": "spdlog looks like it does this automatically:\nhttps://github.com/gabime/spdlog/blob/b75edfafca581e33be29ab51b9546b2e955c2853/include/spdlog/logger.h#L138",
       "revId": "8273deecd1b62427de881b79b3d48f789f584ce8",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6333493_69a510b6",
+        "filename": "odbcabstraction/spd_logger.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-08-02T23:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0313ef3_9445f753",
+      "revId": "8273deecd1b62427de881b79b3d48f789f584ce8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
