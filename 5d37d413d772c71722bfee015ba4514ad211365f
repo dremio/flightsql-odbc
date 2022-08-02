@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "744cf944_c8664dfb",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T17:05:09Z",
+      "side": 1,
+      "message": "Not sure where this is coming from.",
+      "revId": "5d37d413d772c71722bfee015ba4514ad211365f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a8c4250_f5b1598a",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T17:05:09Z",
+      "side": 1,
+      "message": "I\u0027m not really clear why this is more lazy than what was happening before.\nHowever I do think this is on the right track as an optimization.\n\nHow about this -- change the virtual log() to take in a string lambda instead of a message. Then the implementation can choose whether to run the lambda.\n\nThen we can remove checkLogLevel(), since its implicit in log() whether logging should be done and if the lambda gets run.\n\nAlso, let\u0027s change the semantics such that if logging is off, the global logger is just set to nullptr so we can just check if GetInstance() is null... that\u0027s quicker than a virtual function call.",
+      "revId": "5d37d413d772c71722bfee015ba4514ad211365f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f3864ec_0ef51f38",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T17:05:09Z",
+      "side": 1,
+      "message": "We also need to deal with masking of secure info like connection strings.",
+      "revId": "5d37d413d772c71722bfee015ba4514ad211365f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58f2931_7f4ee165",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T17:05:09Z",
+      "side": 1,
+      "message": "This will not work. size_t is unsigned.",
+      "revId": "5d37d413d772c71722bfee015ba4514ad211365f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b03970e8_94ac8139",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T17:05:09Z",
+      "side": 1,
+      "message": "This template won\u0027t construct the string correctly for types other than char* since std::string only has a constructor for char*.\n\nIf this is intended to be used for SQLCHAR, it needs a cast.\nIf this is intended to be used for SQLWCHAR, it needs to deal with encoding and also needs to deal with whether the input length is in bytes or not.",
+      "revId": "5d37d413d772c71722bfee015ba4514ad211365f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
