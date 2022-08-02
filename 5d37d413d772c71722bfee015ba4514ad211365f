@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31dd4cac_7e1b37f2",
+        "filename": "odbcabstraction/include/odbcabstraction/logger.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T20:37:11Z",
+      "side": 1,
+      "message": "But the question is why does this header need to include it? Same with \u003ccstdint\u003e and \u003cmap\u003e",
+      "parentUuid": "cd34a80d_3fceedfc",
+      "revId": "5d37d413d772c71722bfee015ba4514ad211365f",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a8c4250_f5b1598a",
         "filename": "odbcabstraction/include/odbcabstraction/logger.h",
         "patchSetId": 9

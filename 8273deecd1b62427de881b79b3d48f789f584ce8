@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0313ef3_9445f753",
+        "filename": "odbcabstraction/spd_logger.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-02T20:37:11Z",
+      "side": 1,
+      "message": "spdlog looks like it does this automatically:\nhttps://github.com/gabime/spdlog/blob/b75edfafca581e33be29ab51b9546b2e955c2853/include/spdlog/logger.h#L138",
+      "revId": "8273deecd1b62427de881b79b3d48f789f584ce8",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
