@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79bf4f17_f136efb8",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2022-08-04T19:10:57Z",
+      "side": 1,
+      "message": "This map should have case-insensitive keys.",
+      "revId": "fc4ab7914e292ca52a1849185fdbff5e5d7baca2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    }
+  ]
+}
