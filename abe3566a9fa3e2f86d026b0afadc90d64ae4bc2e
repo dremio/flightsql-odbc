@@ -16,6 +16,24 @@
       "message": "This is now exactly the same as Connection::ConnPropertyMap, including the comparator code. We shouldn\u0027t just copy-paste like this. We could add this to a shared header.",
       "revId": "abe3566a9fa3e2f86d026b0afadc90d64ae4bc2e",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64980560_bdc78e3c",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-08-04T20:15:57Z",
+      "side": 1,
+      "message": "Sorry about this, removed the duplication",
+      "parentUuid": "3b48d411_440d1803",
+      "revId": "abe3566a9fa3e2f86d026b0afadc90d64ae4bc2e",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
