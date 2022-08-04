@@ -16,6 +16,24 @@
       "message": "This map should have case-insensitive keys.",
       "revId": "fc4ab7914e292ca52a1849185fdbff5e5d7baca2",
       "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff73ac7_d0f753d9",
+        "filename": "odbcabstraction/include/odbcabstraction/utils.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-08-04T19:43:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79bf4f17_f136efb8",
+      "revId": "fc4ab7914e292ca52a1849185fdbff5e5d7baca2",
+      "serverId": "8ca9cf2d-83f4-421d-8552-b009c9e056de"
     }
   ]
 }
