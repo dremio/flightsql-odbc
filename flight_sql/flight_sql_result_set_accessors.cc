@@ -5,6 +5,7 @@
  */
 
 #include "accessors/main.h"
+#include "odbcabstraction/logger.h"
 
 #include <odbcabstraction/platform.h>
 #include <boost/functional/hash.hpp>
@@ -137,10 +138,14 @@ const std::unordered_map<SourceAndTargetPair, AccessorConstructor,
 
 std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,
                                          CDataType target_type) {
+  LOG_TRACE("[{}] Entry with parameters: target_type '{}'", __FUNCTION__, target_type)
+
   auto it = ACCESSORS_CONSTRUCTORS.find(
       SourceAndTargetPair(source_array->type_id(), target_type));
   if (it != ACCESSORS_CONSTRUCTORS.end()) {
     auto accessor = it->second(source_array);
+
+    LOG_TRACE("[{}] Exiting successfully with Accessor", __FUNCTION__)
     return std::unique_ptr<Accessor>(accessor);
   }
 
@@ -148,7 +153,10 @@ std::unique_ptr<Accessor> CreateAccessor(arrow::Array *source_array,
   ss << "Unsupported type conversion! Tried to convert '"
      << source_array->type()->ToString() << "' to C type '" << target_type
      << "'";
-  throw odbcabstraction::DriverException(ss.str());
+  const std::string message = ss.str();
+
+  LOG_ERROR(("[{}] " + message), __FUNCTION__)
+  throw odbcabstraction::DriverException(message);
 }
 
 } // namespace flight_sql

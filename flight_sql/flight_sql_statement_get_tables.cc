@@ -11,6 +11,7 @@
 #include "flight_sql_result_set.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
+#include "odbcabstraction/logger.h"
 
 namespace driver {
 namespace flight_sql {
@@ -22,6 +23,8 @@ using arrow::flight::sql::FlightSqlClient;
 
 void ParseTableTypes(const std::string &table_type,
                      std::vector<std::string> &table_types) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   bool encountered = false; // for checking if there is a single quote
   std::string curr_parse;   // the current string
 
@@ -60,6 +63,8 @@ void ParseTableTypes(const std::string &table_type,
   table_types.emplace_back(
       curr_parse); // if we have found a single quote put the whitespace,
   // we don't care
+
+  LOG_TRACE("[{}] Exiting successfully with no return value", __FUNCTION__)
 }
 
 std::shared_ptr<ResultSet>
@@ -68,6 +73,8 @@ GetTablesForSQLAllCatalogs(const ColumnNames &names,
                            FlightSqlClient &sql_client,
                            odbcabstraction::Diagnostics &diagnostics,
                            const odbcabstraction::MetadataSettings &metadata_settings) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   Result<std::shared_ptr<FlightInfo>> result =
       sql_client.GetCatalogs(call_options);
 
@@ -86,14 +93,18 @@ GetTablesForSQLAllCatalogs(const ColumnNames &names,
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
+  auto return_ptr = std::make_shared<FlightSqlResultSet>(sql_client, call_options,
                                               flight_info, transformer, diagnostics, metadata_settings);
+  LOG_TRACE("[{}] Exiting successfully with ResultSet", __FUNCTION__)
+  return return_ptr;
 }
 
 std::shared_ptr<ResultSet> GetTablesForSQLAllDbSchemas(
     const ColumnNames &names, FlightCallOptions &call_options,
     FlightSqlClient &sql_client, const std::string *schema_name,
     odbcabstraction::Diagnostics &diagnostics, const odbcabstraction::MetadataSettings &metadata_settings) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   Result<std::shared_ptr<FlightInfo>> result =
       sql_client.GetDbSchemas(call_options, nullptr, schema_name);
 
@@ -112,8 +123,10 @@ std::shared_ptr<ResultSet> GetTablesForSQLAllDbSchemas(
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
+  auto return_ptr = std::make_shared<FlightSqlResultSet>(sql_client, call_options,
                                               flight_info, transformer, diagnostics, metadata_settings);
+  LOG_TRACE("[{}] Exiting successfully with ResultSet", __FUNCTION__)
+  return return_ptr;
 }
 
 std::shared_ptr<ResultSet>
@@ -122,6 +135,8 @@ GetTablesForSQLAllTableTypes(const ColumnNames &names,
                              FlightSqlClient &sql_client,
                              odbcabstraction::Diagnostics &diagnostics,
                              const odbcabstraction::MetadataSettings &metadata_settings) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   Result<std::shared_ptr<FlightInfo>> result =
       sql_client.GetTableTypes(call_options);
 
@@ -140,8 +155,10 @@ GetTablesForSQLAllTableTypes(const ColumnNames &names,
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
+  auto return_ptr = std::make_shared<FlightSqlResultSet>(sql_client, call_options,
                                               flight_info, transformer, diagnostics, metadata_settings);
+  LOG_TRACE("[{}] Exiting successfully with ResultSet", __FUNCTION__)
+  return return_ptr;
 }
 
 std::shared_ptr<ResultSet> GetTablesForGenericUse(
@@ -150,6 +167,8 @@ std::shared_ptr<ResultSet> GetTablesForGenericUse(
     const std::string *schema_name, const std::string *table_name,
     const std::vector<std::string> &table_types,
     odbcabstraction::Diagnostics &diagnostics, const odbcabstraction::MetadataSettings &metadata_settings) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   Result<std::shared_ptr<FlightInfo>> result = sql_client.GetTables(
       call_options, catalog_name, schema_name, table_name, false, &table_types);
 
@@ -168,8 +187,10 @@ std::shared_ptr<ResultSet> GetTablesForGenericUse(
                          .AddFieldOfNulls(names.remarks_column, utf8())
                          .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
+  auto return_ptr = std::make_shared<FlightSqlResultSet>(sql_client, call_options,
                                               flight_info, transformer, diagnostics, metadata_settings);
+  LOG_TRACE("[{}] Exiting successfully with ResultSet", __FUNCTION__)
+  return return_ptr;
 }
 
 } // namespace flight_sql

@@ -9,6 +9,7 @@
 #include "flight_sql_get_type_info_reader.h"
 #include "flight_sql_connection.h"
 #include "utils.h"
+#include "odbcabstraction/logger.h"
 #include <boost/algorithm/string/join.hpp>
 
 namespace driver {
@@ -72,6 +73,8 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                 const std::shared_ptr<RecordBatch> &original,
                 int data_type,
                 const MetadataSettings& metadata_settings_) {
+  LOG_TRACE("[{}] Entry with parameters: data_type '{}'", __FUNCTION__, data_type)
+
   GetTypeInfo_RecordBatchBuilder builder(odbc_version);
   GetTypeInfo_RecordBatchBuilder::Data data;
 
@@ -117,7 +120,10 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
     ARROW_RETURN_NOT_OK(builder.Append(data));
   }
 
-  return builder.Build();
+  auto result = builder.Build();
+
+  LOG_TRACE("[{}] Exiting successfully with RecordBatch", __FUNCTION__)
+  return result;
 }
 } // namespace
 
@@ -126,6 +132,7 @@ GetTypeInfo_RecordBatchBuilder::GetTypeInfo_RecordBatchBuilder(
     : odbc_version_(odbc_version) {}
 
 Result<std::shared_ptr<RecordBatch>> GetTypeInfo_RecordBatchBuilder::Build() {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
 
   ARROW_ASSIGN_OR_RAISE(auto TYPE_NAME_Array, TYPE_NAME_Builder_.Finish())
   ARROW_ASSIGN_OR_RAISE(auto DATA_TYPE_Array, DATA_TYPE_Builder_.Finish())
@@ -172,11 +179,16 @@ Result<std::shared_ptr<RecordBatch>> GetTypeInfo_RecordBatchBuilder::Build() {
   const std::shared_ptr<Schema> &schema = odbc_version_ == odbcabstraction::V_3
                                               ? GetTypeInfo_V3_Schema()
                                               : GetTypeInfo_V2_Schema();
-  return RecordBatch::Make(schema, num_rows_, arrays);
+
+  auto return_ptr = RecordBatch::Make(schema, num_rows_, arrays);
+  LOG_TRACE("[{}] Exiting successfully with RecordBatch", __FUNCTION__)
+  return return_ptr;
 }
 
 Status GetTypeInfo_RecordBatchBuilder::Append(
     const GetTypeInfo_RecordBatchBuilder::Data &data) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   ARROW_RETURN_NOT_OK(AppendToBuilder(TYPE_NAME_Builder_, data.type_name));
   ARROW_RETURN_NOT_OK(AppendToBuilder(DATA_TYPE_Builder_, data.data_type));
   ARROW_RETURN_NOT_OK(AppendToBuilder(COLUMN_SIZE_Builder_, data.column_size));
@@ -198,6 +210,7 @@ Status GetTypeInfo_RecordBatchBuilder::Append(
   ARROW_RETURN_NOT_OK(AppendToBuilder(INTERVAL_PRECISION_Builder_, data.interval_precision));
   num_rows_++;
 
+  LOG_TRACE("[{}] Exiting successfully with Status::OK", __FUNCTION__)
   return Status::OK();
 }
 
@@ -212,11 +225,15 @@ GetTypeInfo_Transformer::GetTypeInfo_Transformer(
 
 std::shared_ptr<RecordBatch> GetTypeInfo_Transformer::Transform(
     const std::shared_ptr<RecordBatch> &original) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__)
+
   const Result<std::shared_ptr<RecordBatch>> &result =
       Transform_inner(odbc_version_, original, data_type_, metadata_settings_);
   ThrowIfNotOK(result.status());
 
-  return result.ValueOrDie();
+  auto return_ptr = result.ValueOrDie();
+  LOG_TRACE("[{}] Exiting successfully with RecordBatch", __FUNCTION__)
+  return return_ptr;
 }
 
 std::shared_ptr<Schema> GetTypeInfo_Transformer::GetTransformedSchema() {
