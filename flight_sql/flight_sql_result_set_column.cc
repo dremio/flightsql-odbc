@@ -8,6 +8,7 @@
 #include <odbcabstraction/platform.h>
 #include "flight_sql_result_set_accessors.h"
 #include "utils.h"
+#include "odbcabstraction/logger.h"
 #include <accessors/types.h>
 #include <memory>
 #include <odbcabstraction/types.h>
@@ -19,12 +20,15 @@ namespace {
 std::shared_ptr<Array>
 CastArray(const std::shared_ptr<arrow::Array> &original_array,
           CDataType target_type) {
+  LOG_TRACE("[{}] Entry with parameters: target_type '{}'", __FUNCTION__, target_type);
   bool conversion = NeedArrayConversion(original_array->type()->id(), target_type);
 
   if (conversion) {
     auto converter = GetConverter(original_array->type_id(), target_type);
+    LOG_TRACE("[{}] Exiting successfully with converted array", __FUNCTION__);
     return converter(original_array);
   } else {
+    LOG_TRACE("[{}] Exiting successfully with original array", __FUNCTION__);
     return original_array;
   }
 }
@@ -32,19 +36,28 @@ CastArray(const std::shared_ptr<arrow::Array> &original_array,
 
 std::unique_ptr<Accessor>
 FlightSqlResultSetColumn::CreateAccessor(CDataType target_type) {
+  LOG_TRACE("[{}] Entry with parameters: target_type '{}'", __FUNCTION__, target_type);
+
   cached_casted_array_ = CastArray(original_array_, target_type);
 
-  return flight_sql::CreateAccessor(cached_casted_array_.get(), target_type);
+  auto return_ptr = flight_sql::CreateAccessor(cached_casted_array_.get(), target_type);
+
+  LOG_TRACE("[{}] Exiting successfully with Accessor", __FUNCTION__);
+  return return_ptr;
 }
 
 Accessor *
 FlightSqlResultSetColumn::GetAccessorForTargetType(CDataType target_type) {
+  LOG_TRACE("[{}] Entry with parameters: target_type '{}'", __FUNCTION__, target_type);
+
   // Cast the original array to a type matching the target_type.
   if (target_type == odbcabstraction::CDataType_DEFAULT) {
     target_type = ConvertArrowTypeToC(original_array_->type_id(), use_wide_char_);
   }
 
   cached_accessor_ = CreateAccessor(target_type);
+
+  LOG_TRACE("[{}] Exiting successfully with Accessor", __FUNCTION__);
   return cached_accessor_.get();
 }
 
@@ -53,6 +66,8 @@ FlightSqlResultSetColumn::FlightSqlResultSetColumn(bool use_wide_char)
       is_bound_(false) {}
 
 void FlightSqlResultSetColumn::SetBinding(const ColumnBinding& new_binding, arrow::Type::type arrow_type) {
+  LOG_TRACE("[{}] Entry with parameters: target_type '{}'", __FUNCTION__, arrow_type);
+
   binding_ = new_binding;
   is_bound_ = true;
 
