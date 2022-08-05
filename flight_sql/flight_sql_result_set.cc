@@ -15,6 +15,7 @@
 #include "flight_sql_result_set_metadata.h"
 #include "utils.h"
 #include "odbcabstraction/types.h"
+#include "odbcabstraction/logger.h"
 
 namespace driver {
 namespace flight_sql {
@@ -34,7 +35,7 @@ FlightSqlResultSet::FlightSqlResultSet(
     const arrow::flight::FlightCallOptions &call_options,
     const std::shared_ptr<FlightInfo> &flight_info,
     const std::shared_ptr<RecordBatchTransformer> &transformer,
-    odbcabstraction::Diagnostics& diagnostics,
+    odbcabstraction::Diagnostics &diagnostics,
     const odbcabstraction::MetadataSettings &metadata_settings)
     :
       metadata_settings_(metadata_settings),
@@ -60,15 +61,19 @@ FlightSqlResultSet::FlightSqlResultSet(
 }
 
 size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_type, uint16_t *row_status_array) {
+  LOG_TRACE("[{}] Entry with parameters: rows '{}', bind_offset '{}', bind_type '{}'", __FUNCTION__, rows, bind_offset, bind_type);
+
   // Consider it might be the first call to Move() and current_chunk is not
   // populated yet
   assert(rows > 0);
   if (current_chunk_.data == nullptr) {
+    LOG_INFO("[{}] No data in current chunk, calling GetNext", __FUNCTION__);
     if (!chunk_buffer_.GetNext(&current_chunk_)) {
       return 0;
     }
 
     if (transformer_) {
+      LOG_INFO("[{}] Applying transform on the current chunk data", __FUNCTION__);
       current_chunk_.data = transformer_->Transform(current_chunk_.data);
     }
 
@@ -79,6 +84,7 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
 
   // Reset GetData value offsets.
   if (num_binding_ != get_data_offsets_.size() && reset_get_data_) {
+    LOG_INFO("[{}] Resetting GetData value offsets to 0", __FUNCTION__);
     std::fill(get_data_offsets_.begin(), get_data_offsets_.end(), 0);
   }
 
@@ -90,11 +96,14 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
                  static_cast<size_t>(batch_rows - current_row_));
 
     if (rows_to_fetch == 0) {
+      LOG_TRACE("[{}] Got no rows to fetch", __FUNCTION__);
       if (!chunk_buffer_.GetNext(&current_chunk_)) {
+        LOG_TRACE("[{}] Got false on GetNext for the current chunk", __FUNCTION__);
         break;
       }
 
       if (transformer_) {
+        LOG_TRACE("[{}] Applying transform on the current chunk data", __FUNCTION__);
         current_chunk_.data = transformer_->Transform(current_chunk_.data);
       }
 
@@ -180,6 +189,7 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
           }
         }
       } catch (...) {
+        LOG_ERROR("[{}] Unexpected exception on column binding", __FUNCTION__);
         if (shifted_row_status_array) {
           std::fill(shifted_row_status_array, &shifted_row_status_array[rows_to_fetch], odbcabstraction::RowStatus_ERROR);
         }
@@ -188,8 +198,9 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
 
 
       if (rows_to_fetch != accessor_rows) {
-        throw DriverException(
-            "Expected the same number of rows for all columns");
+        const std::string message = "Expected the same number of rows for all columns";
+        LOG_ERROR("[{}] " + message + ". Got {} expected {}", __FUNCTION__, accessor_rows, rows_to_fetch);
+        throw DriverException(message);
       }
     }
 
@@ -200,26 +211,35 @@ size_t FlightSqlResultSet::Move(size_t rows, size_t bind_offset, size_t bind_typ
   if (rows > fetched_rows && row_status_array) {
     std::fill(&row_status_array[fetched_rows], &row_status_array[rows], odbcabstraction::RowStatus_NOROW);
   }
+
+  LOG_TRACE("[{}] Exiting successfully with int {}", __FUNCTION__, fetched_rows);
   return fetched_rows;
 }
 
 void FlightSqlResultSet::Close() {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
   chunk_buffer_.Close();
   current_chunk_.data = nullptr;
+  LOG_TRACE("[{}] Exiting successfully with no return value", __FUNCTION__);
 }
 
 void FlightSqlResultSet::Cancel() {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
   chunk_buffer_.Close();
   current_chunk_.data = nullptr;
+  LOG_TRACE("[{}] Exiting successfully with no return value", __FUNCTION__);
 }
 
 bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
                                  int precision, int scale, void *buffer,
                                  size_t buffer_length, ssize_t *strlen_buffer) {
+  LOG_TRACE("[{}] Entry with parameters: column_n '{}', target_type '{}', precision '{}', buffer_length '{}', ", __FUNCTION__, column_n, target_type, precision, buffer_length);
+
   reset_get_data_ = true;
   // Check if the offset is already at the end.
   int64_t& value_offset = get_data_offsets_[column_n - 1];
   if (value_offset == -1) {
+    LOG_TRACE("[{}] Exiting successfully with bool false because offset is already at the end", __FUNCTION__);
     return false;
   }
   
@@ -236,33 +256,42 @@ bool FlightSqlResultSet::GetData(int column_n, int16_t target_type,
   accessor->GetColumnarData(&binding, current_row_ - 1, 1, value_offset, true, diagnostics_, nullptr);
 
   // If there was truncation, the converter would have reported it to the diagnostics.
-  return diagnostics_.HasWarning();
+  bool return_bool = diagnostics_.HasWarning();
+  LOG_TRACE("[{}] Exiting successfully with bool {}", __FUNCTION__, return_bool);
+  return return_bool;
 }
 
 std::shared_ptr<ResultSetMetadata> FlightSqlResultSet::GetMetadata() {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
   return metadata_;
+  LOG_TRACE("[{}] Exiting successfully with ResultSetMetadata", __FUNCTION__);
 }
 
 void FlightSqlResultSet::BindColumn(int column_n, int16_t target_type,
                                     int precision, int scale, void *buffer,
                                     size_t buffer_length,
                                     ssize_t *strlen_buffer) {
+  LOG_TRACE("[{}] Entry with parameters: column_n '{}', target_type '{}', precision '{}', scale '{}', buffer_length '{}'", __FUNCTION__, column_n, target_type, precision, scale, buffer_length);
+
   auto &column = columns_[column_n - 1];
   if (buffer == nullptr) {
     if (column.is_bound_) {
       num_binding_--;
     }
     column.ResetBinding();
-    return;
-  }
+    LOG_TRACE("[{}] BindColumn has removed the old binding  for column {}", __FUNCTION__, column_n);
+  } else {
 
-  if (!column.is_bound_) {
-    num_binding_++;
-  }
+    if (!column.is_bound_) {
+      num_binding_++;
+    }
 
-  ColumnBinding binding(ConvertCDataTypeFromV2ToV3(target_type), precision, scale, buffer, buffer_length,
-                        strlen_buffer);
-  column.SetBinding(binding, schema_->field(column_n - 1)->type()->id());
+    ColumnBinding binding(ConvertCDataTypeFromV2ToV3(target_type), precision, scale, buffer, buffer_length,
+                          strlen_buffer);
+    column.SetBinding(binding, schema_->field(column_n - 1)->type()->id());
+    LOG_TRACE("[{}] BindColumn has set a new binding for column {}", __FUNCTION__, column_n);
+  }
+  LOG_TRACE("[{}] Exiting successfully with no return value", __FUNCTION__);
 }
 
 FlightSqlResultSet::~FlightSqlResultSet() = default;

@@ -48,7 +48,11 @@ FlightSqlDriver::FlightSqlDriver()
 
 std::shared_ptr<Connection>
 FlightSqlDriver::CreateConnection(OdbcVersion odbc_version) {
-  return std::make_shared<FlightSqlConnection>(odbc_version, version_);
+  LOG_TRACE("[{}] Entry with parameters: odbc_version '{}'", __FUNCTION__, odbc_version);
+  const std::shared_ptr<FlightSqlConnection> &return_ptr = std::make_shared<FlightSqlConnection>(odbc_version,
+                                                                                                 version_);
+  LOG_TRACE("[{}] Exiting successfully with FlightSqlConnection", __FUNCTION__, odbc_version);
+  return return_ptr;
 }
 
 odbcabstraction::Diagnostics &FlightSqlDriver::GetDiagnostics() {
@@ -56,7 +60,9 @@ odbcabstraction::Diagnostics &FlightSqlDriver::GetDiagnostics() {
 }
 
 void FlightSqlDriver::SetVersion(std::string version) {
+  LOG_TRACE("[{}] Entry with parameters: version '{}'", __FUNCTION__, version);
   version_ = std::move(version);
+  LOG_TRACE("[{}] Exiting successfully with no return value", __FUNCTION__);
 }
 
 void FlightSqlDriver::RegisterLog() {

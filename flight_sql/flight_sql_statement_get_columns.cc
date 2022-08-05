@@ -9,6 +9,7 @@
 #include "flight_sql_connection.h"
 #include "flight_sql_get_tables_reader.h"
 #include "utils.h"
+#include "odbcabstraction/logger.h"
 #include <arrow/flight/sql/column_metadata.h>
 
 namespace driver {
@@ -71,6 +72,8 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                 const std::shared_ptr<RecordBatch> &original,
                 const optional<std::string> &column_name_pattern,
                 const MetadataSettings& metadata_settings) {
+  LOG_TRACE("[{}] Entry with parameters: odbc_version '{}'", __FUNCTION__, odbc_version);
+
   GetColumns_RecordBatchBuilder builder(odbc_version);
   GetColumns_RecordBatchBuilder::Data data;
 
@@ -115,8 +118,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                            ? data_type_v3
                            : ConvertSqlDataTypeFromV3ToV2(data_type_v3);
 
-      // TODO: Use `metadata.GetTypeName()` when ARROW-16064 is merged.
-      const auto &type_name_result = field->metadata()->Get("ARROW:FLIGHT:SQL:TYPE_NAME");
+      const auto &type_name_result = metadata.GetTypeName();
       data.type_name = type_name_result.ok() ?
               type_name_result.ValueOrDie() :
               GetTypeNameFromSqlDataType(data_type_v3);
@@ -147,7 +149,10 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
     }
   }
 
-  return builder.Build();
+  auto result = builder.Build();
+
+  LOG_TRACE("[{}] Exiting successfully with RecordBatch", __FUNCTION__);
+  return result;
 }
 } // namespace
 
@@ -156,6 +161,8 @@ GetColumns_RecordBatchBuilder::GetColumns_RecordBatchBuilder(
     : odbc_version_(odbc_version) {}
 
 Result<std::shared_ptr<RecordBatch>> GetColumns_RecordBatchBuilder::Build() {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
+
   ARROW_ASSIGN_OR_RAISE(auto TABLE_CAT_Array, TABLE_CAT_Builder_.Finish())
   ARROW_ASSIGN_OR_RAISE(auto TABLE_SCHEM_Array, TABLE_SCHEM_Builder_.Finish())
   ARROW_ASSIGN_OR_RAISE(auto TABLE_NAME_Array, TABLE_NAME_Builder_.Finish())
@@ -193,11 +200,16 @@ Result<std::shared_ptr<RecordBatch>> GetColumns_RecordBatchBuilder::Build() {
   const std::shared_ptr<Schema> &schema = odbc_version_ == odbcabstraction::V_3
                                               ? GetColumns_V3_Schema()
                                               : GetColumns_V2_Schema();
-  return RecordBatch::Make(schema, num_rows_, arrays);
+
+  auto return_ptr = RecordBatch::Make(schema, num_rows_, arrays);
+  LOG_TRACE("[{}] Exiting successfully with RecordBatch", __FUNCTION__);
+  return return_ptr;
 }
 
 Status GetColumns_RecordBatchBuilder::Append(
     const GetColumns_RecordBatchBuilder::Data &data) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
+
   ARROW_RETURN_NOT_OK(AppendToBuilder(TABLE_CAT_Builder_, data.table_cat));
   ARROW_RETURN_NOT_OK(AppendToBuilder(TABLE_SCHEM_Builder_, data.table_schem));
   ARROW_RETURN_NOT_OK(AppendToBuilder(TABLE_NAME_Builder_, data.table_name));
@@ -225,6 +237,7 @@ Status GetColumns_RecordBatchBuilder::Append(
   ARROW_RETURN_NOT_OK(AppendToBuilder(IS_NULLABLE_Builder_, data.is_nullable));
   num_rows_++;
 
+  LOG_TRACE("[{}] Exiting successfully with Status::OK", __FUNCTION__);
   return Status::OK();
 }
 
@@ -240,11 +253,15 @@ GetColumns_Transformer::GetColumns_Transformer(
 
 std::shared_ptr<RecordBatch> GetColumns_Transformer::Transform(
     const std::shared_ptr<RecordBatch> &original) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
+
   const Result<std::shared_ptr<RecordBatch>> &result =
       Transform_inner(odbc_version_, original, column_name_pattern_, metadata_settings_);
   ThrowIfNotOK(result.status());
 
-  return result.ValueOrDie();
+  auto return_ptr = result.ValueOrDie();
+  LOG_TRACE("[{}] Exiting successfully with RecordBatch", __FUNCTION__);
+  return return_ptr;
 }
 
 std::shared_ptr<Schema> GetColumns_Transformer::GetTransformedSchema() {

@@ -13,6 +13,7 @@
 #include "flight_sql_statement_get_type_info.h"
 #include "record_batch_transformer.h"
 #include "utils.h"
+#include "odbcabstraction/logger.h"
 #include <arrow/io/memory.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -43,10 +44,13 @@ namespace {
 void ClosePreparedStatementIfAny(
     std::shared_ptr<arrow::flight::sql::PreparedStatement>
         &prepared_statement) {
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
   if (prepared_statement != nullptr) {
     ThrowIfNotOK(prepared_statement->Close());
     prepared_statement.reset();
+    LOG_TRACE("[{}] PreparedStatement has been closed and reset", __FUNCTION__);
   }
+  LOG_TRACE("[{}] Exiting successfully with no return code", __FUNCTION__);
 }
 
 } // namespace
@@ -67,35 +71,52 @@ FlightSqlStatement::FlightSqlStatement(
 
 bool FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
                                       const Attribute &value) {
+  LOG_TRACE("[{]} Entry with parameters: attribute '{}'", __FUNCTION__, attribute);
+
+  bool return_bool = false;
   switch (attribute) {
-  case METADATA_ID:
-    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_FALSE));
-  case NOSCAN:
-    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_NOSCAN_OFF));
-  case MAX_LENGTH:
-    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(0));
-  case QUERY_TIMEOUT:
-    if (boost::get<size_t>(value) > 0) {
-      call_options_.timeout =
-          TimeoutDuration{static_cast<double>(boost::get<size_t>(value))};
-    } else {
-      call_options_.timeout = TimeoutDuration{-1};
-      // Intentional fall-through.
-    }
-  default:
-    attribute_[attribute] = value;
-    return true;
+    case METADATA_ID:
+      return_bool = CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_FALSE));
+      break;
+    case NOSCAN:
+      return_bool = CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_NOSCAN_OFF));
+      break;
+    case MAX_LENGTH:
+      return_bool = CheckIfSetToOnlyValidValue(value, static_cast<size_t>(0));
+      break;
+    case QUERY_TIMEOUT:
+      if (boost::get<size_t>(value) > 0) {
+        call_options_.timeout =
+            TimeoutDuration{static_cast<double>(boost::get<size_t>(value))};
+      } else {
+        call_options_.timeout = TimeoutDuration{-1};
+        // Intentional fall-through.
+      }
+    default:
+      attribute_[attribute] = value;
+      return_bool = true;
+      break;
   }
+
+  LOG_TRACE("[{}] Exiting successfully with bool {}", __FUNCTION__, return_bool);
+  return return_bool;
 }
 
 boost::optional<Statement::Attribute>
 FlightSqlStatement::GetAttribute(StatementAttributeId attribute) {
+  LOG_TRACE("[{]} Entry with parameters: attribute '{}'", __FUNCTION__, attribute);
+
   const auto &it = attribute_.find(attribute);
-  return boost::make_optional(it != attribute_.end(), it->second);
+  auto return_optional = boost::make_optional(it != attribute_.end(), it->second);
+
+  LOG_TRACE("[{}] Exiting successfully with Optional", __FUNCTION__);
+  return return_optional;
 }
 
 boost::optional<std::shared_ptr<ResultSetMetadata>>
 FlightSqlStatement::Prepare(const std::string &query) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<PreparedStatement>> result =
@@ -107,11 +128,16 @@ FlightSqlStatement::Prepare(const std::string &query) {
   const auto &result_set_metadata =
       std::make_shared<FlightSqlResultSetMetadata>(
           prepared_statement_->dataset_schema(), metadata_settings_);
-  return boost::optional<std::shared_ptr<ResultSetMetadata>>(
+  auto return_optional = boost::optional<std::shared_ptr<ResultSetMetadata>>(
       result_set_metadata);
+
+  LOG_TRACE("[{}] Exiting successfully with Optional", __FUNCTION__);
+  return return_optional;
 }
 
 bool FlightSqlStatement::ExecutePrepared() {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   assert(prepared_statement_.get() != nullptr);
 
   Result<std::shared_ptr<FlightInfo>> result = prepared_statement_->Execute();
@@ -120,10 +146,13 @@ bool FlightSqlStatement::ExecutePrepared() {
   current_result_set_ = std::make_shared<FlightSqlResultSet>(
       sql_client_, call_options_, result.ValueOrDie(), nullptr, diagnostics_, metadata_settings_);
 
+  LOG_TRACE("[{}] Exiting successfully with bool true", __FUNCTION__);
   return true;
 }
 
 bool FlightSqlStatement::Execute(const std::string &query) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<FlightInfo>> result =
@@ -146,6 +175,8 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type,
     const ColumnNames &column_names) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   std::vector<std::string> table_types;
@@ -184,6 +215,8 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ColumnNames column_names{"TABLE_QUALIFIER", "TABLE_OWNER", "TABLE_NAME",
                            "TABLE_TYPE", "REMARKS"};
 
@@ -194,6 +227,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *table_type) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ColumnNames column_names{"TABLE_CAT", "TABLE_SCHEM", "TABLE_NAME",
                            "TABLE_TYPE", "REMARKS"};
 
@@ -204,6 +239,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
@@ -224,6 +261,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
 std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
+  LOG_TRACE("[{]} Entering function", __FUNCTION__);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
@@ -242,6 +281,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type) {
+  LOG_TRACE("[{]} Entry with parameters: data_type '{}'", __FUNCTION__, data_type);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetXdbcTypeInfo(
@@ -260,6 +301,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V2(int16_t data_type)
 }
 
 std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type) {
+  LOG_TRACE("[{]} Entry with parameters: data_type '{}'", __FUNCTION__, data_type);
+
   ClosePreparedStatementIfAny(prepared_statement_);
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetXdbcTypeInfo(
@@ -282,8 +325,9 @@ odbcabstraction::Diagnostics &FlightSqlStatement::GetDiagnostics() {
 }
 
 void FlightSqlStatement::Cancel() {
-  if (!current_result_set_) return;
-  current_result_set_->Cancel();
+  LOG_TRACE("[{}] Entering function", __FUNCTION__);
+  if (current_result_set_) current_result_set_->Cancel();
+  LOG_TRACE("[{}] Exiting successfully with no return value", __FUNCTION__);
 }
 
 } // namespace flight_sql
