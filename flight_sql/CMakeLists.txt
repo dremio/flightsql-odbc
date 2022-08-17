@@ -27,9 +27,9 @@ find_package(Protobuf REQUIRED)
 # Add OpenSSL dependencies needed by Arrow Flight. Should be pre-installed.
 # May need to set OPENSSL_ROOT_DIR first. On Mac if using brew:
 # brew install openssl@1.1
-# add to the cmake line -DOPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m
+# add to the cmake line -DOPENSSL_ROOT_DIR="${HOMEBREW_CELLAR}/openssl@1.1/1.1.1m"
 if (NOT DEFINED OPENSSL_ROOT_DIR AND DEFINED APPLE AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1m)
+  set(OPENSSL_ROOT_DIR "$ENV{HOMEBREW_CELLAR}/openssl@1.1/1.1.1m")
 endif()
 # This is based on Arrow's FindOpenSSL module. It's not clear if both variables
 # need to be set.
