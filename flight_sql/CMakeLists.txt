@@ -114,7 +114,7 @@ else()
 endif()
 
 set(ARROW_GIT_REPOSITORY "https://github.com/apache/arrow.git" CACHE STRING "Arrow repository path or URL")
-set(ARROW_GIT_TAG "b050bd0d31db6412256cec3362c0d57c9732e1f2" CACHE STRING "Tag for the Arrow repository")
+set(ARROW_GIT_TAG "94ce0dab56f4d8ba6bd631ba59ed682b02d45c46" CACHE STRING "Tag for the Arrow repository")
 
 message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow
