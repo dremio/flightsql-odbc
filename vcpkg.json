@@ -23,6 +23,7 @@
     "spdlog",
     "grpc",
     "utf8proc",
+    "xsimd",
     "zlib",
     "zstd",
     "rapidjson"
