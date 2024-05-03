@@ -1,0 +1,8 @@
+Verified+1: jenkins (via gerrit) <jenkins@dremio.com>
+Code-Review+2: Paul Nienaber (CW) <paul.nienaber@dremio.com>
+Submitted-by: Paul Nienaber (CW) <paul.nienaber@dremio.com>
+Submitted-at: Fri, 03 May 2024 16:17:53 +0000
+Reviewed-on: https://gerrit.drem.io/gerrit/c/flightsql-odbc/+/62014
+Comments-Total: 7
+Project: flightsql-odbc
+Branch: refs/heads/master
