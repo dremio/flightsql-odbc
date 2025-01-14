@@ -70,7 +70,6 @@ if (MSVC)
     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
   )
 elseif(APPLE)
   set(ARROW_CMAKE_ARGS
@@ -90,7 +89,6 @@ elseif(APPLE)
           -DCMAKE_DEPENDS_USE_COMPILER=FALSE
           -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
           -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-          ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
           )
   if (DEFINED CMAKE_TOOLCHAIN_FILE)
     list(APPEND ARROW_CMAKE_ARGS -DARROW_DEPENDENCY_SOURCE=VCPKG)
@@ -109,7 +107,6 @@ else()
     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
     -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-    ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow/cpp
   )
 endif()
 
@@ -120,6 +117,7 @@ message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
 ExternalProject_Add(ApacheArrow
   GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
   GIT_TAG ${ARROW_GIT_TAG}
+  SOURCE_SUBDIR "cpp"
   CMAKE_ARGS ${ARROW_CMAKE_ARGS})
 
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
