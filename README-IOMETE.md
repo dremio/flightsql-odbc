@@ -20,6 +20,7 @@ You need to use installed vcpkg and set installed packages to it, as if you will
 Here are the parameters you need to specify for the CLion CMake configuration:
 
 1. Enable vcpkg integration in CLion
+    ![Screenshot 2025-01-28 at 21.42.02.png](../../../../var/folders/tz/2q18wsfs4wx_2721vjc4n10c0000gn/T/TemporaryItems/NSIRD_screencaptureui_n0Uzhw/Screenshot%202025-01-28%20at%2021.42.02.png)
 2. Add those parameters to CMake configuration:
 ```shell
 -DCMAKE_TOOLCHAIN_FILE=[PATH_TO_VCPKG]/scripts/buildsystems/vcpkg.cmake \
