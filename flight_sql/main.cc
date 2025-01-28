@@ -15,8 +15,12 @@
 
 #include <arrow/flight/api.h>
 #include <iostream>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <getopt.h>
-#include <iostream>
+#endif
 
 
 using arrow::Status;
@@ -44,6 +48,51 @@ Connection::ConnPropertyMap parse_connection_properties(const int argc, char* ar
         {"cluster", "arrow"}
     };
 
+#ifdef _WIN32
+    // Simple argument parsing for Windows
+    for (int i = 1; i < argc; i++) {
+        std::string arg = argv[i];
+
+        if (arg == "--host" || arg == "-h") {
+            if (i + 1 < argc) properties[FlightSqlConnection::HOST] = argv[++i];
+        }
+        else if (arg == "--port" || arg == "-p") {
+            if (i + 1 < argc) properties[FlightSqlConnection::PORT] = argv[++i];
+        }
+        else if (arg == "--user" || arg == "-u") {
+            if (i + 1 < argc) properties[FlightSqlConnection::USER] = argv[++i];
+        }
+        else if (arg == "--password" || arg == "-w") {
+            if (i + 1 < argc) properties[FlightSqlConnection::PASSWORD] = argv[++i];
+        }
+        else if (arg == "--data-plane" || arg == "-d") {
+            if (i + 1 < argc) properties["data_plane"] = argv[++i];
+        }
+        else if (arg == "--cluster" || arg == "-c") {
+            if (i + 1 < argc) properties["cluster"] = argv[++i];
+        }
+        else if (arg == "--no-encryption" || arg == "-n") {
+            properties[FlightSqlConnection::USE_ENCRYPTION] = "false";
+        }
+        else if (arg == "--disable-cert-verify" || arg == "-k") {
+            properties[FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION] = "true";
+        }
+        else {
+            std::cerr << "Usage: " << argv[0] << " [options]\n"
+                      << "Options:\n"
+                      << "  --host, -h <host>           Flight SQL server host\n"
+                      << "  --port, -p <port>           Flight SQL server port\n"
+                      << "  --user, -u <username>       Username\n"
+                      << "  --password, -w <password>   Password\n"
+                      << "  --data-plane, -d <name>     Data plane name\n"
+                      << "  --cluster, -c <name>        Cluster name\n"
+                      << "  --no-encryption, -n         Disable encryption\n"
+                      << "  --disable-cert-verify, -k   Disable certificate verification\n";
+            exit(1);
+        }
+    }
+#else
+    // Original getopt code for non-Windows platforms
     static struct option long_options[] = {
         {"host", required_argument, 0, 'h'},
         {"port", required_argument, 0, 'p'},
@@ -99,6 +148,7 @@ Connection::ConnPropertyMap parse_connection_properties(const int argc, char* ar
                 exit(1);
         }
     }
+#endif
 
     return properties;
 }
