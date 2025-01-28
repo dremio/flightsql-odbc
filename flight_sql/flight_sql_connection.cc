@@ -161,22 +161,24 @@ std::shared_ptr<FlightSqlSslConfig> LoadFlightSslConfigs(const Connection::ConnP
 void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
                                   std::vector<std::string> &missing_attr) {
   try {
-    auto flight_ssl_configs = LoadFlightSslConfigs(properties);
+    const auto flight_ssl_configs = LoadFlightSslConfigs(properties);
 
-    Location location = BuildLocation(properties, missing_attr, flight_ssl_configs);
+    const Location location = BuildLocation(properties, missing_attr, flight_ssl_configs);
     FlightClientOptions client_options =
       BuildFlightClientOptions(properties, missing_attr,
                                flight_ssl_configs);
 
-    const std::shared_ptr<arrow::flight::ClientMiddlewareFactory>
-        &cookie_factory = arrow::flight::GetCookieFactory();
+    const std::shared_ptr<flight::ClientMiddlewareFactory>
+        &cookie_factory = flight::GetCookieFactory();
     client_options.middleware.push_back(cookie_factory);
 
     std::unique_ptr<FlightClient> flight_client;
     ThrowIfNotOK(
       FlightClient::Connect(location, client_options, &flight_client));
 
-    std::unique_ptr<FlightSqlAuthMethod> auth_method =
+    PopulateCallOptions(properties);
+
+    const std::unique_ptr<FlightSqlAuthMethod> auth_method =
       FlightSqlAuthMethod::FromProperties(flight_client, properties);
     auth_method->Authenticate(*this, call_options_);
 
@@ -188,9 +190,7 @@ void FlightSqlConnection::Connect(const ConnPropertyMap &properties,
     // and also decouple the database user from user credentials.
     info_.SetProperty(SQL_USER_NAME, auth_method->GetUser());
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_FALSE);
-
     PopulateMetadataSettings(properties);
-    PopulateCallOptions(properties);
   } catch (...) {
     attribute_[CONNECTION_DEAD] = static_cast<uint32_t>(SQL_TRUE);
     sql_client_.reset();

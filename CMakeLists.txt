@@ -4,6 +4,10 @@
 #
 
 cmake_minimum_required(VERSION 3.11)
+
+cmake_policy(SET CMP0135 NEW)
+cmake_policy(SET CMP0167 NEW)
+
 set(CMAKE_CXX_STANDARD 11)
 
 project(flightsql_odbc)
@@ -14,7 +18,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 # Add ODBC dependencies.
 if (APPLE)
-    set(ODBC_INCLUDE_DIRS /usr/local/Cellar/libiodbc/3.52.15/include)
+    # TODO: This is a temporary fix, it should be automated as homebrew on arm installs it to /opt/homebrew/Cellar/libiodbc/3.52.16/include
+    set(ODBC_INCLUDE_DIRS /usr/local/Cellar/libiodbc/3.52.16/include)
     add_compile_definitions(HAVE_LONG_LONG SQLCOLATTRIBUTE_SQLLEN WITH_IODBC)
 else()
     find_package(ODBC REQUIRED)

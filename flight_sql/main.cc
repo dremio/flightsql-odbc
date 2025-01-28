@@ -14,9 +14,10 @@
 #include "flight_sql_statement.h"
 
 #include <arrow/flight/api.h>
-#include <arrow/flight/sql/api.h>
 #include <iostream>
-#include <memory>
+#include <getopt.h>
+#include <iostream>
+
 
 using arrow::Status;
 using arrow::flight::FlightClient;
@@ -29,6 +30,79 @@ using driver::odbcabstraction::Connection;
 using driver::odbcabstraction::ResultSet;
 using driver::odbcabstraction::ResultSetMetadata;
 using driver::odbcabstraction::Statement;
+
+Connection::ConnPropertyMap parse_connection_properties(const int argc, char* argv[]) {
+    // Default values
+    Connection::ConnPropertyMap properties = {
+        {FlightSqlConnection::HOST, std::string("localhost")},
+        {FlightSqlConnection::PORT, std::string("443")},
+        {FlightSqlConnection::USER, std::string("")},
+        {FlightSqlConnection::PASSWORD, std::string("")},
+        {FlightSqlConnection::USE_ENCRYPTION, std::string("true")},
+        {FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, std::string("false")},
+        {"data_plane", "spark-resources"},
+        {"cluster", "arrow"}
+    };
+
+    static struct option long_options[] = {
+        {"host", required_argument, 0, 'h'},
+        {"port", required_argument, 0, 'p'},
+        {"user", required_argument, 0, 'u'},
+        {"password", required_argument, 0, 'w'},
+        {"data-plane", required_argument, 0, 'd'},
+        {"cluster", required_argument, 0, 'c'},
+        {"no-encryption", no_argument, 0, 'n'},
+        {"disable-cert-verify", no_argument, 0, 'k'},
+        {0, 0, 0, 0}
+    };
+
+    int opt;
+    int option_index = 0;
+    while ((opt = getopt_long(argc, argv, "h:p:u:w:d:c:nk",
+                             long_options, &option_index)) != -1) {
+        switch (opt) {
+            case 'h':
+                properties[FlightSqlConnection::HOST] = std::string(optarg);
+                break;
+            case 'p':
+                properties[FlightSqlConnection::PORT] = std::string(optarg);
+                break;
+            case 'u':
+                properties[FlightSqlConnection::USER] = std::string(optarg);
+                break;
+            case 'w':
+                properties[FlightSqlConnection::PASSWORD] = std::string(optarg);
+                break;
+            case 'd':
+                properties["data_plane"] = std::string(optarg);
+                break;
+            case 'c':
+                properties["cluster"] = std::string(optarg);
+                break;
+            case 'n':
+                properties[FlightSqlConnection::USE_ENCRYPTION] = std::string("false");
+                break;
+            case 'k':
+                properties[FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION] = std::string("true");
+                break;
+            default:
+                std::cerr << "Usage: " << argv[0] << " [options]\n"
+                          << "Options:\n"
+                          << "  --host, -h <host>           Flight SQL server host\n"
+                          << "  --port, -p <port>           Flight SQL server port\n"
+                          << "  --user, -u <username>       Username\n"
+                          << "  --password, -w <password>   Password\n"
+                          << "  --data-plane, -d <name>     Data plane name\n"
+                          << "  --cluster, -c <name>        Cluster name\n"
+                          << "  --no-encryption, -n         Disable encryption\n"
+                          << "  --disable-cert-verify, -k   Disable certificate verification\n";
+                exit(1);
+        }
+    }
+
+    return properties;
+}
+
 
 void TestBindColumn(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
@@ -188,19 +262,14 @@ void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
   std::cout << column_count << std::endl;
 }
 
-int main() {
+int main(const int argc, char* argv[]) {
   FlightSqlDriver driver;
 
   const std::shared_ptr<Connection> &connection =
       driver.CreateConnection(driver::odbcabstraction::V_3);
 
-  Connection::ConnPropertyMap properties = {
-      {FlightSqlConnection::HOST, std::string("automaster.drem.io")},
-      {FlightSqlConnection::PORT, std::string("32010")},
-      {FlightSqlConnection::USER, std::string("dremio")},
-      {FlightSqlConnection::PASSWORD, std::string("dremio123")},
-      {FlightSqlConnection::USE_ENCRYPTION, std::string("false")},
-  };
+  Connection::ConnPropertyMap properties = parse_connection_properties(argc, argv);
+
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
 

@@ -5,6 +5,9 @@
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+cmake_policy(SET CMP0135 NEW)
+cmake_policy(SET CMP0167 NEW)
+
 include_directories(include)
 
 # Ensure fmt is loaded as header only
@@ -64,10 +67,11 @@ FetchContent_Declare(
 )
 FetchContent_GetProperties(spdlog)
 if(NOT spdlog_POPULATED)
-    FetchContent_Populate(spdlog)
+    # FetchContent_Populate(spdlog)
+    FetchContent_MakeAvailable(spdlog)
 endif()
 
-add_library(spdlog INTERFACE)
+# add_library(spdlog INTERFACE)
 target_include_directories(spdlog INTERFACE ${spdlog_SOURCE_DIR}/include)
 
 add_dependencies(odbcabstraction spdlog)

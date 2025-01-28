@@ -1,31 +1,52 @@
 {
-  "name": "flightsql-odbc",
+  "name": "warpdrive",
   "version-string": "1.0.0",
   "dependencies": [
     "abseil",
     "benchmark",
     "boost-beast",
-    "boost-crc",
     "boost-filesystem",
     "boost-locale",
     "boost-multiprecision",
-    "boost-optional",
     "boost-process",
     "boost-system",
+    "boost-crc",
+    "boost-optional",
     "boost-variant",
     "boost-xpressive",
     "brotli",
     "gflags",
     "openssl",
-    "protobuf",
+    {
+      "$explanation": [
+        "Arrow is not compatible with protobuf-4.x+",
+        "Dependencies are least-sufficient-version so as",
+        "long as 3.x is in-tree this should work"
+      ],
+      "name": "protobuf",
+      "version>=": "3.21.8"
+    },
+    "rapidjson",
     "zlib",
     "re2",
-    "spdlog",
-    "grpc",
+    {
+      "$explanation": [
+        "Downgrade to grpc still compatible with/requiring protobuf-3.x"
+      ],
+      "name": "grpc",
+      "version>=": "1.51.1#3"
+    },
     "utf8proc",
+    "xsimd",
     "zlib",
-    "zstd",
-    "rapidjson"
+    "zstd"
   ],
-  "builtin-baseline": "94ce0dab56f4d8ba6bd631ba59ed682b02d45c46"
+  "builtin-baseline": "b2fd29fec759bf49fd40bfd633204200b115a2b5",
+  "overrides": [
+    { "name": "abseil", "version": "20220623.1#0" },
+    { "name": "grpc", "version": "1.51.1#3" },
+    { "name": "protobuf", "version": "3.21.8" },
+    { "name": "re2", "version": "2021-11-01#1" },
+    { "name": "upb", "version": "2022-06-21#1" }
+  ]
 }
