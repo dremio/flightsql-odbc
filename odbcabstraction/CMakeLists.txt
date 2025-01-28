@@ -5,8 +5,11 @@
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-cmake_policy(SET CMP0135 NEW)
-cmake_policy(SET CMP0167 NEW)
+if (APPLE)
+    # This does not work on Windows
+    cmake_policy(SET CMP0135 NEW)
+    cmake_policy(SET CMP0167 NEW)
+endif()
 
 include_directories(include)
 

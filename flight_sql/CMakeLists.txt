@@ -5,8 +5,11 @@
 
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_CXX_STANDARD 11)
-cmake_policy(SET CMP0135 NEW)
-cmake_policy(SET CMP0167 NEW)
+
+if (APPLE)
+  cmake_policy(SET CMP0135 NEW)
+  cmake_policy(SET CMP0167 NEW)
+endif()
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
