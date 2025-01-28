@@ -70,11 +70,17 @@ FetchContent_Declare(
 )
 FetchContent_GetProperties(spdlog)
 if(NOT spdlog_POPULATED)
-    # FetchContent_Populate(spdlog)
-    FetchContent_MakeAvailable(spdlog)
+    if (APPLE)
+        FetchContent_MakeAvailable(spdlog)
+    else()
+         FetchContent_Populate(spdlog)
+    endif()
 endif()
 
-# add_library(spdlog INTERFACE)
+if (MSVC)
+     add_library(spdlog INTERFACE)
+endif()
+
 target_include_directories(spdlog INTERFACE ${spdlog_SOURCE_DIR}/include)
 
 add_dependencies(odbcabstraction spdlog)
