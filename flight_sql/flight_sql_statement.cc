@@ -58,8 +58,7 @@ FlightSqlStatement::FlightSqlStatement(
     const odbcabstraction::MetadataSettings& metadata_settings)
     : diagnostics_("Apache Arrow", diagnostics.GetDataSourceComponent(), diagnostics.GetOdbcVersion()),
       sql_client_(sql_client), call_options_(std::move(call_options)), metadata_settings_(metadata_settings) {
-  // TODO: (Altay) Testing for now, we need to set it to true, otherwise we send % as catalog name
-  attribute_[METADATA_ID] = static_cast<size_t>(SQL_TRUE);
+  attribute_[METADATA_ID] = static_cast<size_t>(SQL_FALSE);
   attribute_[MAX_LENGTH] = static_cast<size_t>(0);
   attribute_[NOSCAN] = static_cast<size_t>(SQL_NOSCAN_OFF);
   attribute_[QUERY_TIMEOUT] = static_cast<size_t>(0);
@@ -73,7 +72,7 @@ bool FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
     // TODO: (Altay) Enabling possibility to override the metadata id
     return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_FALSE)) || CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_TRUE));
   case NOSCAN:
-    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_NOSCAN_OFF));
+    return CheckIfSetToOnlyValidValue(value, SQL_NOSCAN_OFF);
   case MAX_LENGTH:
     return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(0));
   case QUERY_TIMEOUT:
