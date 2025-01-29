@@ -69,8 +69,7 @@ bool FlightSqlStatement::SetAttribute(StatementAttributeId attribute,
                                       const Attribute &value) {
   switch (attribute) {
   case METADATA_ID:
-    // TODO: (Altay) Enabling possibility to override the metadata id
-    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_FALSE)) || CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_TRUE));
+    return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_FALSE));
   case NOSCAN:
     return CheckIfSetToOnlyValidValue(value, static_cast<size_t>(SQL_NOSCAN_OFF));
   case MAX_LENGTH:
@@ -110,6 +109,15 @@ FlightSqlStatement::Prepare(const std::string &query) {
           prepared_statement_->dataset_schema(), metadata_settings_);
   return boost::optional<std::shared_ptr<ResultSetMetadata>>(
       result_set_metadata);
+}
+
+bool IsUseWildcardEnabled(const FlightCallOptions &call_options) {
+  for (const auto &header : call_options.headers) {
+    if (header.first == "CATALOG_WILDCARD" && header.second == "true") {
+      return true;
+    }
+  }
+  return false;
 }
 
 bool FlightSqlStatement::ExecutePrepared() {
@@ -173,6 +181,11 @@ std::shared_ptr<odbcabstraction::ResultSet> FlightSqlStatement::GetTables(
       ParseTableTypes(*table_type, table_types);
     }
 
+    // Check CATALOG_WILDCARD before modifying catalog_name
+    if (catalog_name && *catalog_name == "%" && !IsUseWildcardEnabled(call_options_)) {
+      catalog_name = nullptr;
+    }
+
     current_result_set_ = GetTablesForGenericUse(
         column_names, call_options_, sql_client_, catalog_name, schema_name,
         table_name, table_types, diagnostics_, metadata_settings_);
@@ -186,13 +199,6 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
     const std::string *table_name, const std::string *table_type) {
   ColumnNames column_names{"TABLE_QUALIFIER", "TABLE_OWNER", "TABLE_NAME",
                            "TABLE_TYPE", "REMARKS"};
-
-  // TODO (Altay): This is a workaround for the issue that the catalog_name
-  //  uses % as a wildcard. This should be fixed in the future.
-  if (catalog_name && strcmp(catalog_name->c_str(), "%") == 0) {
-    catalog_name = nullptr;
-  }
-
   return GetTables(catalog_name, schema_name, table_name, table_type,
                    column_names);
 }
@@ -202,13 +208,6 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
     const std::string *table_name, const std::string *table_type) {
   ColumnNames column_names{"TABLE_CAT", "TABLE_SCHEM", "TABLE_NAME",
                            "TABLE_TYPE", "REMARKS"};
-
-  // TODO (Altay): This is a workaround for the issue that the catalog_name
-  //  uses % as a wildcard. This should be fixed in the future.
-  if (catalog_name && strcmp(catalog_name->c_str(), "%") == 0) {
-    catalog_name = nullptr;
-  }
-
   return GetTables(catalog_name, schema_name, table_name, table_type,
                    column_names);
 }

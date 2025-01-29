@@ -27,7 +27,7 @@ private:
   arrow::flight::sql::FlightSqlClient &sql_client_;
   std::shared_ptr<odbcabstraction::ResultSet> current_result_set_;
   std::shared_ptr<arrow::flight::sql::PreparedStatement> prepared_statement_;
-  const odbcabstraction::MetadataSettings& metadata_settings_;
+  const odbcabstraction::MetadataSettings &metadata_settings_;
 
   std::shared_ptr<odbcabstraction::ResultSet>
   GetTables(const std::string *catalog_name, const std::string *schema_name,

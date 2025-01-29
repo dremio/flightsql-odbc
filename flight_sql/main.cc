@@ -16,6 +16,8 @@
 #include <arrow/flight/api.h>
 #include <iostream>
 
+#include "spdlog/pattern_formatter-inl.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -250,14 +252,42 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
   }
 }
 
+void TestInitialGetTablesCall(const std::shared_ptr<Connection> &connection) {
+  const std::shared_ptr<Statement> &statement = connection->CreateStatement();
+  const std::string catalog_name = "%";
+  const std::shared_ptr<ResultSet> &result_set = statement->GetTables_V3(&catalog_name, nullptr, nullptr, nullptr);
+
+  std::cout << "Initial call simulation - Catalog.Schema.Table" << std::endl;
+
+  while (result_set->Move(1, 0, 0, nullptr) == 1) {
+    constexpr int buffer_length = 1024;
+    std::vector<char> result(buffer_length);
+    ssize_t result_length;
+
+    result_set->GetData(1, driver::odbcabstraction::CDataType_CHAR, 0, 0, result.data(), buffer_length, &result_length);
+    const auto catalog = std::string(result.data());
+
+    result_set->GetData(2, driver::odbcabstraction::CDataType_CHAR, 0, 0, result.data(), buffer_length, &result_length);
+    const auto schema = std::string(result.data());
+
+    result_set->GetData(3, driver::odbcabstraction::CDataType_CHAR, 0, 0, result.data(), buffer_length, &result_length);
+    const auto table = std::string(result.data());
+
+    if (!catalog.empty() && !schema.empty() && !table.empty()) {
+      std::cout << catalog + "." + schema + "." + table << std::endl;
+    }
+  }
+}
+
 void TestGetTablesV3(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
   const std::string catalog_name = "%";
   const std::string schema_name = "IOMETE_USER";
   const std::string table_name = "%";
-  const std::shared_ptr<ResultSet> &result_set = statement->GetTables_V3(&catalog_name, &schema_name, &table_name, nullptr);
+  const std::shared_ptr<ResultSet> &result_set =
+          statement->GetTables_V3(&catalog_name, &schema_name, &table_name, nullptr);
 
-  std::cout << "Catalog.Schema.Table" << std::endl;
+  std::cout << "Schema call - Catalog.Schema.Table" << std::endl;
 
   while (result_set->Move(1, 0, 0, nullptr) == 1) {
     constexpr int buffer_length = 1024;
@@ -315,10 +345,8 @@ int main(const int argc, char *argv[]) {
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
 
-  //  TestBindColumnBigInt(connection);
-  //    TestBindColumn(connection);
+  TestInitialGetTablesCall(connection);
   TestGetTablesV3(connection);
-  //    TestGetColumnsV3(connection);
 
   connection->Close();
   return 0;
