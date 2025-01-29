@@ -188,6 +188,10 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V2(
   ColumnNames column_names{"TABLE_QUALIFIER", "TABLE_OWNER", "TABLE_NAME",
                            "TABLE_TYPE", "REMARKS"};
 
+  if (catalog_name && strcmp(catalog_name->c_str(), "%") == 0) {
+    catalog_name = nullptr;
+  }
+
   return GetTables(catalog_name, schema_name, table_name, table_type,
                    column_names);
 }
@@ -198,6 +202,10 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTables_V3(
   ColumnNames column_names{"TABLE_CAT", "TABLE_SCHEM", "TABLE_NAME",
                            "TABLE_TYPE", "REMARKS"};
 
+  if (catalog_name && strcmp(catalog_name->c_str(), "%") == 0) {
+    catalog_name = nullptr;
+  }
+
   return GetTables(catalog_name, schema_name, table_name, table_type,
                    column_names);
 }
@@ -206,6 +214,10 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
   ClosePreparedStatementIfAny(prepared_statement_);
+
+  if (catalog_name && strcmp(catalog_name->c_str(), "%") == 0) {
+    catalog_name = nullptr;
+  }
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
       call_options_, catalog_name, schema_name, table_name, true, nullptr);

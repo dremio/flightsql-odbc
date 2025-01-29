@@ -250,12 +250,14 @@ void TestBindColumnBigInt(const std::shared_ptr<Connection> &connection) {
   }
 }
 
-void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
+void TestGetTablesV3(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
-  const std::string catalog_name = "spark_catalog";
-  const std::shared_ptr<ResultSet> &result_set = statement->GetTables_V2(&catalog_name, nullptr, nullptr, nullptr);
+  const std::string catalog_name = "%";
+  const std::string schema_name = "IOMETE_USER";
+  const std::string table_name = "%";
+  const std::shared_ptr<ResultSet> &result_set = statement->GetTables_V3(&catalog_name, &schema_name, &table_name, nullptr);
 
-  std::map<std::string, std::map<std::string, std::string>> fullTableInfo;
+  std::cout << "Catalog.Schema.Table" << std::endl;
 
   while (result_set->Move(1, 0, 0, nullptr) == 1) {
     constexpr int buffer_length = 1024;
@@ -271,15 +273,8 @@ void TestGetTablesV2(const std::shared_ptr<Connection> &connection) {
     result_set->GetData(3, driver::odbcabstraction::CDataType_CHAR, 0, 0, result.data(), buffer_length, &result_length);
     const auto table = std::string(result.data());
 
-    if (fullTableInfo.find(catalog) == fullTableInfo.end()) {
-      fullTableInfo[catalog] = std::map<std::string, std::string>();
-    }
-    fullTableInfo[catalog][schema] = table;
-  }
-
-  for (const auto &cat: fullTableInfo) {
-    for (const auto &val2: cat.second) {
-      std::cout << cat.first + "." + val2.first + "." + val2.second << std::endl;
+    if (!catalog.empty() && !schema.empty() && !table.empty()) {
+      std::cout << catalog + "." + schema + "." + table << std::endl;
     }
   }
 }
@@ -322,7 +317,7 @@ int main(const int argc, char *argv[]) {
 
   //  TestBindColumnBigInt(connection);
   //    TestBindColumn(connection);
-  TestGetTablesV2(connection);
+  TestGetTablesV3(connection);
   //    TestGetColumnsV3(connection);
 
   connection->Close();
