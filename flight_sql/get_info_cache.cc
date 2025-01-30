@@ -202,8 +202,8 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
 
   info_[SQL_CATALOG_NAME] = "Y";
   info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+  info_[SQL_CATALOG_TERM] = "Catalog";
   info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
-  info_[SQL_CATALOG_TERM] = "catalog";
 
   info_[SQL_GETDATA_EXTENSIONS] =
       static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
