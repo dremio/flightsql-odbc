@@ -200,11 +200,6 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
   info_[SQL_DRIVER_NAME] = "Arrow Flight ODBC Driver";
   info_[SQL_DRIVER_VER] = ConvertToDBMSVer(driver_version);
 
-  info_[SQL_CATALOG_NAME] = "Y";
-  info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
-  info_[SQL_CATALOG_TERM] = "Catalog";
-  info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
-
   info_[SQL_GETDATA_EXTENSIONS] =
       static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
   info_[SQL_CURSOR_SENSITIVITY] = static_cast<uint32_t>(SQL_UNSPECIFIED);
@@ -280,6 +275,11 @@ Connection::Info GetInfoCache::GetInfo(uint16_t info_type) {
 
 bool GetInfoCache::LoadInfoFromServer() {
   if (sql_client_ && !has_server_info_.exchange(true)) {
+    info_[SQL_CATALOG_NAME] = "Y";
+    info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+    info_[SQL_CATALOG_TERM] = "Catalog";
+    info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
+
     std::unique_lock<std::mutex> lock(mutex_);
     arrow::Result<std::shared_ptr<FlightInfo>> result =
         sql_client_->GetSqlInfo(call_options_, {});
