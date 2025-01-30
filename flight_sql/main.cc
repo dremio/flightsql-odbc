@@ -311,14 +311,16 @@ void TestGetTablesV3(const std::shared_ptr<Connection> &connection) {
 
 void TestGetColumnsV3(const std::shared_ptr<Connection> &connection) {
   const std::shared_ptr<Statement> &statement = connection->CreateStatement();
-  const std::string table_name = "test_numeric";
+  const std::string catalog_name = "%";
+  const std::string schema_name = "IOMETE_USER";
+  const std::string table_name = "ALTAY_TEST";
   const std::string column_name = "%";
-  const std::shared_ptr<ResultSet> &result_set = statement->GetColumns_V3(nullptr, nullptr, &table_name, &column_name);
+  const std::shared_ptr<ResultSet> &result_set = statement->GetColumns_V3(&catalog_name, &schema_name, &table_name, &column_name);
 
   const std::shared_ptr<ResultSetMetadata> &metadata = result_set->GetMetadata();
-  size_t column_count = metadata->GetColumnCount();
+  const size_t column_count = metadata->GetColumnCount();
 
-  int buffer_length = 1024;
+  constexpr int buffer_length = 1024;
   std::vector<char> result(buffer_length);
   ssize_t result_length;
 
@@ -340,13 +342,14 @@ int main(const int argc, char *argv[]) {
 
   const std::shared_ptr<Connection> &connection = driver.CreateConnection(driver::odbcabstraction::V_3);
 
-  Connection::ConnPropertyMap properties = parse_connection_properties(argc, argv);
+  const Connection::ConnPropertyMap properties = parse_connection_properties(argc, argv);
 
   std::vector<std::string> missing_attr;
   connection->Connect(properties, missing_attr);
 
   TestInitialGetTablesCall(connection);
   TestGetTablesV3(connection);
+  TestGetColumnsV3(connection);
 
   connection->Close();
   return 0;

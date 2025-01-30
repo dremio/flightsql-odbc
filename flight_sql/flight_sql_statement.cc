@@ -217,9 +217,8 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V2(
     const std::string *table_name, const std::string *column_name) {
   ClosePreparedStatementIfAny(prepared_statement_);
 
-  // TODO (Altay): This is a workaround for the issue that the catalog_name
-  //  uses % as a wildcard. This should be fixed in the future.
-  if (catalog_name && strcmp(catalog_name->c_str(), "%") == 0) {
+  // Check CATALOG_WILDCARD before modifying catalog_name
+  if (catalog_name && *catalog_name == "%" && !IsUseWildcardEnabled(call_options_)) {
     catalog_name = nullptr;
   }
 
@@ -242,6 +241,11 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetColumns_V3(
     const std::string *catalog_name, const std::string *schema_name,
     const std::string *table_name, const std::string *column_name) {
   ClosePreparedStatementIfAny(prepared_statement_);
+
+  // Check CATALOG_WILDCARD before modifying catalog_name
+  if (catalog_name && *catalog_name == "%" && !IsUseWildcardEnabled(call_options_)) {
+    catalog_name = nullptr;
+  }
 
   Result<std::shared_ptr<FlightInfo>> result = sql_client_.GetTables(
       call_options_, catalog_name, schema_name, table_name, true, nullptr);
