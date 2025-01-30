@@ -113,7 +113,7 @@ FlightSqlStatement::Prepare(const std::string &query) {
 
 bool IsUseWildcardEnabled(const FlightCallOptions &call_options) {
   for (const auto &header : call_options.headers) {
-    if (header.first == "CATALOG_WILDCARD" && header.second == "true") {
+    if (header.first == "catalog_wildcard" && header.second == "true") {
       return true;
     }
   }

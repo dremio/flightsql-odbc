@@ -200,6 +200,11 @@ GetInfoCache::GetInfoCache(FlightCallOptions &call_options,
   info_[SQL_DRIVER_NAME] = "Arrow Flight ODBC Driver";
   info_[SQL_DRIVER_VER] = ConvertToDBMSVer(driver_version);
 
+  info_[SQL_CATALOG_NAME] = "Y";
+  info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+  info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
+  info_[SQL_CATALOG_TERM] = "catalog";
+
   info_[SQL_GETDATA_EXTENSIONS] =
       static_cast<uint32_t>(SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER);
   info_[SQL_CURSOR_SENSITIVITY] = static_cast<uint32_t>(SQL_UNSPECIFIED);
@@ -353,17 +358,17 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case ARROW_SQL_CATALOG_TERM: {
-            std::string catalog_term(std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view()));
-            if (catalog_term.empty()) {
-              info_[SQL_CATALOG_NAME] = "N";
-              info_[SQL_CATALOG_NAME_SEPARATOR] = "";
-              info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(0);
-            } else {
-              info_[SQL_CATALOG_NAME] = "Y";
-              info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
-              info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
-            }
-            info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
+            // std::string catalog_term(std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view()));
+            // if (catalog_term.empty()) {
+            //   info_[SQL_CATALOG_NAME] = "N";
+            //   info_[SQL_CATALOG_NAME_SEPARATOR] = "";
+            //   info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(0);
+            // } else {
+            //   info_[SQL_CATALOG_NAME] = "Y";
+            //   info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+            //   info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
+            // }
+            // info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
 
             break;
           }
