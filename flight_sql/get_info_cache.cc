@@ -275,10 +275,6 @@ Connection::Info GetInfoCache::GetInfo(uint16_t info_type) {
 
 bool GetInfoCache::LoadInfoFromServer() {
   if (sql_client_ && !has_server_info_.exchange(true)) {
-    info_[SQL_CATALOG_NAME] = "Y";
-    info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
-    info_[SQL_CATALOG_TERM] = "Catalog";
-    info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
 
     std::unique_lock<std::mutex> lock(mutex_);
     arrow::Result<std::shared_ptr<FlightInfo>> result =
@@ -358,17 +354,17 @@ bool GetInfoCache::LoadInfoFromServer() {
             break;
           }
           case ARROW_SQL_CATALOG_TERM: {
-            // std::string catalog_term(std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view()));
-            // if (catalog_term.empty()) {
-            //   info_[SQL_CATALOG_NAME] = "N";
-            //   info_[SQL_CATALOG_NAME_SEPARATOR] = "";
-            //   info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(0);
-            // } else {
-            //   info_[SQL_CATALOG_NAME] = "Y";
-            //   info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
-            //   info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
-            // }
-            // info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
+            std::string catalog_term(std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view()));
+            if (catalog_term.empty()) {
+              info_[SQL_CATALOG_NAME] = "N";
+              info_[SQL_CATALOG_NAME_SEPARATOR] = "";
+              info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(0);
+            } else {
+              info_[SQL_CATALOG_NAME] = "Y";
+              info_[SQL_CATALOG_NAME_SEPARATOR] = ".";
+              info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(SQL_CL_START);
+            }
+            info_[SQL_CATALOG_TERM] = std::string(reinterpret_cast<arrow::StringScalar*>(scalar->value.get())->view());
 
             break;
           }
@@ -470,7 +466,7 @@ bool GetInfoCache::LoadInfoFromServer() {
             info_[SQL_CATALOG_LOCATION] = static_cast<uint16_t>(
                 reinterpret_cast<arrow::BooleanScalar *>(scalar->value.get())->value
                     ? SQL_CL_START
-                    : SQL_CL_END);
+                    : SQL_CL_START);
             break;
           }
           case SqlInfoOptions::SQL_SELECT_FOR_UPDATE_SUPPORTED:
