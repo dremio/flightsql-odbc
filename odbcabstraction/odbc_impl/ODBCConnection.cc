@@ -253,8 +253,14 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_SEARCH_PATTERN_ESCAPE:
     case SQL_SERVER_NAME:
     case SQL_DATA_SOURCE_READ_ONLY:
-    case SQL_ACCESSIBLE_TABLES:
-    case SQL_ACCESSIBLE_PROCEDURES:
+    case SQL_ACCESSIBLE_TABLES: {
+      GetStringAttribute(isUnicode, "Y", true, value, bufferLength, outputLength, GetDiagnostics());
+      break;
+    }
+    case SQL_ACCESSIBLE_PROCEDURES: {
+      GetStringAttribute(isUnicode, "Y", true, value, bufferLength, outputLength, GetDiagnostics());
+      break;
+    }
     case SQL_CATALOG_TERM:
     case SQL_COLLATION_SEQ:
     case SQL_SCHEMA_TERM:
@@ -280,11 +286,17 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     }
 
     // Driver-level 32-bit integer properties.
-    case SQL_GETDATA_EXTENSIONS:
+    case SQL_GETDATA_EXTENSIONS: {
+      GetAttribute(static_cast<SQLUINTEGER>(SQL_GD_ANY_COLUMN), value, bufferLength, outputLength);
+      break;
+    }
     case SQL_INFO_SCHEMA_VIEWS:
     case SQL_CURSOR_SENSITIVITY:
     case SQL_DEFAULT_TXN_ISOLATION:
-    case SQL_AGGREGATE_FUNCTIONS:
+    case SQL_AGGREGATE_FUNCTIONS: {
+      GetAttribute(static_cast<SQLUINTEGER>(SQL_AF_ALL), value, bufferLength, outputLength);
+      break;
+    }
     case SQL_ALTER_DOMAIN:
 //    case SQL_ALTER_SCHEMA:
     case SQL_ALTER_TABLE:
@@ -380,7 +392,10 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_CATALOG_LOCATION:
     case SQL_CORRELATION_NAME:
     case SQL_GROUP_BY:
-    case SQL_IDENTIFIER_CASE:
+    case SQL_IDENTIFIER_CASE: {
+      GetAttribute(static_cast<SQLUINTEGER>(SQL_IC_MIXED), value, bufferLength, outputLength);
+      break;
+    }
     case SQL_NON_NULLABLE_COLUMNS:
     case SQL_QUOTED_IDENTIFIER_CASE:
     case SQL_MAX_CATALOG_NAME_LEN:
