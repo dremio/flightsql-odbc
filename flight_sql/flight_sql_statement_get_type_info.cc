@@ -102,7 +102,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
 
     data.nullable = reader.GetNullable() ? odbcabstraction::NULLABILITY_NULLABLE : odbcabstraction::NULLABILITY_NO_NULLS;
     data.case_sensitive = reader.GetCaseSensitive();
-    data.searchable = reader.GetSearchable() ? odbcabstraction::SEARCHABILITY_ALL : odbcabstraction::SEARCHABILITY_NONE;
+    data.searchable = reader.GetSearchable() ? odbcabstraction::SEARCHABILITY_ALL : odbcabstraction::SEARCHABILITY_ALL;
     data.unsigned_attribute = reader.GetUnsignedAttribute();
     data.fixed_prec_scale = reader.GetFixedPrecScale();
     data.auto_unique_value = reader.GetAutoIncrement();
