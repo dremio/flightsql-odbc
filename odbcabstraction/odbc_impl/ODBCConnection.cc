@@ -392,10 +392,6 @@ void ODBCConnection::GetInfo(SQLUSMALLINT infoType, SQLPOINTER value, SQLSMALLIN
     case SQL_CATALOG_LOCATION:
     case SQL_CORRELATION_NAME:
     case SQL_GROUP_BY:
-    case SQL_IDENTIFIER_CASE: {
-      GetAttribute(static_cast<SQLUINTEGER>(SQL_IC_MIXED), value, bufferLength, outputLength);
-      break;
-    }
     case SQL_NON_NULLABLE_COLUMNS:
     case SQL_QUOTED_IDENTIFIER_CASE:
     case SQL_MAX_CATALOG_NAME_LEN:
