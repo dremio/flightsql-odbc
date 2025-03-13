@@ -61,9 +61,5 @@ void SPDLogger::log(LogLevel level, const std::function<std::string(void)> &buil
   logger_->log(spdlog_level, message);
 }
 
-SPDLogger::~SPDLogger() {
-  logger_->flush();
-}
-
 } // namespace odbcabstraction
 } // namespace driver

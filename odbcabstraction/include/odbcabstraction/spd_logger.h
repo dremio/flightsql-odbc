@@ -28,7 +28,7 @@ public:
   static const std::string LOG_ENABLED;
 
   SPDLogger() = default;
-  ~SPDLogger();
+  ~SPDLogger() = default;
   SPDLogger(SPDLogger &other) = delete;
 
   void operator=(const SPDLogger &) = delete;
