@@ -13,7 +13,6 @@
 #include <spdlog/spdlog.h>
 
 #include <cstdint>
-#include <csignal>
 
 namespace driver {
 namespace odbcabstraction {
@@ -25,52 +24,6 @@ const std::string SPDLogger::FILE_QUANTITY= "FileQuantity";
 const std::string SPDLogger::LOG_ENABLED= "LogEnabled";
 
 namespace {
-std::function<void(int)> shutdown_handler;
-void signal_handler(int signal) {
-  shutdown_handler(signal);
-}
-
-typedef void (*Handler)(int signum);
-
-Handler old_sigint_handler = SIG_IGN;
-Handler old_sigsegv_handler = SIG_IGN;
-Handler old_sigabrt_handler = SIG_IGN;
-#ifdef SIGKILL
-Handler old_sigkill_handler = SIG_IGN;
-#endif
-
-Handler GetHandlerFromSignal(int signum) {
-  switch (signum) {
-    case(SIGINT):
-      return old_sigint_handler;
-    case(SIGSEGV):
-      return old_sigsegv_handler;
-    case(SIGABRT):
-      return old_sigabrt_handler;
-#ifdef SIGKILL
-    case(SIGKILL):
-      return old_sigkill_handler;
-#endif
-  }
-}
-
-void SetSignalHandler(int signum) {
-  Handler old = signal(signum, SIG_IGN);
-  if (old != SIG_IGN) {
-    auto old_handler = GetHandlerFromSignal(signum);
-    old_handler = old;
-  }
-  signal(signum, signal_handler);
-}
-
-void ResetSignalHandler(int signum) {
-  Handler actual_handler = signal(signum, SIG_IGN);
-  if (actual_handler == signal_handler) {
-    signal(signum, GetHandlerFromSignal(signum));
-  }
-}
-
-
 inline spdlog::level::level_enum ToSpdLogLevel(LogLevel level) {
   switch (level) {
   case LogLevel_TRACE:
@@ -95,21 +48,6 @@ void SPDLogger::init(int64_t fileQuantity, int64_t maxFileSize,
       "ODBC Logger", fileNamePrefix, maxFileSize, fileQuantity);
 
   logger_->set_level(ToSpdLogLevel(level));
-
-  if (level != LogLevel::LogLevel_OFF) {
-    SetSignalHandler(SIGINT);
-    SetSignalHandler(SIGSEGV);
-    SetSignalHandler(SIGABRT);
-#ifdef SIGKILL
-    SetSignalHandler(SIGKILL);
-#endif
-    shutdown_handler = [&](int signal) {
-      logger_->flush();
-      spdlog::shutdown();
-      auto handler = GetHandlerFromSignal(signal);
-      handler(signal);
-    };
-  }
 }
 
 void SPDLogger::log(LogLevel level, const std::function<std::string(void)> &build_message) {
@@ -121,15 +59,6 @@ void SPDLogger::log(LogLevel level, const std::function<std::string(void)> &buil
 
   const std::string &message = build_message();
   logger_->log(spdlog_level, message);
-}
-
-SPDLogger::~SPDLogger() {
-  ResetSignalHandler(SIGINT);
-  ResetSignalHandler(SIGSEGV);
-  ResetSignalHandler(SIGABRT);
-#ifdef SIGKILL
-  ResetSignalHandler(SIGKILL);
-#endif
 }
 
 } // namespace odbcabstraction
