@@ -68,13 +68,15 @@ const std::string FlightSqlConnection::USE_SYSTEM_TRUST_STORE = "useSystemTrustS
 const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLength";
 const std::string FlightSqlConnection::USE_WIDE_CHAR = "UseWideChar";
 const std::string FlightSqlConnection::CHUNK_BUFFER_CAPACITY = "ChunkBufferCapacity";
+const std::string FlightSqlConnection::HIDE_SQL_TABLES_LISTING = "HideSQLTablesListing";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
     FlightSqlConnection::TOKEN, FlightSqlConnection::UID, FlightSqlConnection::USER_ID, FlightSqlConnection::PWD,
     FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
-    FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::CHUNK_BUFFER_CAPACITY};
+    FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::CHUNK_BUFFER_CAPACITY,
+    FlightSqlConnection::HIDE_SQL_TABLES_LISTING};
 
 namespace {
 
@@ -203,6 +205,7 @@ void FlightSqlConnection::PopulateMetadataSettings(const Connection::ConnPropert
   metadata_settings_.string_column_length_ = GetStringColumnLength(conn_property_map);
   metadata_settings_.use_wide_char_ = GetUseWideChar(conn_property_map);
   metadata_settings_.chunk_buffer_capacity_ = GetChunkBufferCapacity(conn_property_map);
+  metadata_settings_.hide_sql_tables_listing_ = GetHideSQLTablesListing(conn_property_map);
 }
 
 boost::optional<int32_t> FlightSqlConnection::GetStringColumnLength(const Connection::ConnPropertyMap &conn_property_map) {
@@ -243,6 +246,11 @@ size_t FlightSqlConnection::GetChunkBufferCapacity(const ConnPropertyMap &connPr
   }
 
   return default_value;
+}
+
+bool FlightSqlConnection::GetHideSQLTablesListing(const ConnPropertyMap &connPropertyMap) {
+  bool default_value = false;
+  return AsBool(connPropertyMap, FlightSqlConnection::HIDE_SQL_TABLES_LISTING).value_or(default_value);
 }
 
 const FlightCallOptions &
