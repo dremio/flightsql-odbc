@@ -290,6 +290,11 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
   options.middleware.push_back(arrow::flight::GetCookieFactory());
 
   if (ssl_config->useEncryption()) {
+    auto prop_iter = properties.find(HOST);
+    if (properties.end() != prop_iter) {
+      options.override_hostname = prop_iter->second;
+    }
+    
     if (ssl_config->shouldDisableCertificateVerification()) {
       options.disable_server_verification = ssl_config->shouldDisableCertificateVerification();
     } else {
