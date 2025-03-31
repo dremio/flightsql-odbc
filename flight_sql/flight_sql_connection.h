@@ -62,6 +62,7 @@ public:
   static const std::string STRING_COLUMN_LENGTH;
   static const std::string USE_WIDE_CHAR;
   static const std::string CHUNK_BUFFER_CAPACITY;
+  static const std::string HIDE_SQL_TABLES_LISTING;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version, const std::string &driver_version = "0.9.0.0");
 
@@ -107,6 +108,8 @@ public:
   bool GetUseWideChar(const ConnPropertyMap &connPropertyMap);
 
   size_t GetChunkBufferCapacity(const ConnPropertyMap &connPropertyMap);
+
+  bool GetHideSQLTablesListing(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver

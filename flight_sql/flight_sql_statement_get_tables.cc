@@ -160,16 +160,30 @@ std::shared_ptr<ResultSet> GetTablesForGenericUse(
   flight_info = result.ValueOrDie();
   ThrowIfNotOK(flight_info->GetSchema(nullptr, &schema));
 
-  auto transformer = RecordBatchTransformerWithTasksBuilder(schema)
-                         .RenameField("catalog_name", names.catalog_column)
-                         .RenameField("db_schema_name", names.schema_column)
-                         .RenameField("table_name", names.table_column)
-                         .RenameField("table_type", names.table_type_column)
-                         .AddFieldOfNulls(names.remarks_column, utf8())
-                         .Build();
+  if (metadata_settings.hide_sql_tables_listing_) {
+    auto transformer = RecordBatchTransformerWithTasksBuilder(schema)
+     .AddFieldOfNulls(names.remarks_column, utf8())
+     .Build();
 
-  return std::make_shared<FlightSqlResultSet>(sql_client, call_options,
-                                              flight_info, transformer, diagnostics, metadata_settings);
+    return std::make_shared<FlightSqlResultSet>(
+      sql_client, call_options, flight_info,
+      transformer, diagnostics, metadata_settings
+    );
+  }
+  else {
+    auto transformer = RecordBatchTransformerWithTasksBuilder(schema)
+     .RenameField("catalog_name", names.catalog_column)
+     .RenameField("db_schema_name", names.schema_column)
+     .RenameField("table_name", names.table_column)
+     .RenameField("table_type", names.table_type_column)
+     .AddFieldOfNulls(names.remarks_column, utf8())
+     .Build();
+
+    return std::make_shared<FlightSqlResultSet>(
+      sql_client, call_options, flight_info,
+      transformer, diagnostics, metadata_settings
+    );
+  }
 }
 
 } // namespace flight_sql
