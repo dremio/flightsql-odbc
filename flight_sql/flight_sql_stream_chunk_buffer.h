@@ -28,7 +28,8 @@ public:
   FlightStreamChunkBuffer(FlightSqlClient &flight_sql_client,
                           const arrow::flight::FlightCallOptions &call_options,
                           const std::shared_ptr<FlightInfo> &flight_info,
-                          size_t queue_capacity = 5);
+                          size_t queue_capacity = 5,
+                          bool use_extended_flightsql_buffer = false);
 
   ~FlightStreamChunkBuffer();
 

@@ -16,7 +16,8 @@ using arrow::flight::FlightEndpoint;
 FlightStreamChunkBuffer::FlightStreamChunkBuffer(FlightSqlClient &flight_sql_client,
                                                  const arrow::flight::FlightCallOptions &call_options,
                                                  const std::shared_ptr<FlightInfo> &flight_info,
-                                                 size_t queue_capacity): queue_(queue_capacity) {
+                                                 size_t queue_capacity,
+                                                 bool use_extended_flightsql_buffer): queue_(queue_capacity, use_extended_flightsql_buffer) {
 
   // FIXME: Endpoint iteration should consider endpoints may be at different hosts
   for (const auto & endpoint : flight_info->endpoints()) {
