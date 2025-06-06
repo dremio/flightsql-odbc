@@ -318,12 +318,12 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetForeignKeys(
     arrow::field("FKTABLE_SCHEM", arrow::utf8(), true),   // nullable
     arrow::field("FKTABLE_NAME", arrow::utf8(), false),   // not nullable
     arrow::field("FKCOLUMN_NAME", arrow::utf8(), false),  // not nullable
-    arrow::field("KEY_SEQ", arrow::int16(), false),       // not nullable, precision 5
-    arrow::field("UPDATE_RULE", arrow::int16(), true),    // nullable, precision 5
-    arrow::field("DELETE_RULE", arrow::int16(), true),    // nullable, precision 5
+    arrow::field("KEY_SEQ", arrow::int16(), false),       // not nullable
+    arrow::field("UPDATE_RULE", arrow::int16(), true),    // nullable
+    arrow::field("DELETE_RULE", arrow::int16(), true),    // nullable
     arrow::field("FK_NAME", arrow::utf8(), true),         // nullable
     arrow::field("PK_NAME", arrow::utf8(), true),         // nullable
-    arrow::field("DEFERRABILITY", arrow::int16(), true)   // nullable, precision 5
+    arrow::field("DEFERRABILITY", arrow::int16(), true)   // nullable
   });
 
   auto flight_info_result = arrow::flight::FlightInfo::Make(
