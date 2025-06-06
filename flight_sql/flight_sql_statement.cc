@@ -277,6 +277,67 @@ std::shared_ptr<ResultSet> FlightSqlStatement::GetTypeInfo_V3(int16_t data_type)
   return current_result_set_;
 }
 
+std::shared_ptr<ResultSet> FlightSqlStatement::GetPrimaryKeys(
+    const std::string *catalog_name, const std::string *schema_name,
+    const std::string *table_name) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  auto schema = arrow::schema({
+    arrow::field("TABLE_CAT", arrow::utf8(), true),      // nullable
+    arrow::field("TABLE_SCHEM", arrow::utf8(), true),    // nullable
+    arrow::field("TABLE_NAME", arrow::utf8(), false),    // not nullable
+    arrow::field("COLUMN_NAME", arrow::utf8(), false),   // not nullable
+    arrow::field("KEY_SEQ", arrow::int16(), false),      // not nullable
+    arrow::field("PK_NAME", arrow::utf8(), true)         // nullable
+  });
+
+  auto flight_info_result = arrow::flight::FlightInfo::Make(
+    *schema, arrow::flight::FlightDescriptor::Command(""),
+    std::vector<arrow::flight::FlightEndpoint>(), 0, 0);
+  ThrowIfNotOK(flight_info_result.status());
+  auto flight_info = std::make_shared<arrow::flight::FlightInfo>(std::move(flight_info_result.ValueOrDie()));
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+    sql_client_, call_options_, flight_info, nullptr, diagnostics_, metadata_settings_);
+
+  return current_result_set_;
+}
+
+std::shared_ptr<ResultSet> FlightSqlStatement::GetForeignKeys(
+    const std::string *pk_catalog_name, const std::string *pk_schema_name,
+    const std::string *pk_table_name, const std::string *fk_catalog_name,
+    const std::string *fk_schema_name, const std::string *fk_table_name) {
+  ClosePreparedStatementIfAny(prepared_statement_);
+
+  auto schema = arrow::schema({
+    arrow::field("PKTABLE_CAT", arrow::utf8(), true),     // nullable
+    arrow::field("PKTABLE_SCHEM", arrow::utf8(), true),   // nullable
+    arrow::field("PKTABLE_NAME", arrow::utf8(), false),   // not nullable
+    arrow::field("PKCOLUMN_NAME", arrow::utf8(), false),  // not nullable
+    arrow::field("FKTABLE_CAT", arrow::utf8(), true),     // nullable
+    arrow::field("FKTABLE_SCHEM", arrow::utf8(), true),   // nullable
+    arrow::field("FKTABLE_NAME", arrow::utf8(), false),   // not nullable
+    arrow::field("FKCOLUMN_NAME", arrow::utf8(), false),  // not nullable
+    arrow::field("KEY_SEQ", arrow::int16(), false),       // not nullable, precision 5
+    arrow::field("UPDATE_RULE", arrow::int16(), true),    // nullable, precision 5
+    arrow::field("DELETE_RULE", arrow::int16(), true),    // nullable, precision 5
+    arrow::field("FK_NAME", arrow::utf8(), true),         // nullable
+    arrow::field("PK_NAME", arrow::utf8(), true),         // nullable
+    arrow::field("DEFERRABILITY", arrow::int16(), true)   // nullable, precision 5
+  });
+
+  auto flight_info_result = arrow::flight::FlightInfo::Make(
+    *schema, arrow::flight::FlightDescriptor::Command(""),
+    std::vector<arrow::flight::FlightEndpoint>(), 0, 0);
+  ThrowIfNotOK(flight_info_result.status());
+  auto flight_info = std::make_shared<arrow::flight::FlightInfo>(std::move(flight_info_result.ValueOrDie()));
+
+  current_result_set_ = std::make_shared<FlightSqlResultSet>(
+    sql_client_, call_options_, flight_info, nullptr, diagnostics_, metadata_settings_);
+
+  return current_result_set_;
+}
+
 odbcabstraction::Diagnostics &FlightSqlStatement::GetDiagnostics() {
   return diagnostics_;
 }

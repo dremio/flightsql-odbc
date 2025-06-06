@@ -92,6 +92,9 @@ class ODBCStatement : public ODBCHandle<ODBCStatement> {
     void GetTables(const std::string* catalog, const std::string* schema, const std::string* table, const std::string* tableType);
     void GetColumns(const std::string* catalog, const std::string* schema, const std::string* table, const std::string* column);
     void GetTypeInfo(SQLSMALLINT dataType);
+    void GetForeignKeys(const std::string* pkCatalog, const std::string* pkSchema, const std::string* pkTable,
+                        const std::string* fkCatalog, const std::string* fkSchema, const std::string* fkTable);
+    void GetPrimaryKeys(const std::string* catalog, const std::string* schema, const std::string* table);
     void Cancel();
 
   private:
