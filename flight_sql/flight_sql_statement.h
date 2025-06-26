@@ -76,6 +76,15 @@ public:
 
   std::shared_ptr<odbcabstraction::ResultSet> GetTypeInfo_V3(int16_t data_type) override;
 
+  std::shared_ptr<odbcabstraction::ResultSet>
+  GetPrimaryKeys(const std::string *catalog_name, const std::string *schema_name,
+                 const std::string *table_name) override;
+
+  std::shared_ptr<odbcabstraction::ResultSet>
+  GetForeignKeys(const std::string *pk_catalog_name, const std::string *pk_schema_name,
+                 const std::string *pk_table_name, const std::string *fk_catalog_name,
+                 const std::string *fk_schema_name, const std::string *fk_table_name) override;
+
   odbcabstraction::Diagnostics &GetDiagnostics() override;
 
   void Cancel() override;
