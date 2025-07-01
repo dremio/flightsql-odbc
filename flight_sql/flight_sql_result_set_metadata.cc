@@ -215,14 +215,14 @@ bool FlightSqlResultSetMetadata::IsAutoUnique(int column_position) {
 bool FlightSqlResultSetMetadata::IsCaseSensitive(int column_position) {
   arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
-  return GetMetadataProperty(metadata, arrow::flight::sql::kIsCaseSensitive).ValueOrElse([] { return false; });
+  return GetMetadataProperty(metadata, arrow::flight::sql::ColumnMetadata::kIsCaseSensitive).ValueOrElse([] { return false; });
 }
 
 driver::odbcabstraction::Searchability
 FlightSqlResultSetMetadata::IsSearchable(int column_position) {
   arrow::flight::sql::ColumnMetadata metadata = GetMetadata(schema_->field(column_position - 1));
 
-  bool is_searchable = GetMetadataProperty(metadata, arrow::flight::sql::kIsSearchable).ValueOrElse([] { return false; });
+  bool is_searchable = GetMetadataProperty(metadata, arrow::flight::sql::ColumnMetadata::kIsSearchable).ValueOrElse([] { return false; });
   return is_searchable ? odbcabstraction::SEARCHABILITY_ALL : odbcabstraction::SEARCHABILITY_NONE;
 }
 
