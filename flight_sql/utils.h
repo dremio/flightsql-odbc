@@ -104,6 +104,8 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
 
 std::string ConvertToDBMSVer(const std::string& str);
 
+std::string FormatDecimalWithoutScientificNotation(const arrow::Decimal128& decimal_value, int32_t scale);
+
 int32_t GetDecimalTypeScale(const std::shared_ptr<arrow::DataType>& decimalType);
 
 int32_t GetDecimalTypePrecision(const std::shared_ptr<arrow::DataType>& decimalType);
