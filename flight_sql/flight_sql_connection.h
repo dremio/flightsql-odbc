@@ -63,6 +63,9 @@ public:
   static const std::string USE_WIDE_CHAR;
   static const std::string CHUNK_BUFFER_CAPACITY;
   static const std::string HIDE_SQL_TABLES_LISTING;
+  static const std::string SEND_PING_FRAME;
+  static const std::string PING_FRAME_INTERVAL;
+  static const std::string PING_FRAME_TIMEOUT;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version, const std::string &driver_version = "0.9.0.0");
 
@@ -110,6 +113,12 @@ public:
   size_t GetChunkBufferCapacity(const ConnPropertyMap &connPropertyMap);
 
   bool GetHideSQLTablesListing(const ConnPropertyMap &connPropertyMap);
+
+  static bool GetSendPingFrame(const ConnPropertyMap &connPropertyMap);
+
+  static int GetPingFrameInterval(const ConnPropertyMap &connPropertyMap);
+
+  static int GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver

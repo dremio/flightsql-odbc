@@ -29,6 +29,10 @@
 
 #include "system_trust_store.h"
 
+#ifdef __APPLE__
+#include <os/log.h>
+#endif
+
 #ifndef NI_MAXHOST
 #define NI_MAXHOST 1025
 #endif
@@ -69,6 +73,9 @@ const std::string FlightSqlConnection::STRING_COLUMN_LENGTH = "StringColumnLengt
 const std::string FlightSqlConnection::USE_WIDE_CHAR = "UseWideChar";
 const std::string FlightSqlConnection::CHUNK_BUFFER_CAPACITY = "ChunkBufferCapacity";
 const std::string FlightSqlConnection::HIDE_SQL_TABLES_LISTING = "HideSQLTablesListing";
+const std::string FlightSqlConnection::SEND_PING_FRAME = "SendPingFrame";
+const std::string FlightSqlConnection::PING_FRAME_INTERVAL = "PingFrameInterval";
+const std::string FlightSqlConnection::PING_FRAME_TIMEOUT = "PingFrameTimeout";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
@@ -76,7 +83,8 @@ const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
     FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::CHUNK_BUFFER_CAPACITY,
-    FlightSqlConnection::HIDE_SQL_TABLES_LISTING};
+    FlightSqlConnection::HIDE_SQL_TABLES_LISTING, FlightSqlConnection::SEND_PING_FRAME,
+    FlightSqlConnection::PING_FRAME_INTERVAL, FlightSqlConnection::PING_FRAME_TIMEOUT};
 
 namespace {
 
@@ -130,7 +138,10 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::TRUSTED_CERTS,
     FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::STRING_COLUMN_LENGTH,
-    FlightSqlConnection::USE_WIDE_CHAR
+    FlightSqlConnection::USE_WIDE_CHAR,
+    FlightSqlConnection::SEND_PING_FRAME,
+    FlightSqlConnection::PING_FRAME_INTERVAL,
+    FlightSqlConnection::PING_FRAME_TIMEOUT
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -253,6 +264,34 @@ bool FlightSqlConnection::GetHideSQLTablesListing(const ConnPropertyMap &connPro
   return AsBool(connPropertyMap, FlightSqlConnection::HIDE_SQL_TABLES_LISTING).value_or(default_value);
 }
 
+bool FlightSqlConnection::GetSendPingFrame(const ConnPropertyMap &connPropertyMap) {
+  bool default_value = true;
+  return AsBool(connPropertyMap, FlightSqlConnection::SEND_PING_FRAME).value_or(default_value);
+}
+
+int FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropertyMap) {
+  const int min_ping_frame_interval = 1;
+  const int default_ping_frame_interval = 200000;
+
+  try {
+    return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL).value_or(default_ping_frame_interval);
+  } catch (const std::exception& e) {
+    return default_ping_frame_interval;
+  }
+
+}
+
+int FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap) {
+  const int min_ping_frame_timeout = 1;
+  const int default_ping_frame_timeout = 2000000;
+
+  try {
+    return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT).value_or(default_ping_frame_timeout);
+  } catch (const std::exception& e) {
+    return default_ping_frame_timeout;
+  }
+}
+
 const FlightCallOptions &
 FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
   // Set CONNECTION_TIMEOUT attribute or LOGIN_TIMEOUT depending on if this
@@ -297,12 +336,33 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
   // Persist state information using cookies if the FlightProducer supports it.
   options.middleware.push_back(arrow::flight::GetCookieFactory());
 
+  // Configure gRPC keepalive (HTTP/2 ping frames) if enabled
+  bool send_ping_frame = GetSendPingFrame(properties);
+  if (send_ping_frame) {
+    int ping_interval = GetPingFrameInterval(properties);
+    int ping_timeout = GetPingFrameTimeout(properties);
+    #ifdef __APPLE__
+    //os_log(OS_LOG_DEFAULT, "FlightSQL Connection: Enabling gRPC keepalive with interval %d and timeout %d", ping_interval, ping_timeout);
+    #endif
+
+
+    // Set gRPC channel arguments for keepalive
+    // See https://arrow.apache.org/cookbook/cpp/flight.html#setting-grpc-client-options
+    // TODO: was unable to build with the macros, so using string literals for now
+    options.generic_options.emplace_back("grpc.keepalive_time_ms", ping_interval);
+    options.generic_options.emplace_back("grpc.keepalive_timeout_ms", ping_timeout);
+  } else {
+    #ifdef __APPLE__
+    //os_log(OS_LOG_DEFAULT, "FlightSQL Connection: Not activating gRPC keepalive");
+    #endif
+  }
+
   if (ssl_config->useEncryption()) {
     auto prop_iter = properties.find(HOST);
     if (properties.end() != prop_iter) {
       options.override_hostname = prop_iter->second;
     }
-    
+
     if (ssl_config->shouldDisableCertificateVerification()) {
       options.disable_server_verification = ssl_config->shouldDisableCertificateVerification();
     } else {
