@@ -29,10 +29,6 @@
 
 #include "system_trust_store.h"
 
-#ifdef __APPLE__
-#include <os/log.h>
-#endif
-
 #ifndef NI_MAXHOST
 #define NI_MAXHOST 1025
 #endif
@@ -356,10 +352,6 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     int ping_interval = GetPingFrameInterval(properties);
     int ping_timeout = GetPingFrameTimeout(properties);
     int max_pings_without_data = GetMaxPingsWithoutData(properties);
-    #ifdef __APPLE__
-    //os_log(OS_LOG_DEFAULT, "FlightSQL Connection: Enabling gRPC keepalive with interval %d and timeout %d", ping_interval, ping_timeout);
-    #endif
-
 
     // Set gRPC channel arguments for keepalive
     // See https://arrow.apache.org/cookbook/cpp/flight.html#setting-grpc-client-options
@@ -367,10 +359,8 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     options.generic_options.emplace_back("grpc.keepalive_time_ms", ping_interval);
     options.generic_options.emplace_back("grpc.keepalive_timeout_ms", ping_timeout);
     options.generic_options.emplace_back("grpc.http2.max_pings_without_data", max_pings_without_data);
-  } else {
-    #ifdef __APPLE__
-    //os_log(OS_LOG_DEFAULT, "FlightSQL Connection: Not activating gRPC keepalive");
-    #endif
+  }
+
   }
 
   if (ssl_config->useEncryption()) {
