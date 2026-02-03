@@ -76,6 +76,7 @@ const std::string FlightSqlConnection::HIDE_SQL_TABLES_LISTING = "HideSQLTablesL
 const std::string FlightSqlConnection::SEND_PING_FRAME = "SendPingFrame";
 const std::string FlightSqlConnection::PING_FRAME_INTERVAL = "PingFrameInterval";
 const std::string FlightSqlConnection::PING_FRAME_TIMEOUT = "PingFrameTimeout";
+const std::string FlightSqlConnection::MAX_PINGS_WITHOUT_DATA = "MaxPingsWithoutData";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
@@ -84,7 +85,8 @@ const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
     FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::CHUNK_BUFFER_CAPACITY,
     FlightSqlConnection::HIDE_SQL_TABLES_LISTING, FlightSqlConnection::SEND_PING_FRAME,
-    FlightSqlConnection::PING_FRAME_INTERVAL, FlightSqlConnection::PING_FRAME_TIMEOUT};
+    FlightSqlConnection::PING_FRAME_INTERVAL, FlightSqlConnection::PING_FRAME_TIMEOUT,
+    FlightSqlConnection::MAX_PINGS_WITHOUT_DATA};
 
 namespace {
 
@@ -141,7 +143,8 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::USE_WIDE_CHAR,
     FlightSqlConnection::SEND_PING_FRAME,
     FlightSqlConnection::PING_FRAME_INTERVAL,
-    FlightSqlConnection::PING_FRAME_TIMEOUT
+    FlightSqlConnection::PING_FRAME_TIMEOUT,
+    FlightSqlConnection::MAX_PINGS_WITHOUT_DATA
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -292,6 +295,17 @@ int FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connProperty
   }
 }
 
+int FlightSqlConnection::GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap) {
+  const int min_max_pings_without_data = 0;
+  const int default_max_pings_without_data = 0;
+
+  try {
+    return AsInt32(min_max_pings_without_data, connPropertyMap, FlightSqlConnection::MAX_PINGS_WITHOUT_DATA).value_or(default_max_pings_without_data);
+  } catch (const std::exception& e) {
+    return default_max_pings_without_data;
+  }
+}
+
 const FlightCallOptions &
 FlightSqlConnection::PopulateCallOptions(const ConnPropertyMap &props) {
   // Set CONNECTION_TIMEOUT attribute or LOGIN_TIMEOUT depending on if this
@@ -341,6 +355,7 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
   if (send_ping_frame) {
     int ping_interval = GetPingFrameInterval(properties);
     int ping_timeout = GetPingFrameTimeout(properties);
+    int max_pings_without_data = GetMaxPingsWithoutData(properties);
     #ifdef __APPLE__
     //os_log(OS_LOG_DEFAULT, "FlightSQL Connection: Enabling gRPC keepalive with interval %d and timeout %d", ping_interval, ping_timeout);
     #endif
@@ -351,6 +366,7 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     // TODO: was unable to build with the macros, so using string literals for now
     options.generic_options.emplace_back("grpc.keepalive_time_ms", ping_interval);
     options.generic_options.emplace_back("grpc.keepalive_timeout_ms", ping_timeout);
+    options.generic_options.emplace_back("grpc.http2.max_pings_without_data", max_pings_without_data);
   } else {
     #ifdef __APPLE__
     //os_log(OS_LOG_DEFAULT, "FlightSQL Connection: Not activating gRPC keepalive");

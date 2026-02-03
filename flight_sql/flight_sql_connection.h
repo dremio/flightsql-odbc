@@ -66,6 +66,7 @@ public:
   static const std::string SEND_PING_FRAME;
   static const std::string PING_FRAME_INTERVAL;
   static const std::string PING_FRAME_TIMEOUT;
+  static const std::string MAX_PINGS_WITHOUT_DATA;
 
   explicit FlightSqlConnection(odbcabstraction::OdbcVersion odbc_version, const std::string &driver_version = "0.9.0.0");
 
@@ -119,6 +120,8 @@ public:
   static int GetPingFrameInterval(const ConnPropertyMap &connPropertyMap);
 
   static int GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap);
+
+  static int GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver
