@@ -264,13 +264,13 @@ bool FlightSqlConnection::GetHideSQLTablesListing(const ConnPropertyMap &connPro
 }
 
 bool FlightSqlConnection::GetSendPingFrame(const ConnPropertyMap &connPropertyMap) {
-  bool default_value = true;
+  bool default_value = false;
   return AsBool(connPropertyMap, FlightSqlConnection::SEND_PING_FRAME).value_or(default_value);
 }
 
 int FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropertyMap) {
-  const int min_ping_frame_interval = 1;
-  const int default_ping_frame_interval = 200000;
+  const int min_ping_frame_interval = 1000;
+  const int default_ping_frame_interval = 7200000;
 
   try {
     return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL).value_or(default_ping_frame_interval);
@@ -281,8 +281,8 @@ int FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropert
 }
 
 int FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap) {
-  const int min_ping_frame_timeout = 1;
-  const int default_ping_frame_timeout = 2000000;
+  const int min_ping_frame_timeout = 1000;
+  const int default_ping_frame_timeout = 20000;
 
   try {
     return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT).value_or(default_ping_frame_timeout);
@@ -366,7 +366,7 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     if (properties.end() != prop_iter) {
       options.override_hostname = prop_iter->second;
     }
-
+    
     if (ssl_config->shouldDisableCertificateVerification()) {
       options.disable_server_verification = ssl_config->shouldDisableCertificateVerification();
     } else {
