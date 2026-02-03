@@ -293,7 +293,7 @@ int FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connProperty
 
 int FlightSqlConnection::GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap) {
   const int min_max_pings_without_data = 0;
-  const int default_max_pings_without_data = 0;
+  const int default_max_pings_without_data = 2;
 
   try {
     return AsInt32(min_max_pings_without_data, connPropertyMap, FlightSqlConnection::MAX_PINGS_WITHOUT_DATA).value_or(default_max_pings_without_data);
