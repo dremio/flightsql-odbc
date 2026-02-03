@@ -361,8 +361,6 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     options.generic_options.emplace_back("grpc.http2.max_pings_without_data", max_pings_without_data);
   }
 
-  }
-
   if (ssl_config->useEncryption()) {
     auto prop_iter = properties.find(HOST);
     if (properties.end() != prop_iter) {
