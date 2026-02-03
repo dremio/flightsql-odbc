@@ -167,6 +167,30 @@ public:
   /// \param data_type The SQL data type.
   virtual std::shared_ptr<ResultSet> GetTypeInfo_V3(int16_t data_type) = 0;
 
+  /// \brief Returns the primary keys for a table.
+  /// The driver returns this information as a result set.
+  ///
+  /// \param catalog_name The catalog name.
+  /// \param schema_name The schema name.
+  /// \param table_name The table name.
+  virtual std::shared_ptr<ResultSet>
+  GetPrimaryKeys(const std::string *catalog_name, const std::string *schema_name,
+                 const std::string *table_name) = 0;
+
+  /// \brief Returns the foreign keys for a table.
+  /// The driver returns this information as a result set.
+  ///
+  /// \param pk_catalog_name The primary key catalog name.
+  /// \param pk_schema_name The primary key schema name.
+  /// \param pk_table_name The primary key table name.
+  /// \param fk_catalog_name The foreign key catalog name.
+  /// \param fk_schema_name The foreign key schema name.
+  /// \param fk_table_name The foreign key table name.
+  virtual std::shared_ptr<ResultSet>
+  GetForeignKeys(const std::string *pk_catalog_name, const std::string *pk_schema_name,
+                 const std::string *pk_table_name, const std::string *fk_catalog_name,
+                 const std::string *fk_schema_name, const std::string *fk_table_name) = 0;
+
   /// \brief Gets the diagnostics for this statement.
   /// \return the diagnostics
   virtual Diagnostics& GetDiagnostics() = 0;

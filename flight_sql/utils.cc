@@ -980,7 +980,14 @@ ArrayConvertTask GetConverter(arrow::Type::type original_type_id,
         } else {
           auto result = original_array->GetScalar(i);
           auto scalar = result.ValueOrDie();
-          ThrowIfNotOK(builder.Append(scalar->ToString()));
+          
+          // Custom decimal formatting to avoid scientific notation
+          auto decimal_scalar = std::static_pointer_cast<arrow::Decimal128Scalar>(scalar);
+          auto decimal_type = std::static_pointer_cast<arrow::Decimal128Type>(decimal_scalar->type);
+          std::string decimal_str = FormatDecimalWithoutScientificNotation(
+              decimal_scalar->value, decimal_type->scale());
+
+          ThrowIfNotOK(builder.Append(decimal_str));
         }
       }
 
@@ -1087,6 +1094,32 @@ std::string ConvertToDBMSVer(const std::string &str) {
 
   result += pad_remaining_tokens(position);
   return result;
+}
+
+// Custom function to format decimal without scientific notation (pyodbc, excel do not use scientific notation)
+std::string FormatDecimalWithoutScientificNotation(const arrow::Decimal128& decimal_value, int32_t scale) {
+  std::string integer_str = decimal_value.ToIntegerString();
+
+  if (scale == 0) {
+    return integer_str;
+  }
+
+  size_t start_pos = integer_str.front() == '-' ? 1 : 0;
+  size_t digits_num = integer_str.size() - start_pos;
+
+  if (scale < 0) {
+    integer_str.append(-scale, '0');
+    return integer_str;
+  }
+
+  if (digits_num > scale) {
+    integer_str.insert(integer_str.size() - scale, ".");
+    return integer_str;
+  }
+
+  integer_str.insert(start_pos, scale - digits_num + 2, '0');
+  integer_str.at(start_pos + 1) = '.';
+  return integer_str;
 }
 
 int32_t GetDecimalTypeScale(const std::shared_ptr<arrow::DataType>& decimalType){

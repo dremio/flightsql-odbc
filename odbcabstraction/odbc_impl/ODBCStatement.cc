@@ -723,6 +723,25 @@ void ODBCStatement::GetTypeInfo(SQLSMALLINT dataType) {
   m_isPrepared = false;
 }
 
+void ODBCStatement::GetForeignKeys(const std::string* pkCatalog, const std::string* pkSchema, const std::string* pkTable,
+                                  const std::string* fkCatalog, const std::string* fkSchema, const std::string* fkTable) {
+  closeCursor(true);
+  m_currenResult = m_spiStatement->GetForeignKeys(pkCatalog, pkSchema, pkTable, fkCatalog, fkSchema, fkTable);
+  m_ird->PopulateFromResultSetMetadata(m_currenResult->GetMetadata().get());
+  m_hasReachedEndOfResult = false;
+
+  m_isPrepared = false;
+}
+
+void ODBCStatement::GetPrimaryKeys(const std::string* catalog, const std::string* schema, const std::string* table) {
+  closeCursor(true);
+  m_currenResult = m_spiStatement->GetPrimaryKeys(catalog, schema, table);
+  m_ird->PopulateFromResultSetMetadata(m_currenResult->GetMetadata().get());
+  m_hasReachedEndOfResult = false;
+
+  m_isPrepared = false;
+}
+
 void ODBCStatement::Cancel() {
   m_spiStatement->Cancel();
 }
