@@ -117,11 +117,11 @@ public:
 
   static bool GetSendPingFrame(const ConnPropertyMap &connPropertyMap);
 
-  static int GetPingFrameInterval(const ConnPropertyMap &connPropertyMap);
+  static boost::optional<int> GetPingFrameInterval(const ConnPropertyMap &connPropertyMap);
 
-  static int GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap);
+  static boost::optional<int> GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap);
 
-  static int GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap);
+  static boost::optional<int> GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap);
 };
 } // namespace flight_sql
 } // namespace driver

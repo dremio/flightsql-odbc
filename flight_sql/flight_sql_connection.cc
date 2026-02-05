@@ -268,37 +268,33 @@ bool FlightSqlConnection::GetSendPingFrame(const ConnPropertyMap &connPropertyMa
   return AsBool(connPropertyMap, FlightSqlConnection::SEND_PING_FRAME).value_or(default_value);
 }
 
-int FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropertyMap) {
+boost::optional<int> FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropertyMap) {
   const int min_ping_frame_interval = 1000;
-  const int default_ping_frame_interval = 7200000;
 
   try {
-    return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL).value_or(default_ping_frame_interval);
+    return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL);
   } catch (const std::exception& e) {
-    return default_ping_frame_interval;
+    return boost::none;
   }
-
 }
 
-int FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap) {
+boost::optional<int> FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap) {
   const int min_ping_frame_timeout = 1000;
-  const int default_ping_frame_timeout = 20000;
 
   try {
-    return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT).value_or(default_ping_frame_timeout);
+    return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT);
   } catch (const std::exception& e) {
-    return default_ping_frame_timeout;
+    return boost::none;
   }
 }
 
-int FlightSqlConnection::GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap) {
+boost::optional<int> FlightSqlConnection::GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap) {
   const int min_max_pings_without_data = 0;
-  const int default_max_pings_without_data = 2;
 
   try {
-    return AsInt32(min_max_pings_without_data, connPropertyMap, FlightSqlConnection::MAX_PINGS_WITHOUT_DATA).value_or(default_max_pings_without_data);
+    return AsInt32(min_max_pings_without_data, connPropertyMap, FlightSqlConnection::MAX_PINGS_WITHOUT_DATA);
   } catch (const std::exception& e) {
-    return default_max_pings_without_data;
+    return boost::none;
   }
 }
 
@@ -349,16 +345,18 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
   // Configure gRPC keepalive (HTTP/2 ping frames) if enabled
   bool send_ping_frame = GetSendPingFrame(properties);
   if (send_ping_frame) {
-    int ping_interval = GetPingFrameInterval(properties);
-    int ping_timeout = GetPingFrameTimeout(properties);
-    int max_pings_without_data = GetMaxPingsWithoutData(properties);
-
-    // Set gRPC channel arguments for keepalive
+    // Set gRPC channel arguments for keepalive only if explicitly configured
     // See https://arrow.apache.org/cookbook/cpp/flight.html#setting-grpc-client-options
     // TODO: was unable to build with the macros, so using string literals for now
-    options.generic_options.emplace_back("grpc.keepalive_time_ms", ping_interval);
-    options.generic_options.emplace_back("grpc.keepalive_timeout_ms", ping_timeout);
-    options.generic_options.emplace_back("grpc.http2.max_pings_without_data", max_pings_without_data);
+    if (boost::optional<int> ping_interval = GetPingFrameInterval(properties)) {
+      options.generic_options.emplace_back("grpc.keepalive_time_ms", *ping_interval);
+    }
+    if (boost::optional<int> ping_timeout = GetPingFrameTimeout(properties)) {
+      options.generic_options.emplace_back("grpc.keepalive_timeout_ms", *ping_timeout);
+    }
+    if (boost::optional<int> max_pings_without_data = GetMaxPingsWithoutData(properties)) {
+      options.generic_options.emplace_back("grpc.http2.max_pings_without_data", *max_pings_without_data);
+    }
   }
 
   if (ssl_config->useEncryption()) {
