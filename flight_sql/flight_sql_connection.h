@@ -61,6 +61,7 @@ public:
   static const std::string USE_SYSTEM_TRUST_STORE;
   static const std::string STRING_COLUMN_LENGTH;
   static const std::string USE_WIDE_CHAR;
+  static const std::string USE_EXTENDED_FLIGHTSQL_BUFFER;
   static const std::string CHUNK_BUFFER_CAPACITY;
   static const std::string HIDE_SQL_TABLES_LISTING;
   static const std::string SEND_PING_FRAME;
@@ -110,6 +111,8 @@ public:
   boost::optional<int32_t> GetStringColumnLength(const ConnPropertyMap &connPropertyMap);
 
   bool GetUseWideChar(const ConnPropertyMap &connPropertyMap);
+
+  bool GetUseExtendedFlightSQLBuffer(const ConnPropertyMap &connPropertyMap);
 
   size_t GetChunkBufferCapacity(const ConnPropertyMap &connPropertyMap);
 

@@ -11,6 +11,7 @@
 #include <condition_variable>
 #include <thread>
 #include <vector>
+#include <chrono>
 #include <boost/optional.hpp>
 
 namespace driver {
@@ -21,6 +22,7 @@ template<typename T>
 class BlockingQueue {
 
   size_t capacity_;
+  size_t extended_capacity_;
   std::vector<T> buffer_;
   size_t buffer_size_{0};
   size_t left_{0}; // index where variables are put inside of buffer (produced)
@@ -37,7 +39,15 @@ class BlockingQueue {
 public:
   typedef std::function<boost::optional<T>(void)> Supplier;
 
-  BlockingQueue(size_t capacity): capacity_(capacity), buffer_(capacity) {}
+  BlockingQueue(size_t capacity, bool use_extended_buffer):
+    capacity_(capacity),
+    extended_capacity_(0) {
+      if (use_extended_buffer) {
+        extended_capacity_ = 1000 * capacity_;
+        buffer_.resize(extended_capacity_, T());
+      }
+      else buffer_.resize(capacity_);
+    }
 
   void AddProducer(Supplier supplier) {
     active_threads_++;
@@ -46,13 +56,13 @@ public:
         // Block while queue is full
         std::unique_lock<std::mutex> unique_lock(mtx_);
         if (!WaitUntilCanPushOrClosed(unique_lock)) break;
-        unique_lock.unlock();
 
         // Only one thread at a time be notified and call supplier
         auto item = supplier();
         if (!item) break;
 
         Push(*item);
+        not_empty_.notify_one();
       }
 
       std::unique_lock<std::mutex> unique_lock(mtx_);
@@ -61,25 +71,13 @@ public:
     });
   }
 
-  void Push(T item) {
-    std::unique_lock<std::mutex> unique_lock(mtx_);
-    if (!WaitUntilCanPushOrClosed(unique_lock)) return;
-
-    buffer_[right_] = std::move(item);
-
-    right_ = (right_ + 1) % capacity_;
-    buffer_size_++;
-
-    not_empty_.notify_one();
-  }
-
   bool Pop(T *result) {
     std::unique_lock<std::mutex> unique_lock(mtx_);
     if (!WaitUntilCanPopOrClosed(unique_lock)) return false;
 
     *result = std::move(buffer_[left_]);
 
-    left_ = (left_ + 1) % capacity_;
+    left_ = (left_ + 1) % (extended_capacity_ ? extended_capacity_ : capacity_);
     buffer_size_--;
 
     not_full_.notify_one();
@@ -103,10 +101,30 @@ public:
   }
 
 private:
+
+  void Push(T item) {
+    buffer_[right_] = std::move(item);
+
+    right_ = (right_ + 1) % (extended_capacity_ ? extended_capacity_ : capacity_);
+    buffer_size_++;
+
+  }
+
   bool WaitUntilCanPushOrClosed(std::unique_lock<std::mutex> &unique_lock) {
-    not_full_.wait(unique_lock, [this]() {
-      return closed_ || buffer_size_ != capacity_;
-    });
+    if (extended_capacity_ > 0 && buffer_size_ >= extended_capacity_ ) {
+      not_full_.wait(unique_lock, [this]() {
+        return closed_ || buffer_size_ < extended_capacity_;
+      });
+    }
+    else if (extended_capacity_ > 0 && buffer_size_ >= capacity_) {
+      not_full_.wait_for(unique_lock, std::chrono::milliseconds(500));
+    }
+    else {
+      not_full_.wait(unique_lock, [this]() {
+        return closed_ || buffer_size_ < capacity_;
+      });
+    }
+
     return !closed_;
   }
 

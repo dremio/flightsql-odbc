@@ -38,7 +38,12 @@ FlightSqlResultSet::FlightSqlResultSet(
     const odbcabstraction::MetadataSettings &metadata_settings)
     :
       metadata_settings_(metadata_settings),
-      chunk_buffer_(flight_sql_client, call_options, flight_info, metadata_settings_.chunk_buffer_capacity_),
+      chunk_buffer_(
+        flight_sql_client,
+        call_options,
+        flight_info,
+        metadata_settings_.chunk_buffer_capacity_,
+        metadata_settings_.use_extended_flightsql_buffer_),
       transformer_(transformer),
       metadata_(transformer ? new FlightSqlResultSetMetadata(transformer->GetTransformedSchema(),
                                                              metadata_settings_)
