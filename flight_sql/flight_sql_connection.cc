@@ -131,7 +131,8 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::TRUSTED_CERTS,
     FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::STRING_COLUMN_LENGTH,
-    FlightSqlConnection::USE_WIDE_CHAR
+    FlightSqlConnection::USE_WIDE_CHAR,
+    FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER
 };
 
 Connection::ConnPropertyMap::const_iterator
