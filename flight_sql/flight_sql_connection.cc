@@ -141,7 +141,8 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::SEND_PING_FRAME,
     FlightSqlConnection::PING_FRAME_INTERVAL,
     FlightSqlConnection::PING_FRAME_TIMEOUT,
-    FlightSqlConnection::MAX_PINGS_WITHOUT_DATA
+    FlightSqlConnection::MAX_PINGS_WITHOUT_DATA,
+    FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER
 };
 
 Connection::ConnPropertyMap::const_iterator
