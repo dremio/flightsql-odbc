@@ -237,7 +237,7 @@ boost::optional<int32_t> FlightSqlConnection::GetStringColumnLength(const Connec
 }
 
 bool FlightSqlConnection::GetUseExtendedFlightSQLBuffer(const ConnPropertyMap &connPropertyMap) {
-  bool default_value = false;
+  bool default_value = true;
   return AsBool(connPropertyMap, FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER).value_or(default_value);
 }
 
