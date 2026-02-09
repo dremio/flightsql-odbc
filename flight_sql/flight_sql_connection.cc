@@ -70,6 +70,10 @@ const std::string FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER = "UseExten
 const std::string FlightSqlConnection::USE_WIDE_CHAR = "UseWideChar";
 const std::string FlightSqlConnection::CHUNK_BUFFER_CAPACITY = "ChunkBufferCapacity";
 const std::string FlightSqlConnection::HIDE_SQL_TABLES_LISTING = "HideSQLTablesListing";
+const std::string FlightSqlConnection::SEND_PING_FRAME = "SendPingFrame";
+const std::string FlightSqlConnection::PING_FRAME_INTERVAL = "PingFrameInterval";
+const std::string FlightSqlConnection::PING_FRAME_TIMEOUT = "PingFrameTimeout";
+const std::string FlightSqlConnection::MAX_PINGS_WITHOUT_DATA = "MaxPingsWithoutData";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DSN, FlightSqlConnection::DRIVER, FlightSqlConnection::HOST, FlightSqlConnection::PORT,
@@ -77,7 +81,9 @@ const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::USE_ENCRYPTION, FlightSqlConnection::TRUSTED_CERTS, FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
     FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER, FlightSqlConnection::CHUNK_BUFFER_CAPACITY,
-    FlightSqlConnection::HIDE_SQL_TABLES_LISTING};
+    FlightSqlConnection::HIDE_SQL_TABLES_LISTING, FlightSqlConnection::SEND_PING_FRAME,
+    FlightSqlConnection::PING_FRAME_INTERVAL, FlightSqlConnection::PING_FRAME_TIMEOUT,
+    FlightSqlConnection::MAX_PINGS_WITHOUT_DATA};
 
 namespace {
 
@@ -131,7 +137,12 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::TRUSTED_CERTS,
     FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::STRING_COLUMN_LENGTH,
-    FlightSqlConnection::USE_WIDE_CHAR
+    FlightSqlConnection::USE_WIDE_CHAR,
+    FlightSqlConnection::SEND_PING_FRAME,
+    FlightSqlConnection::PING_FRAME_INTERVAL,
+    FlightSqlConnection::PING_FRAME_TIMEOUT,
+    FlightSqlConnection::MAX_PINGS_WITHOUT_DATA,
+    FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER
 };
 
 Connection::ConnPropertyMap::const_iterator
@@ -226,7 +237,7 @@ boost::optional<int32_t> FlightSqlConnection::GetStringColumnLength(const Connec
 }
 
 bool FlightSqlConnection::GetUseExtendedFlightSQLBuffer(const ConnPropertyMap &connPropertyMap) {
-  bool default_value = false;
+  bool default_value = true;
   return AsBool(connPropertyMap, FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER).value_or(default_value);
 }
 
@@ -258,6 +269,41 @@ size_t FlightSqlConnection::GetChunkBufferCapacity(const ConnPropertyMap &connPr
 bool FlightSqlConnection::GetHideSQLTablesListing(const ConnPropertyMap &connPropertyMap) {
   bool default_value = false;
   return AsBool(connPropertyMap, FlightSqlConnection::HIDE_SQL_TABLES_LISTING).value_or(default_value);
+}
+
+bool FlightSqlConnection::GetSendPingFrame(const ConnPropertyMap &connPropertyMap) {
+  bool default_value = false;
+  return AsBool(connPropertyMap, FlightSqlConnection::SEND_PING_FRAME).value_or(default_value);
+}
+
+boost::optional<int> FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropertyMap) {
+  const int min_ping_frame_interval = 1000;
+
+  try {
+    return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL);
+  } catch (const std::exception& e) {
+    return boost::none;
+  }
+}
+
+boost::optional<int> FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap) {
+  const int min_ping_frame_timeout = 1000;
+
+  try {
+    return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT);
+  } catch (const std::exception& e) {
+    return boost::none;
+  }
+}
+
+boost::optional<int> FlightSqlConnection::GetMaxPingsWithoutData(const ConnPropertyMap &connPropertyMap) {
+  const int min_max_pings_without_data = 0;
+
+  try {
+    return AsInt32(min_max_pings_without_data, connPropertyMap, FlightSqlConnection::MAX_PINGS_WITHOUT_DATA);
+  } catch (const std::exception& e) {
+    return boost::none;
+  }
 }
 
 const FlightCallOptions &
@@ -303,6 +349,23 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
   FlightClientOptions options;
   // Persist state information using cookies if the FlightProducer supports it.
   options.middleware.push_back(arrow::flight::GetCookieFactory());
+
+  // Configure gRPC keepalive (HTTP/2 ping frames) if enabled
+  bool send_ping_frame = GetSendPingFrame(properties);
+  if (send_ping_frame) {
+    // Set gRPC channel arguments for keepalive only if explicitly configured
+    // See https://arrow.apache.org/cookbook/cpp/flight.html#setting-grpc-client-options
+    // TODO: was unable to build with the macros, so using string literals for now
+    if (boost::optional<int> ping_interval = GetPingFrameInterval(properties)) {
+      options.generic_options.emplace_back("grpc.keepalive_time_ms", *ping_interval);
+    }
+    if (boost::optional<int> ping_timeout = GetPingFrameTimeout(properties)) {
+      options.generic_options.emplace_back("grpc.keepalive_timeout_ms", *ping_timeout);
+    }
+    if (boost::optional<int> max_pings_without_data = GetMaxPingsWithoutData(properties)) {
+      options.generic_options.emplace_back("grpc.http2.max_pings_without_data", *max_pings_without_data);
+    }
+  }
 
   if (ssl_config->useEncryption()) {
     auto prop_iter = properties.find(HOST);
