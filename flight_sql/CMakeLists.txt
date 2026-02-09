@@ -21,15 +21,17 @@ endif()
 find_package(ZLIB REQUIRED)
 
 # Add Protobuf dependencies needed by Arrow Flight. Should be pre-installed.
-set(Protobuf_USE_STATIC_LIBS ON)
-find_package(Protobuf REQUIRED)
+# set(Protobuf_USE_STATIC_LIBS ON)
+# find_package(Protobuf REQUIRED)
 
 # Add OpenSSL dependencies needed by Arrow Flight. Should be pre-installed.
 # May need to set OPENSSL_ROOT_DIR first. On Mac if using brew:
 # brew install openssl@1.1
 # add to the cmake line -DOPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m
 if (NOT DEFINED OPENSSL_ROOT_DIR AND DEFINED APPLE AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(OPENSSL_ROOT_DIR /usr/local/Cellar/openssl@1.1/1.1.1m)
+  #set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@1.1/1.1.1w)
+  set(OPENSSL_ROOT_DIR /Users/dremio-clients/Developer/artifacts-odbc-arrowflight/openssl)
+  #set(OPENSSL_ROOT_DIR /opt/homebrew/Cellar/openssl@3/3.3.2)
 endif()
 # This is based on Arrow's FindOpenSSL module. It's not clear if both variables
 # need to be set.
@@ -45,93 +47,96 @@ if (UNIX)
 endif()
 
 # Add gRPC dependencies needed by Arrow Flight. Should be pre-installed.
-find_package(gRPC 1.36 CONFIG REQUIRED)
+# find_package(gRPC 1.36 CONFIG REQUIRED)
 
 find_package(RapidJSON CONFIG REQUIRED)
 
 SET(Arrow_STATIC ON)
 
 # Get Arrow using git.
-include(ExternalProject)
+# include(ExternalProject)
+#
+# if (MSVC)
+#   set(ARROW_CMAKE_ARGS
+#     -DARROW_FLIGHT=ON
+#     -DARROW_FLIGHT_SQL=ON
+#     -DARROW_COMPUTE=ON
+#     -DARROW_IPC=ON
+#     -DARROW_BUILD_SHARED=OFF
+#     -DARROW_BUILD_STATIC=ON
+#     -DARROW_WITH_UTF8PROC=OFF
+#     -DARROW_BUILD_TESTS=OFF
+#     -DARROW_DEPENDENCY_SOURCE=VCPKG
+#     -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
+#     -DVCPKG_MANIFEST_MODE=${VCPKG_MANIFEST_MODE}
+#     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+#     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+#     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+#   )
+# elseif(APPLE)
+#   set(ARROW_CMAKE_ARGS
+#           -DARROW_FLIGHT=ON
+#           -DARROW_FLIGHT_SQL=ON
+#           -DARROW_IPC=ON
+#           -DARROW_BUILD_SHARED=OFF
+#           -DARROW_BUILD_STATIC=ON
+#           -DARROW_COMPUTE=ON
+#           -DARROW_WITH_UTF8PROC=OFF
+#           -DARROW_BUILD_TESTS=OFF
+#           -DARROW_DEPENDENCY_USE_SHARED=OFF
+#           -DARROW_DEPENDENCY_USE_STATIC=ON
+#           -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+#           -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
+#           -DVCPKG_MANIFEST_MODE=OFF
+#           -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+#           -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+#           -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+#           )
+#   if (DEFINED CMAKE_TOOLCHAIN_FILE)
+#     list(APPEND ARROW_CMAKE_ARGS -DARROW_DEPENDENCY_SOURCE=VCPKG)
+#   endif()
+# else()
+#   set(ARROW_CMAKE_ARGS
+#     -DARROW_FLIGHT=ON
+#     -DARROW_FLIGHT_SQL=ON
+#     -DARROW_IPC=ON
+#     -DARROW_BUILD_SHARED=OFF
+#     -DARROW_BUILD_STATIC=ON
+#     -DARROW_COMPUTE=ON
+#     -DARROW_WITH_UTF8PROC=OFF
+#     -DARROW_BUILD_TESTS=OFF
+#     -DARROW_DEPENDENCY_USE_SHARED=OFF
+#     -DCMAKE_DEPENDS_USE_COMPILER=FALSE
+#     -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
+#     -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
+#   )
+# endif()
+#
+# set(ARROW_GIT_REPOSITORY "https://github.com/apache/arrow.git" CACHE STRING "Arrow repository path or URL")
+# set(ARROW_GIT_TAG "b050bd0d31db6412256cec3362c0d57c9732e1f2" CACHE STRING "Tag for the Arrow repository")
+#
+# message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
+# ExternalProject_Add(ApacheArrow
+#   GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
+#   GIT_TAG ${ARROW_GIT_TAG}
+#   SOURCE_SUBDIR "cpp"
+#   CMAKE_ARGS ${ARROW_CMAKE_ARGS})
+#
+# include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
+# IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+#   set(ARROW_LIB_DIR lib64)
+# else()
+#   set(ARROW_LIB_DIR lib)
+# endif()
+# link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/${ARROW_LIB_DIR})
+#
+# if (MSVC)
+#   # the following definitions stop arrow from using __declspec when staticly linking and will break on windows without them
+#   add_compile_definitions(ARROW_STATIC ARROW_FLIGHT_STATIC)
+# endif()
 
-if (MSVC)
-  set(ARROW_CMAKE_ARGS
-    -DARROW_FLIGHT=ON
-    -DARROW_FLIGHT_SQL=ON
-    -DARROW_COMPUTE=ON
-    -DARROW_IPC=ON
-    -DARROW_BUILD_SHARED=OFF
-    -DARROW_BUILD_STATIC=ON
-    -DARROW_WITH_UTF8PROC=OFF
-    -DARROW_BUILD_TESTS=OFF
-    -DARROW_DEPENDENCY_SOURCE=VCPKG
-    -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
-    -DVCPKG_MANIFEST_MODE=${VCPKG_MANIFEST_MODE}
-    -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-  )
-elseif(APPLE)
-  set(ARROW_CMAKE_ARGS
-          -DARROW_FLIGHT=ON
-          -DARROW_FLIGHT_SQL=ON
-          -DARROW_IPC=ON
-          -DARROW_BUILD_SHARED=OFF
-          -DARROW_BUILD_STATIC=ON
-          -DARROW_COMPUTE=ON
-          -DARROW_WITH_UTF8PROC=OFF
-          -DARROW_BUILD_TESTS=OFF
-          -DARROW_DEPENDENCY_USE_SHARED=OFF
-          -DARROW_DEPENDENCY_USE_STATIC=ON
-          -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-          -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
-          -DVCPKG_MANIFEST_MODE=OFF
-          -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-          -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-          -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-          )
-  if (DEFINED CMAKE_TOOLCHAIN_FILE)
-    list(APPEND ARROW_CMAKE_ARGS -DARROW_DEPENDENCY_SOURCE=VCPKG)
-  endif()
-else()
-  set(ARROW_CMAKE_ARGS
-    -DARROW_FLIGHT=ON
-    -DARROW_FLIGHT_SQL=ON
-    -DARROW_IPC=ON
-    -DARROW_BUILD_SHARED=OFF
-    -DARROW_BUILD_STATIC=ON
-    -DARROW_COMPUTE=ON
-    -DARROW_WITH_UTF8PROC=OFF
-    -DARROW_BUILD_TESTS=OFF
-    -DARROW_DEPENDENCY_USE_SHARED=OFF
-    -DCMAKE_DEPENDS_USE_COMPILER=FALSE
-    -DOPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install
-  )
-endif()
-
-set(ARROW_GIT_REPOSITORY "https://github.com/apache/arrow.git" CACHE STRING "Arrow repository path or URL")
-set(ARROW_GIT_TAG "b050bd0d31db6412256cec3362c0d57c9732e1f2" CACHE STRING "Tag for the Arrow repository")
-
-message("Using Arrow from ${ARROW_GIT_REPOSITORY} on tag ${ARROW_GIT_TAG}")
-ExternalProject_Add(ApacheArrow
-  GIT_REPOSITORY ${ARROW_GIT_REPOSITORY}
-  GIT_TAG ${ARROW_GIT_TAG}
-  SOURCE_SUBDIR "cpp"
-  CMAKE_ARGS ${ARROW_CMAKE_ARGS})
-
-include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/include)
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  set(ARROW_LIB_DIR lib64)
-else()
-  set(ARROW_LIB_DIR lib)
-endif()
-link_directories(${CMAKE_CURRENT_BINARY_DIR}/ApacheArrow-prefix/src/ApacheArrow-install/${ARROW_LIB_DIR})
-
-if (MSVC)
-  # the following definitions stop arrow from using __declspec when staticly linking and will break on windows without them
-  add_compile_definitions(ARROW_STATIC ARROW_FLIGHT_STATIC)
-endif()
+include_directories(/Users/dremio-clients/Developer/artifacts-odbc-arrowflight/arrow/cpp/src)
+link_directories(/Users/dremio-clients/Developer/artifacts-odbc-arrowflight/arrow/cpp/build/release)
 
 enable_testing()
 
@@ -236,11 +241,14 @@ endif()
 
 set(ARROW_ODBC_SPI_THIRDPARTY_LIBS
   ${ARROW_LIBS}
-  gRPC::grpc++
+  #gRPC::grpc++
   ${ZLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${RapidJSON_LIBRARIES}
+  # Arrow::arrow_static
+  # ArrowFlight::arrow_flight_static
+  # ArrowFlightSql::arrow_flight_sql_static
 )
 
 if (MSVC)
@@ -250,7 +258,7 @@ endif()
 
 add_library(arrow_odbc_spi_impl ${ARROW_ODBC_SPI_SOURCES})
 
-add_dependencies(arrow_odbc_spi_impl ApacheArrow)
+# add_dependencies(arrow_odbc_spi_impl ApacheArrow)
 
 set_target_properties(arrow_odbc_spi_impl
   PROPERTIES
@@ -259,10 +267,16 @@ set_target_properties(arrow_odbc_spi_impl
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/lib
 )
 
+find_library(CoreFoundation_Library CoreFoundation)
+mark_as_advanced(CoreFoundation_Library)
+
 target_link_libraries(
-    arrow_odbc_spi_impl 
-    odbcabstraction 
-    ${ARROW_ODBC_SPI_THIRDPARTY_LIBS})
+    arrow_odbc_spi_impl
+    odbcabstraction
+    ${ARROW_ODBC_SPI_THIRDPARTY_LIBS}
+    ${CoreFoundation_Library}
+    resolv
+)
 target_include_directories(arrow_odbc_spi_impl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # CLI
@@ -292,15 +306,17 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
 
 add_executable(arrow_odbc_spi_impl_test ${ARROW_ODBC_SPI_TEST_SOURCES})
 
-add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
+# add_dependencies(arrow_odbc_spi_impl_test ApacheArrow)
 
 set_target_properties(arrow_odbc_spi_impl_test
   PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test/$<CONFIG>/bin
 )
+find_package(GTest CONFIG REQUIRED)
 target_link_libraries(arrow_odbc_spi_impl_test
         arrow_odbc_spi_impl
-        gtest gtest_main)
+        GTest::gtest
+        GTest::gtest_main)
 add_test(connection_test arrow_odbc_spi_impl_test)
 add_test(transformer_test arrow_odbc_spi_impl_test)
 
