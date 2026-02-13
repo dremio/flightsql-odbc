@@ -71,8 +71,8 @@ const std::string FlightSqlConnection::USE_WIDE_CHAR = "UseWideChar";
 const std::string FlightSqlConnection::CHUNK_BUFFER_CAPACITY = "ChunkBufferCapacity";
 const std::string FlightSqlConnection::HIDE_SQL_TABLES_LISTING = "HideSQLTablesListing";
 const std::string FlightSqlConnection::SEND_PING_FRAME = "SendPingFrame";
-const std::string FlightSqlConnection::PING_FRAME_INTERVAL = "PingFrameInterval";
-const std::string FlightSqlConnection::PING_FRAME_TIMEOUT = "PingFrameTimeout";
+const std::string FlightSqlConnection::PING_FRAME_INTERVAL_MS = "PingFrameIntervalMilliseconds";
+const std::string FlightSqlConnection::PING_FRAME_TIMEOUT_MS = "PingFrameTimeoutMilliseconds";
 const std::string FlightSqlConnection::MAX_PINGS_WITHOUT_DATA = "MaxPingsWithoutData";
 
 const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
@@ -82,7 +82,7 @@ const std::vector<std::string> FlightSqlConnection::ALL_KEYS = {
     FlightSqlConnection::DISABLE_CERTIFICATE_VERIFICATION, FlightSqlConnection::STRING_COLUMN_LENGTH,
     FlightSqlConnection::USE_WIDE_CHAR, FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER, FlightSqlConnection::CHUNK_BUFFER_CAPACITY,
     FlightSqlConnection::HIDE_SQL_TABLES_LISTING, FlightSqlConnection::SEND_PING_FRAME,
-    FlightSqlConnection::PING_FRAME_INTERVAL, FlightSqlConnection::PING_FRAME_TIMEOUT,
+    FlightSqlConnection::PING_FRAME_INTERVAL_MS, FlightSqlConnection::PING_FRAME_TIMEOUT_MS,
     FlightSqlConnection::MAX_PINGS_WITHOUT_DATA};
 
 namespace {
@@ -140,8 +140,8 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::USE_WIDE_CHAR,
     FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER,
     FlightSqlConnection::SEND_PING_FRAME,
-    FlightSqlConnection::PING_FRAME_INTERVAL,
-    FlightSqlConnection::PING_FRAME_TIMEOUT,
+    FlightSqlConnection::PING_FRAME_INTERVAL_MS,
+    FlightSqlConnection::PING_FRAME_TIMEOUT_MS,
     FlightSqlConnection::MAX_PINGS_WITHOUT_DATA
 };
 
@@ -276,21 +276,21 @@ bool FlightSqlConnection::GetSendPingFrame(const ConnPropertyMap &connPropertyMa
   return AsBool(connPropertyMap, FlightSqlConnection::SEND_PING_FRAME).value_or(default_value);
 }
 
-boost::optional<int> FlightSqlConnection::GetPingFrameInterval(const ConnPropertyMap &connPropertyMap) {
+boost::optional<int> FlightSqlConnection::GetPingFrameIntervalMilliseconds(const ConnPropertyMap &connPropertyMap) {
   const int min_ping_frame_interval = 1000;
 
   try {
-    return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL);
+    return AsInt32(min_ping_frame_interval, connPropertyMap, FlightSqlConnection::PING_FRAME_INTERVAL_MS);
   } catch (const std::exception& e) {
     return boost::none;
   }
 }
 
-boost::optional<int> FlightSqlConnection::GetPingFrameTimeout(const ConnPropertyMap &connPropertyMap) {
+boost::optional<int> FlightSqlConnection::GetPingFrameTimeoutMilliseconds(const ConnPropertyMap &connPropertyMap) {
   const int min_ping_frame_timeout = 1000;
 
   try {
-    return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT);
+    return AsInt32(min_ping_frame_timeout, connPropertyMap, FlightSqlConnection::PING_FRAME_TIMEOUT_MS);
   } catch (const std::exception& e) {
     return boost::none;
   }
@@ -356,10 +356,10 @@ FlightSqlConnection::BuildFlightClientOptions(const ConnPropertyMap &properties,
     // Set gRPC channel arguments for keepalive only if explicitly configured
     // See https://arrow.apache.org/cookbook/cpp/flight.html#setting-grpc-client-options
     // TODO: was unable to build with the macros, so using string literals for now
-    if (boost::optional<int> ping_interval = GetPingFrameInterval(properties)) {
+    if (boost::optional<int> ping_interval = GetPingFrameIntervalMilliseconds(properties)) {
       options.generic_options.emplace_back("grpc.keepalive_time_ms", *ping_interval);
     }
-    if (boost::optional<int> ping_timeout = GetPingFrameTimeout(properties)) {
+    if (boost::optional<int> ping_timeout = GetPingFrameTimeoutMilliseconds(properties)) {
       options.generic_options.emplace_back("grpc.keepalive_timeout_ms", *ping_timeout);
     }
     if (boost::optional<int> max_pings_without_data = GetMaxPingsWithoutData(properties)) {
