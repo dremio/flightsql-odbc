@@ -138,6 +138,7 @@ const std::set<std::string, odbcabstraction::CaseInsensitiveComparator> BUILT_IN
     FlightSqlConnection::USE_SYSTEM_TRUST_STORE,
     FlightSqlConnection::STRING_COLUMN_LENGTH,
     FlightSqlConnection::USE_WIDE_CHAR,
+    FlightSqlConnection::USE_EXTENDED_FLIGHTSQL_BUFFER
     FlightSqlConnection::SEND_PING_FRAME,
     FlightSqlConnection::PING_FRAME_INTERVAL,
     FlightSqlConnection::PING_FRAME_TIMEOUT,
