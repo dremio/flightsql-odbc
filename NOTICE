@@ -4,8 +4,10 @@ Copyright © 2020-2022 Dremio Corporation
 This software depends on external packages and source code.
 The applicable license information is listed below.
 
+----
+
 This product includes software developed at
-The Apache Software Foundation (http://www.apache.org/)
+The Apache Software Foundation (http://www.apache.org/).
 
 Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -19,8 +21,99 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 ----
 
-This product includes software developed at
-https://rapidjson.org/
+This product includes Apache Arrow (https://arrow.apache.org/)
+Copyright 2016-present The Apache Software Foundation
+Licensed under the Apache License, Version 2.0.
+
+This product includes software from the SFrame project (BSD, 3-clause),
+incorporated in Apache Arrow (io/hdfs_internal.cc).
+* Copyright (C) 2015 Dato, Inc.
+* Copyright (c) 2009 Carnegie Mellon University.
+
+This product includes software from the LevelDB project (BSD, 3-clause),
+incorporated in Apache Arrow (arrow/status.h).
+* Copyright (c) 2011 The LevelDB Authors. All rights reserved.
+
+This product includes software from Apache Kudu,
+incorporated in Apache Arrow (memory management).
+Copyright 2016 The Apache Software Foundation
+Licensed under the Apache License, Version 2.0.
+
+----
+
+This product includes gRPC (https://grpc.io/)
+Copyright 2015 gRPC authors
+Licensed under the Apache License, Version 2.0.
+
+----
+
+This product includes Protocol Buffers (https://protobuf.dev/)
+Copyright 2008 Google LLC
+Licensed under the BSD 3-Clause License.
+
+----
+
+This product includes abseil-cpp (https://abseil.io/)
+Copyright 2017 The Abseil Authors
+Licensed under the Apache License, Version 2.0.
+
+----
+
+This product includes OpenSSL (https://www.openssl.org/)
+Copyright 1998-2024 The OpenSSL Project
+Licensed under the Apache License, Version 2.0.
+
+----
+
+This product includes Boost C++ Libraries (https://www.boost.org/)
+Copyright various Boost contributors
+Licensed under the Boost Software License, Version 1.0.
+
+----
+
+This product includes spdlog (https://github.com/gabime/spdlog)
+Copyright (c) 2016 Gabi Melman and contributors
+Licensed under the MIT License.
+
+----
+
+This product includes RE2 (https://github.com/google/re2)
+Copyright 2003-2009 The RE2 Authors
+Licensed under the BSD 3-Clause License.
+
+----
+
+This product includes zstd (https://github.com/facebook/zstd)
+Copyright (c) Meta Platforms, Inc. and affiliates
+Licensed under the BSD 3-Clause License.
+
+----
+
+This product includes brotli (https://github.com/google/brotli)
+Copyright 2009-2016 Brotli Authors
+Licensed under the MIT License.
+
+----
+
+This product includes utf8proc (https://github.com/JuliaStrings/utf8proc)
+Copyright 2014-2021 Steven G. Johnson, Jiahao Chen, and other contributors
+Licensed under the MIT License.
+
+----
+
+This product includes gflags (https://github.com/gflags/gflags)
+Copyright (c) 2006 Google Inc.
+Licensed under the BSD 3-Clause License.
+
+----
+
+This product includes zlib (https://zlib.net/)
+Copyright (C) 1995-2023 Jean-loup Gailly and Mark Adler
+Licensed under the zlib License.
+
+----
+
+This product includes RapidJSON (https://rapidjson.org/)
 
 Tencent is pleased to support the open source community by making RapidJSON available.
 
@@ -29,3 +122,39 @@ Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip.  All rights
 If you have downloaded a copy of the RapidJSON binary from Tencent, please note that the RapidJSON binary is licensed under the MIT License.
 If you have downloaded a copy of the RapidJSON source code from Tencent, please note that RapidJSON source code is licensed under the MIT License, except for the third-party components listed below which are subject to different license terms.  Your integration of RapidJSON into your own projects may require compliance with the MIT License, as well as the other licenses applicable to the third-party components included within RapidJSON. To avoid the problematic JSON license in your own projects, it's sufficient to exclude the bin/jsonchecker/ directory, as it's the only code under the JSON license.
 A copy of the MIT License is included in this file.
+
+----
+
+This product includes xsimd (https://github.com/xtensor-stack/xsimd)
+Copyright (c) 2016, Johan Mabille, Sylvain Corlay and Wolf Vollprecht
+Licensed under the BSD 3-Clause License.
+
+----
+
+This product includes LZ4 (https://lz4.github.io/lz4/)
+Copyright (C) 2011-2020 Yann Collet
+Licensed under the BSD 2-Clause License.
+
+----
+
+This product includes Snappy (https://github.com/google/snappy)
+Copyright 2005-2020 Google Inc.
+Licensed under the BSD 3-Clause License.
+
+----
+
+This product includes bzip2 (https://sourceware.org/bzip2/)
+Copyright (C) 1996-2019 Julian Seward
+Licensed under the bzip2 license.
+
+----
+
+This product includes c-ares (https://c-ares.org/)
+Copyright (c) the c-ares authors
+Licensed under the MIT License.
+
+----
+
+This product includes upb (https://github.com/protocolbuffers/upb)
+Copyright (c) Google LLC
+Licensed under the BSD 3-Clause License.
