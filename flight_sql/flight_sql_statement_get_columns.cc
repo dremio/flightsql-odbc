@@ -20,6 +20,11 @@ using arrow::util::nullopt;
 using arrow::util::optional;
 
 namespace {
+// A field carries no key-value metadata at all when the server sets none, and
+// Field::metadata() is then a null pointer rather than an empty map.
+const std::shared_ptr<const arrow::KeyValueMetadata> empty_metadata_map(
+    new arrow::KeyValueMetadata);
+
 std::shared_ptr<Schema> GetColumns_V3_Schema() {
   return schema({
       field("TABLE_CAT", utf8()),
@@ -105,7 +110,9 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
       odbcabstraction::SqlDataType data_type_v3 =
           GetDataTypeFromArrowField_V3(field, metadata_settings.use_wide_char_);
 
-      ColumnMetadata metadata(field->metadata());
+      const std::shared_ptr<const arrow::KeyValueMetadata> field_metadata =
+          field->metadata() ? field->metadata() : empty_metadata_map;
+      ColumnMetadata metadata(field_metadata);
 
       data.table_cat = table_catalog;
       data.table_schem = table_schema;
@@ -116,7 +123,7 @@ Transform_inner(const odbcabstraction::OdbcVersion odbc_version,
                            : ConvertSqlDataTypeFromV3ToV2(data_type_v3);
 
       // TODO: Use `metadata.GetTypeName()` when ARROW-16064 is merged.
-      const auto &type_name_result = field->metadata()->Get("ARROW:FLIGHT:SQL:TYPE_NAME");
+      const auto &type_name_result = field_metadata->Get("ARROW:FLIGHT:SQL:TYPE_NAME");
       data.type_name = type_name_result.ok() ?
               type_name_result.ValueOrDie() :
               GetTypeNameFromSqlDataType(data_type_v3);
