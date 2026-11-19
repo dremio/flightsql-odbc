@@ -284,6 +284,7 @@ set(ARROW_ODBC_SPI_TEST_SOURCES
   accessors/time_array_accessor_test.cc
   accessors/timestamp_array_accessor_test.cc
   flight_sql_connection_test.cc
+  flight_sql_statement_get_columns_test.cc
   parse_table_types_test.cc
   json_converter_test.cc
   record_batch_transformer_test.cc
